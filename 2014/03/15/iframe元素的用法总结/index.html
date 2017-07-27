@@ -1,0 +1,761 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="html,iframe," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="移除边框结合CSS的border属性和iframe标签的frameBorder属性完成对&amp;lt;iframe&amp;gt;元素移除边框的操作。如下： 1234iframe&amp;#123;    border:0; /*IE9+(包括IE9),以及其它浏览器*/&amp;#125;&amp;lt;iframe frameborder=&quot;0&quot;&amp;gt;&amp;lt;/iframe&amp;gt;&amp;lt;!-- IE6/7/8必须设置frame">
+<meta name="keywords" content="html,iframe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iframe元素的用法总结">
+<meta property="og:url" content="http://monjer.github.io/2014/03/15/iframe元素的用法总结/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="移除边框结合CSS的border属性和iframe标签的frameBorder属性完成对&amp;lt;iframe&amp;gt;元素移除边框的操作。如下： 1234iframe&amp;#123;    border:0; /*IE9+(包括IE9),以及其它浏览器*/&amp;#125;&amp;lt;iframe frameborder=&quot;0&quot;&amp;gt;&amp;lt;/iframe&amp;gt;&amp;lt;!-- IE6/7/8必须设置frame">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iframe元素的用法总结">
+<meta name="twitter:description" content="移除边框结合CSS的border属性和iframe标签的frameBorder属性完成对&amp;lt;iframe&amp;gt;元素移除边框的操作。如下： 1234iframe&amp;#123;    border:0; /*IE9+(包括IE9),以及其它浏览器*/&amp;#125;&amp;lt;iframe frameborder=&quot;0&quot;&amp;gt;&amp;lt;/iframe&amp;gt;&amp;lt;!-- IE6/7/8必须设置frame">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2014/03/15/iframe元素的用法总结/"/>
+
+
+
+
+
+  <title>iframe元素的用法总结 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/03/15/iframe元素的用法总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">iframe元素的用法总结</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-03-15T00:00:00+08:00">
+                2014-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/03/15/iframe元素的用法总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/iframe元素的用法总结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="移除边框"><a href="#移除边框" class="headerlink" title="移除边框"></a>移除边框</h3><p>结合CSS的<code>border</code>属性和<code>iframe</code>标签的<code>frameBorder</code>属性完成对<code>&lt;iframe&gt;</code>元素移除边框的操作。如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">iframe&#123;</div><div class="line">    border:0; /*IE9+(包括IE9),以及其它浏览器*/</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">frameborder</span>=<span class="string">"0"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span><span class="comment">&lt;!-- IE6/7/8必须设置frameborder="0" --&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="禁用滚动"><a href="#禁用滚动" class="headerlink" title="禁用滚动"></a>禁用滚动</h3><p>当<code>iframe</code>元素的文档内容的高宽度超过旗本身的高宽度时，<code>iframe</code>会出现滚动条，<code>scrolling</code>属性设置为<code>no</code>可以禁用滚动。
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">scrolling</span>=<span class="string">"no"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="去除默认内容边距"><a href="#去除默认内容边距" class="headerlink" title="去除默认内容边距"></a>去除默认内容边距</h3><p><code>marginheight</code>和<code>marginwidth</code>属性分别规定了其内容文档在垂直和水平方向上的边距。设置为<code>0</code>,可以去除默认的边距。
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">marginheight</span>=<span class="string">"0"</span> <span class="attr">marginwidth</span>=<span class="string">"0"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="在新窗口中打开连接"><a href="#在新窗口中打开连接" class="headerlink" title="在新窗口中打开连接"></a>在新窗口中打开连接</h3><p>以下代码是<code>iframe</code>嵌入的页面文档，分别演示用<code>&lt;a&gt;</code>标签和使用JavaScript代码在嵌入的页面中在新窗口中打开链接。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>内嵌文档<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.google.com"</span> <span class="attr">target</span>=<span class="string">"_blank"</span>&gt;</span>Open new page<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"top.open('http://www.google.com')"</span>&gt;</span>Open new page<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="动态嵌入文档"><a href="#动态嵌入文档" class="headerlink" title="动态嵌入文档"></a>动态嵌入文档</h3><p>通过为<code>iframe</code>元素的<code>src</code>属性赋值不同的URL，来实现动态的嵌入其它文档。
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- html --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"frameDoc"</span> <span class="attr">src</span>=<span class="string">"http://www.google.com"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"jumpToBaidu()"</span>&gt;</span>Baidu<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">jumpToBaidu</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> frameDoc = <span class="built_in">document</span>.getElementById(<span class="string">"frameDoc"</span>);</div><div class="line">        frameDoc.src = <span class="string">"http://www.baidu.com"</span>;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="iframe加载事件处理"><a href="#iframe加载事件处理" class="headerlink" title="iframe加载事件处理"></a>iframe加载事件处理</h3><p><code>iframe</code>元素支持<code>load</code>事件来检测嵌入的文档是否加载完毕,原生代码写法
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- HTML --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"frameDoc"</span> <span class="attr">src</span>=<span class="string">"framePage.html"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="comment">//function addLoadEventToIframe</span></div><div class="line">    <span class="keyword">var</span> iframeDom = <span class="built_in">document</span>.getElementById(<span class="string">"embedIframe"</span>);</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">window</span>.addEventListener)()&#123;</div><div class="line">            iframeDom.addEventListener(<span class="string">"load"</span> , iframePageLoadedCallback);</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">window</span>.attachEvent)&#123;</div><div class="line">            iframeDOM.attachEvent(<span class="string">"onload"</span> , iframePageLoadedCallback);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">iframePageLoadedCallback</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"iframe page loaded"</span>);</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>使用jQuery写法，
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- HTML --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"frameDoc"</span> <span class="attr">src</span>=<span class="string">"framePage.html"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        $(<span class="string">"#frameDoc"</span>).bind(<span class="string">"load"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"iframe page loaded"</span>);</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="获取彼此的window和document对象"><a href="#获取彼此的window和document对象" class="headerlink" title="获取彼此的window和document对象"></a>获取彼此的window和document对象</h3><p><code>iframe</code>嵌入文档的脚本与其父文档之间的脚本可以直接交互，但要满足<strong>同源策略</strong>,即<code>iframe</code>嵌入的页面URL与其父文档的URL要属于相同的域（协议，域名和端口号要完全相同）。在此基础上它们之间可以自由实现对象的互访。</p>
+<p>在<code>iframe</code>的页面中获取父文档的<code>window</code>对象和<code>document</code>对象
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- iframe page script --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> parentWindow = <span class="built_in">window</span>.parent ;</div><div class="line">    <span class="keyword">var</span> parentDoc = <span class="built_in">window</span>.parent.document ;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span></div></pre></td></tr></table></figure></p>
+<p>在父文档中获取<code>ifrmae</code>嵌套页面的<code>window</code>对象和<code>document</code>对象
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- embed iframe--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"frameDoc"</span> <span class="attr">src</span>=<span class="string">"iframePage.html"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script of parent page containing iframe page--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> iframeDom = <span class="built_in">document</span>.getElementById(<span class="string">"frameDoc"</span>);</div><div class="line">    <span class="keyword">var</span> iframeWindow = iframeDom.contentWindow ;</div><div class="line">    <span class="keyword">var</span> iframeDoc = iframeDom.contentDocument || iframeWindow.document ; <span class="comment">// IE6/7/8不支持iframe.contentDocument属性</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="js代码互调"><a href="#js代码互调" class="headerlink" title="js代码互调"></a>js代码互调</h3><p>同样在满足<strong>同源策略</strong>的前提下，<code>iframe</code>嵌入文档的脚本与其父文档的脚本可以实现全局方法的调用和全局属性的访问。示例：</p>
+<p><code>iframe</code>的父文档<code>iframe-parent-page.html</code>代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>父文档<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Ifrmae Page<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"framePage"</span> <span class="attr">src</span>=<span class="string">"framePage.html"</span> <span class="attr">style</span>=<span class="string">"width:400px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"callIframeMethod()"</span>&gt;</span>调用iframe中嵌入文档的全局方法<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"callIframeMethod()"</span>&gt;</span>访问iframe中嵌入文档的全局属性<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">            <span class="comment">// 当前文档的全局属性可以被iframe内嵌的文档访问</span></div><div class="line">            <span class="keyword">var</span> globalPro = <span class="string">"父文档的全局属性"</span> ;</div><div class="line">            <span class="comment">// 当前文档的全局方法可以被iframe内嵌的文档调用</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">globalMethod</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                alert(<span class="string">"父文档的全局方法"</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// ------------------------------------------------------</span></div><div class="line">            <span class="comment">// 调用iframe中嵌入页面的全部方法</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">callIframeMethod</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> framePage = <span class="built_in">document</span>.getElementById(<span class="string">"framePage"</span>);</div><div class="line">                <span class="keyword">var</span> iframeWin = framePage.contentWindow ;</div><div class="line">                iframeWin.globalMethod();</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 访问iframe中嵌入文档的全局属性</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">accessIframeProperty</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> framePage = <span class="built_in">document</span>.getElementById(<span class="string">"framePage"</span>);</div><div class="line">                <span class="keyword">var</span> iframeWin = framePage.contentWindow ;</div><div class="line">                alert(iframeWin.globalPro) ;</div><div class="line">            &#125;</div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><code>iframe</code>的内嵌文档<code>frame-page.html</code>的代码
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>iframe内嵌文档<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">onclick</span>=<span class="string">"callParentGlobalMethod()"</span>&gt;</span>调用父文档的全局方法<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">onclick</span>=<span class="string">"accessParentGlobalPro()"</span>&gt;</span>访问父文档的全局属性<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">            <span class="comment">// 当前文档的全局属性可以被iframe内嵌的文档访问</span></div><div class="line">            <span class="keyword">var</span> globalPro = <span class="string">"iframe内嵌文档的全局属性"</span> ;</div><div class="line">            <span class="comment">// 当前文档的全局方法可以被iframe内嵌的文档调用</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">globalMethod</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                alert(<span class="string">"iframe内嵌文档的全局方法"</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// ----------------------------------------------------</span></div><div class="line">            <span class="comment">// 调用父文档的全局方法</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">callParentGlobalMethod</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> parentWindow = <span class="built_in">window</span>.parent ;</div><div class="line">                parentWindow.globalMethod();</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 访问父文档的全局属性</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">accessParentGlobalPro</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> parentWindow = <span class="built_in">window</span>.parent ;</div><div class="line">                alert(parentWindow.globalPro);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="自适应高度"><a href="#自适应高度" class="headerlink" title="自适应高度"></a>自适应高度</h3><p>有时在Web页面的布局中需要<code>iframe</code>元素的高度自适应其嵌入文档的高度，在满足<strong>同源策略</strong>的前提下，可以以下方式完成</p>
+<p>原生代码写法：
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- html--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"http://www.google.com"</span> <span class="attr">onload</span>=<span class="string">"autoHeigt()"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="actionscript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">autoHeigt</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">var</span> doc = docFrame.contentDocument || docFrame.contentWindow.document ;</div><div class="line">        <span class="keyword">this</span>.style.height = doc.documentElement.scrollHeight+<span class="string">"px"</span>;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>使用jQuery，代码如下
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- html--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"frameDoc"</span> <span class="attr">src</span>=<span class="string">"http://www.google.com"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"http://code.jquery.com/jquery-1.11.0.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">    $(<span class="string">"#frameDoc"</span>).bind(<span class="string">"load"</span> , <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> doc = <span class="keyword">this</span>.contentDocument || <span class="keyword">this</span>.contentWindow.document ;</div><div class="line">        $(<span class="keyword">this</span>).css(<span class="string">"height"</span> , $(doc).height());</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://stackoverflow.com/questions/65034/remove-border-from-iframe" target="_blank" rel="external">Remove border from IFrame</a></li>
+<li><a href="http://stackoverflow.com/questions/251420/invoking-javascript-code-in-an-iframe-from-the-parent-page" target="_blank" rel="external">Invoking JavaScript code in an iframe from the parent page</a></li>
+<li><a href="http://stackoverflow.com/questions/819416/adjust-width-height-of-iframe-to-fit-with-content-in-it?lq=1" target="_blank" rel="external">Adjust width height of iframe to fit with content in it</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ie/ms535258\(v=vs.85\" target="_blank" rel="external">iframe element | iframe object</a>.aspx)</li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ie/cc197055\(v=vs.85\" target="_blank" rel="external">load | onload event</a>.aspx)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe" target="_blank" rel="external">iframe</a></li>
+<li><a href="http://www.w3school.com.cn/tags/tag_iframe.asp" target="_blank" rel="external">HTML iframe 标签</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Same_origin_policy_for_JavaScript" target="_blank" rel="external">Same-origin policy</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ms533028\(VS.85\" target="_blank" rel="external">About Cross-Frame Scripting and Security</a>.aspx)</li>
+<li><a href="http://www.nczonline.net/blog/2009/09/15/iframes-onload-and-documentdomain/" target="_blank" rel="external">Iframes, onload, and document.domain</a></li>
+<li><a href="http://stackoverflow.com/questions/153152/resizing-an-iframe-based-on-content" target="_blank" rel="external">Resizing an iframe based on content</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/html/" rel="tag"># html</a>
+          
+            <a href="/tags/iframe/" rel="tag"># iframe</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/03/15/MySQL服务器的线程状况/" rel="next" title="MySQL服务器的线程状况">
+                <i class="fa fa-chevron-left"></i> MySQL服务器的线程状况
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/03/15/MySQL外键约束检测的控制/" rel="prev" title="MySQL外键约束检测的控制">
+                MySQL外键约束检测的控制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/03/15/iframe元素的用法总结/"
+           data-title="iframe元素的用法总结" data-url="http://monjer.github.io/2014/03/15/iframe元素的用法总结/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#移除边框"><span class="nav-number">1.</span> <span class="nav-text">移除边框</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#禁用滚动"><span class="nav-number">2.</span> <span class="nav-text">禁用滚动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#去除默认内容边距"><span class="nav-number">3.</span> <span class="nav-text">去除默认内容边距</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在新窗口中打开连接"><span class="nav-number">4.</span> <span class="nav-text">在新窗口中打开连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态嵌入文档"><span class="nav-number">5.</span> <span class="nav-text">动态嵌入文档</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iframe加载事件处理"><span class="nav-number">6.</span> <span class="nav-text">iframe加载事件处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取彼此的window和document对象"><span class="nav-number">7.</span> <span class="nav-text">获取彼此的window和document对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#js代码互调"><span class="nav-number">8.</span> <span class="nav-text">js代码互调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自适应高度"><span class="nav-number">9.</span> <span class="nav-text">自适应高度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">10.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

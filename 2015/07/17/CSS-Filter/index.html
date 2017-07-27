@@ -1,0 +1,767 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="css filter," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="简介滤镜效果提供一种处理元素的方法，在元素z在渲染文档之前可以为其添加一些特殊的视觉效果，例如改变元素的模糊，透明度，颜色等等。滤镜是一种作用于元素之上的图像操作，是一种基于图片的效果(image-based effect),以零个或多个图片作为输入，辅之添加一些效果参数，将处理后的图片作为输出，输出的图片可以替代元素渲染在文档之上。滤镜效果早先是用于使用在SVG上，但CSS filter提供了预">
+<meta name="keywords" content="css filter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS Filter">
+<meta property="og:url" content="http://monjer.github.io/2015/07/17/CSS-Filter/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="简介滤镜效果提供一种处理元素的方法，在元素z在渲染文档之前可以为其添加一些特殊的视觉效果，例如改变元素的模糊，透明度，颜色等等。滤镜是一种作用于元素之上的图像操作，是一种基于图片的效果(image-based effect),以零个或多个图片作为输入，辅之添加一些效果参数，将处理后的图片作为输出，输出的图片可以替代元素渲染在文档之上。滤镜效果早先是用于使用在SVG上，但CSS filter提供了预">
+<meta property="og:image" content="http://monjer.github.io/2015/07/17/CSS-Filter/filter.png">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS Filter">
+<meta name="twitter:description" content="简介滤镜效果提供一种处理元素的方法，在元素z在渲染文档之前可以为其添加一些特殊的视觉效果，例如改变元素的模糊，透明度，颜色等等。滤镜是一种作用于元素之上的图像操作，是一种基于图片的效果(image-based effect),以零个或多个图片作为输入，辅之添加一些效果参数，将处理后的图片作为输出，输出的图片可以替代元素渲染在文档之上。滤镜效果早先是用于使用在SVG上，但CSS filter提供了预">
+<meta name="twitter:image" content="http://monjer.github.io/2015/07/17/CSS-Filter/filter.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2015/07/17/CSS-Filter/"/>
+
+
+
+
+
+  <title>CSS Filter | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2015/07/17/CSS-Filter/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSS Filter</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-17T00:00:00+08:00">
+                2015-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/07/17/CSS-Filter/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/17/CSS-Filter/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>滤镜效果提供一种处理元素的方法，在元素z在渲染文档之前可以为其添加一些特殊的视觉效果，例如改变元素的模糊，透明度，颜色等等。滤镜是一种作用于元素之上的图像操作，是一种基于图片的效果(image-based effect),以零个或多个图片作为输入，辅之添加一些效果参数，将处理后的图片作为输出，输出的图片可以替代元素渲染在文档之上。滤镜效果早先是用于使用在SVG上，但CSS filter提供了预定义的多种效果函数为元素添加滤镜效果。</p>
+<h3 id="说明和应用"><a href="#说明和应用" class="headerlink" title="说明和应用"></a>说明和应用</h3><p>css中使用filter语法格式，如下
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">element</span>&#123;</div><div class="line">    <span class="attribute">filter</span>:<span class="built_in">filterFunctionName</span>(value);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中<code>filterFunctionName</code>是滤镜函数名称，<code>value</code>是对应值。以一张图片为例，如</p>
+<pre><code>&lt;img src=&quot;cat.jpg&quot;&gt;
+</code></pre><p>来说明CSS filter定义的函数名称及效果</p>
+<p><strong>模糊</strong>:<code>blur(radius)</code>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.blur&#123;</div><div class="line">    -moz-filter:blur(2px);</div><div class="line">    -webkit-filter:blur(2px);</div><div class="line">     filter:blur(2px);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"blur"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>亮度</strong>    :<code>brightness(amount)</code>(0 - 100%)
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.brightness&#123;</div><div class="line">    -moz-filter:brightness(40%);</div><div class="line">    -webkit-filter:brightness(40%);</div><div class="line">    filter:brightness(40%);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"brightness"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>对比度</strong>:<code>contrast(amount)</code>(0 - 100%)
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.contrast&#123;</div><div class="line">    -moz-filter:contrast(40%);</div><div class="line">    -webkit-filter:contrast(40%);</div><div class="line">    filter:contrast(40%);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"brightness"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>阴影</strong>:<code>drop-shadow(h-off v-off blur color)</code>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.drop-shadow&#123;</div><div class="line">    -moz-filter:drop-shadow(2px 2px 2px #333);</div><div class="line">    -webkit-filter:drop-shadow(2px 2px 2px #333);</div><div class="line">    filter:drop-shadow(2px 2px 2px #333);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"drop-shadow"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>灰度</strong>:<code>grayscale(amount)</code> (0 - 100%)
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.grayscale&#123;</div><div class="line">    -moz-filter:grayscale(80%);</div><div class="line">    -webkit-filter:grayscale(80%);</div><div class="line">    filter:grayscale(80%);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"grayscale"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>色相旋转</strong>:<code>hue-rotate(angle)</code>(0deg - 360deg)
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.hue-rotate&#123;</div><div class="line">    -moz-filter:hue-rotate(80deg);</div><div class="line">    -webkit-filter:hue-rotate(80deg);</div><div class="line">    filter:hue-rotate(120deg);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"hue-rotate"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>反转</strong>:<code>invert(amount)</code>(0 - 100%)
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.invert&#123;</div><div class="line">    -moz-filter:invert(100%);</div><div class="line">    -webkit-filter:invert(100%);</div><div class="line">    filter:invert(100%);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"invert"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>不透明度</strong>:<code>opacity(amount)</code>(0 - 100%)
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.opacity&#123;</div><div class="line">    -moz-filter:opacity(0.4);</div><div class="line">    -webkit-filter:opacity(0.4);</div><div class="line">    filter:opacity(0.4);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"opacity"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>饱和度</strong>:<code>saturate(amount)</code>(0 - 100%)
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.saturate&#123;</div><div class="line">    -moz-filter:saturate(10%);</div><div class="line">    -webkit-filter:saturate(10%);</div><div class="line">    filter:saturate(10%);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"saturate"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>褐色</strong>    :<code>sepia(amount)</code>(0 - 100%)
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.sepia&#123;</div><div class="line">    -moz-filter:sepia(80%);</div><div class="line">    -webkit-filter:sepia(80%);</div><div class="line">    filter:sepia(80%);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"sepia"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><strong>组合多个filter</strong>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"> .mixed&#123;</div><div class="line">    -moz-filter:sepia(80%) blur(2px);</div><div class="line">    -webkit-filter:sepia(80%) blur(2px);</div><div class="line">    filter:sepia(80%) blur(2px);</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"mixed"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>一张图以示说效果明</p>
+<img src="/2015/07/17/CSS-Filter/filter.png" alt="filter.png" title="">
+<blockquote>
+<p>因为CSS filter未被所有浏览器所支持，需要添加前缀，兼容性参见<a href="http://caniuse.com/#search=filter" target="_blank" rel="external">CanIUse filter</a></p>
+</blockquote>
+<h3 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h3><p>CSS filter是一个可动画的属性，如
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div></pre></td><td class="code"><pre><div class="line">@keyframes blur-anim&#123;</div><div class="line">    from&#123;</div><div class="line">        -moz-filter:blur(0);</div><div class="line">        -webkit-filter:blur(0);</div><div class="line">        filter:blur(0);</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    to&#123;</div><div class="line">        -moz-filter:blur(2px);</div><div class="line">        -webkit-filter:blur(2px);</div><div class="line">        filter:blur(2px);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">@-webkit-keyframes blur-anim&#123;</div><div class="line">    from&#123;</div><div class="line">        -moz-filter:blur(0);</div><div class="line">        -webkit-filter:blur(0);</div><div class="line">        filter:blur(0px);</div><div class="line">    &#125;</div><div class="line">    to&#123;</div><div class="line">        -moz-filter:blur(2px);</div><div class="line">        -webkit-filter:blur(2px);</div><div class="line">        filter:blur(2px);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">@-moz-keyframes blur-anim&#123;</div><div class="line">    from&#123;</div><div class="line">        -moz-filter:blur(0);</div><div class="line">        -webkit-filter:blur(0);</div><div class="line">        filter:blur(0px);</div><div class="line">    &#125;</div><div class="line">    to&#123;</div><div class="line">        -moz-filter:blur(2px);</div><div class="line">        -webkit-filter:blur(2px);</div><div class="line">        filter:blur(2px);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">img.blur-animate&#123;</div><div class="line">    -webkit-animation:blur-anim .3s ;</div><div class="line">    -webkit-animation-direction: alternate;</div><div class="line">    -webkit-animation-iteration-count: infinite;</div><div class="line">    -moz-animation:blur-anim .3s ;</div><div class="line">    -moz-animation-direction: alternate;</div><div class="line">    -moz-animation-iteration-count: infinite;</div><div class="line">    animation:blur-anim .3s ;</div><div class="line">    animation-direction: alternate;</div><div class="line">    animation-iteration-count: infinite;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"cat.jpg"</span> <span class="attr">class</span>=<span class="string">"blur-animate"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>filter属性适用于多数元素，包括<code>vedio</code>元素</li>
+<li>css filter区别于IE中已经废弃的filter属性</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://dev.w3.org/fxtf/filters/" target="_blank" rel="external">Filter Effects Module Level 1</a></li>
+<li><a href="http://www.html5rocks.com/en/tutorials/filters/understanding-css/" target="_blank" rel="external">Understanding CSS Filter Effects</a></li>
+<li><a href="http://html5-demos.appspot.com/static/css/filters/index.html" target="_blank" rel="external">CSS Filter Effect Demo</a></li>
+<li><a href="https://developer.apple.com/library/safari/documentation/InternetWeb/Conceptual/SafariVisualEffectsProgGuide/UsingCSSFilters/UsingCSSFilters.html" target="_blank" rel="external">Using CSS Filters</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/filter#Browser_compatibility" target="_blank" rel="external">MDN filter</a></li>
+<li><a href="https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariCSSRef/Articles/Functions.html#//apple_ref/doc/uid/TP40007955-SW36" target="_blank" rel="external">Safari Filter Functions</a></li>
+<li><a href="http://caniuse.com/#search=filter" target="_blank" rel="external">CanIUse filter</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css-filter/" rel="tag"># css filter</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/17/jQuery并行滑动和透明度显示隐藏元素/" rel="next" title="jQuery并行滑动和透明度显示隐藏元素">
+                <i class="fa fa-chevron-left"></i> jQuery并行滑动和透明度显示隐藏元素
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/12/使用CSSLint/" rel="prev" title="使用CSSLint">
+                使用CSSLint <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/07/17/CSS-Filter/"
+           data-title="CSS Filter" data-url="http://monjer.github.io/2015/07/17/CSS-Filter/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#说明和应用"><span class="nav-number">2.</span> <span class="nav-text">说明和应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动画"><span class="nav-number">3.</span> <span class="nav-text">动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">4.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

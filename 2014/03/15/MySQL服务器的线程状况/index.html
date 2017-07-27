@@ -1,0 +1,749 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="了解MySQL的当前线程信息对于掌握MySQL的运行状况如何是很有帮助的，尤其是当出现并发连接数量超过上限引起“too many connections”错误时，我们需要了解当前服务器所发生的情况。 show processlist语句SQL中的show processlist语句用来想我们展示当前服务器有哪些线程正在运行，以及每个线程的运行状态。拥有PROCESS权限的用户可以通过该语句查看服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL服务器的线程状况">
+<meta property="og:url" content="http://monjer.github.io/2014/03/15/MySQL服务器的线程状况/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="了解MySQL的当前线程信息对于掌握MySQL的运行状况如何是很有帮助的，尤其是当出现并发连接数量超过上限引起“too many connections”错误时，我们需要了解当前服务器所发生的情况。 show processlist语句SQL中的show processlist语句用来想我们展示当前服务器有哪些线程正在运行，以及每个线程的运行状态。拥有PROCESS权限的用户可以通过该语句查看服务">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL服务器的线程状况">
+<meta name="twitter:description" content="了解MySQL的当前线程信息对于掌握MySQL的运行状况如何是很有帮助的，尤其是当出现并发连接数量超过上限引起“too many connections”错误时，我们需要了解当前服务器所发生的情况。 show processlist语句SQL中的show processlist语句用来想我们展示当前服务器有哪些线程正在运行，以及每个线程的运行状态。拥有PROCESS权限的用户可以通过该语句查看服务">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2014/03/15/MySQL服务器的线程状况/"/>
+
+
+
+
+
+  <title>MySQL服务器的线程状况 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/03/15/MySQL服务器的线程状况/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MySQL服务器的线程状况</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-03-15T00:00:00+08:00">
+                2014-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/03/15/MySQL服务器的线程状况/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/MySQL服务器的线程状况/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>了解MySQL的当前线程信息对于掌握MySQL的运行状况如何是很有帮助的，尤其是当出现并发连接数量超过上限引起“too many connections”错误时，我们需要了解当前服务器所发生的情况。</p>
+<h3 id="show-processlist语句"><a href="#show-processlist语句" class="headerlink" title="show processlist语句"></a>show processlist语句</h3><p>SQL中的<code>show processlist</code>语句用来想我们展示当前服务器有哪些线程正在运行，以及每个线程的运行状态。拥有<a href="http://dev.mysql.com/doc/refman/5.6/en/privileges-provided.html#priv_process" target="_blank" rel="external">PROCESS</a>权限的用户可以通过该语句查看服务器的所有线程，否则只能查看当前账户本身关联对应的线程。默认情况下<code>show processlist</code>语句只能查看每个结果的<code>Info</code>字段的前100个字符，可以使用<code>FULL</code>关键字查看所有信息，如：<code>show full processlist</code></p>
+<blockquote>
+<p>附注:</p>
+<ul>
+<li><code>performance_schema.threads</code>表中包含了所有服务器的线程信息,具体描述参见官网。</li>
+<li><a href="5"><code>mysqladmin processlist</code></a>命令也可以用来完成与<code>show processlist</code>语句同样的功能。</li>
+</ul>
+</blockquote>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>首先我本地Mac OS下安装了MySQL服务器，并正常运行中。</p>
+<p>其次，因为我本地同时安装了Java开发环境，并建有使用数据库的Java Web工程，提供数据库连接池功能，所以为了方便说明，我将本地的连接池数量初始化为10，并更改数据库的配置信息连接到本地MySQL服务器的<code>test</code>数据库，之后运行我的Web工程，初始化数据库连接。</p>
+<p>之后，在系统的命令行终端，连接我本地的MySQL服务器，查看使用<code>show processlist</code>的显示结果,如</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">192:bin manjun.han$ mysql -u root -h localhost -p</div><div class="line">Enter password:</div><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 3000</div><div class="line">Server version: 5.6.15 MySQL Community Server (GPL)</div><div class="line"></div><div class="line">Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.</div><div class="line"></div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line"></div><div class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> help. Type <span class="string">'\c'</span> to clear the current input statement.</div><div class="line"></div><div class="line">mysql&gt; show processlist;</div><div class="line">+------+------+-----------------+------+---------+------+-------+------------------+</div><div class="line">| Id   | User | Host            | db   | Command | Time | State | Info             |</div><div class="line">+------+------+-----------------+------+---------+------+-------+------------------+</div><div class="line">| 2559 | root | localhost       | NULL | Sleep   | 9079 |       | NULL             |</div><div class="line">| 2987 | root | localhost:53130 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 2988 | root | localhost:53131 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 2989 | root | localhost:53132 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 2990 | root | localhost:53133 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 2991 | root | localhost:53134 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 2992 | root | localhost:53135 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 2993 | root | localhost:53136 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 2994 | root | localhost:53137 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 2995 | root | localhost:53138 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 2996 | root | localhost:53139 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 2997 | root | localhost:53140 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 2998 | root | localhost:53141 | <span class="built_in">test</span> | Sleep   |  505 |       | NULL             |</div><div class="line">| 3000 | root | localhost       | NULL | Query   |    0 | init  | show processlist |</div><div class="line">+------+------+-----------------+------+---------+------+-------+------------------+</div><div class="line">14 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
+<p>以上字段的说明如下：</p>
+<ul>
+<li>Id - 连接标识符    。</li>
+<li>User - 线程所属用户。</li>
+<li>Host - 连接线程的客户端主机名。</li>
+<li>db - 默认连接数据库名称。未选择的话，值为NULL。</li>
+<li>Command - 线程执行命令的类型，<code>Sleep</code>代表当前线程正等待客户端发送语句，<code>Query</code>代表当前线程正在执行查询，更多类型说明参见<a href="4">Thread Command Values</a>。</li>
+<li>Time - 当前线程保持目前状态的时间(单位:秒)。</li>
+<li>State - 表示线程执行中发生的行为，事件或状态，多数状态多对应于某些快速的操作，如果线程长时间呆在某个状态，这事可能发生了错误，需要仔细调查。参见<a href="http://dev.mysql.com/doc/refman/5.6/en/thread-information.html" target="_blank" rel="external">Examining Thread Information</a>。对于<code>show processlist</code>语句查询，该字段值为NULL。</li>
+<li>Info - 线程执行的语句描述，如果未有语句执行，此字段为NULL。如标识符为3000的最后一条记录是我们执行<code>show processlist</code>语句的线程信息。</li>
+</ul>
+<h3 id="Too-many-connections错误说明"><a href="#Too-many-connections错误说明" class="headerlink" title="Too many connections错误说明"></a>Too many connections错误说明</h3><p>连接MySQL服务器，发生Too many connections的错误，意味着服务器当前所有连接都被其它客户端占用。</p>
+<p>MySQL服务器的最大连接数是通过<a href="2">max_connections</a>系统变量设置的。MySQL5.6版本默认最大连接数是150，之前的MySQL版本，如MySQL5.1的最大连接数为100.通过为<a href="2">max_connections</a>变量设置更大的值，可以设置MySQL服务器支持更大的并发连接数。</p>
+<p>事实上MySQL服务器在设置<a href="2">max_connections</a>的值，做了个隐式的特殊处理，会在实际的数量之上多添加一个连接，即最大连接数量实际为<a href="2">max_connections+1</a>。假如你设置<a href="2">max_connections</a>＝150，那么实际服务器的<a href="2">max_connections</a>＝151。这个额外的连接是为了留给拥有<a href="3">SUPER</a>权限的账户使用的。一般情况下只有管理员账户拥有<a href="3">SUPER</a>权限，但普通的账户却没有。这样即使是发生Too many connections错误，管理员账户也可以连接到MySQL服务器，使用<code>show processlist</code>语句来诊断问题。</p>
+<p>MySQL支持的最大连接数依赖于其运行平台的线程库(thread library)的质量，总的可用RAM的大小，每个连接消耗的RAM大小，每个连接的负载(workload)，预期相应时间。Linux或Solaris平台通常可以支持500到1000的并发连接，如果有足够的RAM，每个连接的负载较低，并且对响应时间要求不高，那么最大的并发连接可以到10000。</p>
+<blockquote>
+<p><a href="http://www.microshell.com/database/mysql/mysql-too-many-connection-errors/" target="_blank" rel="external">MySQL : Too many connection errors.</a>提及，服务器磁盘的爆满，也可能引起Too many connections错误。</p>
+</blockquote>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://dev.mysql.com/doc/refman/5.6/en/show-processlist.html" target="_blank" rel="external">SHOW PROCESSLIST 语法(MySQL5.6)</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.6/en/threads-table.html" target="_blank" rel="external">The threads Table(MySQL5.6)</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.6/en/too-many-connections.html" target="_blank" rel="external"> Too many connections(MySQL5.6)</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.1/zh/problems.html#too-many-connections" target="_blank" rel="external">A.2.6. 连接数过多(MySQL5.1)</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.6/en/thread-information.html" target="_blank" rel="external">Examining Thread Information</a></li>
+<li><a href="4">Thread Command Values</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/03/15/获取select列表的单选值/" rel="next" title="获取select列表的单选值">
+                <i class="fa fa-chevron-left"></i> 获取select列表的单选值
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/03/15/iframe元素的用法总结/" rel="prev" title="iframe元素的用法总结">
+                iframe元素的用法总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/03/15/MySQL服务器的线程状况/"
+           data-title="MySQL服务器的线程状况" data-url="http://monjer.github.io/2014/03/15/MySQL服务器的线程状况/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#show-processlist语句"><span class="nav-number">1.</span> <span class="nav-text">show processlist语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">2.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Too-many-connections错误说明"><span class="nav-number">3.</span> <span class="nav-text">Too many connections错误说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

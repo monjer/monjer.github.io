@@ -1,0 +1,743 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="动态布局的场景中，使用绝对布局来定位元素是一种常见的布局手段，为了实现精确到像素级别的定位，有时我们经常需要处理DOM元素因内容溢出而导致发生滚动的情况， 其实这时一般我们要处理和计算的是因滚动而出现的滚动条的宽度。这是为了实现精确布局所要面对的一种情况，以下是计算浏览器滚动条宽度涉及到的方法和概念。 盒式模型浏览器为了描述页面上的每个元素，引入了盒式模型的概念，在HTML文档中，每个元素都被描述">
+<meta property="og:type" content="article">
+<meta property="og:title" content="获取浏览器滚动条的宽度">
+<meta property="og:url" content="http://monjer.github.io/2016/03/18/获取浏览器滚动条的宽度/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="动态布局的场景中，使用绝对布局来定位元素是一种常见的布局手段，为了实现精确到像素级别的定位，有时我们经常需要处理DOM元素因内容溢出而导致发生滚动的情况， 其实这时一般我们要处理和计算的是因滚动而出现的滚动条的宽度。这是为了实现精确布局所要面对的一种情况，以下是计算浏览器滚动条宽度涉及到的方法和概念。 盒式模型浏览器为了描述页面上的每个元素，引入了盒式模型的概念，在HTML文档中，每个元素都被描述">
+<meta property="og:image" content="http://monjer.github.io/2016/03/18/获取浏览器滚动条的宽度/box-module2.png">
+<meta property="og:image" content="http://monjer.github.io/2016/03/18/获取浏览器滚动条的宽度/box-module.png">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="获取浏览器滚动条的宽度">
+<meta name="twitter:description" content="动态布局的场景中，使用绝对布局来定位元素是一种常见的布局手段，为了实现精确到像素级别的定位，有时我们经常需要处理DOM元素因内容溢出而导致发生滚动的情况， 其实这时一般我们要处理和计算的是因滚动而出现的滚动条的宽度。这是为了实现精确布局所要面对的一种情况，以下是计算浏览器滚动条宽度涉及到的方法和概念。 盒式模型浏览器为了描述页面上的每个元素，引入了盒式模型的概念，在HTML文档中，每个元素都被描述">
+<meta name="twitter:image" content="http://monjer.github.io/2016/03/18/获取浏览器滚动条的宽度/box-module2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2016/03/18/获取浏览器滚动条的宽度/"/>
+
+
+
+
+
+  <title>获取浏览器滚动条的宽度 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2016/03/18/获取浏览器滚动条的宽度/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">获取浏览器滚动条的宽度</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-18T22:39:58+08:00">
+                2016-03-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/03/18/获取浏览器滚动条的宽度/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/18/获取浏览器滚动条的宽度/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>动态布局的场景中，使用绝对布局来定位元素是一种常见的布局手段，为了实现精确到像素级别的定位，有时我们经常需要处理DOM元素因内容溢出而导致发生滚动的情况，
+其实这时一般我们要处理和计算的是因滚动而出现的滚动条的宽度。这是为了实现精确布局所要面对的一种情况，以下是计算浏览器滚动条宽度涉及到的方法和概念。</p>
+<h3 id="盒式模型"><a href="#盒式模型" class="headerlink" title="盒式模型"></a>盒式模型</h3><p>浏览器为了描述页面上的每个元素，引入了盒式模型的概念，在HTML文档中，每个元素都被描述为一个矩形盒子，意在以此来定义元素的属性，如尺寸，背景，边框等，
+之后浏览器根据这些属性信息可以正确的在浏览器中把元素渲染出来。</p>
+<p>对于描述元素空间占用的信息，盒式模型引入了几个边界，包括:内容边界(content edge),内边界(padding edge),边框边界(border edge),外边界(margin edge)</p>
+<blockquote>
+<p>DOM元素盒式模型的概念参见<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/box_model" target="_blank" rel="external">盒模型</a></p>
+</blockquote>
+<h3 id="offertWidth-height-amp-amp-clientWidth-Height"><a href="#offertWidth-height-amp-amp-clientWidth-Height" class="headerlink" title="offertWidth[height] &amp;&amp; clientWidth[Height]"></a>offertWidth[height] &amp;&amp; clientWidth[Height]</h3><p>对于样式来说，可以用盒模型进行定义和描述，从编码角度来说，DOM文档对象模型中也定义了相对应的属性，来获取元素的尺寸信息，
+其中包括offsetWidth[height]和clientWidth[height]属性，关于这两个属性的作用，可以直接用图说明：</p>
+<h4 id="offsetWidth-Height"><a href="#offsetWidth-Height" class="headerlink" title="offsetWidth[Height]"></a>offsetWidth[Height]</h4><img src="/2016/03/18/获取浏览器滚动条的宽度/box-module2.png" alt="box-module2.png" title="">
+<p>以offsetWidth属性为例，offsetWidth = contentWidth + paddingWidth + borderWidth + [scrollBarWidth]</p>
+<p>如果出现内容滚动的话，offsetWidth还要添加scrollBar的宽度</p>
+<h4 id="clientWidth-clientHeight"><a href="#clientWidth-clientHeight" class="headerlink" title="clientWidth[clientHeight]"></a>clientWidth[clientHeight]</h4><img src="/2016/03/18/获取浏览器滚动条的宽度/box-module.png" alt="box-module.png" title="">
+<p>以clientWidth属性为例，clientWidth = contentWidth + paddingWidth,</p>
+<h3 id="计算scrollBar的宽度"><a href="#计算scrollBar的宽度" class="headerlink" title="计算scrollBar的宽度"></a>计算scrollBar的宽度</h3><p>由以上图示所示，可以基本得到计算浏览器滚动条的方法，如果我们将元素的边框border设置为零，那么其实scrollBar的宽度为
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// el.borderWidth = 0 ;</span></div><div class="line"><span class="keyword">var</span> scrollBarWidth = el.offsetWidth - elclientWidth ;</div></pre></td></tr></table></figure></p>
+<p>直接上代码，不依赖任何框架的实现
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> scrollBarWidth = (<span class="function"><span class="keyword">function</span> <span class="title">scrollBarWidth</span> (<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> d = <span class="built_in">document</span>;</div><div class="line">    <span class="keyword">var</span> b = d.body ;</div><div class="line">    <span class="keyword">var</span> div =  d.createElement(<span class="string">'div'</span>);</div><div class="line">    div.style.width = <span class="string">'50px'</span> ;</div><div class="line">    div.style.height = <span class="string">'50px'</span> ;</div><div class="line">    div.style.overflowY = <span class="string">'scroll'</span>,</div><div class="line">    div.style.position = <span class="string">'absolute'</span>;</div><div class="line">    div.style.top = <span class="string">'-10000px'</span>;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> innerDiv = d.createElement(<span class="string">'div'</span>);</div><div class="line">    div.appendChild(innerDiv);</div><div class="line">    b.appendChild(div);</div><div class="line">    <span class="keyword">var</span> scrollBarWidth = div.offsetWidth - div.clientWidth ;</div><div class="line">    b.removeChild(div);</div><div class="line">    <span class="keyword">return</span> scrollBarWidth;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure></p>
+<p>基于jQuery会更简单些
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> scrollBarWidth = (<span class="function"><span class="keyword">function</span> <span class="title">scrollbarSize</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> $wrapper = $(<span class="string">"&lt;div&gt;"</span>).css(&#123;<span class="attr">width</span>:<span class="number">50</span>, <span class="attr">height</span>:<span class="number">50</span>, <span class="attr">overflowY</span>:<span class="string">"scroll"</span>, <span class="attr">position</span>:<span class="string">"absolute"</span>, <span class="attr">top</span>:<span class="number">-10000</span>&#125;);</div><div class="line">    <span class="keyword">var</span> $inner = $(<span class="string">"&lt;div&gt;"</span>).css(&#123;<span class="attr">width</span>:<span class="string">"100%"</span>, <span class="attr">height</span>:<span class="string">"100%"</span>&#125;);</div><div class="line">    $wrapper.append($inner).appendTo(<span class="string">"body"</span>);</div><div class="line">    <span class="keyword">var</span> w1 = $wrapper.innerWidth();</div><div class="line">    <span class="keyword">var</span> w2 = $inner.innerWidth();</div><div class="line">    $wrapper.remove();</div><div class="line">    <span class="keyword">return</span>  w1 - w2;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure></p>
+<p>此外也可以引申出如何判断当前文档中已存在的元素是否处于滚动状态
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  @param &#123;DOM Element&#125; el  待检测元素</div><div class="line"> *  @param &#123;Boolean&#125; horizonal 是否检测元素水平滚动</div><div class="line"> *  @return &#123;Boolean&#125;</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">elScrolling</span>(<span class="params">el , horizonal</span>)</span>&#123;</div><div class="line">    <span class="comment">// 水平滚动</span></div><div class="line">    <span class="keyword">if</span>(horizonal)&#123;</div><div class="line">        <span class="keyword">return</span> el.offsetHeight &gt; el.clientHeight ;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> el.offsetWidth &gt; el.clientWidth ;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Determining_the_dimensions_of_elements" target="_blank" rel="external">Determining the dimensions of elements</a></li>
+<li><a href="http://stackoverflow.com/questions/1248081/get-the-browser-viewport-dimensions-with-javascript/8876069#8876069" target="_blank" rel="external">Get the browser viewport dimensions with JavaScript</a></li>
+<li><a href="http://stackoverflow.com/questions/7501761/div-scrollbar-width" target="_blank" rel="external">div scrollbar width</a></li>
+<li><a href="http://davidwalsh.name/detect-scrollbar-width" target="_blank" rel="external">Detect Scrollbar Width with JavaScript</a></li>
+<li><a href="http://jdsharp.us/jQuery/minute/calculate-scrollbar-width.php" target="_blank" rel="external">Calculating The Browser Scrollbar Width</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/16/input-type-checkbox-总结/" rel="next" title="input[type=checkbox]总结">
+                <i class="fa fa-chevron-left"></i> input[type=checkbox]总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/19/iOS-Safari上使用CSS禁止页面滚动/" rel="prev" title="iOS Safari上使用CSS禁止页面滚动">
+                iOS Safari上使用CSS禁止页面滚动 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/03/18/获取浏览器滚动条的宽度/"
+           data-title="获取浏览器滚动条的宽度" data-url="http://monjer.github.io/2016/03/18/获取浏览器滚动条的宽度/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#盒式模型"><span class="nav-number">1.</span> <span class="nav-text">盒式模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#offertWidth-height-amp-amp-clientWidth-Height"><span class="nav-number">2.</span> <span class="nav-text">offertWidth[height] && clientWidth[Height]</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#offsetWidth-Height"><span class="nav-number">2.1.</span> <span class="nav-text">offsetWidth[Height]</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#clientWidth-clientHeight"><span class="nav-number">2.2.</span> <span class="nav-text">clientWidth[clientHeight]</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算scrollBar的宽度"><span class="nav-number">3.</span> <span class="nav-text">计算scrollBar的宽度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

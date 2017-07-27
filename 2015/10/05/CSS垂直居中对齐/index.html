@@ -1,0 +1,797 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="css,css垂直居中," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在CSS的布局中，相对于元素的水平居中来说，如何实现元素的垂直居中一直是一个老大难问题，因为CSS中没有明确的用来实现垂直居中的方式。以下是对于CSS中垂直居中实现的方法的一个总结： 使用line-height属性和vertial-align属性vertical-align属性指定了行内元素(display:inline或display:inline-block元素)或表格单元格(display:">
+<meta name="keywords" content="css,css垂直居中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS垂直居中对齐">
+<meta property="og:url" content="http://monjer.github.io/2015/10/05/CSS垂直居中对齐/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="在CSS的布局中，相对于元素的水平居中来说，如何实现元素的垂直居中一直是一个老大难问题，因为CSS中没有明确的用来实现垂直居中的方式。以下是对于CSS中垂直居中实现的方法的一个总结： 使用line-height属性和vertial-align属性vertical-align属性指定了行内元素(display:inline或display:inline-block元素)或表格单元格(display:">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS垂直居中对齐">
+<meta name="twitter:description" content="在CSS的布局中，相对于元素的水平居中来说，如何实现元素的垂直居中一直是一个老大难问题，因为CSS中没有明确的用来实现垂直居中的方式。以下是对于CSS中垂直居中实现的方法的一个总结： 使用line-height属性和vertial-align属性vertical-align属性指定了行内元素(display:inline或display:inline-block元素)或表格单元格(display:">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2015/10/05/CSS垂直居中对齐/"/>
+
+
+
+
+
+  <title>CSS垂直居中对齐 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2015/10/05/CSS垂直居中对齐/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSS垂直居中对齐</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-05T00:00:00+08:00">
+                2015-10-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/10/05/CSS垂直居中对齐/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/05/CSS垂直居中对齐/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在CSS的布局中，相对于元素的水平居中来说，如何实现元素的垂直居中一直是一个老大难问题，因为CSS中没有明确的用来实现垂直居中的方式。以下是对于CSS中垂直居中实现的方法的一个总结：</p>
+<h3 id="使用line-height属性和vertial-align属性"><a href="#使用line-height属性和vertial-align属性" class="headerlink" title="使用line-height属性和vertial-align属性"></a>使用<code>line-height</code>属性和<code>vertial-align</code>属性</h3><p><code>vertical-align</code>属性指定了行内元素(<code>display:inline</code>或<code>display:inline-block</code>元素)或表格单元格(<code>display:table-cell</code>)元素的垂直对齐方式；<code>line-height</code>属性用于控制行间距
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span>这是内联元素的垂直居中对齐<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.wrapper&#123;</div><div class="line">    line-height:40px;</div><div class="line">    height:40px;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.wrapper .inner_el&#123;</div><div class="line">    vertical-align:middle;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>要求：</p>
+<ol>
+<li>对齐元素的<code>line-height</code>和<code>height</code>属性设置为相等</li>
+<li>对齐元素为文本或者是内联元素，并且设置<code>vertical-align:middle</code></li>
+</ol>
+<p>适用于纯文本，内联元素，不限个数。</p>
+<h3 id="使用padding属性"><a href="#使用padding属性" class="headerlink" title="使用padding属性"></a>使用<code>padding</code>属性</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span>任意元素的垂直居中对齐<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.wrapper&#123;</div><div class="line">    padding-top:20px;</div><div class="line">    padding-bottom:20px;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>要求：</p>
+<ol>
+<li>父元素的<code>padding-top</code>属性和<code>padding-bottom</code>属性设置为等值</li>
+</ol>
+<p>适用于任何单行元素，对于内联子元素不限个数。</p>
+<h3 id="使用position绝对布局和负margin-top"><a href="#使用position绝对布局和负margin-top" class="headerlink" title="使用position绝对布局和负margin-top"></a>使用<code>position</code>绝对布局和负<code>margin-top</code></h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span>绝对布局元素的垂直居中<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.wrapper&#123;</div><div class="line">    position:relative;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.wrapper .inner_el&#123;</div><div class="line">    position:absolute;</div><div class="line">    height:200px;</div><div class="line">    top:50%;</div><div class="line">    margin-top:-100px;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>要求：</p>
+<ol>
+<li>对齐元素的父元素指定布局(<code>position</code>为<code>relative</code>,<code>fixed</code>,<code>absolute</code>任何一个)</li>
+<li>对齐元素为绝对布局,<code>position:absolute</code></li>
+<li>对齐元素设置<code>top:50%;</code></li>
+<li>对齐元素定高并且<code>margin-top</code>属性设置为一半高的复值</li>
+</ol>
+<p>适用于单个块级定高元素。</p>
+<h3 id="使用position绝对布局和负transform"><a href="#使用position绝对布局和负transform" class="headerlink" title="使用position绝对布局和负transform"></a>使用<code>position</code>绝对布局和负<code>transform</code></h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span>绝对布局元素的垂直居中<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.wrapper&#123;</div><div class="line">    position:relative;</div><div class="line">&#125;</div><div class="line"></div><div class="line">.wrapper .inner_el&#123;</div><div class="line">    position:absolute;/* 或relative */</div><div class="line">    top:50%;</div><div class="line">    transform:translateY(-50%);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>要求：</p>
+<ol>
+<li>对齐元素的<code>position</code>属性为<code>absolute</code>或者<code>relative</code>(如果定位元素的<code>posiiton:absolute;</code>,其父元素需要时定位元素)</li>
+<li>设置对齐元素的<code>top:50%;</code></li>
+<li>设置对齐元素的<code>transform:translateY(-50%);</code></li>
+</ol>
+<p>适用于单个块级元素，不限高度。</p>
+<h4 id="使用table布局"><a href="#使用table布局" class="headerlink" title="使用table布局"></a>使用<code>table</code>布局</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span>table布局元素的垂直居中<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.wrapper&#123;</div><div class="line">    display:table-cell;</div><div class="line">    vertical-align:middle;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>要求：</p>
+<ol>
+<li>设置定位元素的父元素的<code>display:table-cell;</code>且<code>vertical-align:middle;</code></li>
+</ol>
+<p>适用于任何元素</p>
+<h3 id="使用position绝对布局和margin-auto-0"><a href="#使用position绝对布局和margin-auto-0" class="headerlink" title="使用position绝对布局和margin:auto 0;"></a>使用<code>position</code>绝对布局和<code>margin:auto 0;</code></h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span>绝对布局元素的垂直居中<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.wrapper&#123;</div><div class="line">    position:relative;</div><div class="line">&#125;</div><div class="line">.wrapper .inner_el&#123;</div><div class="line">    position:absolute;</div><div class="line">    top:0;</div><div class="line">    bottom:0;</div><div class="line">    margin-top: auto;</div><div class="line">    margin-bottom:auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>要求</p>
+<ol>
+<li>定位元素为绝对布局,<code>position:absolute;</code>并且<code>top:0;bottom:0</code>,之后设置其<code>margin-top:auto;margin-bottom:auto;</code></li>
+<li>定位元素需要高度固定</li>
+<li>父元素需要是定位元素</li>
+</ol>
+<p>适用于单个元素对齐，不限高度</p>
+<h3 id="使用Flexbox布局"><a href="#使用Flexbox布局" class="headerlink" title="使用Flexbox布局"></a>使用Flexbox布局</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span>Flexbox垂直居中<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.wrapper&#123;</div><div class="line">    display:flex; /* flexbox布局 */</div><div class="line">    flex-direction: row; /* 子元素横排 */</div><div class="line">    flex-wrap: wrap; /* 允许子元素换行 */</div><div class="line">    align-items: center; /* 垂直居中对齐子元素 */</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>要求</p>
+<ol>
+<li>垂直居中元素的父元素为flexbox布局<code>display:flex</code></li>
+<li>指定元素横排且垂直居中，<code>flex-direction: row; align-items: center;</code></li>
+<li>必要时允许子元素换行，<code>flex-wrap: wrap;</code></li>
+</ol>
+<p>适用于任意个数的元素，不限元素高度。</p>
+<h3 id="使用绝对布局和calc-函数"><a href="#使用绝对布局和calc-函数" class="headerlink" title="使用绝对布局和calc()函数"></a>使用绝对布局和<code>calc()</code>函数</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span>Flexbox垂直居中<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.wrapper&#123;</div><div class="line">     position:relative;</div><div class="line"> &#125;</div><div class="line"> .wrapper .inner_el&#123;</div><div class="line">     position:absolute;</div><div class="line">     height:200px;</div><div class="line">     top:calc(50% - 100px);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>要求:</p>
+<ol>
+<li>父元素为布局元素</li>
+<li>居中元素为绝对布局元素并且定高</li>
+<li>指定居中元素的<code>top</code>属性值为<code>50% - height/2</code>;</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://phrogz.net/css/vertical-align/index.html" target="_blank" rel="external">Understanding vertical-align, or “How (Not) To Vertically Center Content”</a></li>
+<li><a href="http://www.hongkiat.com/blog/css-tricks-vertical-align-content/" target="_blank" rel="external">6 CSS Tricks to Align Content Vertically</a></li>
+<li><a href="http://www.smashingmagazine.com/2013/08/absolute-horizontal-vertical-centering-css/" target="_blank" rel="external">Absolute Horizontal And Vertical Centering In CSS</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align" target="_blank" rel="external">MDN vertical-align</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/line-height" target="_blank" rel="external">MDN line-height</a></li>
+<li><a href="http://www.slideshare.net/maxdesign/line-height" target="_blank" rel="external">CSS Line-Height</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout" target="_blank" rel="external">CSS Flexible Box Layout</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Inbox/Advanced_layouts_with_flexbox" target="_blank" rel="external">Advanced layouts with flexbox</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Using_CSS_flexible_boxes" target="_blank" rel="external">Using CSS flexible boxes</a></li>
+<li><a href="http://www.sketchingwithcss.com/samplechapter/cheatsheet.html" target="_blank" rel="external">THE ULTIMATE FLEXBOX CHEAT SHEET</a></li>
+<li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="external">A Complete Guide to Flexbox</a></li>
+<li><a href="http://www.w3.org/Style/Examples/007/center.en.html" target="_blank" rel="external">CENTERING THINGS</a></li>
+<li><a href="http://www.tipue.com/blog/center-a-div/" target="_blank" rel="external">THE COMPLETE GUIDE TO CENTERING A DIV</a></li>
+<li><a href="https://css-tricks.com/centering-css-complete-guide/" target="_blank" rel="external">Centering in CSS: A Complete Guide</a></li>
+<li><a href="https://codemyviews.com/blog/how-to-center-anything-with-css" target="_blank" rel="external">How To Center Anything With CSS</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+            <a href="/tags/css垂直居中/" rel="tag"># css垂直居中</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/05/CSS元素水平居中对齐/" rel="next" title="CSS元素水平居中对齐">
+                <i class="fa fa-chevron-left"></i> CSS元素水平居中对齐
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/05/使用CSS-calc-进行布局/" rel="prev" title="使用CSS calc()进行布局">
+                使用CSS calc()进行布局 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/10/05/CSS垂直居中对齐/"
+           data-title="CSS垂直居中对齐" data-url="http://monjer.github.io/2015/10/05/CSS垂直居中对齐/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用line-height属性和vertial-align属性"><span class="nav-number">1.</span> <span class="nav-text">使用line-height属性和vertial-align属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用padding属性"><span class="nav-number">2.</span> <span class="nav-text">使用padding属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用position绝对布局和负margin-top"><span class="nav-number">3.</span> <span class="nav-text">使用position绝对布局和负margin-top</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用position绝对布局和负transform"><span class="nav-number">4.</span> <span class="nav-text">使用position绝对布局和负transform</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用table布局"><span class="nav-number">4.1.</span> <span class="nav-text">使用table布局</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用position绝对布局和margin-auto-0"><span class="nav-number">5.</span> <span class="nav-text">使用position绝对布局和margin:auto 0;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Flexbox布局"><span class="nav-number">6.</span> <span class="nav-text">使用Flexbox布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用绝对布局和calc-函数"><span class="nav-number">7.</span> <span class="nav-text">使用绝对布局和calc()函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">8.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

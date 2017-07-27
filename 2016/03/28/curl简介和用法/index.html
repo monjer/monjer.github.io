@@ -1,0 +1,863 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="curl简介curl是一个用来连接服务器进行数据传输的命令行工具。在多数的Linux发型版本中都内置安装了curl工具。 curl的由来首先需要提前声明的是cURL和curl不是同一个东西。cURL是一个计算机软件项目，它是Client for URLs的缩写。这个项目有两个产品，一个是curl命令行工具，另一个是libcurl库。libcurl是免费易用的客户端URL传输库，基本上支持绝大多数传">
+<meta property="og:type" content="article">
+<meta property="og:title" content="curl简介和用法">
+<meta property="og:url" content="http://monjer.github.io/2016/03/28/curl简介和用法/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="curl简介curl是一个用来连接服务器进行数据传输的命令行工具。在多数的Linux发型版本中都内置安装了curl工具。 curl的由来首先需要提前声明的是cURL和curl不是同一个东西。cURL是一个计算机软件项目，它是Client for URLs的缩写。这个项目有两个产品，一个是curl命令行工具，另一个是libcurl库。libcurl是免费易用的客户端URL传输库，基本上支持绝大多数传">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="curl简介和用法">
+<meta name="twitter:description" content="curl简介curl是一个用来连接服务器进行数据传输的命令行工具。在多数的Linux发型版本中都内置安装了curl工具。 curl的由来首先需要提前声明的是cURL和curl不是同一个东西。cURL是一个计算机软件项目，它是Client for URLs的缩写。这个项目有两个产品，一个是curl命令行工具，另一个是libcurl库。libcurl是免费易用的客户端URL传输库，基本上支持绝大多数传">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2016/03/28/curl简介和用法/"/>
+
+
+
+
+
+  <title>curl简介和用法 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2016/03/28/curl简介和用法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">curl简介和用法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-28T22:11:37+08:00">
+                2016-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/03/28/curl简介和用法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/28/curl简介和用法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="curl简介"><a href="#curl简介" class="headerlink" title="curl简介"></a>curl简介</h3><p><strong>curl</strong>是一个用来连接服务器进行数据传输的命令行工具。在多数的Linux发型版本中都内置安装了<strong>curl</strong>工具。</p>
+<h3 id="curl的由来"><a href="#curl的由来" class="headerlink" title="curl的由来"></a>curl的由来</h3><p>首先需要提前声明的是<strong>cURL</strong>和<strong>curl</strong>不是同一个东西。<strong>cURL</strong>是一个计算机软件项目，它是<em>Client for URLs</em>的缩写。这个项目有两个产品，一个是<strong>curl</strong>命令行工具，另一个是<strong>libcurl</strong>库。<strong>libcurl</strong>是免费易用的客户端URL传输库，基本上支持绝大多数传输协议，并且能够在许多平台下使用。<strong>libcurl</strong>是线程安全的，它兼容ipv6，特性丰富，支持良好，已经成功用于许多知名公司和非常多的应用程序中，并且诸多编程语言都提供了基于<strong>libcurl</strong>的语言包，包括C++,Java,PHP,Python等等。甚至在<strong>libcurl</strong>的项目主页下，关于它有着神一般的描述：</p>
+<blockquote>
+<p>libcurl is most probably the most portable, most powerful and most often used C-based multi-platform file transfer library on this planet - be it open source or commercial.</p>
+</blockquote>
+<p>说了半天<strong>libcurl</strong>的各种优点，其实最后引出的是<strong>curl</strong>命令行工具使用的就是<strong>libcurl</strong>库，所以以上<strong>libcurl</strong>的所有特性反映到工具层面上，最终就是<strong>curl</strong>的特点。不过<strong>curl</strong>命令行工具的特征包括：</p>
+<ul>
+<li>免费开源</li>
+<li>易于使用，支持多种传输协议</li>
+<li>可用于shell脚本内</li>
+<li>提供将近120个选项</li>
+<li>支持断点续传</li>
+<li>支持大多数操作系统</li>
+<li>支持配置文件。</li>
+<li>支持在一个命令行中操作多个URL。</li>
+<li>支持<em>globbing</em>模式， [0-13], {one,two,three}</li>
+<li>单个命令行中可上传多个文件</li>
+<li>自定义最大传输速率</li>
+</ul>
+<h3 id="curl的使用"><a href="#curl的使用" class="headerlink" title="curl的使用"></a>curl的使用</h3><p>以下命令是在Ubuntu系统下进行，需要打开终端，在命令行下完成，绝对多数命令演示的是基于HTTP协议的操作。</p>
+<ol>
+<li><p>下载单个文件</p>
+<p> 以下命令会下载URL指向文件并在输出在标准输出下(STDOUT)，即当前运行命令的终端</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl www.baidu.com</div></pre></td></tr></table></figure>
+<p> curl后指定的 <em>URL</em> 参数的语法取决于使用的具体协议，如果未显示给出URL的协议名称(即没有给定protocole://前缀)，curl默认根据url进行猜测，自动补齐协议，否则会使用HTTP协议，如以上例子虽然未指定协议，但也会自动补齐HTTP协议。</p>
+<ul>
+<li><p>从ftp服务下下载readme文件</p>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl ftp://ftp.server.com/readme</div></pre></td></tr></table></figure>
+</li>
+<li><p>下载服务器8000端口下的文件</p>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl http://www.server.com:8000</div></pre></td></tr></table></figure>
+</li>
+<li><p>获取fep服务根目录列表</p>
+  <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl ftp://ftp-server.com</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>下载单个文件并重定向到指定文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl www.baidu.com &gt; baidu.html</div></pre></td></tr></table></figure>
+</li>
+<li><p>下载单个文件并保存至新的文件
+ <code>-o</code>（–output &lt;file&gt;，小写字母o）会以命令行指定的文件名命名保存文件。</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -o myFile.html http://www.server.com/index.html</div></pre></td></tr></table></figure>
+<p> 会在当前目录将<em>index.html</em>保存在<em>myFile.html</em>中。<code>-O</code>(–remote-name，大写字母O)取URL中指向的文件名保存文件</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -O http://www.server.com/index.html</div></pre></td></tr></table></figure>
+<p> 会在当前目录保存为名为<em>index.html</em>的文件。</p>
+</li>
+<li><p>一次下载多个文件</p>
+<p> 语法格式</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -O URL -O URL</div></pre></td></tr></table></figure>
+<p> 示例，同时下载<em>index.html</em>，<em>test.html</em>，并按原名保存。</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -O www.server.com/index.html -O www.server.com/test.html</div></pre></td></tr></table></figure>
+</li>
+<li><p>抓取文档响应消息头</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -I www.baidu.com</div></pre></td></tr></table></figure>
+<p> <code>-I(--head)</code>选项会发送HTTP HEAD请求，返回文档的HTTP消息头，不包括文档内容,如</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 200 OK</div><div class="line">Date: Thu, 10 Mar 2016 00:43:10 GMT</div><div class="line">Server: Apache</div><div class="line">Last-Modified: Tue, 12 Jan 2010 13:48:00 GMT</div><div class="line">ETag: &quot;51-47cf7e6ee8400&quot;</div><div class="line">Accept-Ranges: bytes</div><div class="line">Content-Length: 81</div><div class="line">Cache-Control: max-age=86400</div><div class="line">Expires: Fri, 11 Mar 2016 00:43:10 GMT</div><div class="line">Connection: Keep-Alive</div><div class="line">Content-Type: text/html</div></pre></td></tr></table></figure>
+<blockquote>
+<p>对于FTP/FILE协议，该选项只会抓取文件大小和最新修改时间</p>
+</blockquote>
+</li>
+<li><p>抓取文档并同时返回响应消息头</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -i www.baidu.com</div></pre></td></tr></table></figure>
+<p> <code>-i(--include)</code>选项在会同时抓取文档响应消息头和文档内容，并依次输出</p>
+</li>
+<li><p>查看curl与服务器间相互的传输信息</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -v www.baidu.com</div></pre></td></tr></table></figure>
+<p> 会返回诸如以下信息:</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">* Rebuilt URL to: www.baidu.com/</div><div class="line">* Hostname was NOT found in DNS cache</div><div class="line">*   Trying 115.239.210.27...</div><div class="line">* Connected to www.baidu.com (115.239.210.27) port 80 (#0)</div><div class="line">&gt; GET / HTTP/1.1</div><div class="line">&gt; User-Agent: curl/7.37.1</div><div class="line">&gt; Host: www.baidu.com</div><div class="line">&gt; Accept: */*</div><div class="line">&gt;</div><div class="line">&lt; HTTP/1.1 200 OK</div><div class="line">&lt; Date: Thu, 10 Mar 2016 01:12:02 GMT</div><div class="line">&lt; Content-Type: text/html; charset=utf-8</div><div class="line">&lt; Transfer-Encoding: chunked</div><div class="line">&lt; Connection: Keep-Alive</div><div class="line">&lt; Vary: Accept-Encoding</div><div class="line">&lt; Set-Cookie: BAIDUID=AE054FF0671B3FD7F1B0FF479F92CF62:FG=1; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com</div><div class="line">&lt; Set-Cookie: BIDUPSID=AE054FF0671B3FD7F1B0FF479F92CF62; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com</div><div class="line">&lt; Set-Cookie: PSTM=1457572322; expires=Thu, 31-Dec-37 23:55:55 GMT; max-age=2147483647; path=/; domain=.baidu.com</div><div class="line">&lt; Set-Cookie: BDSVRTM=0; path=/</div><div class="line">&lt; Set-Cookie: BD_HOME=0; path=/</div><div class="line">&lt; Set-Cookie: H_PS_PSSID=18881_18286_1442_18280_17001_15634_11881; path=/; domain=.baidu.com</div><div class="line">&lt; P3P: CP=&quot; OTI DSP COR IVA OUR IND COM &quot;</div><div class="line">&lt; Cache-Control: private</div><div class="line">&lt; Cxy_all: baidu+bd045816495ef49ccd7dbe19372d56ad</div><div class="line">&lt; Expires: Thu, 10 Mar 2016 01:12:00 GMT</div><div class="line">&lt; X-Powered-By: HPHP</div><div class="line">* Server BWS/1.1 is not blacklisted</div><div class="line">&lt; Server: BWS/1.1</div><div class="line">&lt; X-UA-Compatible: IE=Edge,chrome=1</div><div class="line">&lt; BDPAGETYPE: 1</div><div class="line">&lt; BDQID: 0x96faba2100029277</div><div class="line">&lt; BDUSERID: 0</div><div class="line"></div><div class="line"># 此处省略文档内容</div></pre></td></tr></table></figure>
+<p> <code>-v</code>选项可以显示到底curl发送给服务器什么命令，使用在HTTP协议上，可以查看完整的HTTP消息头和响应头，该选项在用来调试或者理解curl&lt;-&gt;server之间的交互时非常有用。</p>
+</li>
+<li><p>收集往来数据的跟踪信息并存储到文件</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl --trace dump.txt www.baidu.com</div></pre></td></tr></table></figure>
+<p> <code>--trace</code>选项用来收集curl与服务器往来数据的信息，并存在在指定名称的文件中，类似的选项还有<code>--trace-ascii</code>，只不过该选项只会会忽略十六进制部分，只收集ascii部分。添加<code>--trace-time</code>选项会在每行输出中添加时间点</p>
+<pre><code>$ curl --trace dump.txt --trace-time www.baidu.com
+</code></pre><p>  这可以用来统计传输所消耗的时间。</p>
+</li>
+<li><p>分段下载
+ 对于下载较大的文件，使用<code>-C</code>选项可以分段下载文件，对于因网络问题造成下载中断，我们可以继续之前的下载进步，避免从头重新下载文件。如执行</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -O www.server.com/bigFile.zip</div></pre></td></tr></table></figure>
+<p> 按下<code>Ctrl+C</code>终端下载，继续执行</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -O - www.server.com/bigFile.zip</div></pre></td></tr></table></figure>
+<p> 文件会从上次终端出继续下载。</p>
+</li>
+<li><p>指定HTTP请求的User Agent
+浏览器在请求任何页面时都会在请求头中加入User Agent，用来向服务器标识自己的身份，服务器可以根据不同的User Agent返回不同的响应页面或数据，这也是现在实现响应式设计的一种方式，我们可以使用<code>-A</code>(<code>--user-agent</code>)选项来模拟任意浏览器向服务器发起请求。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -A <span class="string">"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.75 Safari/537.36"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>HTTP重定向
+HTTP的3XX响应码用来进行重定向，最常用的时301-页面永久移到新的地址；302-临时重定向。使用curl时也会遇到页面重定向的问题，例如访问google.com，会发现301的重定向</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl google.com</div></pre></td></tr></table></figure>
+<p>会返回</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">HTML</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">HEAD</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"content-type"</span> <span class="attr">content</span>=<span class="string">"text/html;charset=utf-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">TITLE</span>&gt;</span>301 Moved<span class="tag">&lt;/<span class="name">TITLE</span>&gt;</span><span class="tag">&lt;/<span class="name">HEAD</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">BODY</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">H1</span>&gt;</span>301 Moved<span class="tag">&lt;/<span class="name">H1</span>&gt;</span>The document has moved<span class="tag">&lt;<span class="name">A</span> <span class="attr">HREF</span>=<span class="string">"http://www.google.com/"</span>&gt;</span>here<span class="tag">&lt;/<span class="name">A</span>&gt;</span>.</div><div class="line"><span class="tag">&lt;/<span class="name">BODY</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">HTML</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>继续使用</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -I google.com</div></pre></td></tr></table></figure>
+<p>查看消息响应头，会输出</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">HTTP/1.1 301 Moved Permanently</div><div class="line">Location: http://www.google.com/</div><div class="line">Content-Type: text/html; charset=UTF-8</div><div class="line">Date: Thu, 10 Mar 2016 13:46:53 GMT</div><div class="line">Expires: Sat, 09 Apr 2016 13:46:53 GMT</div><div class="line">Cache-Control: public, max-age=2592000</div><div class="line">Server: gws</div><div class="line">Content-Length: 219</div><div class="line">X-XSS-Protection: 1; mode=block</div><div class="line">X-Frame-Options: SAMEORIGIN</div></pre></td></tr></table></figure>
+<p>其中<code>Location</code>字段说明了新文档的地址，如果希望curl继续下载重定向之后的页面，可以使用<code>-L</code>(<code>--location</code>)选项</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -L google.com</div></pre></td></tr></table></figure>
+</li>
+<li><p>发送指定方法的HTTP
+使用<code>-X</code>(    <code>--request</code>)选项在于HTTP服务器进行通信时，可以指定HTTP消息发送的method方法，可以用来调试服务器端的REST API，默认curl会使用GET方法,示例：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -X POST http://server.com</div></pre></td></tr></table></figure>
+</li>
+<li><p>模拟表单提交
+表单提交有get和post两种，get方式提交直接将参数添加在URL后面即可。如提交一下表单</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://www.server.com/addUser.do"</span> <span class="attr">method</span>=<span class="string">"get"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">type</span>=<span class="string">"text"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"age"</span> <span class="attr">type</span>=<span class="string">"text"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"submit"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>可以使用</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl http://www.server.com/addUser.do?name=monjer&amp;age=30</div></pre></td></tr></table></figure>
+<p>使用<code>-d</code>(<code>--data</code>)发起post提交，curl会按照Contenttype:application/x-www-form-urlencoded方式提交数据到服务器，提交的数据必须已经经过正确的编码，例如<strong>空格</strong>需要替换为<strong>%20</strong>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://www.server.com/addUser.do"</span> <span class="attr">method</span>=<span class="string">"post"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">type</span>=<span class="string">"text"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"intro"</span> <span class="attr">type</span>=<span class="string">"text"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"submit"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>可以使用</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl --data <span class="string">"name=monjer&amp;intro=this%20is%20test."</span>  http://www.server.com/addUser.do</div></pre></td></tr></table></figure>
+</li>
+<li><p>文件上传
+使用<code>-F</code>(<code>--form &lt;name=content&gt;</code>)可以模拟表单上传文件。如，模拟一下表单上传,选择index.html文件</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">enctype</span>=<span class="string">'multipart/form-data'</span> <span class="attr">action</span>=<span class="string">"upload.cgi"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"upload"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">name</span>=<span class="string">"press"</span> <span class="attr">value</span>=<span class="string">"OK"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -F <span class="string">"upload=@index.html;type=text/html"</span> -F <span class="string">"press=OK"</span> http://www.server.com/upload.do</div></pre></td></tr></table></figure>
+<p>上传名为web的index.html文件并指定类型为<code>text/html</code>。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -F <span class="string">"upload=@index.html;filename=nameFileName;type=text/html"</span> http://www.server.com/upload.do</div></pre></td></tr></table></figure>
+<p>如果文件命中包含<code>,</code>或<code>;</code>，需要如下提交</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -F <span class="string">'file=@"localOfTheFile";filename="newFileName"'</span> http://www.server.com/upload.do</div></pre></td></tr></table></figure>
+<p>多文件上传</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -F <span class="string">'file=@file.txt;file2.txt,file3.txt'</span> http://www.server.com/upload.do</div></pre></td></tr></table></figure>
+<p>以上提交使用的是POST方法，可以使用<code>-T</code>(<code>--upload-file</code>)选项，以PUT方法上传文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl --upload-file filetoUpload http://www.server.com/upload.do</div></pre></td></tr></table></figure>
+<p>此外该选项也支持<em>globbing</em>模式，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -T <span class="string">"img[1-1000].png"</span> http://www.server.com/upload.do</div></pre></td></tr></table></figure>
+</li>
+<li><p>在请求消息中添加额外的header
+使用<code>-H</code>(<code>--header</code>)选项可以在发送请求的时候添加额外的HTTP header字段，如</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl -H <span class="string">"MyHeader: myHeaderValue"</span> http://www.server.com</div></pre></td></tr></table></figure>
+<p>也可以修改默认的字段值，如</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -F <span class="string">"coolfiles=@fil1.gif;type=image/gif"</span> -H <span class="string">"Content-type:text/html"</span> http://www.server.com/upload.do</div></pre></td></tr></table></figure>
+<p>以上会将<code>image/gif</code>类型改为<code>text/html</code>。</p>
+</li>
+<li><p>添加cookie
+使用<code>-b</code>(<code>--cookie</code>)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ curl --cookie <span class="string">"name=Daniel"</span> http://www.server.com.com</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://curl.haxx.se/docs/manual.html" target="_blank" rel="external">Manual – curl usage explained</a></li>
+<li><a href="https://curl.haxx.se/libcurl/" target="_blank" rel="external">libcurl - the multiprotocol file transfer library</a></li>
+<li><a href="http://www.thegeekstuff.com/2012/04/curl-examples/" target="_blank" rel="external">15 Practical Linux cURL Command Examples (cURL Download Examples)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/CURL" target="_blank" rel="external">cURL wiki</a></li>
+<li><a href="https://en.wikipedia.org/wiki/HTTP_302" target="_blank" rel="external">HTTP 302</a></li>
+<li><a href="https://curl.haxx.se/docs/features.html" target="_blank" rel="external">Features – what can curl do</a></li>
+<li><a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes#3xx_Redirection" target="_blank" rel="external">List of HTTP status codes</a></li>
+<li><a href="http://www.slashroot.in/curl-command-tutorial-linux-example-usage" target="_blank" rel="external">CURL command Tutorial in Linux with Example Usage</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol" target="_blank" rel="external">Hypertext Transfer Protocol</a></li>
+<li><a href="http://stackoverflow.com/questions/3062324/what-is-curl-in-php" target="_blank" rel="external">What is cURL in PHP?</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/27/Linux-Unix-mv-命令/" rel="next" title="Linux & Unix mv 命令">
+                <i class="fa fa-chevron-left"></i> Linux & Unix mv 命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/29/javascript清除文本选中/" rel="prev" title="JavaScript清除文本选中">
+                JavaScript清除文本选中 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/03/28/curl简介和用法/"
+           data-title="curl简介和用法" data-url="http://monjer.github.io/2016/03/28/curl简介和用法/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#curl简介"><span class="nav-number">1.</span> <span class="nav-text">curl简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#curl的由来"><span class="nav-number">2.</span> <span class="nav-text">curl的由来</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#curl的使用"><span class="nav-number">3.</span> <span class="nav-text">curl的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

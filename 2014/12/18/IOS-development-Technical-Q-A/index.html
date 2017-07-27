@@ -1,0 +1,743 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="iOS," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="私有数据存储Technical Q&amp;amp;A QA1699Q:我的app支持文件共享，但是一些私有数据我不想让用户访问。我该在哪里存储这些私有数据？ A:从IOS3.2开始，通过在Info.plist中添加UIFileSharingEnabled关键字，应用程序可以允许用户向app中的文档目录添加文件。设置这个关键字后，&amp;lt; Application Home &amp;gt;/Documents 目">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IOS development Technical Q&amp;A">
+<meta property="og:url" content="http://monjer.github.io/2014/12/18/IOS-development-Technical-Q-A/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="私有数据存储Technical Q&amp;amp;A QA1699Q:我的app支持文件共享，但是一些私有数据我不想让用户访问。我该在哪里存储这些私有数据？ A:从IOS3.2开始，通过在Info.plist中添加UIFileSharingEnabled关键字，应用程序可以允许用户向app中的文档目录添加文件。设置这个关键字后，&amp;lt; Application Home &amp;gt;/Documents 目">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IOS development Technical Q&amp;A">
+<meta name="twitter:description" content="私有数据存储Technical Q&amp;amp;A QA1699Q:我的app支持文件共享，但是一些私有数据我不想让用户访问。我该在哪里存储这些私有数据？ A:从IOS3.2开始，通过在Info.plist中添加UIFileSharingEnabled关键字，应用程序可以允许用户向app中的文档目录添加文件。设置这个关键字后，&amp;lt; Application Home &amp;gt;/Documents 目">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2014/12/18/IOS-development-Technical-Q-A/"/>
+
+
+
+
+
+  <title>IOS development Technical Q&A | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/12/18/IOS-development-Technical-Q-A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">IOS development Technical Q&A</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-12-18T00:00:00+08:00">
+                2014-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/12/18/IOS-development-Technical-Q-A/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/18/IOS-development-Technical-Q-A/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="私有数据存储Technical-Q-amp-A-QA1699"><a href="#私有数据存储Technical-Q-amp-A-QA1699" class="headerlink" title="私有数据存储Technical Q&amp;A QA1699"></a>私有数据存储<em style="font-size:12px;float:right"><a href="https://developer.apple.com/library/ios/qa/qa1699/_index.html" target="_blank" rel="external">Technical Q&amp;A QA1699</a></em></h3><p><span style="color:#E74C3C"><em>Q:</em></span>我的app支持文件共享，但是一些私有数据我不想让用户访问。我该在哪里存储这些私有数据？</p>
+<p><span style="color:#E74C3C"><em>A:</em></span>从IOS3.2开始，通过在<em>Info.plist</em>中添加<em>UIFileSharingEnabled</em>关键字，应用程序可以允许用户向app中的文档目录添加文件。设置这个关键字后，<em>&lt; Application Home &gt;/Documents </em>目录下的内容可以在iTunes中自由访问，用户可以任意添加
+或删除文件。添加<em>UIFileSharingEnabled</em>关键字并且需要维护用户私有数据的应用，需要将私有数据存储在别的目录下。</p>
+<p>除了以上指出的目录外，整个<em>&lt; Application Home &gt;/Library </em>目录在更新和备份时，一直会被保存下来，除了<em>&lt; Application Home &gt;/Library/Caches </em>目录。因此，应用程序可以在<em>&lt; Application Home &gt;/Library </em>目录下创建自己的目录，在更新和备份期间，这些目录也会被保存下来。为了降低命名冲突的风险，我们建议你小心命名
+你的目录。如，将一个目录命名为<em>Private Documents </em>会比较好。</p>
+<p>与用户共享文件，更多信息，参见<a href="https://developer.apple.com/library/ios/documentation/Miscellaneous/Conceptual/iPhoneOSTechOverview/CoreServicesLayer/CoreServicesLayer.html" target="_blank" rel="external">Sharing Files With the User</a>。</p>
+<p>有关如何备份和更新，更多信息，参见<a href="http://developer.apple.com/library/ios/#documentation/iphone/conceptual/iphoneosprogrammingguide/RuntimeEnvironment/RuntimeEnvironment.html" target="_blank" rel="external">Backup and Restore</a>。</p>
+<hr>
+<h3 id="向一个超出父视图边界的视图派发事件Technical-Q-amp-A-QA1812"><a href="#向一个超出父视图边界的视图派发事件Technical-Q-amp-A-QA1812" class="headerlink" title="向一个超出父视图边界的视图派发事件Technical Q&amp;A QA1812"></a>向一个超出父视图边界的视图派发事件<em style="font-size:12px;float:right"><a href="https://developer.apple.com/library/ios/qa/qa2013/qa1812.html" target="_blank" rel="external">Technical Q&amp;A QA1812</a></em></h3><p><span style="color:#E74C3C"><em>Q:</em></span>我的view在屏幕上显示正确，但是无法接受touch事件.为什么？</p>
+<p><span style="color:#E74C3C"><em>A:</em></span>该问题的常见起因是你的view定位在它父view边界之外。在应用接受到一个touch事件时，会发起一个<em>
+hit-tesing</em>过程，来决定哪个view来接受事件。这个过程起始于view层次结构的根，通常是指应用的window，并从前向后的顺序查找subviews，直到找到位于touch下面的最上层的view。这个view会成为hit-test
+view ，并接受touch事件。每个参与该流程的view首先会检测事件是否发生在自己的边界内。只有检测成功后，这个view才会进一步将事件交由其subviews来继续进行hit-test检测。所以如果你的view在touch下面，但其自身
+定位超出其父view的边界，父view无法检测到事件位置，也不会将touch事件传递给你的view。</p>
+<p>解决办法之一是改变view层次结构的布局，以便你的view定位在其父view边界之内。如果因某些原因导致必须保持当前布局，你也可以通过改变其父view的hit-testing行为，以避免父view会忽略touch事件。可以通过
+覆盖父view的<code>-(UIView *)hitTest:withEvent:</code>方法来达到该效果,如下:</p>
+<p>覆盖父view类的hit-tesing方法
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">- (<span class="built_in">UIView</span> *)hitTest:(<span class="built_in">CGPoint</span>)point withEvent:(<span class="built_in">UIEvent</span> *)event &#123;</div><div class="line"></div><div class="line">    <span class="comment">// Convert the point to the target view's coordinate system.</span></div><div class="line">    <span class="comment">// The target view isn't necessarily the immediate subview</span></div><div class="line">    <span class="built_in">CGPoint</span> pointForTargetView = [<span class="keyword">self</span>.targetView convertPoint:point fromView:<span class="keyword">self</span>];</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="built_in">CGRectContainsPoint</span>(<span class="keyword">self</span>.targetView.bounds, pointForTargetView)) &#123;</div><div class="line"></div><div class="line">        <span class="comment">// The target view may have its view hierarchy,</span></div><div class="line">        <span class="comment">// so call its hitTest method to return the right hit-test view</span></div><div class="line">        <span class="keyword">return</span> [<span class="keyword">self</span>.targetView hitTest:pointForTargetView withEvent:event];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> [<span class="keyword">super</span> hitTest:point withEvent:event];</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>关于hit-testing的更多信息，请参考<em> Event Handling Guide for iOS</em>中关于<a href="http://developer.apple.com/library/ios/documentation/EventHandling/Conceptual/EventHandlingiPhoneOS/event_delivery_responder_chain/event_delivery_responder_chain.html" target="_blank" rel="external">Event Delivery</a>的讨论。</p>
+<p>其它可能导致该问题的原因包括：</p>
+<ul>
+<li>view或其任何父view的<code>userInteractionEnabled</code>属性设置为了<code>NO</code>。</li>
+<li>application对象调用了<code>beginIgnoringInteractionEvents</code>方法，但没有调用<code>endIgnoringInteractionEvents</code>方法。</li>
+</ul>
+<p>为了维持view的可交互性，你要确保<code>userInteractionEnabled</code>属性设置为了<code>YES</code>,并且确保application不会忽略用户事件。</p>
+<p>如果你得view在动画期间没有收到touch事件，那是因为<code>UIView</code>的动画方法常常在动画执行期间禁用掉了touch事件。在执行<code>UIView</code>的动画时，配置<code>UIViewAnimationOptionAllowUserInteraction</code>选项，可以允许view在动画执行期间接受touch事件。</p>
+<hr>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iOS/" rel="tag"># iOS</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/12/15/支持IOS多版本的一些简单策略/" rel="next" title="支持IOS多版本的一些简单策略">
+                <i class="fa fa-chevron-left"></i> 支持IOS多版本的一些简单策略
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/03/10/使用HTML5-Data-Arrtibutes/" rel="prev" title="使用HTML5 Data Arrtibutes">
+                使用HTML5 Data Arrtibutes <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/12/18/IOS-development-Technical-Q-A/"
+           data-title="IOS development Technical Q&A" data-url="http://monjer.github.io/2014/12/18/IOS-development-Technical-Q-A/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#私有数据存储Technical-Q-amp-A-QA1699"><span class="nav-number">1.</span> <span class="nav-text">私有数据存储Technical Q&A QA1699</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向一个超出父视图边界的视图派发事件Technical-Q-amp-A-QA1812"><span class="nav-number">2.</span> <span class="nav-text">向一个超出父视图边界的视图派发事件Technical Q&A QA1812</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

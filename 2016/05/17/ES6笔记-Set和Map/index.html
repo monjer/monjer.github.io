@@ -1,0 +1,786 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ES6,JavaScript," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="一直以来JavaScript中的集合类型只有数组Array，对于集合类型支持比较弱，因此ES6新增了新的集合类型Set和Map。 Set类型Set集合用来存储一组没有重复的值，这些值可以是基本数据类型和对象类型，试图在集合中插入重复的值会被自动忽略。以下时集合的一些使用方式。 1.集合的创建1var set = new Set(); 2. 添加元素可以使用add(value)方法向集合中添加新元素">
+<meta name="keywords" content="ES6,JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6笔记 - Set和Map">
+<meta property="og:url" content="http://monjer.github.io/2016/05/17/ES6笔记-Set和Map/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="一直以来JavaScript中的集合类型只有数组Array，对于集合类型支持比较弱，因此ES6新增了新的集合类型Set和Map。 Set类型Set集合用来存储一组没有重复的值，这些值可以是基本数据类型和对象类型，试图在集合中插入重复的值会被自动忽略。以下时集合的一些使用方式。 1.集合的创建1var set = new Set(); 2. 添加元素可以使用add(value)方法向集合中添加新元素">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES6笔记 - Set和Map">
+<meta name="twitter:description" content="一直以来JavaScript中的集合类型只有数组Array，对于集合类型支持比较弱，因此ES6新增了新的集合类型Set和Map。 Set类型Set集合用来存储一组没有重复的值，这些值可以是基本数据类型和对象类型，试图在集合中插入重复的值会被自动忽略。以下时集合的一些使用方式。 1.集合的创建1var set = new Set(); 2. 添加元素可以使用add(value)方法向集合中添加新元素">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2016/05/17/ES6笔记-Set和Map/"/>
+
+
+
+
+
+  <title>ES6笔记 - Set和Map | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2016/05/17/ES6笔记-Set和Map/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ES6笔记 - Set和Map</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-17T21:38:53+08:00">
+                2016-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/05/17/ES6笔记-Set和Map/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/17/ES6笔记-Set和Map/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一直以来JavaScript中的集合类型只有数组Array，对于集合类型支持比较弱，因此ES6新增了新的集合类型Set和Map。</p>
+<h3 id="Set类型"><a href="#Set类型" class="headerlink" title="Set类型"></a>Set类型</h3><p>Set集合用来存储一组没有重复的值，这些值可以是基本数据类型和对象类型，试图在集合中插入重复的值会被自动忽略。以下时集合的一些使用方式。</p>
+<h4 id="1-集合的创建"><a href="#1-集合的创建" class="headerlink" title="1.集合的创建"></a>1.集合的创建</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>();</div></pre></td></tr></table></figure>
+<h4 id="2-添加元素"><a href="#2-添加元素" class="headerlink" title="2. 添加元素"></a>2. 添加元素</h4><p>可以使用<code>add(value)</code>方法向集合中添加新元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">set.add(<span class="string">'string'</span>);</div><div class="line">set.add(<span class="number">10</span>);</div><div class="line">set.add(<span class="number">10</span>); <span class="comment">// 插入重复的值会被自动忽略，集合中的值永远时唯一的</span></div><div class="line">set.add(&#123;&#125;);</div><div class="line"><span class="built_in">console</span>.log(set); <span class="comment">// Set&#123;"string", 10, Object &#123;&#125;&#125;</span></div></pre></td></tr></table></figure>
+<h4 id="3-元素个数"><a href="#3-元素个数" class="headerlink" title="3.元素个数"></a>3.元素个数</h4><p>集合的<code>size</code>属性保存了当前元素的个数
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(set.size); <span class="comment">//3</span></div></pre></td></tr></table></figure></p>
+<h4 id="4-删除元素"><a href="#4-删除元素" class="headerlink" title="4. 删除元素"></a>4. 删除元素</h4><p>集合的<code>remove(value)</code>方法可以从集合中删除给定的元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">set.delete(<span class="number">10</span>);</div></pre></td></tr></table></figure>
+<h4 id="5-判断元素存在与否"><a href="#5-判断元素存在与否" class="headerlink" title="5. 判断元素存在与否"></a>5. 判断元素存在与否</h4><p>集合的<code>has(value)</code>方法可以判断元素是否存在于集合中，该方法会返回一个布尔值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> exist = set.has(<span class="number">10</span>); <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<h4 id="6-遍历集合"><a href="#6-遍历集合" class="headerlink" title="6. 遍历集合"></a>6. 遍历集合</h4><p>与数组类型一样，Set类型上也有<code>forEach(callback , thisArg)</code>方法支持对集合元素的遍历，可以传入callback参数对每个元素进行处理</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">set.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value , value , set</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(value); <span class="comment">// string</span></div><div class="line">                      <span class="comment">// Object&#123;&#125;</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>注意forEach方法中回调函数参数的前两个都是value，因为这是为了与之前Array的<code>forEach(value , index , array)</code>在回调参数的形式上保持一致。
+此外也可以forEach的第二个参数中，传入callback函数的上下文this对象，</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> array = [];</div><div class="line">set.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value , value , set</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(value);</div><div class="line">  <span class="keyword">this</span>.push(value);</div><div class="line">&#125;,array);</div><div class="line"><span class="built_in">console</span>.log(array); <span class="comment">// ['string' , Object]</span></div></pre></td></tr></table></figure>
+<h4 id="7-清空Set"><a href="#7-清空Set" class="headerlink" title="7. 清空Set"></a>7. 清空Set</h4><p>使用<code>clear()</code>方法可以清空Set中所有的元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">set.clear();</div><div class="line"><span class="built_in">console</span>.log(set); <span class="comment">// Set&#123;&#125;</span></div></pre></td></tr></table></figure>
+<h4 id="8-Set与数组的转换"><a href="#8-Set与数组的转换" class="headerlink" title="8. Set与数组的转换"></a>8. Set与数组的转换</h4><p>数组转换为集合，只要在新建Set的时候传入数组即可，如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> array = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="keyword">var</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>(array);</div><div class="line"><span class="built_in">console</span>.log(set); <span class="comment">// Set &#123;1, 2, 3&#125;</span></div></pre></td></tr></table></figure>
+<p>集合转换为数组，只要使用Spread运算符即可
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]);</div><div class="line"><span class="keyword">var</span> array = [...set];</div><div class="line"><span class="built_in">console</span>.log(array); <span class="comment">// [1, 2, 3. 4]</span></div></pre></td></tr></table></figure></p>
+<p>利用集合元素的唯一性，可以用来对数组进行去重操作，如
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> array = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">4</span>];</div><div class="line"><span class="keyword">var</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>(array);</div><div class="line">array = [...set];</div><div class="line"><span class="built_in">console</span>.log(array); <span class="comment">// [1, 2, 3, 4];</span></div></pre></td></tr></table></figure></p>
+<h3 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h3><p>如果说Set是强类型Set（保存对象的引用），WeakSet类型则是弱类型Set（不保存对象的引用），WeakSet与Set的主要区别为：</p>
+<ul>
+<li>WeakSet中的元素只能是对象类型。</li>
+<li>WeakSet中元素对象的引用都是弱类型的，如果元素没有其它强类型引用，那么这个元素就可以被垃圾回收了，也因此WeakSet是不可遍历的，因为无法保证元素的存在性。</li>
+</ul>
+<p>由于WeakSet的不可遍历性，因此它没有Set的<code>size</code>属性，<code>forEach()</code>方法，它只有以下几个方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">WeakSet</span>.prototype.add(value); <span class="comment">// 添加元素</span></div><div class="line"><span class="built_in">WeakSet</span>.prototype.delete(value); <span class="comment">// 删除元素</span></div><div class="line"><span class="built_in">WeakSet</span>.prototype.has(value); <span class="comment">// 判断元素是否存在</span></div></pre></td></tr></table></figure>
+<p>WeakSet可以用来追踪元素的引用。</p>
+<h3 id="Map类型"><a href="#Map类型" class="headerlink" title="Map类型"></a>Map类型</h3><p>先前，我们通常利用对象来模拟实现map的功能，ES6中新的Map类型正式实现了此功能。与其它语言的map类型一样，ES6中的Map也是一组key/value的映射组合，Map中的key和value都可以是基本数据类型或对象类型。相比较JavaScript对象的属性名只能为String和Symbol类型，Map的引入无疑更加方便，</p>
+<h4 id="1-创建Map"><a href="#1-创建Map" class="headerlink" title="1.创建Map"></a>1.创建Map</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>();</div></pre></td></tr></table></figure>
+<h4 id="2-设置key的值"><a href="#2-设置key的值" class="headerlink" title="2.设置key的值"></a>2.设置key的值</h4><p>使用<code>set(key , value)</code>将指定key对应的value存储在Map中,如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> strKey = <span class="string">'strKey'</span>,</div><div class="line">    numKey = <span class="number">4</span>,</div><div class="line">    objKey = &#123;&#125;;</div><div class="line">map.set(strKey , <span class="string">'strKeyValue'</span>);</div><div class="line">map.set(numKey , <span class="string">'numKeyValue'</span>);</div><div class="line">map.set(objKey , <span class="string">'objKeyValue'</span>);</div><div class="line"><span class="built_in">console</span>.log(map); <span class="comment">// Map &#123;"strKey" =&gt; "strKeyValue", 4 =&gt; "numKeyValue", Object &#123;&#125; =&gt; "objKeyValue"&#125;</span></div></pre></td></tr></table></figure>
+<h4 id="3-判断key的值是否存在"><a href="#3-判断key的值是否存在" class="headerlink" title="3.判断key的值是否存在"></a>3.判断key的值是否存在</h4><p>使用<code>has(key)</code>方法判断给定key是否存在map中</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> exist = map.has(<span class="string">'strKey'</span>);</div><div class="line"><span class="built_in">console</span>.log(exist); <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<h4 id="4-获取key对应的值"><a href="#4-获取key对应的值" class="headerlink" title="4.获取key对应的值"></a>4.获取key对应的值</h4><p>使用<code>get(key)</code>方法获取key是在map中值，如果不存在则返回<code>undefined</code>值，如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> val = map.get(<span class="string">'strKey'</span>);</div><div class="line"><span class="built_in">console</span>.log(val); <span class="comment">// strKeyValue</span></div><div class="line">val = map.get(<span class="string">'someKey'</span>);</div><div class="line"><span class="built_in">console</span>.log(val); <span class="comment">// undefined</span></div></pre></td></tr></table></figure>
+<h4 id="5-从Map中移除某个key"><a href="#5-从Map中移除某个key" class="headerlink" title="5.从Map中移除某个key"></a>5.从Map中移除某个key</h4><p>使用<code>delete(key)</code>方法，从Map中移除给定的key对应的value，并将<code>has(key)</code>的判断值返回，如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> res = map.delete(<span class="string">'strKey'</span>);</div><div class="line"><span class="built_in">console</span>.log(res); <span class="comment">// true</span></div><div class="line">res = map.delete(<span class="string">'someKey'</span>);</div><div class="line"><span class="built_in">console</span>.log(res); <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<h4 id="6-返回Map中key-value映射的个数"><a href="#6-返回Map中key-value映射的个数" class="headerlink" title="6.返回Map中key/value映射的个数"></a>6.返回Map中key/value映射的个数</h4><p>Map类型中的<code>size</code>属性保存了当前Map中key/value映射的个数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> kvSize = map.size ;</div><div class="line"><span class="built_in">console</span>.log(kvSize); <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<h4 id="7-Map的遍历"><a href="#7-Map的遍历" class="headerlink" title="7. Map的遍历"></a>7. Map的遍历</h4><p>Map类型与Set类型一样拥有<code>forEach(callback , thisArg)</code>用于Map遍历。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">map.forEach(map , <span class="function"><span class="keyword">function</span>(<span class="params">value , key , map</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(key+<span class="string">": "</span>+value);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>callback回调函数，接收三个参数，依次是Map的key,value以及map对象本身。也可以指定回调函数执行时上下文this对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> anotherMap = <span class="keyword">new</span> <span class="built_in">Map</span>();</div><div class="line">map.forEach(map , <span class="function"><span class="keyword">function</span>(<span class="params">value , key , map</span>)</span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(key+<span class="string">": "</span>+value);</div><div class="line">  <span class="keyword">this</span>.set(key , value);</div><div class="line">&#125;,anotherMap);</div><div class="line"><span class="built_in">console</span>.log(anotherMap); <span class="comment">// Map &#123;4 =&gt; "numKeyValue",  Object &#123;&#125;  =&gt; "objKeyValue"&#125;</span></div></pre></td></tr></table></figure>
+<h4 id="8-清空Map"><a href="#8-清空Map" class="headerlink" title="8.清空Map"></a>8.清空Map</h4><p>使用<code>clear()</code>方法可以将Map上所有的key/value依次清空</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">map.clear();</div><div class="line"><span class="built_in">console</span>.log(map.size); <span class="comment">// 0</span></div></pre></td></tr></table></figure>
+<h4 id="9-Map与数组的转换"><a href="#9-Map与数组的转换" class="headerlink" title="9.Map与数组的转换"></a>9.Map与数组的转换</h4><p>数组转换为Map，需要使用二位数组，第一个元素为key，第二个元素为value</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [[<span class="number">1</span>, <span class="string">'1'</span>] , [<span class="number">2</span>, <span class="string">'2'</span>]];</div><div class="line"><span class="keyword">var</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>(arr);</div><div class="line"><span class="built_in">console</span>.log(map); <span class="comment">// Map &#123;1 =&gt; "1", 2 =&gt; "2"&#125;</span></div></pre></td></tr></table></figure>
+<p>使用Spread操作符，可以将Map转换为二位数组，与以上的操作互为逆序，如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [...map];</div><div class="line"></div><div class="line">arr.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">value , index , arr</span>)</span>&#123;</div><div class="line"><span class="built_in">console</span>.log(value); <span class="comment">// [1, "1"]</span></div><div class="line">                    <span class="comment">// [2, "2"]</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="WeakMap类型"><a href="#WeakMap类型" class="headerlink" title="WeakMap类型"></a>WeakMap类型</h3><p>WeakMap与WeakSet形式上类似，WeakMap上所有的key都是若类型的，因此key的类型必须时对象类型，但值可以时任意类型。WeakMap与Map的区别：</p>
+<ul>
+<li>key值必须是对象类型，基本数据类型是不允许的。</li>
+<li>key都是弱类型，若key没有其它强类型引用，那么这个key/value实体就可以被垃圾回收了。因此，WeakMap也是不可遍历的。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">WeakMap</span>.prototype.delete(key);</div><div class="line"><span class="built_in">WeakMap</span>.prototype.get(key);</div><div class="line"><span class="built_in">WeakMap</span>.prototype.has(key);</div><div class="line"><span class="built_in">WeakMap</span>.prototype.set(key, value);</div></pre></td></tr></table></figure>
+<p>完！</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set" target="_blank" rel="external">MDN Set</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakSet" target="_blank" rel="external">MDN WeakSet</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map" target="_blank" rel="external">MDN Map</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap" target="_blank" rel="external">MDN WeakMap</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ES6/" rel="tag"># ES6</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/15/ES6笔记-变量的解构赋值/" rel="next" title="ES6笔记 - 变量的解构赋值">
+                <i class="fa fa-chevron-left"></i> ES6笔记 - 变量的解构赋值
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/17/button点击后的键盘事件/" rel="prev" title="button点击后的键盘事件">
+                button点击后的键盘事件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/17/ES6笔记-Set和Map/"
+           data-title="ES6笔记 - Set和Map" data-url="http://monjer.github.io/2016/05/17/ES6笔记-Set和Map/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Set类型"><span class="nav-number">1.</span> <span class="nav-text">Set类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-集合的创建"><span class="nav-number">1.1.</span> <span class="nav-text">1.集合的创建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-添加元素"><span class="nav-number">1.2.</span> <span class="nav-text">2. 添加元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-元素个数"><span class="nav-number">1.3.</span> <span class="nav-text">3.元素个数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-删除元素"><span class="nav-number">1.4.</span> <span class="nav-text">4. 删除元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-判断元素存在与否"><span class="nav-number">1.5.</span> <span class="nav-text">5. 判断元素存在与否</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-遍历集合"><span class="nav-number">1.6.</span> <span class="nav-text">6. 遍历集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-清空Set"><span class="nav-number">1.7.</span> <span class="nav-text">7. 清空Set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-Set与数组的转换"><span class="nav-number">1.8.</span> <span class="nav-text">8. Set与数组的转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakSet"><span class="nav-number">2.</span> <span class="nav-text">WeakSet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map类型"><span class="nav-number">3.</span> <span class="nav-text">Map类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-创建Map"><span class="nav-number">3.1.</span> <span class="nav-text">1.创建Map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-设置key的值"><span class="nav-number">3.2.</span> <span class="nav-text">2.设置key的值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-判断key的值是否存在"><span class="nav-number">3.3.</span> <span class="nav-text">3.判断key的值是否存在</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-获取key对应的值"><span class="nav-number">3.4.</span> <span class="nav-text">4.获取key对应的值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-从Map中移除某个key"><span class="nav-number">3.5.</span> <span class="nav-text">5.从Map中移除某个key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-返回Map中key-value映射的个数"><span class="nav-number">3.6.</span> <span class="nav-text">6.返回Map中key/value映射的个数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-Map的遍历"><span class="nav-number">3.7.</span> <span class="nav-text">7. Map的遍历</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-清空Map"><span class="nav-number">3.8.</span> <span class="nav-text">8.清空Map</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-Map与数组的转换"><span class="nav-number">3.9.</span> <span class="nav-text">9.Map与数组的转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakMap类型"><span class="nav-number">4.</span> <span class="nav-text">WeakMap类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

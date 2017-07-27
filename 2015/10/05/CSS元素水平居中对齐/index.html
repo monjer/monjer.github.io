@@ -1,0 +1,738 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="css,css水平居中," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="内联元素适用于诸如如文本，图片，链接等display属性值为inline或inline-block的元素 123el&amp;#123;    text-align:center;&amp;#125; 如，居中对齐文本 123456&amp;lt;div class=&quot;wrapper&quot;&amp;gt;文字居中&amp;lt;/div&amp;gt;.wrapper&amp;#123;    width:500px;    text-align:cent">
+<meta name="keywords" content="css,css水平居中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS元素水平居中对齐">
+<meta property="og:url" content="http://monjer.github.io/2015/10/05/CSS元素水平居中对齐/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="内联元素适用于诸如如文本，图片，链接等display属性值为inline或inline-block的元素 123el&amp;#123;    text-align:center;&amp;#125; 如，居中对齐文本 123456&amp;lt;div class=&quot;wrapper&quot;&amp;gt;文字居中&amp;lt;/div&amp;gt;.wrapper&amp;#123;    width:500px;    text-align:cent">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS元素水平居中对齐">
+<meta name="twitter:description" content="内联元素适用于诸如如文本，图片，链接等display属性值为inline或inline-block的元素 123el&amp;#123;    text-align:center;&amp;#125; 如，居中对齐文本 123456&amp;lt;div class=&quot;wrapper&quot;&amp;gt;文字居中&amp;lt;/div&amp;gt;.wrapper&amp;#123;    width:500px;    text-align:cent">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2015/10/05/CSS元素水平居中对齐/"/>
+
+
+
+
+
+  <title>CSS元素水平居中对齐 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2015/10/05/CSS元素水平居中对齐/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CSS元素水平居中对齐</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-05T00:00:00+08:00">
+                2015-10-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/10/05/CSS元素水平居中对齐/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/05/CSS元素水平居中对齐/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="内联元素"><a href="#内联元素" class="headerlink" title="内联元素"></a>内联元素</h3><p>适用于诸如如文本，图片，链接等<code>display</code>属性值为<code>inline</code>或<code>inline-block</code>的元素
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">el&#123;</div><div class="line">    text-align:center;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如，居中对齐文本
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span>文字居中<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.wrapper&#123;</div><div class="line">    width:500px;</div><div class="line">    text-align:center;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>内联块级元素居中
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span>&gt;</span>新建<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span>&gt;</span>保存<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span>&gt;</span>复制<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span>&gt;</span>黏贴<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.wrapper&#123;</div><div class="line">    width:400px;</div><div class="line">    text-align:center;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="块级元素"><a href="#块级元素" class="headerlink" title="块级元素"></a>块级元素</h3><h4 id="方式一，使用margin"><a href="#方式一，使用margin" class="headerlink" title="方式一，使用margin"></a>方式一，使用<code>margin</code></h4><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.inner_el&#123;</div><div class="line">    margin:0 auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="方式二-使用absolute绝对布局和负margin，要求元素定宽-且其父元素为定位元素"><a href="#方式二-使用absolute绝对布局和负margin，要求元素定宽-且其父元素为定位元素" class="headerlink" title="方式二,使用absolute绝对布局和负margin，要求元素定宽,且其父元素为定位元素"></a>方式二,使用<code>absolute</code>绝对布局和负<code>margin</code>，要求元素<strong>定宽</strong>,且其父元素为定位元素</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">.wrapper&#123;</div><div class="line">    position:relative;</div><div class="line">&#125;</div><div class="line">.wrapper .inner_el&#123;</div><div class="line">    position:absolute;</div><div class="line">    left:50%;</div><div class="line">    width:200px;</div><div class="line">    margin-left:-100px;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="方式三，使用absolute绝对布局和transform-要求父元素为定位元素"><a href="#方式三，使用absolute绝对布局和transform-要求父元素为定位元素" class="headerlink" title="方式三，使用absolute绝对布局和transform,要求父元素为定位元素"></a>方式三，使用<code>absolute</code>绝对布局和<code>transform</code>,要求父元素为定位元素</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">.wrapper&#123;</div><div class="line">    position:realtive;</div><div class="line">&#125;</div><div class="line">.wrapper .inner_el&#123;</div><div class="line">    position:absolute;</div><div class="line">    width:200px;</div><div class="line">    left:50%;</div><div class="line">    transform:translateX(-50%);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="方式四，使用Flexbox弹性布局-要求父元素为flex布局"><a href="#方式四，使用Flexbox弹性布局-要求父元素为flex布局" class="headerlink" title="方式四，使用Flexbox弹性布局    ,要求父元素为flex布局"></a>方式四，使用Flexbox弹性布局    ,要求父元素为flex布局</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">.wrapper&#123;</div><div class="line">    display:flex;</div><div class="line">    flex-direction:row;</div><div class="line">    justify-content:center; /* 居中对齐子元素 */</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="方式五，使用absolute绝对布局和CSS的calc-函数，要求定位元素定宽-父元素为定位元素"><a href="#方式五，使用absolute绝对布局和CSS的calc-函数，要求定位元素定宽-父元素为定位元素" class="headerlink" title="方式五，使用absolute绝对布局和CSS的calc()函数，要求定位元素定宽,父元素为定位元素"></a>方式五，使用<code>absolute</code>绝对布局和CSS的<code>calc()</code>函数，要求定位元素定宽,父元素为定位元素</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"wrapper"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"inner_el"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">.wrapper&#123;</div><div class="line">    position:relative;</div><div class="line">&#125;</div><div class="line">.inner_el&#123;</div><div class="line">    position:absolute;</div><div class="line">    width:200px;</div><div class="line">    left:calc(50% - 100px);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://css-tricks.com/centering-css-complete-guide/" target="_blank" rel="external">Centering in CSS: A Complete Guide</a></li>
+<li><a href="http://www.sketchingwithcss.com/samplechapter/cheatsheet.html" target="_blank" rel="external">THE ULTIMATE FLEXBOX CHEAT SHEET</a></li>
+<li><a href="http://www.tipue.com/blog/center-a-div/" target="_blank" rel="external">THE COMPLETE GUIDE TO CENTERING A DIV</a></li>
+<li><a href="http://howtocenterincss.com/" target="_blank" rel="external">HOW TO CENTER IN CSS</a></li>
+<li><a href="https://umaar.github.io/css-flexbox-demo/" target="_blank" rel="external">CSS Flexbox Examples</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout" target="_blank" rel="external">CSS Flexible Box Layout</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/css/" rel="tag"># css</a>
+          
+            <a href="/tags/css水平居中/" rel="tag"># css水平居中</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/24/Mac-OS-X查找并杀死占用某个端口的进程/" rel="next" title="Mac OS X查找并杀死占用某个端口的进程">
+                <i class="fa fa-chevron-left"></i> Mac OS X查找并杀死占用某个端口的进程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/10/05/CSS垂直居中对齐/" rel="prev" title="CSS垂直居中对齐">
+                CSS垂直居中对齐 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/10/05/CSS元素水平居中对齐/"
+           data-title="CSS元素水平居中对齐" data-url="http://monjer.github.io/2015/10/05/CSS元素水平居中对齐/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#内联元素"><span class="nav-number">1.</span> <span class="nav-text">内联元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#块级元素"><span class="nav-number">2.</span> <span class="nav-text">块级元素</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方式一，使用margin"><span class="nav-number">2.1.</span> <span class="nav-text">方式一，使用margin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方式二-使用absolute绝对布局和负margin，要求元素定宽-且其父元素为定位元素"><span class="nav-number">2.2.</span> <span class="nav-text">方式二,使用absolute绝对布局和负margin，要求元素定宽,且其父元素为定位元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方式三，使用absolute绝对布局和transform-要求父元素为定位元素"><span class="nav-number">2.3.</span> <span class="nav-text">方式三，使用absolute绝对布局和transform,要求父元素为定位元素</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方式四，使用Flexbox弹性布局-要求父元素为flex布局"><span class="nav-number">2.4.</span> <span class="nav-text">方式四，使用Flexbox弹性布局    ,要求父元素为flex布局</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方式五，使用absolute绝对布局和CSS的calc-函数，要求定位元素定宽-父元素为定位元素"><span class="nav-number">2.5.</span> <span class="nav-text">方式五，使用absolute绝对布局和CSS的calc()函数，要求定位元素定宽,父元素为定位元素</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

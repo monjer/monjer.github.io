@@ -1,0 +1,748 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Linux,Unix,rm," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="作用删除系统文件或者目录。rm命令会尝试删除命令行指定路径下的非目录类型(no-directory)文件。如果删除文件需要授权，并且执行命令的输入为终端(terminal)，会要求用户验证确认。 格式1$ rm [-dfiPRrvW] file 常用选项说明 -d，删除包括目录在内的其他类型文件 -i，删除每个文件前都需要确认，不管文件授权，也不管输入为终端(terminal) -f，忽略文件授权">
+<meta name="keywords" content="Linux,Unix,rm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux&#x2F;Unix rm命令">
+<meta property="og:url" content="http://monjer.github.io/2015/10/14/Linux-Unix-rm命令/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="作用删除系统文件或者目录。rm命令会尝试删除命令行指定路径下的非目录类型(no-directory)文件。如果删除文件需要授权，并且执行命令的输入为终端(terminal)，会要求用户验证确认。 格式1$ rm [-dfiPRrvW] file 常用选项说明 -d，删除包括目录在内的其他类型文件 -i，删除每个文件前都需要确认，不管文件授权，也不管输入为终端(terminal) -f，忽略文件授权">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux&#x2F;Unix rm命令">
+<meta name="twitter:description" content="作用删除系统文件或者目录。rm命令会尝试删除命令行指定路径下的非目录类型(no-directory)文件。如果删除文件需要授权，并且执行命令的输入为终端(terminal)，会要求用户验证确认。 格式1$ rm [-dfiPRrvW] file 常用选项说明 -d，删除包括目录在内的其他类型文件 -i，删除每个文件前都需要确认，不管文件授权，也不管输入为终端(terminal) -f，忽略文件授权">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2015/10/14/Linux-Unix-rm命令/"/>
+
+
+
+
+
+  <title>Linux/Unix rm命令 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2015/10/14/Linux-Unix-rm命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux/Unix rm命令</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-10-14T00:00:00+08:00">
+                2015-10-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/10/14/Linux-Unix-rm命令/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/14/Linux-Unix-rm命令/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><p>删除系统文件或者目录。<code>rm</code>命令会尝试删除命令行指定路径下的非目录类型(no-directory)文件。如果删除文件需要授权，并且执行命令的输入为终端(terminal)，会要求用户验证确认。</p>
+<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rm [-dfiPRrvW] file</div></pre></td></tr></table></figure>
+<h3 id="常用选项说明"><a href="#常用选项说明" class="headerlink" title="常用选项说明"></a>常用选项说明</h3><ul>
+<li><code>-d</code>，删除包括目录在内的其他类型文件</li>
+<li><code>-i</code>，删除每个文件前都需要确认，不管文件授权，也不管输入为终端(terminal)</li>
+<li><code>-f</code>，忽略文件授权，不提示确认，直接删除文件。此选项会覆盖<code>-i</code>选项</li>
+<li><code>-v</code>，打印并显示删除文件的信息</li>
+<li><code>-R</code>，等同于<code>-r</code>，递归删除所列目录的文件层次，此选项隐含实现了<code>-d</code>选项的功能。指定<code>-i</code>后，需要用户确认删除的文件，否则则跳过</li>
+</ul>
+<h3 id="用例"><a href="#用例" class="headerlink" title="用例"></a>用例</h3><h4 id="1-直接删除文件a-png"><a href="#1-直接删除文件a-png" class="headerlink" title="1.直接删除文件a.png"></a>1.直接删除文件a.png</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rm a.png</div></pre></td></tr></table></figure>
+<h4 id="2-删除a-png前，提示用户确认"><a href="#2-删除a-png前，提示用户确认" class="headerlink" title="2.删除a.png前，提示用户确认"></a>2.删除a.png前，提示用户确认</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rm -i a.png</div></pre></td></tr></table></figure>
+<h4 id="3-删除空目录"><a href="#3-删除空目录" class="headerlink" title="3.删除空目录"></a>3.删除空目录</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rm <span class="_">-d</span> a</div></pre></td></tr></table></figure>
+<h4 id="4-递归删除目录，包括内部的子目录和文件-目录结构为"><a href="#4-递归删除目录，包括内部的子目录和文件-目录结构为" class="headerlink" title="4.递归删除目录，包括内部的子目录和文件,目录结构为"></a>4.递归删除目录，包括内部的子目录和文件,目录结构为</h4><pre><code>a--&gt;
+    a.png
+    b
+</code></pre><p>命令
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rm -r a</div></pre></td></tr></table></figure></p>
+<h4 id="5-递归删除目录，并打印删除文件的信息-目录结构同例4"><a href="#5-递归删除目录，并打印删除文件的信息-目录结构同例4" class="headerlink" title="5.递归删除目录，并打印删除文件的信息,目录结构同例4"></a>5.递归删除目录，并打印删除文件的信息,目录结构同例4</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rm -rv a</div></pre></td></tr></table></figure>
+<h4 id="6-删除文件a-png，忽略文件的授权，不管文件是否存在"><a href="#6-删除文件a-png，忽略文件的授权，不管文件是否存在" class="headerlink" title="6.删除文件a.png，忽略文件的授权，不管文件是否存在"></a>6.删除文件a.png，忽略文件的授权，不管文件是否存在</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rm <span class="_">-f</span> a.png</div></pre></td></tr></table></figure>
+<h4 id="7-递归删除目录a及其子目录或文件，忽略文件授权，不管目录是否存在"><a href="#7-递归删除目录a及其子目录或文件，忽略文件授权，不管目录是否存在" class="headerlink" title="7.递归删除目录a及其子目录或文件，忽略文件授权，不管目录是否存在"></a>7.递归删除目录a及其子目录或文件，忽略文件授权，不管目录是否存在</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ rm -fr a</div></pre></td></tr></table></figure>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a href="http://www.thegeekstuff.com/2009/06/how-to-linux-delete-directory-using-rmdir-rm-command/" target="_blank" rel="external">5 Practical Examples To Delete / Remove Directory in Linux</a></li>
+<li><a href="http://vbird.dic.ksu.edu.tw/linux_basic/0220filemanager_2.php#cp" target="_blank" rel="external">文件与目录管理</a></li>
+<li><a href="http://unix.stackexchange.com/questions/48227/cannot-remove-some-directory-directory-not-empty" target="_blank" rel="external">“cannot remove ‘some_directory’: Directory not empty”</a></li>
+<li><code>man rm</code></li>
+<li><a href="http://unix.stackexchange.com/questions/12593/how-to-remove-all-the-files-in-a-directory?rq=1" target="_blank" rel="external">How to remove all the files in a directory?</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/Unix/" rel="tag"># Unix</a>
+          
+            <a href="/tags/rm/" rel="tag"># rm</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/10/14/Linux-Unit-which命令/" rel="next" title="Linux/Unit which命令">
+                <i class="fa fa-chevron-left"></i> Linux/Unit which命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/09/SASS使用总结/" rel="prev" title="SASS使用总结">
+                SASS使用总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/10/14/Linux-Unix-rm命令/"
+           data-title="Linux/Unix rm命令" data-url="http://monjer.github.io/2015/10/14/Linux-Unix-rm命令/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#作用"><span class="nav-number">1.</span> <span class="nav-text">作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#格式"><span class="nav-number">2.</span> <span class="nav-text">格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用选项说明"><span class="nav-number">3.</span> <span class="nav-text">常用选项说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用例"><span class="nav-number">4.</span> <span class="nav-text">用例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-直接删除文件a-png"><span class="nav-number">4.1.</span> <span class="nav-text">1.直接删除文件a.png</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-删除a-png前，提示用户确认"><span class="nav-number">4.2.</span> <span class="nav-text">2.删除a.png前，提示用户确认</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-删除空目录"><span class="nav-number">4.3.</span> <span class="nav-text">3.删除空目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-递归删除目录，包括内部的子目录和文件-目录结构为"><span class="nav-number">4.4.</span> <span class="nav-text">4.递归删除目录，包括内部的子目录和文件,目录结构为</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-递归删除目录，并打印删除文件的信息-目录结构同例4"><span class="nav-number">4.5.</span> <span class="nav-text">5.递归删除目录，并打印删除文件的信息,目录结构同例4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-删除文件a-png，忽略文件的授权，不管文件是否存在"><span class="nav-number">4.6.</span> <span class="nav-text">6.删除文件a.png，忽略文件的授权，不管文件是否存在</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-递归删除目录a及其子目录或文件，忽略文件授权，不管目录是否存在"><span class="nav-number">4.7.</span> <span class="nav-text">7.递归删除目录a及其子目录或文件，忽略文件授权，不管目录是否存在</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

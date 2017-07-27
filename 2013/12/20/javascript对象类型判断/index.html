@@ -1,0 +1,818 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="使用typeof操作符typeof操作符号的作用是返回一个用于只是其操作对象类型的字符串。语法如下： 1typeof val val参数作为一个表达式，代表了JavaScript中的对象类型或基本数据类型，typeof运算会返回该对象或基本数据类型的字符串描述。 typeof根据操作对象和对应的类型描述字符串，包括以下几种：                   操作对象或基本数据类型    类型描">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript对象类型判断">
+<meta property="og:url" content="http://monjer.github.io/2013/12/20/javascript对象类型判断/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="使用typeof操作符typeof操作符号的作用是返回一个用于只是其操作对象类型的字符串。语法如下： 1typeof val val参数作为一个表达式，代表了JavaScript中的对象类型或基本数据类型，typeof运算会返回该对象或基本数据类型的字符串描述。 typeof根据操作对象和对应的类型描述字符串，包括以下几种：                   操作对象或基本数据类型    类型描">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript对象类型判断">
+<meta name="twitter:description" content="使用typeof操作符typeof操作符号的作用是返回一个用于只是其操作对象类型的字符串。语法如下： 1typeof val val参数作为一个表达式，代表了JavaScript中的对象类型或基本数据类型，typeof运算会返回该对象或基本数据类型的字符串描述。 typeof根据操作对象和对应的类型描述字符串，包括以下几种：                   操作对象或基本数据类型    类型描">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2013/12/20/javascript对象类型判断/"/>
+
+
+
+
+
+  <title>JavaScript对象类型判断 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2013/12/20/javascript对象类型判断/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JavaScript对象类型判断</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-12-20T00:00:00+08:00">
+                2013-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2013/12/20/javascript对象类型判断/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/12/20/javascript对象类型判断/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="使用typeof操作符"><a href="#使用typeof操作符" class="headerlink" title="使用typeof操作符"></a>使用typeof操作符</h3><p>typeof操作符号的作用是返回一个用于只是其操作对象类型的字符串。语法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typeof</span> val</div></pre></td></tr></table></figure>
+<p><code>val</code>参数作为一个表达式，代表了JavaScript中的对象类型或基本数据类型，<code>typeof</code>运算会返回该对象或基本数据类型的字符串描述。</p>
+<p><code>typeof</code>根据操作对象和对应的类型描述字符串，包括以下几种：</p>
+ <table class="standard-table">
+         <thead>
+  <tr>
+   <th scope="col">操作对象或基本数据类型</th>
+   <th scope="col">类型描述字符串</th>
+  </tr>
+ </thead>
+ <tbody>
+  <tr>
+   <td>Undefined</td>
+   <td><code>“undefined”</code></td>
+  </tr>
+  <tr>
+   <td>Null</td>
+   <td><code>“object”</code></td>
+  </tr>
+  <tr>
+   <td>Boolean</td>
+   <td><code>“boolean”</code></td>
+  </tr>
+  <tr>
+   <td>Number</td>
+   <td><code>“number”</code></td>
+  </tr>
+  <tr>
+   <td>String</td>
+   <td><code>“string”</code></td>
+  </tr>
+  <tr>
+   <td>Function</td>
+   <td><code>“function”</code></td>
+  </tr>
+  <tr>
+   <td>Object(任何其它js对象)</td>
+   <td><code>“object”</code></td>
+  </tr>
+ </tbody>
+</table>
+
+
+<p>例如:
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// string</span></div><div class="line"><span class="keyword">typeof</span> <span class="string">""</span> === <span class="string">"string"</span>;</div><div class="line"><span class="keyword">typeof</span> <span class="string">"abc"</span> === <span class="string">"string"</span> ;</div><div class="line"><span class="keyword">typeof</span> <span class="built_in">String</span>(<span class="string">"abc"</span>) === <span class="string">"string"</span> ;</div><div class="line"><span class="keyword">typeof</span> (<span class="keyword">typeof</span> <span class="number">1</span>) === <span class="string">"string"</span> ;</div><div class="line"></div><div class="line"><span class="comment">// number</span></div><div class="line"><span class="keyword">typeof</span> <span class="number">1</span> === <span class="string">"number"</span> ;</div><div class="line"><span class="keyword">typeof</span> <span class="literal">NaN</span> === <span class="string">"number"</span> ;</div><div class="line"><span class="keyword">typeof</span> <span class="built_in">Math</span>.PI === <span class="string">"number"</span> ;</div><div class="line"><span class="keyword">typeof</span> <span class="literal">Infinity</span> === <span class="string">"number"</span> ;</div><div class="line"><span class="keyword">typeof</span> <span class="built_in">Number</span>(<span class="number">1</span>) === <span class="string">"number"</span>;</div><div class="line"></div><div class="line"><span class="comment">// boolean</span></div><div class="line"><span class="keyword">typeof</span> <span class="literal">true</span> === <span class="string">"boolean"</span> ;</div><div class="line"><span class="keyword">typeof</span> <span class="literal">false</span> === <span class="string">"boolean"</span> ;</div><div class="line"><span class="keyword">typeof</span> <span class="built_in">Boolean</span>(<span class="literal">false</span>) === <span class="string">"boolean"</span>;</div><div class="line"></div><div class="line"><span class="comment">// undefined</span></div><div class="line"><span class="keyword">typeof</span> Undefined === <span class="string">"undefined"</span> ;</div><div class="line"><span class="keyword">typeof</span> val === <span class="string">"undefined"</span>; <span class="comment">// 在js中通过var定义但未初始化的变量值为undefined,任何未通过var定义且未初始化的变量的初值为undefined</span></div><div class="line"></div><div class="line"><span class="comment">// function</span></div><div class="line"><span class="keyword">typeof</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125; === <span class="string">"function"</span> ; </div><div class="line"><span class="keyword">typeof</span> <span class="built_in">String</span> === <span class="string">"function"</span> ;</div><div class="line"><span class="keyword">typeof</span> <span class="built_in">Object</span> === <span class="string">"function"</span> ;</div><div class="line"><span class="keyword">typeof</span> <span class="keyword">new</span> <span class="built_in">Function</span>() === <span class="string">"function"</span> ;</div><div class="line"></div><div class="line"><span class="comment">// object</span></div><div class="line"><span class="keyword">typeof</span> &#123;&#125; === <span class="string">"object"</span> ;</div><div class="line"><span class="keyword">typeof</span> [] === <span class="string">"object"</span> ;</div><div class="line"><span class="keyword">typeof</span> <span class="keyword">new</span> <span class="built_in">Date</span>() === <span class="string">"object"</span> ;</div><div class="line"><span class="keyword">typeof</span> <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"abc"</span>) === <span class="string">"object"</span> ; <span class="comment">// ---1</span></div><div class="line"><span class="keyword">typeof</span> <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="string">"abc"</span>) === <span class="string">"object"</span> ; <span class="comment">// ---2</span></div><div class="line"><span class="keyword">typeof</span> <span class="keyword">new</span> <span class="built_in">Boolean</span>(<span class="string">"abc"</span>) === <span class="string">"object"</span> ;<span class="comment">// ---3</span></div><div class="line"><span class="keyword">typeof</span> <span class="literal">null</span> === <span class="string">"object"</span> ;				<span class="comment">// ---4</span></div></pre></td></tr></table></figure></p>
+<p>以上示例中，在判断对象类型时1,2,3,4四种情况比较特殊，其中1,2,3属于一类，JavaScript中通过<code>new</code>操作符来创建对象，<code>new</code>后面跟的是构造器(constructor)，JavaScript中没有类似于java中的<code>自动装箱/拆箱(Auto-Boxing/Unboxing)</code>机制来完成基本数据类型与其对应对象类型的自动转换，语言的灵活性与语法的规范性不能兼得，所以在实际编程中只能靠约定尽量避免这种会产生歧义的使用方式。</p>
+<p>null值在逻辑上表示空对象指针，这也可以理解<code>typeof</code>返回的返回值为什么是<code>&quot;object&quot;</code>了。所以非空对象类型的正确的判断方式是
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typeof</span> val === <span class="string">"object"</span> &amp;&amp; val !== <span class="literal">null</span></div></pre></td></tr></table></figure></p>
+<p>此外以上判断对象类型的示例中忽略了JavaScript中的正则表达式。由于浏览器之间的差异，对于正则表达式的判断没有一致性的实现，对于正则表达式而言，<code>typeof</code>可能会返回<code>&quot;object&quot;</code>或<code>&quot;function&quot;</code>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typeof</span> /w/ === <span class="string">'function'</span> ;</div><div class="line"><span class="keyword">typeof</span> /w/ === <span class="string">'object'</span></div></pre></td></tr></table></figure></p>
+<h3 id="使用toString方法"><a href="#使用toString方法" class="headerlink" title="使用toString方法"></a>使用toString方法</h3><p>JavaScript语言环境中提供了一些标准的内建对象类型，其中<code>Object</code>类型是所有对象类型的基类，JavaScript中没有纯粹化的<code>类型</code>的概念，而是基于JavaScript中特有的继承模式:<code>原型链继承</code>，所有内建类型对象或自定义类型对象在创建后都会继承<code>Object.prototype</code>中的属性和方法，在Object的原型对象中的<code>toString()</code>方法会返回一个代表对象类型的字符串，该字符串的格式为<code>&quot;[object type]&quot;</code>,其中<code>type</code>则代表对象的类型。如:
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">obj.toString(); <span class="comment">// return [object Object]</span></div></pre></td></tr></table></figure></p>
+<p>Ecmascript5.1版本的规范中对于Object.prototype.toString的描述如下</p>
+<blockquote>
+<p>15.2.4.2 Object.prototype.toString ( )</p>
+<p>   When the toString method is called, the following steps are taken:</p>
+<ol>
+<li><p>If the this value is undefined, return “[object Undefined]”.</p>
+</li>
+<li><p>If the this value is null, return “[object Null]”.</p>
+</li>
+<li><p>Let O be the result of calling ToObject passing the this value as the argument.</p>
+<ol>
+<li><p>Let class be the value of the [[Class]] internal property of O.</p>
+</li>
+<li><p>Return the String value that is the result of concatenating the three Strings “[object “, &gt;class, and “]”.</p>
+</li>
+</ol>
+</li>
+</ol>
+</blockquote>
+<p>因此只要自定义类型没有重写其原型对象中的<code>toString()</code>方法，或着派生自<code>Object</code>的对象没有重写<code>toString()</code>方法，那么调用对象本身的<code>toString()</code>方法可以正确获得其类型描述。如对于内建类型:
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// date</span></div><div class="line"><span class="keyword">new</span> <span class="built_in">Date</span>().toString(); <span class="comment">// return [object Date]</span></div><div class="line"></div><div class="line"><span class="comment">// number</span></div><div class="line"><span class="keyword">var</span> val = <span class="number">1</span> ;</div><div class="line"><span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">1</span>).toString();	<span class="comment">// return [object Number]</span></div><div class="line">val.toString(); <span class="comment">// return [object Number]</span></div><div class="line"></div><div class="line"><span class="comment">// boolean</span></div><div class="line"><span class="keyword">new</span> <span class="built_in">Boolean</span>(<span class="literal">true</span>).toString(); <span class="comment">// return [object Boolean]</span></div><div class="line"><span class="keyword">var</span> val = <span class="literal">true</span> ;</div><div class="line">val.toString(); <span class="comment">// return [object Boolean]</span></div><div class="line"></div><div class="line"><span class="comment">// string</span></div><div class="line"><span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">""</span>).toString();<span class="comment">// return [object String]</span></div><div class="line"><span class="keyword">var</span> val = “” ;</div><div class="line">val.toString(); <span class="comment">// return [object String]</span></div><div class="line"></div><div class="line"><span class="comment">// object</span></div><div class="line"><span class="keyword">new</span> <span class="built_in">Object</span>().toString();<span class="comment">// return [object Object]</span></div><div class="line"></div><div class="line"><span class="comment">// regexp</span></div><div class="line"><span class="keyword">new</span> Regexp().toString();<span class="comment">// return [object Regexp]</span></div><div class="line"><span class="keyword">var</span> val = <span class="regexp">/w/</span> ;</div><div class="line">val.toString();<span class="comment">// return [object Regexp]</span></div><div class="line"></div><div class="line"><span class="comment">// array</span></div><div class="line"><span class="keyword">new</span> <span class="built_in">Array</span>().toString();<span class="comment">// return [object Array]</span></div><div class="line"><span class="keyword">var</span> val = [];</div><div class="line">val.toString();<span class="comment">// return [object Array]</span></div><div class="line"></div><div class="line"><span class="comment">// function</span></div><div class="line"><span class="keyword">new</span> <span class="built_in">Function</span>().toString();<span class="comment">// return [object Function]</span></div><div class="line"><span class="keyword">var</span> val = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">val.toString();<span class="comment">// return [object Function]</span></div><div class="line"></div><div class="line"><span class="comment">// error</span></div><div class="line"><span class="keyword">new</span> <span class="built_in">Error</span>().toString();<span class="comment">// return [object Error]</span></div></pre></td></tr></table></figure></p>
+<p>对于自定义类型:
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">	<span class="keyword">this</span>.name = name ;</div><div class="line">&#125;</div><div class="line"><span class="keyword">new</span> Person().toString();<span class="comment">// return [object Object]</span></div></pre></td></tr></table></figure></p>
+<p>如果自定义类型覆盖<code>toString</code>方法，如:
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Person.prototype.toString = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">return</span> <span class="string">"Person Class"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>那么，之后
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Person().toString() <span class="comment">// return Person Class</span></div></pre></td></tr></table></figure></p>
+<p>因此要在所有对象上都能使用原始的<code>Object.ptototype.toString</code>方法，需要结合<code>Function.prototype.call</code>方法，并将对象作为<code>this</code>参数传递进<code>call</code>方法，如:
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> _toString = <span class="built_in">Object</span>.prototype.toString;</div><div class="line"></div><div class="line">_toString.call(<span class="keyword">new</span> Person());<span class="comment">// return [object Object]</span></div></pre></td></tr></table></figure></p>
+<p>这样相对于<code>typeof</code>来说，使用<code>toString</code>方法来判断不但能区分变量是否是对象类型，甚至可以判断对象的是数组，日期，正则表达式,还是函数。</p>
+<h3 id="jQuery-type-的实现"><a href="#jQuery-type-的实现" class="headerlink" title="jQuery.type()的实现"></a>jQuery.type()的实现</h3><p>jQuery中提供了一个用来判断对象<code>内建</code>类型的方法<a href="http://api.jquery.com/jQuery.type/" target="_blank" rel="external"><code>jQuery.type</code></a>,其内部实现则是结合<code>typeof</code>和<code>toString</code>方法实现的。实现流程其源码如下:</p>
+<ol>
+<li><p>定义保存类型的全称与简写映射的对象</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// [[Class]] -&gt; type pairs</span></div><div class="line">class2type = &#123;&#125;,</div></pre></td></tr></table></figure>
+</li>
+<li><p>定义保存<code>Object.prototype.toString</code>方法的变量,此处使用的是原型继承来实现</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">core_toString = class2type.toString,</div></pre></td></tr></table></figure>
+</li>
+<li><p>建立实际的映射关系,<code>[object type] -- &gt; type</code></p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Populate the class2type map</span></div><div class="line">jQuery.each(<span class="string">"Boolean Number String Function Array Date RegExp Object 		Error"</span>.split(<span class="string">" "</span>), <span class="function"><span class="keyword">function</span>(<span class="params">i, name</span>) </span>&#123;</div><div class="line">	class2type[ <span class="string">"[object "</span> + name + <span class="string">"]"</span> ] = name.toLowerCase();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+<li><p>实现<a href="http://api.jquery.com/jQuery.type/" target="_blank" rel="external"><code>jQuery.type</code></a>方法，并扩展到jQuery中，以下是简化版</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">jQuery.extend(&#123;</div><div class="line">	<span class="attr">type</span>: <span class="function"><span class="keyword">function</span>(<span class="params"> obj </span>) </span>&#123;</div><div class="line">		<span class="keyword">if</span> ( obj == <span class="literal">null</span> ) &#123;</div><div class="line">			<span class="keyword">return</span> <span class="built_in">String</span>( obj );</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">typeof</span> obj === <span class="string">"object"</span> || <span class="keyword">typeof</span> obj === <span class="string">"function"</span> ?</div><div class="line">		class2type[ core_toString.call(obj) ] || <span class="string">"object"</span> :</div><div class="line">		<span class="keyword">typeof</span> obj;</div><div class="line">	&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><a href="http://api.jquery.com/jQuery.type/" target="_blank" rel="external"><code>jQuery.type</code></a>方法调用返回的是字符串类型，所有返回值包括<code>&#39;object&#39;</code>,<code>&#39;null&#39;</code>,<code>&#39;undefined&#39;</code>,<code>&#39;date&#39;</code>,<code>&#39;number&#39;</code>,<code>&#39;function&#39;</code>,<code>&#39;array&#39;</code>,<code>&#39;string&#39;</code>,<code>&#39;regexp&#39;</code>,<code>&#39;boolean&#39;</code></p>
+<blockquote>
+<p>JavaScript中 null == undefined会返回true</p>
+</blockquote>
+<p>具体实例，参见<a href="http://api.jquery.com/jQuery.type/" target="_blank" rel="external"><code>jQuery.type</code></a>官网API</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/toString" target="_blank" rel="external">MDN toString()</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof" target="_blank" rel="external">MDN typeof</a></li>
+<li><a href="http://api.jquery.com/jQuery.type/" target="_blank" rel="external">jQuery.type()</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/11/27/mysql随机选取数据/" rel="next" title="mysql随机选取数据">
+                <i class="fa fa-chevron-left"></i> mysql随机选取数据
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/01/20/Mac-OS-X下命令行方式启动与关闭MySQL服务器/" rel="prev" title="Mac OS X下命令行方式启动与关闭MySQL服务器">
+                Mac OS X下命令行方式启动与关闭MySQL服务器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2013/12/20/javascript对象类型判断/"
+           data-title="JavaScript对象类型判断" data-url="http://monjer.github.io/2013/12/20/javascript对象类型判断/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用typeof操作符"><span class="nav-number">1.</span> <span class="nav-text">使用typeof操作符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用toString方法"><span class="nav-number">2.</span> <span class="nav-text">使用toString方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-type-的实现"><span class="nav-number">3.</span> <span class="nav-text">jQuery.type()的实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

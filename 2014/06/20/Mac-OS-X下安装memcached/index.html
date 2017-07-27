@@ -1,0 +1,781 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mac,memcached," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="memcache是一个C程序，依赖于最新版本的GCC编译器和一个名为libevent的第三方库。memcache支持两种安装方式，  基于Package方式，可以通过系统的package manager来安装。 基于源码构建方式。  本文简单描述在本机Mac OS X(10.8.5)下以源码方式安装memcache的步骤。  libevent是一个异步事件处理函数库，用来处理网络IO、定时器、信号">
+<meta name="keywords" content="mac,memcached">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac OS X下安装memcached">
+<meta property="og:url" content="http://monjer.github.io/2014/06/20/Mac-OS-X下安装memcached/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="memcache是一个C程序，依赖于最新版本的GCC编译器和一个名为libevent的第三方库。memcache支持两种安装方式，  基于Package方式，可以通过系统的package manager来安装。 基于源码构建方式。  本文简单描述在本机Mac OS X(10.8.5)下以源码方式安装memcache的步骤。  libevent是一个异步事件处理函数库，用来处理网络IO、定时器、信号">
+<meta property="og:image" content="http://monjer.github.io/2014/06/20/Mac-OS-X下安装memcached/a1.png">
+<meta property="og:image" content="http://monjer.github.io/2014/06/20/Mac-OS-X下安装memcached/a2.png">
+<meta property="og:image" content="http://monjer.github.io/2014/06/20/Mac-OS-X下安装memcached/a3.png">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mac OS X下安装memcached">
+<meta name="twitter:description" content="memcache是一个C程序，依赖于最新版本的GCC编译器和一个名为libevent的第三方库。memcache支持两种安装方式，  基于Package方式，可以通过系统的package manager来安装。 基于源码构建方式。  本文简单描述在本机Mac OS X(10.8.5)下以源码方式安装memcache的步骤。  libevent是一个异步事件处理函数库，用来处理网络IO、定时器、信号">
+<meta name="twitter:image" content="http://monjer.github.io/2014/06/20/Mac-OS-X下安装memcached/a1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2014/06/20/Mac-OS-X下安装memcached/"/>
+
+
+
+
+
+  <title>Mac OS X下安装memcached | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/06/20/Mac-OS-X下安装memcached/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mac OS X下安装memcached</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-06-20T00:00:00+08:00">
+                2014-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/06/20/Mac-OS-X下安装memcached/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/20/Mac-OS-X下安装memcached/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>memcache是一个C程序，依赖于最新版本的GCC编译器和一个名为<a href="http://www.monkey.org/~provos/libevent/" target="_blank" rel="external">libevent</a>的第三方库。memcache支持两种安装方式，</p>
+<ul>
+<li>基于Package方式，可以通过系统的package manager来安装。</li>
+<li>基于源码构建方式。</li>
+</ul>
+<p>本文简单描述在本机Mac OS X(10.8.5)下以源码方式安装memcache的步骤。</p>
+<blockquote>
+<p>libevent是一个异步事件处理函数库，用来处理网络IO、定时器、信号三种事件类型的事件回调处理。</p>
+</blockquote>
+<h3 id="下载并安装GCC"><a href="#下载并安装GCC" class="headerlink" title="下载并安装GCC"></a>下载并安装GCC</h3><p>默认情况下Mac OS X并没有安装GCC编译器，需要我们自己手工安装。这里有两种方式。</p>
+<ul>
+<li><p>如果本机安装过Apple的Xcode集成开发环境，可以打开Xcode,在其菜单栏选择 <em>Preference…</em> ，之后在弹出的窗口中选择 <em>Downloads</em> 面板，在 <em>Components</em> 一栏中下载 <em>Commoand Line Tools</em> </p>
+<p>  <img src="/2014/06/20/Mac-OS-X下安装memcached/a1.png" alt="a1.png" title="">}</p>
+</li>
+<li><p>如果本机事先没有安装Xcode的话，也可以选择到Apple的开发者站点上去单独<a href="https://developer.apple.com/downloads/index.action?=Command%20Line%20Tools%20%28OS%20X%20Mountain%20Lion%29" target="_blank" rel="external">下载</a><strong>Command Line Tools</strong>的dmg安装包，选择合适的版本下载之后直接运行安装就可以了。当然前提是你有申请Apple的开发者账号。</p>
+<p>  <img src="/2014/06/20/Mac-OS-X下安装memcached/a2.png" alt="a2.png" title="">}</p>
+</li>
+</ul>
+<p>安装完成后，打开终端来输入<code>gcc -v</code>来验证是否安装成功。安装成功后如图显示
+    <img src="/2014/06/20/Mac-OS-X下安装memcached/a3.png" alt="a3.png" title="">}</p>
+<h3 id="下载安装libevent"><a href="#下载安装libevent" class="headerlink" title="下载安装libevent"></a>下载安装libevent</h3><p>在的官网上下载libevent，我下载的是 <em>libevent-2.0.21-stable.tar.gz</em> ,之后切换到 <em>libevent-2.0.21-stable.tar.gz</em> 的目录，依次执行以下命令：
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ tar -zvxf libevent-2.0.21-stable.tar.gz</div><div class="line">$ <span class="built_in">cd</span> libevent-2.0.21-stable</div><div class="line">$ ./configure --prefix=/usr/<span class="built_in">local</span></div><div class="line">$ make</div><div class="line">$ sudo make install</div></pre></td></tr></table></figure></p>
+<p>正常的话，如果安装过程中的log输出没有提示报错的话，那么libevent就已经安装完毕。可以用以下命令查看libevent安装后的结果
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ls /usr/<span class="built_in">local</span>/lib | grep libevent</div></pre></td></tr></table></figure></p>
+<p>我这里输出显示
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">libevent-2.0.5.dylib</div><div class="line">libevent.a</div><div class="line">libevent.dylib</div><div class="line">libevent.la</div><div class="line">libevent_core-2.0.5.dylib</div><div class="line">libevent_core.a</div><div class="line">libevent_core.dylib</div><div class="line">libevent_core.la</div><div class="line">libevent_extra-2.0.5.dylib</div><div class="line">libevent_extra.a</div><div class="line">libevent_extra.dylib</div><div class="line">libevent_extra.la</div><div class="line">libevent_openssl-2.0.5.dylib</div><div class="line">libevent_openssl.a</div><div class="line">libevent_openssl.dylib</div><div class="line">libevent_openssl.la</div><div class="line">libevent_pthreads-2.0.5.dylib</div><div class="line">libevent_pthreads.a</div><div class="line">libevent_pthreads.dylib</div><div class="line">libevent_pthreads.la</div></pre></td></tr></table></figure></p>
+<h3 id="安装memcached"><a href="#安装memcached" class="headerlink" title="安装memcached"></a>安装memcached</h3><p>首先到memcached的官网<a href="http://memcached.org/downloads" target="_blank" rel="external">下载</a>最新的memcache，当前最新版本是 <em>memcached-1.4.20.tar.gz</em> 。之后在终端中切换到 <em>memcached-1.4.20.tar.gz</em> 文件的目录，依次在终端中输入以下命令:
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$ tar memcached-1.4.20.tar.gz</div><div class="line">$ <span class="built_in">cd</span> memcached-1.4.20.</div><div class="line">$ ./configure</div><div class="line">$ make </div><div class="line">$ sudo make install</div></pre></td></tr></table></figure></p>
+<p>所有命令运行完成之后，memcache服务器现在已经成功安装到了你的机器上，默认的安装路径在<code>/usr/local/bin</code>。</p>
+<p>安装完成之后，需要验证是否安装成功。使用以下命令来查看<code>memcached</code>命令行说明
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ man memcached</div></pre></td></tr></table></figure></p>
+<p>如果有显示<code>memcached</code>命令行说明的话，那表明已经安装成功了。</p>
+<h3 id="启动memcached服务器"><a href="#启动memcached服务器" class="headerlink" title="启动memcached服务器"></a>启动memcached服务器</h3><p>默认情况下，memcached服务器启动后会监听TCP的11211端口，和UDP的11211端口，可以用下面的命令按照默认的端口号设置启动memcached服务器
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ memcached <span class="_">-d</span></div></pre></td></tr></table></figure></p>
+<p> <em>-d</em> 参数指示以守护进程(daemon)的方式运行memcached服务器，之后可以查看memcached的启动进程
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ps <span class="_">-a</span> | grep memcached</div></pre></td></tr></table></figure></p>
+<p>我本机的输出为
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">manjunhan:~ manjun.han$ ps|grep memcached</div><div class="line">51685 ttys006    0:00.00 grep memcached</div><div class="line">manjunhan:~ manjun.han$</div></pre></td></tr></table></figure></p>
+<p>服务器启动之后，可以使用<code>telnet</code>连接到服务器进行并输入memcached的命令与memcached服务器进行通信,如
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">manjunhan:~ manjun.han$ telnet localhost 11211</div><div class="line">Trying ::1...</div><div class="line">Connected to localhost.</div><div class="line">Escape character is <span class="string">'^]'</span>.</div></pre></td></tr></table></figure></p>
+<p>使用<code>set</code>命令添加一个缓存条目,如添加一个名为<code>uid,</code>值为<code>1</code>的条目</p>
+<pre><code>set uid 0 0 1
+1
+daemon
+</code></pre><p>使用<code>get</code>命令获取<code>uid</code>的值
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">get uid</div><div class="line">VALUE uid 0 1</div><div class="line">1</div><div class="line">END</div></pre></td></tr></table></figure></p>
+<p>使用<code>stats</code>命令查看memcache服务器的运行状况
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line">stats</div><div class="line">STAT pid 47659</div><div class="line">STAT uptime 99699</div><div class="line">STAT time 1403169221</div><div class="line">STAT version 1.4.13</div><div class="line">STAT libevent 2.0.17-stable</div><div class="line">STAT pointer_size 64</div><div class="line">STAT rusage_user 0.600472</div><div class="line">STAT rusage_system 0.886140</div><div class="line">STAT curr_connections 10</div><div class="line">STAT total_connections 25</div><div class="line">STAT connection_structures 20</div><div class="line">STAT reserved_fds 20</div><div class="line">STAT cmd_get 19</div><div class="line">STAT cmd_set 20</div><div class="line">STAT cmd_flush 1</div><div class="line">STAT cmd_touch 0</div><div class="line">STAT get_hits 11</div><div class="line">STAT get_misses 8</div><div class="line">STAT delete_misses 0</div><div class="line">STAT delete_hits 2</div><div class="line">STAT incr_misses 0</div><div class="line">STAT incr_hits 0</div><div class="line">STAT decr_misses 0</div><div class="line">STAT decr_hits 0</div><div class="line">STAT cas_misses 1</div><div class="line">STAT cas_hits 0</div><div class="line">STAT cas_badval 2</div><div class="line">STAT touch_hits 0</div><div class="line">STAT touch_misses 0</div><div class="line">STAT auth_cmds 0</div><div class="line">STAT auth_errors 0</div><div class="line">STAT bytes_read 1087</div><div class="line">STAT bytes_written 2076</div><div class="line">STAT limit_maxbytes 67108864</div><div class="line">STAT accepting_conns 1</div><div class="line">STAT listen_disabled_num 0</div><div class="line">STAT threads 4</div><div class="line">STAT conn_yields 0</div><div class="line">STAT hash_power_level 16</div><div class="line">STAT hash_bytes 524288</div><div class="line">STAT hash_is_expanding 0</div><div class="line">STAT expired_unfetched 1</div><div class="line">STAT evicted_unfetched 0</div><div class="line">STAT bytes 341</div><div class="line">STAT curr_items 5</div><div class="line">STAT total_items 12</div><div class="line">STAT evictions 0</div><div class="line">STAT reclaimed 1</div><div class="line">END</div></pre></td></tr></table></figure></p>
+<p>输入<code>quit</code>结束并退出telnet连接会话</p>
+<p>此外，可以使用<code>killall</code>命令停止memcached服务器：
+    <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ killall memcached</div></pre></td></tr></table></figure></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://www.monkey.org/~provos/libevent/" target="_blank" rel="external">libevent</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/Libevent" target="_blank" rel="external">libevent wiki</a></li>
+<li><a href="http://stackoverflow.com/questions/9353444/how-to-use-install-gcc-on-mac-os-x-10-8-xcode-4-4" target="_blank" rel="external">How to use/install gcc on Mac OS X 10.8 / Xcode 4.4</a></li>
+<li><a href="http://memcached.org/downloads" target="_blank" rel="external">memcached download</a></li>
+<li><a href="https://code.google.com/p/memcached/wiki/NewCommands" target="_blank" rel="external">memcached Protocol Commands</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mac/" rel="tag"># mac</a>
+          
+            <a href="/tags/memcached/" rel="tag"># memcached</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/06/20/Tomcat访问控制配置/" rel="next" title="Tomcat访问控制配置">
+                <i class="fa fa-chevron-left"></i> Tomcat访问控制配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/06/20/Mac-OS-X下安装Homebrew/" rel="prev" title="Mac OS X下安装Homebrew">
+                Mac OS X下安装Homebrew <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/06/20/Mac-OS-X下安装memcached/"
+           data-title="Mac OS X下安装memcached" data-url="http://monjer.github.io/2014/06/20/Mac-OS-X下安装memcached/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载并安装GCC"><span class="nav-number">1.</span> <span class="nav-text">下载并安装GCC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载安装libevent"><span class="nav-number">2.</span> <span class="nav-text">下载安装libevent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装memcached"><span class="nav-number">3.</span> <span class="nav-text">安装memcached</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动memcached服务器"><span class="nav-number">4.</span> <span class="nav-text">启动memcached服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

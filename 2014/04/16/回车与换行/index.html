@@ -1,0 +1,764 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="回车换行," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="概念解释换行(line feed)，从字面意思理解就是另起一行，如在一个定宽的文本编辑器中，当一段文字的尾部到达行尾时我们需要换到下一行继续输入文字。以下是wiki释义:  换行，是在计算机领域中，换行（newline）或称为Line break或end-of-line（EOL）换行符是一种加在文字最后位置的特殊字符，在换行符的下一个字符将会出现在下一行。  回车(Carriage return)">
+<meta name="keywords" content="回车换行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="回车与换行">
+<meta property="og:url" content="http://monjer.github.io/2014/04/16/回车与换行/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="概念解释换行(line feed)，从字面意思理解就是另起一行，如在一个定宽的文本编辑器中，当一段文字的尾部到达行尾时我们需要换到下一行继续输入文字。以下是wiki释义:  换行，是在计算机领域中，换行（newline）或称为Line break或end-of-line（EOL）换行符是一种加在文字最后位置的特殊字符，在换行符的下一个字符将会出现在下一行。  回车(Carriage return)">
+<meta property="og:image" content="http://monjer.github.io/2014/04/16/回车与换行/1.png">
+<meta property="og:image" content="http://monjer.github.io/2014/04/16/回车与换行/2.png">
+<meta property="og:image" content="http://monjer.github.io/2014/04/16/回车与换行/3.png">
+<meta property="og:image" content="http://monjer.github.io/2014/04/16/回车与换行/4.png">
+<meta property="og:image" content="http://monjer.github.io/2014/04/16/回车与换行/5.png">
+<meta property="og:image" content="http://monjer.github.io/2014/04/16/回车与换行/6.png">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="回车与换行">
+<meta name="twitter:description" content="概念解释换行(line feed)，从字面意思理解就是另起一行，如在一个定宽的文本编辑器中，当一段文字的尾部到达行尾时我们需要换到下一行继续输入文字。以下是wiki释义:  换行，是在计算机领域中，换行（newline）或称为Line break或end-of-line（EOL）换行符是一种加在文字最后位置的特殊字符，在换行符的下一个字符将会出现在下一行。  回车(Carriage return)">
+<meta name="twitter:image" content="http://monjer.github.io/2014/04/16/回车与换行/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2014/04/16/回车与换行/"/>
+
+
+
+
+
+  <title>回车与换行 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/04/16/回车与换行/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">回车与换行</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-04-16T00:00:00+08:00">
+                2014-04-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/04/16/回车与换行/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/16/回车与换行/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="概念解释"><a href="#概念解释" class="headerlink" title="概念解释"></a>概念解释</h3><p><strong>换行(line feed)</strong>，从字面意思理解就是另起一行，如在一个定宽的文本编辑器中，当一段文字的尾部到达行尾时我们需要换到下一行继续输入文字。以下是wiki释义:</p>
+<blockquote>
+<p>换行，是在计算机领域中，换行（newline）或称为Line break或end-of-line（EOL）换行符是一种加在文字最后位置的特殊字符，在换行符的下一个字符将会出现在下一行。</p>
+</blockquote>
+<p><strong>回车(Carriage return)</strong>，简写为CR，这源于老式打字机的一个设计，以下是wiki释义：</p>
+<blockquote>
+<p>回车这术语用于打字机的板手。若打字机的语言由左至右书写的语言．回车用于将承载装纸滚筒的机架（carriage）移到最右边，以便令印字位置对准一行的开头，同时顺便转动滚筒，换至下一行。第一个有动力的回车功能是是在1960年由Smith Corona加入电打字机中，此键一般会标示为carriage return或return。</p>
+</blockquote>
+<h3 id="不同平台下字符的表示"><a href="#不同平台下字符的表示" class="headerlink" title="不同平台下字符的表示"></a>不同平台下字符的表示</h3><p>在计算机中，<strong>回车符(\r)</strong>和<strong>换行符(\n)</strong>都属于控制字符(或称，非打印字符)，本身并不是一个可写字符。在ASCII码中，<strong>回车符</strong>的值为<strong>0x0A</strong>,<strong>换行符</strong>的置为<strong>0x0D</strong>,由于历史原因，不同平台下在使用换行字符方面存在一些差异，这些差异在跨平台时会导致文字排版的错乱。不同的平台下使用的换行方式分类如下：</p>
+<ul>
+<li>LF：在Unix或Unix相容系統（GNU/Linux, AIX, Xenix, Mac OS X, …）、BeOS、Amiga、RISC OS</li>
+<li>CR+LF：MS-DOS、Microsoft Windows、大部分非Unix的系統</li>
+<li>CR：Apple II家族，Mac OS至版本9</li>
+</ul>
+<h3 id="Noteplus中的Line-Ending处理"><a href="#Noteplus中的Line-Ending处理" class="headerlink" title="Noteplus中的Line Ending处理"></a>Noteplus中的Line Ending处理</h3><p>多数的文本编辑器都提供Line Ending的转换处理，用来解决跨平台下文本文件的换行文本，如Windows下的NotePlus。打开NotePlus新建文件并输入几行文本，默认情况下编辑器本身不显示控制字符，如图：</p>
+<img src="/2014/04/16/回车与换行/1.png" alt="1.png" title="">
+<p>可以通过工具栏上的<em>视图</em>&gt;<em>显示符号</em>&gt;<em>显示行尾符</em>来查看编辑器当前用来处理换行的字符，如图：</p>
+<img src="/2014/04/16/回车与换行/2.png" alt="2.png" title="">
+<p>设置完成之后，由于是在Windows平台下的文本编辑器，所以显示的换行使用的是<strong>CRLF</strong>,如图</p>
+<img src="/2014/04/16/回车与换行/3.png" alt="3.png" title="">
+<p>另外，文本编辑器本身也可以了换行符类型的选择，如，在工具栏的<em>编辑</em>&gt;<em>档案格式转换</em>中，可以看到编辑器支持转换为三种格式的文本类型</p>
+<ul>
+<li>转换为Windows格式</li>
+<li>转换UNIX格式</li>
+<li>转换为MAC格式</li>
+</ul>
+<p>如图：</p>
+<img src="/2014/04/16/回车与换行/4.png" alt="4.png" title="">
+<p>由于是在Windows平台下，所以默认的文本格式为<em>Windows格式</em>,我们选择<strong>转换为UNIX格式</strong>,之后可以看到编辑器的换行处理是用<strong>LF</strong>，如图：</p>
+<img src="/2014/04/16/回车与换行/5.png" alt="5.png" title="">
+<p>也可以选择<strong>转换为MAC格式</strong>，如图</p>
+<img src="/2014/04/16/回车与换行/6.png" alt="6.png" title="">
+<p>在<strong>转换为MAC格式</strong>后保存文件，并用Windows下的notepad打开该文件，可以看到所有的文本都显示在同一行中。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://blog.csdn.net/tskyfree/article/details/8121951" target="_blank" rel="external">Windows、Unix、Mac不同操作系统的换行问题-剖析回车符\r和换行符\n</a></li>
+<li><a href="http://sourceforge.net/p/notepad-plus/discussion/1290589/thread/beb5c565/" target="_blank" rel="external">如何替换换行符</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/%E6%8F%9B%E8%A1%8C" target="_blank" rel="external">换行</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Control_character" target="_blank" rel="external">Control character</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2006/04/post_213.html" target="_blank" rel="external">回车和换行</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/回车换行/" rel="tag"># 回车换行</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/04/05/表单元素的disabled属性与readonly属性说明/" rel="next" title="表单元素的disabled属性与readonly属性说明">
+                <i class="fa fa-chevron-left"></i> 表单元素的disabled属性与readonly属性说明
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/04/20/MAC-OS-X中安装MySQL/" rel="prev" title="MAC OS X中安装MySQL">
+                MAC OS X中安装MySQL <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/04/16/回车与换行/"
+           data-title="回车与换行" data-url="http://monjer.github.io/2014/04/16/回车与换行/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概念解释"><span class="nav-number">1.</span> <span class="nav-text">概念解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不同平台下字符的表示"><span class="nav-number">2.</span> <span class="nav-text">不同平台下字符的表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Noteplus中的Line-Ending处理"><span class="nav-number">3.</span> <span class="nav-text">Noteplus中的Line Ending处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

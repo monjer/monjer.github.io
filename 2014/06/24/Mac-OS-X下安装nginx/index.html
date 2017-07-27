@@ -1,0 +1,773 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mac,nginx," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="安装环境本机Mac系统版本为Mac OS X 10.9.3，选择安装稳定版的(Stable Version)nginx-1.6.0。  本机已经通过Xcode在系统上安装了GCC编译器,如果你的Mac系统上尚未安装GCC的话，首先需要将GCC安装到自己的机器上。  安装过程 下载nginx  在nginx官网下载页面上下载nginx-1.6.0稳定版。  还原压缩文件  下载完成之后将压缩包解压缩">
+<meta name="keywords" content="mac,nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac OS X下安装nginx">
+<meta property="og:url" content="http://monjer.github.io/2014/06/24/Mac-OS-X下安装nginx/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="安装环境本机Mac系统版本为Mac OS X 10.9.3，选择安装稳定版的(Stable Version)nginx-1.6.0。  本机已经通过Xcode在系统上安装了GCC编译器,如果你的Mac系统上尚未安装GCC的话，首先需要将GCC安装到自己的机器上。  安装过程 下载nginx  在nginx官网下载页面上下载nginx-1.6.0稳定版。  还原压缩文件  下载完成之后将压缩包解压缩">
+<meta property="og:image" content="http://monjer.github.io/2014/06/24/Mac-OS-X下安装nginx/1.png">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mac OS X下安装nginx">
+<meta name="twitter:description" content="安装环境本机Mac系统版本为Mac OS X 10.9.3，选择安装稳定版的(Stable Version)nginx-1.6.0。  本机已经通过Xcode在系统上安装了GCC编译器,如果你的Mac系统上尚未安装GCC的话，首先需要将GCC安装到自己的机器上。  安装过程 下载nginx  在nginx官网下载页面上下载nginx-1.6.0稳定版。  还原压缩文件  下载完成之后将压缩包解压缩">
+<meta name="twitter:image" content="http://monjer.github.io/2014/06/24/Mac-OS-X下安装nginx/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2014/06/24/Mac-OS-X下安装nginx/"/>
+
+
+
+
+
+  <title>Mac OS X下安装nginx | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/06/24/Mac-OS-X下安装nginx/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mac OS X下安装nginx</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-06-24T00:00:00+08:00">
+                2014-06-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/06/24/Mac-OS-X下安装nginx/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/24/Mac-OS-X下安装nginx/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h3><p>本机Mac系统版本为Mac OS X 10.9.3，选择安装稳定版的(Stable Version)nginx-1.6.0。</p>
+<blockquote>
+<p>本机已经通过Xcode在系统上安装了GCC编译器,如果你的Mac系统上尚未安装GCC的话，首先需要将GCC安装到自己的机器上。</p>
+</blockquote>
+<h3 id="安装过程"><a href="#安装过程" class="headerlink" title="安装过程"></a>安装过程</h3><ol>
+<li><p>下载nginx</p>
+<p> 在nginx官网下载页面上<a href="http://nginx.org/en/download.html" target="_blank" rel="external">下载nginx-1.6.0稳定版</a>。</p>
+</li>
+<li><p>还原压缩文件</p>
+<p> 下载完成之后将压缩包解压缩还原，首先打开Mac OS X的终端，使用<code>cd</code>命令切换到nginx下载文件的目录中，之后可以使用以下命令</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ tar -zvxf nginx-1.6.0.tar.gz</div></pre></td></tr></table></figure>
+<p> 解压缩文件完成后，如果未指定文件的解压目录，则会在同级目录下生成新的源码目录<strong>nginx-1.6.0</strong></p>
+</li>
+<li><p>编译安装    </p>
+<p> 在终端中使用<code>cd</code>命令切换到nginx源码目录中，依次运行以下命令</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> nginx-1.6.0</div><div class="line">$ ./configure</div></pre></td></tr></table></figure>
+<p> <code>./configure</code>首次执行完成后,会出现以下错误提示</p>
+<blockquote>
+<p>./configure: error: the HTTP rewrite module requires the PCRE library.
+ You can either disable the module by using –without-http_rewrite_module
+ option, or install the PCRE library into the system, or build the PCRE library
+ statically from the source with nginx by using –with-pcre=<path></path> option.</p>
+</blockquote>
+<p> 大意是，nginx的HTTP rewrite模块依赖一个名为PCRE第三方库，可以选择使用<code>-without-http_rewrite_module</code>选项禁止HTTP rewite模块；或者在当前机器上先安装PCRE库，之后在重新运行该命令，继续安装过程。
+ 我选择先安装PCRE库，因为之前我的本机安装了Homebrew管理工具，所以我使用Homebrew来安装PCRE库（否则需要<a href="http://www.pcre.org/" target="_blank" rel="external">下载PCRE</a>库的源码，然后编译安装,这个比较麻烦）。</p>
+<p> 在终端中，使用Homebrew安装PCRE过程如下：</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">192:nginx-1.6.0 manjun.han$ brew search pcre</div><div class="line">pcre	pcre++</div><div class="line">192:nginx-1.6.0 manjun.han$ brew install pcre</div><div class="line">==&gt; Downloading https://downloads.sf.net/project/machomebrew/Bottles/pcre-8.35.mavericks.bottle.tar.gz</div><div class="line"><span class="comment">### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###  100.0%</span></div><div class="line">==&gt; Pouring pcre-8.35.mavericks.bottle.tar.gz</div><div class="line">🍺  /usr/<span class="built_in">local</span>/Cellar/pcre/8.35: 146 files, 5.8M</div><div class="line">192:nginx-1.6.0 manjun.han$</div></pre></td></tr></table></figure>
+<p> PCRE安装完成后，在终端<strong>重新切换</strong>到在nginx的目录中，重新运行<code>./configure</code>命令，本次命令顺利执行完毕，继续运行以下命令</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ make</div></pre></td></tr></table></figure>
+<p> 之后继续执行以下命令</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ `sudo make install`</div></pre></td></tr></table></figure>
+<p> <code>sudo make install</code>命令结束，nginx安装完成后终端输出nginx的配置信息</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">Configuration summary</div><div class="line">  + using system PCRE library</div><div class="line">  + OpenSSL library is not used</div><div class="line">  + md5: using system crypto library</div><div class="line">  + sha1: using system crypto library</div><div class="line">  + using system zlib library</div><div class="line"></div><div class="line">  nginx path prefix: <span class="string">"/usr/local/nginx"</span></div><div class="line">  nginx binary file: <span class="string">"/usr/local/nginx/sbin/nginx"</span></div><div class="line">  nginx configuration prefix: <span class="string">"/usr/local/nginx/conf"</span></div><div class="line">  nginx configuration file: <span class="string">"/usr/local/nginx/conf/nginx.conf"</span></div><div class="line">  nginx pid file: <span class="string">"/usr/local/nginx/logs/nginx.pid"</span></div><div class="line">  nginx error <span class="built_in">log</span> file: <span class="string">"/usr/local/nginx/logs/error.log"</span></div><div class="line">  nginx http access <span class="built_in">log</span> file: <span class="string">"/usr/local/nginx/logs/access.log"</span></div><div class="line">  nginx http client request body temporary files: <span class="string">"client_body_temp"</span></div><div class="line">  nginx http proxy temporary files: <span class="string">"proxy_temp"</span></div><div class="line">  nginx http fastcgi temporary files: <span class="string">"fastcgi_temp"</span></div><div class="line">  nginx http uwsgi temporary files: <span class="string">"uwsgi_temp"</span></div><div class="line">  nginx http scgi temporary files: <span class="string">"scgi_temp"</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>以上三个命令成功运行完成后，nginx已经成功安装到Mac机上。</p>
+<h3 id="启动并验证nginx服务器"><a href="#启动并验证nginx服务器" class="headerlink" title="启动并验证nginx服务器"></a>启动并验证nginx服务器</h3><p>由安装过程的最后一步提示信息可知nginx服务器的安装目录在<code>/usr/local/nginx/sbin/nginx</code>,需要在命令行中启动nginx，切换到nginx的目录
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/nginx/sbin/</div></pre></td></tr></table></figure></p>
+<p>启动nugix
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo ./nginx</div></pre></td></tr></table></figure></p>
+<p>打开浏览器，在地址栏中输入<code>localhost</code>,显示nginx的欢迎页，则说明nginx已经成功安装完毕。</p>
+<img src="/2014/06/24/Mac-OS-X下安装nginx/1.png" alt="1.png" title="">
+<blockquote>
+<p>nginx默认运行在80端口下，由于80端口容易产生冲突，安装过程中需注意。</p>
+</blockquote>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://wiki.nginx.org/Install" target="_blank" rel="external">nginx install</a></li>
+<li><a href="http://nginx.org/en/docs/configure.html" target="_blank" rel="external">Building nginx from Sources</a></li>
+<li><a href="http://wiki.nginx.org/NginxCommandLine" target="_blank" rel="external">nginx CommandLine</a></li>
+<li><a href="http://www.pcre.org/" target="_blank" rel="external">PCRE</a></li>
+<li><a href="http://os.51cto.com/art/201111/304611.htm" target="_blank" rel="external">Nginx安装配置与服务搭建</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mac/" rel="tag"># mac</a>
+          
+            <a href="/tags/nginx/" rel="tag"># nginx</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/06/20/Mac-OS-X下安装Homebrew/" rel="next" title="Mac OS X下安装Homebrew">
+                <i class="fa fa-chevron-left"></i> Mac OS X下安装Homebrew
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/10/11/Objective-C编码规范/" rel="prev" title="Objective-C编码规范">
+                Objective-C编码规范 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/06/24/Mac-OS-X下安装nginx/"
+           data-title="Mac OS X下安装nginx" data-url="http://monjer.github.io/2014/06/24/Mac-OS-X下安装nginx/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装环境"><span class="nav-number">1.</span> <span class="nav-text">安装环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装过程"><span class="nav-number">2.</span> <span class="nav-text">安装过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动并验证nginx服务器"><span class="nav-number">3.</span> <span class="nav-text">启动并验证nginx服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

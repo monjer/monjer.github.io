@@ -1,0 +1,781 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ES6,JavaScript," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="语句块(Block)和块级作用域(Block Scope)在计算机语言中，语句块或代码快顾名思义，是一组代码的集合，包含零个或多个变量声明或语句。在基于C结构的语言中，语句块开始于{,结束于}, 语句块通常在流程控制语句(if，for，while)中使用和。每个语句块都会生成与之对应的块级作用域，其内部声明的变量只在自身可见，在外部访问这些变量将引发错误。 var和变量声明提升在ES6之前，Jav">
+<meta name="keywords" content="ES6,JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES6笔记 - 块级作用域">
+<meta property="og:url" content="http://monjer.github.io/2016/05/10/ES6笔记-块级作用域/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="语句块(Block)和块级作用域(Block Scope)在计算机语言中，语句块或代码快顾名思义，是一组代码的集合，包含零个或多个变量声明或语句。在基于C结构的语言中，语句块开始于{,结束于}, 语句块通常在流程控制语句(if，for，while)中使用和。每个语句块都会生成与之对应的块级作用域，其内部声明的变量只在自身可见，在外部访问这些变量将引发错误。 var和变量声明提升在ES6之前，Jav">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ES6笔记 - 块级作用域">
+<meta name="twitter:description" content="语句块(Block)和块级作用域(Block Scope)在计算机语言中，语句块或代码快顾名思义，是一组代码的集合，包含零个或多个变量声明或语句。在基于C结构的语言中，语句块开始于{,结束于}, 语句块通常在流程控制语句(if，for，while)中使用和。每个语句块都会生成与之对应的块级作用域，其内部声明的变量只在自身可见，在外部访问这些变量将引发错误。 var和变量声明提升在ES6之前，Jav">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2016/05/10/ES6笔记-块级作用域/"/>
+
+
+
+
+
+  <title>ES6笔记 - 块级作用域 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2016/05/10/ES6笔记-块级作用域/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ES6笔记 - 块级作用域</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-10T21:34:27+08:00">
+                2016-05-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/05/10/ES6笔记-块级作用域/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/10/ES6笔记-块级作用域/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="语句块-Block-和块级作用域-Block-Scope"><a href="#语句块-Block-和块级作用域-Block-Scope" class="headerlink" title="语句块(Block)和块级作用域(Block Scope)"></a>语句块(Block)和块级作用域(Block Scope)</h3><p>在计算机语言中，语句块或代码快顾名思义，是一组代码的集合，包含零个或多个变量声明或语句。在基于C结构的语言中，语句块开始于<code>{</code>,结束于<code>}</code>,
+语句块通常在流程控制语句(<code>if</code>，<code>for</code>，<code>while</code>)中使用和。每个语句块都会生成与之对应的<em>块级作用域</em>，其内部声明的变量只在自身可见，在外部访问这些变量将引发错误。</p>
+<h3 id="var和变量声明提升"><a href="#var和变量声明提升" class="headerlink" title="var和变量声明提升"></a>var和变量声明提升</h3><p>在ES6之前，JavaScript没有块级作用域，使用<code>var</code>声明的变量会解析为其所处上下文的最起始的位置，这称作<em>变量声明提升(Variable hoisting)</em> ,
+函数内部声明的变量为局部变量，函数外部声明的变量称为全局变量，在对应的上下文中这些变量声明总会被“提前”到所有语句前,访问这些“提升后”的变量会返回<code>undefined</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// demo-1</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="comment">// 局部变量</span></div><div class="line">    <span class="built_in">console</span>.log(x); <span class="comment">// undefined ， 变量提前访问</span></div><div class="line">    <span class="keyword">var</span> x = <span class="string">'local variable'</span> ; <span class="comment">// 变量声明</span></div><div class="line">    <span class="built_in">console</span>.log(x); <span class="comment">// local variable</span></div><div class="line">&#125;</div><div class="line">fun();</div><div class="line"></div><div class="line"><span class="comment">// demo-2</span></div><div class="line"><span class="built_in">console</span>.log(y);  <span class="comment">// undefined,变量提前访问</span></div><div class="line"><span class="keyword">var</span> y = <span class="string">'global variable'</span> ;</div><div class="line"><span class="built_in">console</span>.log(y);  <span class="comment">// global variable</span></div></pre></td></tr></table></figure>
+<p>以上变量<code>x</code>,<code>y</code>在正式声明前就可以直接访问，只不过变量值为<code>undefined</code>，这就是所谓的变量提升，以上js代码可以理解为</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// demo-1</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> x ;</div><div class="line">    <span class="comment">// 局部变量</span></div><div class="line">    <span class="built_in">console</span>.log(x); <span class="comment">// undefined ， 变量提前访问</span></div><div class="line">    x = <span class="string">'local variable'</span> ; <span class="comment">// 变量声明</span></div><div class="line">    <span class="built_in">console</span>.log(x); <span class="comment">// local variable</span></div><div class="line">&#125;</div><div class="line">fun();</div><div class="line"></div><div class="line"><span class="comment">// demo-2</span></div><div class="line"><span class="keyword">var</span> y ;</div><div class="line"><span class="built_in">console</span>.log(y);  <span class="comment">// undefined,变量提前访问</span></div><div class="line">y = <span class="string">'global variable'</span> ;</div><div class="line"><span class="built_in">console</span>.log(y);  <span class="comment">// global variable</span></div></pre></td></tr></table></figure>
+<h3 id="ES6块级作用域声明"><a href="#ES6块级作用域声明" class="headerlink" title="ES6块级作用域声明"></a>ES6块级作用域声明</h3><p>块级作用域声明指的那些只能在指定语句快内可以访问的变量声明，在函数声明或者一个<code>{</code>，<code>}</code>语句块都可以创建一个块级作用域。ES6中引入了<code>let</code>声明和
+<code>const</code>声明来支持块级作用域。</p>
+<h4 id="let变量声明"><a href="#let变量声明" class="headerlink" title="let变量声明"></a>let变量声明</h4><p><code>let</code>关键字声明变量的语法与原来的<code>var</code>关键字声明变量的语法时类似的，不同的时<code>let</code>声明的变量不存在<em>变量提升</em>的效果，所有使用<code>let</code>声明的变量都只能
+在当前的代码块中使用，试图在变量声明前或在外部作用域访问这些变量会引发错误。
+以下代码是错误的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(x); <span class="comment">// 错误，变量x未定义</span></div><div class="line"><span class="keyword">let</span> x = <span class="number">10</span> ;</div></pre></td></tr></table></figure>
+<p>更正后
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> x = <span class="number">10</span> ;</div><div class="line"><span class="built_in">console</span>.log(x); <span class="comment">// 错误，变量x未定义</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> x = <span class="number">10</span> ;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(x); <span class="comment">// 错误，变量x未定义</span></div></pre></td></tr></table></figure>
+<p>更正
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> x = <span class="number">10</span>;</div><div class="line">  <span class="built_in">console</span>.log(x);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="const变量声明"><a href="#const变量声明" class="headerlink" title="const变量声明"></a>const变量声明</h4><p>ES6之前部支持常量的声明，对常量的需求要求我们通过一些约定和规范来实现类似于常量的实现，如常量一律使用大写字母
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> MAX_COUNT = <span class="string">'10'</span>;</div></pre></td></tr></table></figure></p>
+<p>但这些所谓的常量仍然有可能被错误的覆盖，<code>MAX_COUNT = &#39;something else&#39;</code>。
+现在ES6支持使用<code>const</code>关键子来声明常量，所有<code>const</code>变量必须在声明时进行初始化，并且声明后是不能对其进行赋值。
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> MAX_COUNT = <span class="number">10</span>; <span class="comment">// 正确</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> MAX_COUNT ; <span class="comment">// 错误，变量未初始化</span></div><div class="line">MAX_COUNT = <span class="number">10</span> ;</div></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> MAX_COUNT = <span class="number">10</span> ;</div><div class="line">MAX_COUNT = <span class="number">100</span> ; <span class="comment">// 错误，const变量不能覆盖</span></div></pre></td></tr></table></figure>
+<p>与<code>let</code>一样，<code>const</code>变量也是块级声明，变量只存在于当前块级作用域之内。
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="keyword">const</span> MAX_COUNT = <span class="number">10</span> ;</div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(MAX_COUNT); <span class="comment">// 错误，变量未定义</span></div></pre></td></tr></table></figure></p>
+<p><code>const</code>变量阻止的是对变量绑定的覆盖，而这并不妨碍我们对其变量内容进行修改，如
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> CONF = &#123;</div><div class="line">  <span class="attr">maxCount</span>: <span class="number">10</span></div><div class="line">&#125;;</div><div class="line">CONF.maxCount = <span class="number">100</span>; <span class="comment">// 正确</span></div><div class="line">CONF = &#123;&#125;; <span class="comment">// 错误</span></div></pre></td></tr></table></figure></p>
+<h4 id="不允许变量重复声明"><a href="#不允许变量重复声明" class="headerlink" title="不允许变量重复声明"></a>不允许变量重复声明</h4><p>在<strong>同一个作用域</strong>之内使用<code>let</code>和<code>const</code>声明的变量不允许重复声明</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> a = <span class="number">1</span> ;</div><div class="line">  <span class="keyword">var</span> a = <span class="number">1</span> ; <span class="comment">// 错误，变量重复声明</span></div><div class="line">&#125;</div><div class="line">&#123;</div><div class="line">  <span class="keyword">const</span> MAX_COUNT = <span class="number">10</span>;</div><div class="line">  <span class="keyword">var</span> MAX_COUNT = <span class="number">10</span>; <span class="comment">// 错误，变量重复声明</span></div><div class="line">&#125;</div><div class="line">&#123;</div><div class="line">  <span class="keyword">let</span> a = <span class="number">1</span> ;</div><div class="line">  <span class="keyword">const</span> a = <span class="number">1</span> ; <span class="comment">// 错误，变量重复声明</span></div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">fn</span>(<span class="params">opt</span>)</span>&#123;</div><div class="line">  <span class="keyword">let</span> opt ; <span class="comment">// 错误，变量重复声明</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="临时性死区-The-Temporal-Dead-Zone"><a href="#临时性死区-The-Temporal-Dead-Zone" class="headerlink" title="临时性死区(The Temporal Dead Zone)"></a>临时性死区(The Temporal Dead Zone)</h4><p>临时性死区是一个术语，用来说明<code>let</code>变量和<code>const</code>变量在声明前是不能使用的。在一个块级作用域内的变量，要么被<em>变量提升</em>至全局作用域或者函数起始处(使用<code>var</code>声明的变量)，
+要么被放入临时性死区(使用<code>let</code>或<code>const</code>声明的变量)，任何访问（即使是<code>typeof</code>关键字判断变量类型）临时性死区变量的行为都会引发错误，只有一个变量被正式声明时，它才会被从临时性死区移除掉。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="keyword">typeof</span> value);  <span class="comment">// 引用错误</span></div><div class="line">  <span class="keyword">let</span> value = <span class="number">10</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="for循环和函数内的let"><a href="#for循环和函数内的let" class="headerlink" title="for循环和函数内的let"></a>for循环和函数内的<code>let</code></h4><p>ES6之前for循环的存在这变量作用域的问题，如
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; <span class="number">10</span> ; i++)&#123;</div><div class="line">  <span class="comment">// so something</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(i); <span class="comment">// 10</span></div></pre></td></tr></table></figure></p>
+<p>使用<code>let</code>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; <span class="number">10</span> ; i++)&#123;</div><div class="line">  <span class="comment">// so something</span></div><div class="line">&#125;</div><div class="line"><span class="built_in">console</span>.log(i); <span class="comment">// 错误，变量i未定义</span></div></pre></td></tr></table></figure></p>
+<p>ES6之前for循环内函数使用存在这变量作用域的问题，如
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> funs = [];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; <span class="number">10</span> ; i++)&#123;</div><div class="line">  funs.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line">funs.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">fn</span>)</span>&#123;</div><div class="line">  fn(); <span class="comment">// 打印十次10</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>在ES6之前这可以使用一种IIFE(立即执行函数表达式 -  immediately-invoked function expressions )来解决，如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> funs = [];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span> ; i &lt; <span class="number">10</span> ; i++)&#123;</div><div class="line">  funs.push((<span class="function"><span class="keyword">function</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(num);</div><div class="line">    &#125;</div><div class="line">  &#125;)(i));</div><div class="line">&#125;</div><div class="line">funs.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">fn</span>)</span>&#123;</div><div class="line">  fn(); <span class="comment">// 依次打印数字0到9</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>在ES6中可以使用<code>let</code>关键字直接解决这个问题
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> funs = [];</div><div class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span> ; i &lt; <span class="number">10</span> ; i++)&#123;</div><div class="line">  funs.push(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(i);</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line">funs.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">fn</span>)</span>&#123;</div><div class="line">  fn(); <span class="comment">// 依次打印数字0到9</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<h4 id="全局作用域下的块绑定"><a href="#全局作用域下的块绑定" class="headerlink" title="全局作用域下的块绑定"></a>全局作用域下的块绑定</h4><p>在全局作用域下使用<code>var</code>声明的变量为全局变量，全局变量会自动变为全局对象的属性，在浏览器中全局对象指的是<code>window</code>对象,在node中指的是<code>global</code>对象,如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">  <span class="attr">length</span>:<span class="number">0</span></div><div class="line">&#125; ;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.a.length); <span class="comment">// 0</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.a == a); <span class="comment">// true</span></div></pre></td></tr></table></figure>
+<p>带来的风险是现存的全局对象可能会被错误的覆盖掉</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> <span class="built_in">Date</span> = <span class="string">"something else"</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.Date); <span class="comment">// something else</span></div><div class="line"><span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>(); <span class="comment">// TypeError: Date is not a constructor</span></div></pre></td></tr></table></figure>
+<p>相反，在全局作用域下使用<code>let</code>或<code>const</code>声明的变量不会成为全局对象的属性，而会创建一个新的变量绑定。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> <span class="built_in">Date</span> = <span class="string">"something else"</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.Date); <span class="comment">// something else</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">window</span>.Date == <span class="built_in">Date</span>); <span class="comment">// false</span></div><div class="line"><span class="keyword">let</span> d = <span class="keyword">new</span> <span class="built_in">window</span>.Date(); <span class="comment">// d为Date类型对象</span></div><div class="line"></div><div class="line"><span class="keyword">const</span> MAX_COUNT = <span class="number">10</span> ;</div><div class="line"><span class="built_in">console</span>.log(MAX_COUNT <span class="keyword">in</span> <span class="built_in">window</span>); <span class="comment">// false</span></div></pre></td></tr></table></figure>
+<h4 id="let和const最佳实践"><a href="#let和const最佳实践" class="headerlink" title="let和const最佳实践"></a>let和const最佳实践</h4><ul>
+<li>使用<code>let</code>替换<code>var</code>；</li>
+<li>默认使用<code>const</code>声明变量，在你支持变量修改的时候使用<code>let</code>；<blockquote>
+<p>背后的依据是：变量未知的改动是bug的重要来源。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://en.wikipedia.org/wiki/Block_(programming" target="_blank" rel="external">Block (programming)</a>)</li>
+<li><a href="https://en.wikipedia.org/wiki/Scope_(computer_science" target="_blank" rel="external">Block Scope</a>#Block_scope)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types" target="_blank" rel="external">Grammar and types</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ES6/" rel="tag"># ES6</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/09/检测IE和Edge/" rel="next" title="检测IE和Edge">
+                <i class="fa fa-chevron-left"></i> 检测IE和Edge
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/13/ES6笔记-Function扩展/" rel="prev" title="ES6笔记 - Function扩展">
+                ES6笔记 - Function扩展 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/05/10/ES6笔记-块级作用域/"
+           data-title="ES6笔记 - 块级作用域" data-url="http://monjer.github.io/2016/05/10/ES6笔记-块级作用域/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#语句块-Block-和块级作用域-Block-Scope"><span class="nav-number">1.</span> <span class="nav-text">语句块(Block)和块级作用域(Block Scope)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#var和变量声明提升"><span class="nav-number">2.</span> <span class="nav-text">var和变量声明提升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ES6块级作用域声明"><span class="nav-number">3.</span> <span class="nav-text">ES6块级作用域声明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#let变量声明"><span class="nav-number">3.1.</span> <span class="nav-text">let变量声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#const变量声明"><span class="nav-number">3.2.</span> <span class="nav-text">const变量声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不允许变量重复声明"><span class="nav-number">3.3.</span> <span class="nav-text">不允许变量重复声明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#临时性死区-The-Temporal-Dead-Zone"><span class="nav-number">3.4.</span> <span class="nav-text">临时性死区(The Temporal Dead Zone)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#for循环和函数内的let"><span class="nav-number">3.5.</span> <span class="nav-text">for循环和函数内的let</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全局作用域下的块绑定"><span class="nav-number">3.6.</span> <span class="nav-text">全局作用域下的块绑定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#let和const最佳实践"><span class="nav-number">3.7.</span> <span class="nav-text">let和const最佳实践</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

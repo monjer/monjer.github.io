@@ -1,0 +1,788 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jQuery,DOM," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="浏览器种类的不同，相同浏览器的版本不同,决定了我们在使用某项Web功能都需要考虑浏览器的兼容性问题，其中浏览器特性检测算是被广泛使用的用来解决浏览器兼容性问题的方法。特性检测的目的不是识别我们当前使用的浏览器的类型或者是浏览器的版本，而是意在识别浏览器是否支持或者说是某个功能。根据浏览器对该功能的实现情况，我们可以在代码中正确的做出流程切分，对于不支持某个功能的浏览器我们可以进行优雅的降级处理，从">
+<meta name="keywords" content="jQuery,DOM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery中检测DOM原生方法是否存在的方式">
+<meta property="og:url" content="http://monjer.github.io/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="浏览器种类的不同，相同浏览器的版本不同,决定了我们在使用某项Web功能都需要考虑浏览器的兼容性问题，其中浏览器特性检测算是被广泛使用的用来解决浏览器兼容性问题的方法。特性检测的目的不是识别我们当前使用的浏览器的类型或者是浏览器的版本，而是意在识别浏览器是否支持或者说是某个功能。根据浏览器对该功能的实现情况，我们可以在代码中正确的做出流程切分，对于不支持某个功能的浏览器我们可以进行优雅的降级处理，从">
+<meta property="og:image" content="http://monjer.github.io/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/chrome.png">
+<meta property="og:image" content="http://monjer.github.io/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/safari.png">
+<meta property="og:image" content="http://monjer.github.io/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/opera.png">
+<meta property="og:image" content="http://monjer.github.io/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/ie.png">
+<meta property="og:image" content="http://monjer.github.io/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/firefox.png">
+<meta property="og:image" content="http://monjer.github.io/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/firefox2.png">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery中检测DOM原生方法是否存在的方式">
+<meta name="twitter:description" content="浏览器种类的不同，相同浏览器的版本不同,决定了我们在使用某项Web功能都需要考虑浏览器的兼容性问题，其中浏览器特性检测算是被广泛使用的用来解决浏览器兼容性问题的方法。特性检测的目的不是识别我们当前使用的浏览器的类型或者是浏览器的版本，而是意在识别浏览器是否支持或者说是某个功能。根据浏览器对该功能的实现情况，我们可以在代码中正确的做出流程切分，对于不支持某个功能的浏览器我们可以进行优雅的降级处理，从">
+<meta name="twitter:image" content="http://monjer.github.io/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/chrome.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/"/>
+
+
+
+
+
+  <title>jQuery中检测DOM原生方法是否存在的方式 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">jQuery中检测DOM原生方法是否存在的方式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-30T00:00:00+08:00">
+                2015-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/30/jQuery中检测DOM原生方法是否存在的方式/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>浏览器种类的不同，相同浏览器的版本不同,决定了我们在使用某项Web功能都需要考虑浏览器的兼容性问题，其中浏览器<strong>特性检测</strong>算是被广泛使用的用来解决浏览器兼容性问题的方法。<strong>特性检测</strong>的目的不是识别我们当前使用的浏览器的类型或者是浏览器的版本，而是意在识别浏览器是否支持或者说是某个功能。根据浏览器对该功能的实现情况，我们可以在代码中正确的做出流程切分，对于不支持某个功能的浏览器我们可以进行优雅的降级处理，从而避免我们做的某个功能出现只能运行在某个浏览器或某个浏览器的特定版本上。</p>
+<p>jQuery作为最流行的js框架，其最大的特征之一是:Cross Browser,很好解决了诸多在Web开发中面临的浏览器兼容性问题，让Web开发这将更多的精力放在所要实现业务逻辑上。</p>
+<h3 id="DOM-navive方法检测"><a href="#DOM-navive方法检测" class="headerlink" title="DOM navive方法检测"></a>DOM navive方法检测</h3><p>在解决兼容性问题上，jQuery充分的利用了<strong>特性检测</strong>。<strong>特性检测</strong>的内容包含了诸多方面，其中一项是用来检测浏览器是否支持某个原生的DOM API。它用了一个很简短正则表达式即解决了该问题，该表达式定义为：
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rnative = <span class="regexp">/^[^&#123;]+\&#123;\s*\[native \w/</span>,</div></pre></td></tr></table></figure></p>
+<p>以上是用来检测浏览器是否支持某个DOM native方法的正则表达式，可以看看jQuery是利用该正则表达式都做个那些<strong>特性检测</strong>。</p>
+<ol>
+<li><p>检测<code>getElementsByClassName</code>方法</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Support: IE&lt;9</span></div><div class="line">support.getElementsByClassName = rnative.test( doc.getElementsByClassName );</div></pre></td></tr></table></figure>
+</li>
+<li><p>检测<code>querySelector API</code></p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( (support.qsa = rnative.test( doc.querySelectorAll )) ) &#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>检测<code>matchesSelector</code>方法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( (support.matchesSelector = rnative.test( (matches = docElem.matches ||</div><div class="line">    docElem.webkitMatchesSelector ||</div><div class="line">    docElem.mozMatchesSelector ||</div><div class="line">    docElem.oMatchesSelector ||</div><div class="line">    docElem.msMatchesSelector) )) ) &#123;</div><div class="line">    <span class="comment">// to do</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>检测<code>compareDocumentPosition</code>方法</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">hasCompare = rnative.test( docElem.compareDocumentPosition );</div></pre></td></tr></table></figure>
+</li>
+<li><p>检测<code>contains</code>方法</p>
+ <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rnative.test( docElem.contains )</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>以上检测代码来自于<code>jQuery-1.11.2</code>对于DOM native方法的特性检测。</p>
+<h3 id="Web控制台和toString方法"><a href="#Web控制台和toString方法" class="headerlink" title="Web控制台和toString方法"></a>Web控制台和toString方法</h3><p>那么该正则表达式是如何起作用的呢？打开任意浏览器的控制台，在控制台中输入<code>document.getElementsByClassName</code>，然后回车执行，各浏览器的返回情况如图</p>
+<p><strong>chrome:</strong></p>
+<img src="/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/chrome.png" alt="chrome.png" title="">
+<p><strong>safari</strong>
+<img src="/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/safari.png" alt="safari.png" title=""></p>
+<p><strong>opera</strong></p>
+<img src="/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/opera.png" alt="opera.png" title="">
+<p><strong>IE</strong></p>
+<img src="/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/ie.png" alt="ie.png" title="">
+<p><strong>firefox</strong></p>
+<img src="/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/firefox.png" alt="firefox.png" title="">
+<p>可以看到除了火狐外，所有浏览器控制台输出的是一个字符串：
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getElementsByClassName</span>(<span class="params"></span>) </span>&#123; [native code] &#125;</div></pre></td></tr></table></figure></p>
+<p>因为默认情况下直接在命令行输入代码执行等价于执行<code>console.log(document.getElementsByClassName)</code>，<code>console.log(arg)</code>类似于C语言的<code>printf</code>语句，用来打印字符串，对于<code>console.log(arg)</code>来说，如果传入的参数不是字符串类型，而是对象类型，那么默认会调用对象的<code>toString</code>方法。</p>
+<p><code>toString()</code>方法是<code>Object</code>原型对象上的方法，用来返回一个描述对象的字符串。因此所有对象都有<code>toString()</code>方法，在需要将对象转换为字符串值的时候，或者在一个代码执行中需要对象以文本表示时，会自动调用对象的<code>toString()</code>方法，如把字符串和一个对象连接输出
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> str = <span class="string">""</span>+&#123;&#125; ;</div><div class="line"><span class="built_in">console</span>.log(str); <span class="comment">// ouput --&gt; [object Object]</span></div></pre></td></tr></table></figure></p>
+<p>每个对象都可以覆盖此方法并返回一个字符串。在js下函数或者方法也是对象，也就是说默认情况下对于DOM native方法，它们的<code>toString()</code>方法返回的是一致的字符串，也就是我们之前看到的输出。</p>
+<p>貌似狐火有些特殊，但在我们执行<code>&quot;&quot;+document.getElementsByClassName</code>，输出的是</p>
+<img src="/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/firefox2.png" alt="firefox2.png" title="">
+<p>可以看到也是类似的字符串
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getElementsByClassName</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    [native code]</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>只不过多了换行，其实直接执行<code>document.getElementsByClassName</code>,火狐输出的是<code>document.getElementsByClassName</code>方法的一个的占位符。</p>
+<h3 id="RegexObj-test-str"><a href="#RegexObj-test-str" class="headerlink" title="RegexObj.test(str)"></a>RegexObj.test(str)</h3><p>回到之前的正则表达式上来，js中对于一个正则表达式的<code>test</code>方法接受一个字符串参数，返回一个布尔值，检测该字符串是否与正则表达式匹配。所以执行对于<code>rnative.test( doc.getElementsByClassName );</code>等价于<code>rnative.test( doc.getElementsByClassName.toString());</code>。</p>
+<p>分解<code>rnative</code>的至多个子表达式：</p>
+<ul>
+<li><code>^[^{]+\</code>匹配除了<code>{</code>外的任何字符一到多次；</li>
+<li><code>\{\s*</code>匹配以<code>\{\s*</code>字符开始，以及任意空白符零次或多次;</li>
+<li><code>\[native \w</code>匹配以<code>[native</code>开始的，后跟包括下划线的任何单词字符。</li>
+</ul>
+<p>所有字表达式连起来的最终匹配结果正好满足对类似<code>function getElementsByClassName() { [native code] }</code>字符串的检测。</p>
+<p>完。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Console" target="_blank" rel="external">MDN Console</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/toString" target="_blank" rel="external">Object.prototype.toString()</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test" target="_blank" rel="external">RegExp.prototype.test</a></li>
+<li><a href="http://jquery.com/browser-support/" target="_blank" rel="external">Browser Support</a></li>
+<li><a href="https://msdn.microsoft.com/zh-cn/hh561717.aspx" target="_blank" rel="external">Browser and feature detection: Make your website look great everywhere</a></li>
+<li><a href="https://msdn.microsoft.com/zh-cn/hh475813" target="_blank" rel="external">Browser and feature detection: Make your website look great everywhere中文</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/jQuery/" rel="tag"># jQuery</a>
+          
+            <a href="/tags/DOM/" rel="tag"># DOM</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/28/CSS-Selector-API-matches/" rel="next" title="CSS Selector API - matches">
+                <i class="fa fa-chevron-left"></i> CSS Selector API - matches
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/21/javascript中的媒体查询/" rel="prev" title="JavaScript中的媒体查询">
+                JavaScript中的媒体查询 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2015/03/30/jQuery中检测DOM原生方法是否存在的方式/"
+           data-title="jQuery中检测DOM原生方法是否存在的方式" data-url="http://monjer.github.io/2015/03/30/jQuery中检测DOM原生方法是否存在的方式/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#DOM-navive方法检测"><span class="nav-number">1.</span> <span class="nav-text">DOM navive方法检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web控制台和toString方法"><span class="nav-number">2.</span> <span class="nav-text">Web控制台和toString方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RegexObj-test-str"><span class="nav-number">3.</span> <span class="nav-text">RegexObj.test(str)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

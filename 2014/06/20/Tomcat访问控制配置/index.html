@@ -1,0 +1,746 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="tomcat," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="monjer's note" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Tomcat提供基于主机名和IP两种方式，提供访问控制功能，达到过滤请求的效果，可以限定应用只能被指定的主机或IP访问，也可以拒绝指定的主机或IP访问的请求。Tomcat通过两个特殊的Value配置来实现访问控制，其中RemoteHostValve实现基于主机名的过滤，RemoteAddrValve实现基于IP地址的过滤，二者的配置过程类似，  支持deny和allow两种模式。 每个模式均已正则">
+<meta name="keywords" content="tomcat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat访问控制配置">
+<meta property="og:url" content="http://monjer.github.io/2014/06/20/Tomcat访问控制配置/index.html">
+<meta property="og:site_name" content="monjer&#39;s note">
+<meta property="og:description" content="Tomcat提供基于主机名和IP两种方式，提供访问控制功能，达到过滤请求的效果，可以限定应用只能被指定的主机或IP访问，也可以拒绝指定的主机或IP访问的请求。Tomcat通过两个特殊的Value配置来实现访问控制，其中RemoteHostValve实现基于主机名的过滤，RemoteAddrValve实现基于IP地址的过滤，二者的配置过程类似，  支持deny和allow两种模式。 每个模式均已正则">
+<meta property="og:updated_time" content="2017-05-28T07:01:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tomcat访问控制配置">
+<meta name="twitter:description" content="Tomcat提供基于主机名和IP两种方式，提供访问控制功能，达到过滤请求的效果，可以限定应用只能被指定的主机或IP访问，也可以拒绝指定的主机或IP访问的请求。Tomcat通过两个特殊的Value配置来实现访问控制，其中RemoteHostValve实现基于主机名的过滤，RemoteAddrValve实现基于IP地址的过滤，二者的配置过程类似，  支持deny和allow两种模式。 每个模式均已正则">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://monjer.github.io/2014/06/20/Tomcat访问控制配置/"/>
+
+
+
+
+
+  <title>Tomcat访问控制配置 | monjer's note</title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2b4f08dbd457a5e207bff33f77b0eafc";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">monjer's note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/06/20/Tomcat访问控制配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Tomcat访问控制配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-06-20T00:00:00+08:00">
+                2014-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/06/20/Tomcat访问控制配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/20/Tomcat访问控制配置/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Tomcat提供基于主机名和IP两种方式，提供访问控制功能，达到过滤请求的效果，可以限定应用只能被指定的主机或IP访问，也可以拒绝指定的主机或IP访问的请求。Tomcat通过两个特殊的<strong>Value配置</strong>来实现访问控制，其中<code>RemoteHostValve</code>实现基于主机名的过滤，<code>RemoteAddrValve</code>实现基于IP地址的过滤，二者的配置过程类似，</p>
+<ul>
+<li>支持<code>deny</code>和<code>allow</code>两种模式。</li>
+<li>每个模式均已正则表达式的方式来添加访问控制列表项。</li>
+<li>支持<code>denyStatus</code>配置，自定义被拒绝请求的HTTP响应状态码(默认为403)。</li>
+<li>试用范围为<strong>Engine</strong>,<strong>Host</strong>,<strong>Context</strong></li>
+</ul>
+<p>在Tomcat的<code>conf/server.xml</code>或<code>$CATALINA_HOME/Catalina/{host_name}/{app_name}.xml</code>配置文件中，通过<code>&lt;Value\/&gt;</code>标签可以添加访问控制并指定控制规则。</p>
+<h3 id="基于IP地址的访问控制RemoteAddrValve"><a href="#基于IP地址的访问控制RemoteAddrValve" class="headerlink" title="基于IP地址的访问控制RemoteAddrValve"></a>基于IP地址的访问控制<code>RemoteAddrValve</code></h3><p>基于IP地址的访问控制，服务器会获取提交请求的客户端的IP地址，来匹配访问控制列表。</p>
+<p>如，限定名为<code>myApp</code>的应用只能在本地访问
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/myApp"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Value</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.RemoteAddrValve"</span></span></div><div class="line">    	 <span class="attr">allow</span>=<span class="string">"127.0.0.1"</span> <span class="attr">deny</span>=<span class="string">""</span>&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="基于主机名的访问控制RemoteHostValve"><a href="#基于主机名的访问控制RemoteHostValve" class="headerlink" title="基于主机名的访问控制RemoteHostValve"></a>基于主机名的访问控制<code>RemoteHostValve</code></h3><p>基于主机名的访问控制，服务器会获取提交请求的客户端的主机名称，来匹配访问控制列表。</p>
+<p>如，限定<code>myApp</code>应用拒绝来自名为<code>www.dangersite.com</code>的请求
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/myApp"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Value</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.RemoteHostValve"</span></span></div><div class="line">    	 <span class="attr">allow</span>=<span class="string">""</span> <span class="attr">deny</span>=<span class="string">"www\.dangersite\.com"</span>&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>需要注意的是，在基于主机名的过滤过程，在<code>Connector</code>配置中必须开启<strong>DNS查询</strong>功能，因为Tomcat是通过<code>ServletRequest.getRemoteHost()</code>的方式来获取主机名称的。Tomcat首先获取提交请求主机的IP地址，然后通过DNS查询方式获取该IP地址对应的主机名，之后在与过滤规则进行匹配。<a href="http://tomcat.apache.org/tomcat-7.0-doc/config/http.html" target="_blank" rel="external">HTTP Connector</a>中通过设置<code>enableLookups</code>属性为<code>true</code>,可以开启DNS查询功能，但因为这个DNS查询的过程会影响Tomcat服务器的性能，因此默认情况下<a href="http://tomcat.apache.org/tomcat-7.0-doc/config/http.html" target="_blank" rel="external">HTTP Connector</a>不支持DNS查询的，因此<code>ServletRequest.getRemoteHost()</code>获取到的是提交请求的主机的IP地址。</p>
+<blockquote><p><code>RemoteHostValve</code>中关于过滤请求的入口方法调用
+    <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invoke</span><span class="params">(Request request, Response response)</span></span></div><div class="line">              <span class="keyword">throws</span> IOException, ServletException &#123;</div><div class="line">      process(request.getRequest().getRemoteHost(), request, response);</div><div class="line">     &#125;</div><div class="line">     </div></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="扩大访问控制的范围"><a href="#扩大访问控制的范围" class="headerlink" title="扩大访问控制的范围"></a>扩大访问控制的范围</h3><p>以上描述都是基于单应用的访问控制，<code>&lt;Value&gt;</code>是配置在<code>&lt;Context&gt;</code>下面的，此外可以通过在<code>&lt;Host&gt;</code>或<code>&lt;Engine&gt;</code>下来添加<code>&lt;Value&gt;</code>配置以扩大访问控制的粒度。如，
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Value</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.RemoteHostValve"</span></span></div><div class="line">    	 <span class="attr">allow</span>=<span class="string">""</span> <span class="attr">deny</span>=<span class="string">"www\.dangersite\.com"</span>&gt;</div><div class="line">   	<span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"appA"</span>/&gt;</span></div><div class="line">   	<span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"appB"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>以上的配置会阻止<code>www.dangersite.com</code>主机访问<code>localhost</code>下任何一个应用。</p>
+<h3 id="自定义HTTP响应状态码"><a href="#自定义HTTP响应状态码" class="headerlink" title="自定义HTTP响应状态码"></a>自定义HTTP响应状态码</h3><p>开启访问控制后，被拒绝的请求，Tomcat定义一个HTTP响应状态码，以说明请求失败的原因，可通过<code>&lt;Value&gt;</code>的<code>denyStatus</code>属性来设置该状态码，该属性的默认值为<code>403</code>（拒绝请求）。如，我们可以配置该属性的值为404，
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">path</span>=<span class="string">"/myApp"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">Value</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.RemoteAddrValve"</span></span></div><div class="line">    	 <span class="attr">allow</span>=<span class="string">"127.0.0.1"</span> <span class="attr">deny</span>=<span class="string">""</span> <span class="attr">denyStatus</span>=<span class="string">"404"</span>&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">Context</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>这样，外网发送到<code>myApp</code>的请求，都会被重定返回404错误，我们可以配置<code>myApp</code>的<code>web.xml</code>来自定义发生404错误后的跳转，如
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">error-page</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">error-code</span>&gt;</span>404<span class="tag">&lt;/<span class="name">error-code</span>&gt;</span></div><div class="line">  	<span class="tag">&lt;<span class="name">location</span>&gt;</span>/404.jsp<span class="tag">&lt;/<span class="name">location</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">error-page</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://tomcat.apache.org/tomcat-7.0-doc/config/http.html" target="_blank" rel="external">The HTTP Connector</a></li>
+<li><a href="http://tomcat.apache.org/tomcat-7.0-doc/config/valve.html#Access_Control" target="_blank" rel="external">Access Control</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/tomcat/" rel="tag"># tomcat</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/06/10/Firefox-v23以后Javascript的禁用设置/" rel="next" title="Firefox v23以后Javascript的禁用设置">
+                <i class="fa fa-chevron-left"></i> Firefox v23以后Javascript的禁用设置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/06/20/Mac-OS-X下安装memcached/" rel="prev" title="Mac OS X下安装memcached">
+                Mac OS X下安装memcached <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/06/20/Tomcat访问控制配置/"
+           data-title="Tomcat访问控制配置" data-url="http://monjer.github.io/2014/06/20/Tomcat访问控制配置/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="monjer" />
+          <p class="site-author-name" itemprop="name">monjer</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于IP地址的访问控制RemoteAddrValve"><span class="nav-number">1.</span> <span class="nav-text">基于IP地址的访问控制RemoteAddrValve</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于主机名的访问控制RemoteHostValve"><span class="nav-number">2.</span> <span class="nav-text">基于主机名的访问控制RemoteHostValve</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩大访问控制的范围"><span class="nav-number">3.</span> <span class="nav-text">扩大访问控制的范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义HTTP响应状态码"><span class="nav-number">4.</span> <span class="nav-text">自定义HTTP响应状态码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">monjer</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"monjer"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
