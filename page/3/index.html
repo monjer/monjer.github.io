@@ -2,10 +2,8 @@
 
 
 
-  
 
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next muse" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -108,7 +106,7 @@
     scheme: 'Muse',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
-    motion: true,
+    motion: false,
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -253,6 +251,144 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2016/04/27/iOS中Web页面的打开场景及判断/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2016/04/27/iOS中Web页面的打开场景及判断/" itemprop="url">iOS中Web页面的打开场景及判断</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-04-27T16:11:56+08:00">
+                2016-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/04/27/iOS中Web页面的打开场景及判断/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/27/iOS中Web页面的打开场景及判断/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在iOS中打开页面的场景通常包括三种</p>
+<ul>
+<li>在Safari打开；</li>
+<li>在native应用中的WebView打开；</li>
+<li>以主屏Web Application，使用standalone模式打开；</li>
+</ul>
+<p>不同的场景通常某些页面的JavaScript代码的调用逻辑需要进行特殊的处理，所以打开页面后，我们需要在前台准确的判断当前页面所处iOS的容器环境，以下是使用JavaScript代码进行的检测：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> userAgent = <span class="built_in">window</span>.navigator.userAgent.toLowerCase(),</div><div class="line">    standalone = <span class="built_in">window</span>.navigator.standalone,</div><div class="line">    safari = <span class="regexp">/safari/</span>.test( userAgent ) ,</div><div class="line">    isIOS = <span class="regexp">/iphone|ipod|ipad/</span>.test( userAgent ),</div><div class="line">    isSafari =  <span class="literal">false</span> ,</div><div class="line">    isWebView =  <span class="literal">false</span> ,</div><div class="line">    isStandalone = <span class="literal">false</span> ;</div><div class="line"></div><div class="line"><span class="keyword">if</span>(isIOS)&#123;</div><div class="line">  isSafari = safari &amp;&amp; !standalone ;</div><div class="line">  isStandalone = standalone &amp;&amp; !isSafari;</div><div class="line">  isWebView = (!isSafari &amp;&amp; !isStandalone);</div><div class="line">&#125;<span class="keyword">else</span>&#123;</div><div class="line">  <span class="comment">// not iOS</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以上代码主要使用正则表达式结合特殊的字符串对UserAgent进行检测，此外iOS下的Safari添加了一个特殊的只读属性<code>window.navigator.standalone</code>来判断一个页面是否在全屏模式下打开。在页面中加入以下meta声明可以触发全屏模式。
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"apple-mobile-web-app-capable"</span> <span class="attr">content</span>=<span class="string">"yes"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>使用<a href="https://www.npmjs.com/package/is-webview" target="_blank" rel="external">is-webview</a>也可以完成类似的功能，同时支持在node端判断请求是否来自WebView。</p>
+</blockquote>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://developer.apple.com/library/ios/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html" target="_blank" rel="external">Configuring Web Applications</a></li>
+<li><a href="http://stackoverflow.com/questions/4460205/detect-ipad-iphone-webview-via-javascript" target="_blank" rel="external">detect ipad/iphone webview via javascript</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -1744,157 +1880,6 @@ HTTP的3XX响应码用来进行重定向，最常用的时301-页面永久移到
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2016/03/18/获取浏览器滚动条的宽度/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/03/18/获取浏览器滚动条的宽度/" itemprop="url">获取浏览器滚动条的宽度</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-03-18T22:39:58+08:00">
-                2016-03-18
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/03/18/获取浏览器滚动条的宽度/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/18/获取浏览器滚动条的宽度/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>动态布局的场景中，使用绝对布局来定位元素是一种常见的布局手段，为了实现精确到像素级别的定位，有时我们经常需要处理DOM元素因内容溢出而导致发生滚动的情况，
-其实这时一般我们要处理和计算的是因滚动而出现的滚动条的宽度。这是为了实现精确布局所要面对的一种情况，以下是计算浏览器滚动条宽度涉及到的方法和概念。</p>
-<h3 id="盒式模型"><a href="#盒式模型" class="headerlink" title="盒式模型"></a>盒式模型</h3><p>浏览器为了描述页面上的每个元素，引入了盒式模型的概念，在HTML文档中，每个元素都被描述为一个矩形盒子，意在以此来定义元素的属性，如尺寸，背景，边框等，
-之后浏览器根据这些属性信息可以正确的在浏览器中把元素渲染出来。</p>
-<p>对于描述元素空间占用的信息，盒式模型引入了几个边界，包括:内容边界(content edge),内边界(padding edge),边框边界(border edge),外边界(margin edge)</p>
-<blockquote>
-<p>DOM元素盒式模型的概念参见<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/box_model" target="_blank" rel="external">盒模型</a></p>
-</blockquote>
-<h3 id="offertWidth-height-amp-amp-clientWidth-Height"><a href="#offertWidth-height-amp-amp-clientWidth-Height" class="headerlink" title="offertWidth[height] &amp;&amp; clientWidth[Height]"></a>offertWidth[height] &amp;&amp; clientWidth[Height]</h3><p>对于样式来说，可以用盒模型进行定义和描述，从编码角度来说，DOM文档对象模型中也定义了相对应的属性，来获取元素的尺寸信息，
-其中包括offsetWidth[height]和clientWidth[height]属性，关于这两个属性的作用，可以直接用图说明：</p>
-<h4 id="offsetWidth-Height"><a href="#offsetWidth-Height" class="headerlink" title="offsetWidth[Height]"></a>offsetWidth[Height]</h4><img src="/2016/03/18/获取浏览器滚动条的宽度/box-module2.png" alt="box-module2.png" title="">
-<p>以offsetWidth属性为例，offsetWidth = contentWidth + paddingWidth + borderWidth + [scrollBarWidth]</p>
-<p>如果出现内容滚动的话，offsetWidth还要添加scrollBar的宽度</p>
-<h4 id="clientWidth-clientHeight"><a href="#clientWidth-clientHeight" class="headerlink" title="clientWidth[clientHeight]"></a>clientWidth[clientHeight]</h4><img src="/2016/03/18/获取浏览器滚动条的宽度/box-module.png" alt="box-module.png" title="">
-<p>以clientWidth属性为例，clientWidth = contentWidth + paddingWidth,</p>
-<h3 id="计算scrollBar的宽度"><a href="#计算scrollBar的宽度" class="headerlink" title="计算scrollBar的宽度"></a>计算scrollBar的宽度</h3><p>由以上图示所示，可以基本得到计算浏览器滚动条的方法，如果我们将元素的边框border设置为零，那么其实scrollBar的宽度为
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// el.borderWidth = 0 ;</span></div><div class="line"><span class="keyword">var</span> scrollBarWidth = el.offsetWidth - elclientWidth ;</div></pre></td></tr></table></figure></p>
-<p>直接上代码，不依赖任何框架的实现
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> scrollBarWidth = (<span class="function"><span class="keyword">function</span> <span class="title">scrollBarWidth</span> (<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">var</span> d = <span class="built_in">document</span>;</div><div class="line">    <span class="keyword">var</span> b = d.body ;</div><div class="line">    <span class="keyword">var</span> div =  d.createElement(<span class="string">'div'</span>);</div><div class="line">    div.style.width = <span class="string">'50px'</span> ;</div><div class="line">    div.style.height = <span class="string">'50px'</span> ;</div><div class="line">    div.style.overflowY = <span class="string">'scroll'</span>,</div><div class="line">    div.style.position = <span class="string">'absolute'</span>;</div><div class="line">    div.style.top = <span class="string">'-10000px'</span>;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> innerDiv = d.createElement(<span class="string">'div'</span>);</div><div class="line">    div.appendChild(innerDiv);</div><div class="line">    b.appendChild(div);</div><div class="line">    <span class="keyword">var</span> scrollBarWidth = div.offsetWidth - div.clientWidth ;</div><div class="line">    b.removeChild(div);</div><div class="line">    <span class="keyword">return</span> scrollBarWidth;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure></p>
-<p>基于jQuery会更简单些
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> scrollBarWidth = (<span class="function"><span class="keyword">function</span> <span class="title">scrollbarSize</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> $wrapper = $(<span class="string">"&lt;div&gt;"</span>).css(&#123;<span class="attr">width</span>:<span class="number">50</span>, <span class="attr">height</span>:<span class="number">50</span>, <span class="attr">overflowY</span>:<span class="string">"scroll"</span>, <span class="attr">position</span>:<span class="string">"absolute"</span>, <span class="attr">top</span>:<span class="number">-10000</span>&#125;);</div><div class="line">    <span class="keyword">var</span> $inner = $(<span class="string">"&lt;div&gt;"</span>).css(&#123;<span class="attr">width</span>:<span class="string">"100%"</span>, <span class="attr">height</span>:<span class="string">"100%"</span>&#125;);</div><div class="line">    $wrapper.append($inner).appendTo(<span class="string">"body"</span>);</div><div class="line">    <span class="keyword">var</span> w1 = $wrapper.innerWidth();</div><div class="line">    <span class="keyword">var</span> w2 = $inner.innerWidth();</div><div class="line">    $wrapper.remove();</div><div class="line">    <span class="keyword">return</span>  w1 - w2;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure></p>
-<p>此外也可以引申出如何判断当前文档中已存在的元素是否处于滚动状态
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> *  @param &#123;DOM Element&#125; el  待检测元素</div><div class="line"> *  @param &#123;Boolean&#125; horizonal 是否检测元素水平滚动</div><div class="line"> *  @return &#123;Boolean&#125;</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">elScrolling</span>(<span class="params">el , horizonal</span>)</span>&#123;</div><div class="line">    <span class="comment">// 水平滚动</span></div><div class="line">    <span class="keyword">if</span>(horizonal)&#123;</div><div class="line">        <span class="keyword">return</span> el.offsetHeight &gt; el.clientHeight ;</div><div class="line">    &#125;<span class="keyword">else</span>&#123;</div><div class="line">        <span class="keyword">return</span> el.offsetWidth &gt; el.clientWidth ;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Determining_the_dimensions_of_elements" target="_blank" rel="external">Determining the dimensions of elements</a></li>
-<li><a href="http://stackoverflow.com/questions/1248081/get-the-browser-viewport-dimensions-with-javascript/8876069#8876069" target="_blank" rel="external">Get the browser viewport dimensions with JavaScript</a></li>
-<li><a href="http://stackoverflow.com/questions/7501761/div-scrollbar-width" target="_blank" rel="external">div scrollbar width</a></li>
-<li><a href="http://davidwalsh.name/detect-scrollbar-width" target="_blank" rel="external">Detect Scrollbar Width with JavaScript</a></li>
-<li><a href="http://jdsharp.us/jQuery/minute/calculate-scrollbar-width.php" target="_blank" rel="external">Calculating The Browser Scrollbar Width</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1944,7 +1929,7 @@ HTTP的3XX响应码用来进行重定向，最常用的时301-页面永久移到
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">136</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1957,7 +1942,7 @@ HTTP的3XX响应码用来进行重定向，最常用的时301-页面永久移到
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -2,10 +2,8 @@
 
 
 
-  
 
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next muse" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -108,7 +106,7 @@
     scheme: 'Muse',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
-    motion: true,
+    motion: false,
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -263,7 +261,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/03/15/MySQL数据库最大连接数的查看与修改/">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/03/15/使用apachectl操作Apache服务器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="monjer">
@@ -282,7 +280,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2014/03/15/MySQL数据库最大连接数的查看与修改/" itemprop="url">MySQL数据库最大连接数的查看与修改</a></h1>
+                <a class="post-title-link" href="/2014/03/15/使用apachectl操作Apache服务器/" itemprop="url">使用apachectl操作Apache服务器</a></h1>
         
 
         <div class="post-meta">
@@ -313,8 +311,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2014/03/15/MySQL数据库最大连接数的查看与修改/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/MySQL数据库最大连接数的查看与修改/" itemprop="commentCount"></span>
+                <a href="/2014/03/15/使用apachectl操作Apache服务器/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/使用apachectl操作Apache服务器/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -341,36 +339,169 @@
       
         
           
-            <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>当连接到MySQL服务器的并发连接数超过上限时，之后的连接会失败并会收到MySQL服务器返回的Too many connections错误。在服务器硬件负载支持的话，可以设置更大的并发连接数来避免这个错误的发生的几率。</p>
-<p>MySQL服务器中使用<a href="1">max_connections</a>系统变量来设置服务器的最大连接数。发生连接被服务器拒绝的时候，服务器会将<a href="2">Connection_errors_max_connections</a>状态变量进行累加，以此来作为记录服务器的连接状况的指标之一。</p>
-<h3 id="查看最大连接数"><a href="#查看最大连接数" class="headerlink" title="查看最大连接数"></a>查看最大连接数</h3><p>本机Mac OS安装的MySQL5.6版数据库，连接到MySQL服务器，使用<code>show variables like &#39;max_connections&#39;</code>语句查看，MySQL5.6默认的并发连接数为<strong>151</strong>，之前的默认值为<strong>100</strong></p>
-<p>示例：
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">192:support-files manjun.han$ mysql -u root -p;</div><div class="line">Enter password:</div><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 1</div><div class="line">Server version: 5.6.15 MySQL Community Server (GPL)</div><div class="line"></div><div class="line">Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.</div><div class="line"></div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line"></div><div class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> help. Type <span class="string">'\c'</span> to clear the current input 	statement.</div><div class="line"></div><div class="line">mysql&gt; show variables like <span class="string">'max_connections'</span>;</div><div class="line">+-----------------+-------+</div><div class="line">| Variable_name   | Value |</div><div class="line">+-----------------+-------+</div><div class="line">| max_connections | 151   |</div><div class="line">+-----------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="修改最大连接数"><a href="#修改最大连接数" class="headerlink" title="修改最大连接数"></a>修改最大连接数</h3><ol>
-<li><p>使用<code>set global</code>语句，如设置最大连接数量为<strong>200</strong>，操作如下</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; <span class="built_in">set</span> global max_connections=200;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; show variables like <span class="string">'max_connections'</span>;</div><div class="line">+-----------------+-------+</div><div class="line">| Variable_name   | Value |</div><div class="line">+-----------------+-------+</div><div class="line">| max_connections | 200   |</div><div class="line">+-----------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
+            <p><a href="2">apachectl</a>是Apache HTTP服务器的前端脚本程序，设计用于帮助管理员控制Apache <a href="1">httpd</a> 守护进程的功能。以单独守护进程运行的<a href="1">httpd</a> 是Apache真正的服务器程序。<a href="2">apachectl</a>可以接受<a href="1">httpd</a>的所有运行参数，就好像其代理一样，但使用<a href="2">apachectl</a>会在成功设置一些与服务器相关的脚本之后，再调用启动<a href="1">httpd</a>，完成Apache服务器的启动。</p>
+<p>本篇使用Mac OS X自带的Apache服务器，演示使用<a href="2">apachectl</a>的常见使用以及涉及到的命令参数，以下命令的执行，需要有root权限。</p>
+<h3 id="启动Apache"><a href="#启动Apache" class="headerlink" title="启动Apache"></a>启动Apache</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl start</div><div class="line">shell&gt; Password:******</div></pre></td></tr></table></figure>
+<h3 id="关闭Apache"><a href="#关闭Apache" class="headerlink" title="关闭Apache"></a>关闭Apache</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl stop</div><div class="line">shell&gt; Password:******</div></pre></td></tr></table></figure>
+<h3 id="重启Apache"><a href="#重启Apache" class="headerlink" title="重启Apache"></a>重启Apache</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl restart</div><div class="line">shell&gt; Password:******</div></pre></td></tr></table></figure>
+<h3 id="优雅的重启Apache"><a href="#优雅的重启Apache" class="headerlink" title="优雅的重启Apache"></a>优雅的重启Apache</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl graceful</div><div class="line">shell&gt; Password:******</div></pre></td></tr></table></figure>
+<p>与<code>restart</code>参数不同的是，使用<code>graceful</code>选项重启Apache服务器，不会中断现有的连接。</p>
+<h3 id="检查Apache配置文件的语法"><a href="#检查Apache配置文件的语法" class="headerlink" title="检查Apache配置文件的语法"></a>检查Apache配置文件的语法</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl configtest</div><div class="line">shell&gt; Password:******</div></pre></td></tr></table></figure>
 <blockquote>
-<p><code>max_connections</code>为系统变量(System variables),所以需要在set后添加global关键字</p>
+<p>apachectl configtest 等价于 apachectl -t    </p>
 </blockquote>
-<p> 此设置的有效范围仅限于当前数据库此次的运行周期，MySQL服务器重启后，此设置将失效，    <code>max_connections</code>的值将重新设置为默认值，或设置为选项文件中的配置的值。</p>
-</li>
-<li><p>修改<strong>my.cnf</strong>配置文件</p>
-<p> 在mysql的安装目录下放置了其选项配置文件<strong>my.cnf</strong>（MySQL选择默认安装的话，安装目录在<code>/usr/lib/local/mysql</code>下,不同平台下MySQL的安装路径和选项文件的命名有差异，具体参考官网的安装说明）,该文件用来设置MySQL启动时要读取和加载的启动选项。</p>
-<p> 首先关闭MySQL服务器</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">192:bin manjun.han$ sudo ./mysqladmin -u root -p shutdown</div><div class="line">Password:</div><div class="line">Enter password:</div><div class="line">192:bin manjun.han$</div></pre></td></tr></table></figure>
-<p> 打开my.cnf配置文件，在<code>[mysqld]</code>选项组下面添加如下<code>max_connections</code>选项设置</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">max_connections=200</div></pre></td></tr></table></figure>
-<p> 如图示：</p>
- <img src="/2014/03/15/MySQL数据库最大连接数的查看与修改/1.png" alt="1.png" title="">
-<p> 重启MySQL服务器，重新查看<code>max_connections</code>的当前值</p>
- <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">192:bin manjun.han$ sudo ./mysqladmin -u root -pnewpass shutdown</div><div class="line">Warning: Using a password on the <span class="built_in">command</span> line interface can be insecure.</div><div class="line">192:bin manjun.han$ <span class="built_in">cd</span> ../support-files/</div><div class="line">192:support-files manjun.han$ sudo ./mysql.server start</div><div class="line">Starting MySQL</div><div class="line">. SUCCESS!</div><div class="line">192:support-files manjun.han$ mysql -u root -p</div><div class="line">Enter password:</div><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 1</div><div class="line">Server version: 5.6.15 MySQL Community Server (GPL)</div><div class="line"></div><div class="line">Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.</div><div class="line"></div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line"></div><div class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> help. Type <span class="string">'\c'</span> to clear the current input 	statement.</div><div class="line"></div><div class="line">mysql&gt; show variables like <span class="string">'max_connections'</span>;</div><div class="line">+-----------------+-------+</div><div class="line">| Variable_name   | Value |</div><div class="line">+-----------------+-------+</div><div class="line">| max_connections | 200   |</div><div class="line">+-----------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
-<p> 可见，选项配置文件的设置已经生效。</p>
-</li>
-</ol>
+<p>配置正常，命令行输出
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Syntax OK</div></pre></td></tr></table></figure></p>
+<h3 id="查看编译的模块"><a href="#查看编译的模块" class="headerlink" title="查看编译的模块"></a>查看编译的模块</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shell &gt; sudo apachectl <span class="_">-l</span></div></pre></td></tr></table></figure>
+<p>输出类似于
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Compiled <span class="keyword">in</span> modules:</div><div class="line">  core.c</div><div class="line">  prefork.c</div><div class="line">  http_core.c</div><div class="line">  mod_so.c</div></pre></td></tr></table></figure></p>
+<h3 id="产看apache版本"><a href="#产看apache版本" class="headerlink" title="产看apache版本"></a>产看apache版本</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl -v</div></pre></td></tr></table></figure>
+<p>输出类似于
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Server version: Apache/2.2.26 (Unix)</div><div class="line">Server built:   Dec 10 2013 22:09:38</div></pre></td></tr></table></figure></p>
+<p>其它一些参数更详细的说明参考Apache官网。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/03/15/MySQL外键约束检测的控制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014/03/15/MySQL外键约束检测的控制/" itemprop="url">MySQL外键约束检测的控制</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-03-15T00:00:00+08:00">
+                2014-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/03/15/MySQL外键约束检测的控制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/MySQL外键约束检测的控制/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>MySQL中使用动态的服务器变量<code>foreign_key_checks</code>来控制外键约束，由于是动态变量，这意味着在服务器运行时改变该变量的值不需要重启服务器。<code>foreign_key_checks</code>属于会话变量(Session),设置会话变量不需要特殊权限。</p>
+<blockquote>
+<p>MySQL中InnoDB引擎支持外键</p>
+</blockquote>
+<h3 id="查看当前外键约束检测"><a href="#查看当前外键约束检测" class="headerlink" title="查看当前外键约束检测"></a>查看当前外键约束检测</h3><p><strong>方式一</strong> : 使用<code>show variables like &#39;foreign_key_checks&#39;;</code>,如：
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show variables like <span class="string">'foreign_key_checks'</span>;</div><div class="line">+--------------------+-------+</div><div class="line">| Variable_name      | Value |</div><div class="line">+--------------------+-------+</div><div class="line">| foreign_key_checks | ON    |</div><div class="line">+--------------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<p><code>ON</code>代表打开，<code>OFF</code>代表关闭。</p>
+<p><strong>方式二</strong> : 使用 <code>select @@foreign_key_checks;</code>语句，如
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select @@foreign_key_checks;</div><div class="line">+----------------------+</div><div class="line">| @@foreign_key_checks |</div><div class="line">+----------------------+</div><div class="line">|                    1 |</div><div class="line">+----------------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<p><code>1</code>代表打开，<code>0</code>代表关闭。</p>
+<h3 id="设置外键约束检测"><a href="#设置外键约束检测" class="headerlink" title="设置外键约束检测"></a>设置外键约束检测</h3><p><strong>打开</strong>:
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> foreign_key_checks = 1 ;</div></pre></td></tr></table></figure></p>
+<p><strong>关闭</strong>:
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">set</span> foreign_key_checks = 0 ;</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>当关闭外键约束检测后，可以随便删除有外键约束的数据项(table row),或者是删除约束表。</p>
+</blockquote>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="1">max_connections</a></li>
-<li><a href="2">Connection_errors_max_connections</a></li>
-<li><a href="http://dev.mysql.com/doc/refman/5.6/en/set-statement.html" target="_blank" rel="external">Set syntax</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.1/zh/database-administration.html#dynamic-system-variables" target="_blank" rel="external">动态系统变量</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.1/zh/language-structure.html#system-variables" target="_blank" rel="external">系统变量</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.1/zh/sql-syntax.html#set-option" target="_blank" rel="external">Set 语句</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.1/zh/sql-syntax.html#select" target="_blank" rel="external">Select语句</a></li>
 </ul>
 
           
@@ -544,7 +675,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/03/15/使用apachectl操作Apache服务器/">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/03/15/MySQL数据库最大连接数的查看与修改/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="monjer">
@@ -563,7 +694,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2014/03/15/使用apachectl操作Apache服务器/" itemprop="url">使用apachectl操作Apache服务器</a></h1>
+                <a class="post-title-link" href="/2014/03/15/MySQL数据库最大连接数的查看与修改/" itemprop="url">MySQL数据库最大连接数的查看与修改</a></h1>
         
 
         <div class="post-meta">
@@ -594,8 +725,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2014/03/15/使用apachectl操作Apache服务器/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/使用apachectl操作Apache服务器/" itemprop="commentCount"></span>
+                <a href="/2014/03/15/MySQL数据库最大连接数的查看与修改/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/MySQL数据库最大连接数的查看与修改/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -622,26 +753,200 @@
       
         
           
-            <p><a href="2">apachectl</a>是Apache HTTP服务器的前端脚本程序，设计用于帮助管理员控制Apache <a href="1">httpd</a> 守护进程的功能。以单独守护进程运行的<a href="1">httpd</a> 是Apache真正的服务器程序。<a href="2">apachectl</a>可以接受<a href="1">httpd</a>的所有运行参数，就好像其代理一样，但使用<a href="2">apachectl</a>会在成功设置一些与服务器相关的脚本之后，再调用启动<a href="1">httpd</a>，完成Apache服务器的启动。</p>
-<p>本篇使用Mac OS X自带的Apache服务器，演示使用<a href="2">apachectl</a>的常见使用以及涉及到的命令参数，以下命令的执行，需要有root权限。</p>
-<h3 id="启动Apache"><a href="#启动Apache" class="headerlink" title="启动Apache"></a>启动Apache</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl start</div><div class="line">shell&gt; Password:******</div></pre></td></tr></table></figure>
-<h3 id="关闭Apache"><a href="#关闭Apache" class="headerlink" title="关闭Apache"></a>关闭Apache</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl stop</div><div class="line">shell&gt; Password:******</div></pre></td></tr></table></figure>
-<h3 id="重启Apache"><a href="#重启Apache" class="headerlink" title="重启Apache"></a>重启Apache</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl restart</div><div class="line">shell&gt; Password:******</div></pre></td></tr></table></figure>
-<h3 id="优雅的重启Apache"><a href="#优雅的重启Apache" class="headerlink" title="优雅的重启Apache"></a>优雅的重启Apache</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl graceful</div><div class="line">shell&gt; Password:******</div></pre></td></tr></table></figure>
-<p>与<code>restart</code>参数不同的是，使用<code>graceful</code>选项重启Apache服务器，不会中断现有的连接。</p>
-<h3 id="检查Apache配置文件的语法"><a href="#检查Apache配置文件的语法" class="headerlink" title="检查Apache配置文件的语法"></a>检查Apache配置文件的语法</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl configtest</div><div class="line">shell&gt; Password:******</div></pre></td></tr></table></figure>
+            <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>当连接到MySQL服务器的并发连接数超过上限时，之后的连接会失败并会收到MySQL服务器返回的Too many connections错误。在服务器硬件负载支持的话，可以设置更大的并发连接数来避免这个错误的发生的几率。</p>
+<p>MySQL服务器中使用<a href="1">max_connections</a>系统变量来设置服务器的最大连接数。发生连接被服务器拒绝的时候，服务器会将<a href="2">Connection_errors_max_connections</a>状态变量进行累加，以此来作为记录服务器的连接状况的指标之一。</p>
+<h3 id="查看最大连接数"><a href="#查看最大连接数" class="headerlink" title="查看最大连接数"></a>查看最大连接数</h3><p>本机Mac OS安装的MySQL5.6版数据库，连接到MySQL服务器，使用<code>show variables like &#39;max_connections&#39;</code>语句查看，MySQL5.6默认的并发连接数为<strong>151</strong>，之前的默认值为<strong>100</strong></p>
+<p>示例：
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">192:support-files manjun.han$ mysql -u root -p;</div><div class="line">Enter password:</div><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 1</div><div class="line">Server version: 5.6.15 MySQL Community Server (GPL)</div><div class="line"></div><div class="line">Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.</div><div class="line"></div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line"></div><div class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> help. Type <span class="string">'\c'</span> to clear the current input 	statement.</div><div class="line"></div><div class="line">mysql&gt; show variables like <span class="string">'max_connections'</span>;</div><div class="line">+-----------------+-------+</div><div class="line">| Variable_name   | Value |</div><div class="line">+-----------------+-------+</div><div class="line">| max_connections | 151   |</div><div class="line">+-----------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="修改最大连接数"><a href="#修改最大连接数" class="headerlink" title="修改最大连接数"></a>修改最大连接数</h3><ol>
+<li><p>使用<code>set global</code>语句，如设置最大连接数量为<strong>200</strong>，操作如下</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; <span class="built_in">set</span> global max_connections=200;</div><div class="line">Query OK, 0 rows affected (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt; show variables like <span class="string">'max_connections'</span>;</div><div class="line">+-----------------+-------+</div><div class="line">| Variable_name   | Value |</div><div class="line">+-----------------+-------+</div><div class="line">| max_connections | 200   |</div><div class="line">+-----------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
 <blockquote>
-<p>apachectl configtest 等价于 apachectl -t    </p>
+<p><code>max_connections</code>为系统变量(System variables),所以需要在set后添加global关键字</p>
 </blockquote>
-<p>配置正常，命令行输出
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Syntax OK</div></pre></td></tr></table></figure></p>
-<h3 id="查看编译的模块"><a href="#查看编译的模块" class="headerlink" title="查看编译的模块"></a>查看编译的模块</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shell &gt; sudo apachectl <span class="_">-l</span></div></pre></td></tr></table></figure>
-<p>输出类似于
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Compiled <span class="keyword">in</span> modules:</div><div class="line">  core.c</div><div class="line">  prefork.c</div><div class="line">  http_core.c</div><div class="line">  mod_so.c</div></pre></td></tr></table></figure></p>
-<h3 id="产看apache版本"><a href="#产看apache版本" class="headerlink" title="产看apache版本"></a>产看apache版本</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shell&gt; sudo apachectl -v</div></pre></td></tr></table></figure>
-<p>输出类似于
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Server version: Apache/2.2.26 (Unix)</div><div class="line">Server built:   Dec 10 2013 22:09:38</div></pre></td></tr></table></figure></p>
-<p>其它一些参数更详细的说明参考Apache官网。</p>
+<p> 此设置的有效范围仅限于当前数据库此次的运行周期，MySQL服务器重启后，此设置将失效，    <code>max_connections</code>的值将重新设置为默认值，或设置为选项文件中的配置的值。</p>
+</li>
+<li><p>修改<strong>my.cnf</strong>配置文件</p>
+<p> 在mysql的安装目录下放置了其选项配置文件<strong>my.cnf</strong>（MySQL选择默认安装的话，安装目录在<code>/usr/lib/local/mysql</code>下,不同平台下MySQL的安装路径和选项文件的命名有差异，具体参考官网的安装说明）,该文件用来设置MySQL启动时要读取和加载的启动选项。</p>
+<p> 首先关闭MySQL服务器</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">192:bin manjun.han$ sudo ./mysqladmin -u root -p shutdown</div><div class="line">Password:</div><div class="line">Enter password:</div><div class="line">192:bin manjun.han$</div></pre></td></tr></table></figure>
+<p> 打开my.cnf配置文件，在<code>[mysqld]</code>选项组下面添加如下<code>max_connections</code>选项设置</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">max_connections=200</div></pre></td></tr></table></figure>
+<p> 如图示：</p>
+ <img src="/2014/03/15/MySQL数据库最大连接数的查看与修改/1.png" alt="1.png" title="">
+<p> 重启MySQL服务器，重新查看<code>max_connections</code>的当前值</p>
+ <figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">192:bin manjun.han$ sudo ./mysqladmin -u root -pnewpass shutdown</div><div class="line">Warning: Using a password on the <span class="built_in">command</span> line interface can be insecure.</div><div class="line">192:bin manjun.han$ <span class="built_in">cd</span> ../support-files/</div><div class="line">192:support-files manjun.han$ sudo ./mysql.server start</div><div class="line">Starting MySQL</div><div class="line">. SUCCESS!</div><div class="line">192:support-files manjun.han$ mysql -u root -p</div><div class="line">Enter password:</div><div class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</div><div class="line">Your MySQL connection id is 1</div><div class="line">Server version: 5.6.15 MySQL Community Server (GPL)</div><div class="line"></div><div class="line">Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.</div><div class="line"></div><div class="line">Oracle is a registered trademark of Oracle Corporation and/or its</div><div class="line">affiliates. Other names may be trademarks of their respective</div><div class="line">owners.</div><div class="line"></div><div class="line">Type <span class="string">'help;'</span> or <span class="string">'\h'</span> <span class="keyword">for</span> help. Type <span class="string">'\c'</span> to clear the current input 	statement.</div><div class="line"></div><div class="line">mysql&gt; show variables like <span class="string">'max_connections'</span>;</div><div class="line">+-----------------+-------+</div><div class="line">| Variable_name   | Value |</div><div class="line">+-----------------+-------+</div><div class="line">| max_connections | 200   |</div><div class="line">+-----------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
+<p> 可见，选项配置文件的设置已经生效。</p>
+</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="1">max_connections</a></li>
+<li><a href="2">Connection_errors_max_connections</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.6/en/set-statement.html" target="_blank" rel="external">Set syntax</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/03/15/iframe元素的用法总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014/03/15/iframe元素的用法总结/" itemprop="url">iframe元素的用法总结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-03-15T00:00:00+08:00">
+                2014-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/03/15/iframe元素的用法总结/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/iframe元素的用法总结/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="移除边框"><a href="#移除边框" class="headerlink" title="移除边框"></a>移除边框</h3><p>结合CSS的<code>border</code>属性和<code>iframe</code>标签的<code>frameBorder</code>属性完成对<code>&lt;iframe&gt;</code>元素移除边框的操作。如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">iframe&#123;</div><div class="line">    border:0; /*IE9+(包括IE9),以及其它浏览器*/</div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">frameborder</span>=<span class="string">"0"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span><span class="comment">&lt;!-- IE6/7/8必须设置frameborder="0" --&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="禁用滚动"><a href="#禁用滚动" class="headerlink" title="禁用滚动"></a>禁用滚动</h3><p>当<code>iframe</code>元素的文档内容的高宽度超过旗本身的高宽度时，<code>iframe</code>会出现滚动条，<code>scrolling</code>属性设置为<code>no</code>可以禁用滚动。
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">scrolling</span>=<span class="string">"no"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="去除默认内容边距"><a href="#去除默认内容边距" class="headerlink" title="去除默认内容边距"></a>去除默认内容边距</h3><p><code>marginheight</code>和<code>marginwidth</code>属性分别规定了其内容文档在垂直和水平方向上的边距。设置为<code>0</code>,可以去除默认的边距。
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">marginheight</span>=<span class="string">"0"</span> <span class="attr">marginwidth</span>=<span class="string">"0"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="在新窗口中打开连接"><a href="#在新窗口中打开连接" class="headerlink" title="在新窗口中打开连接"></a>在新窗口中打开连接</h3><p>以下代码是<code>iframe</code>嵌入的页面文档，分别演示用<code>&lt;a&gt;</code>标签和使用JavaScript代码在嵌入的页面中在新窗口中打开链接。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>内嵌文档<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.google.com"</span> <span class="attr">target</span>=<span class="string">"_blank"</span>&gt;</span>Open new page<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">br</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"top.open('http://www.google.com')"</span>&gt;</span>Open new page<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="动态嵌入文档"><a href="#动态嵌入文档" class="headerlink" title="动态嵌入文档"></a>动态嵌入文档</h3><p>通过为<code>iframe</code>元素的<code>src</code>属性赋值不同的URL，来实现动态的嵌入其它文档。
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- html --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"frameDoc"</span> <span class="attr">src</span>=<span class="string">"http://www.google.com"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"jumpToBaidu()"</span>&gt;</span>Baidu<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">jumpToBaidu</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> frameDoc = <span class="built_in">document</span>.getElementById(<span class="string">"frameDoc"</span>);</div><div class="line">        frameDoc.src = <span class="string">"http://www.baidu.com"</span>;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="iframe加载事件处理"><a href="#iframe加载事件处理" class="headerlink" title="iframe加载事件处理"></a>iframe加载事件处理</h3><p><code>iframe</code>元素支持<code>load</code>事件来检测嵌入的文档是否加载完毕,原生代码写法
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- HTML --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"frameDoc"</span> <span class="attr">src</span>=<span class="string">"framePage.html"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="comment">//function addLoadEventToIframe</span></div><div class="line">    <span class="keyword">var</span> iframeDom = <span class="built_in">document</span>.getElementById(<span class="string">"embedIframe"</span>);</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">window</span>.addEventListener)()&#123;</div><div class="line">            iframeDom.addEventListener(<span class="string">"load"</span> , iframePageLoadedCallback);</div><div class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(<span class="built_in">window</span>.attachEvent)&#123;</div><div class="line">            iframeDOM.attachEvent(<span class="string">"onload"</span> , iframePageLoadedCallback);</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">iframePageLoadedCallback</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">"iframe page loaded"</span>);</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>使用jQuery写法，
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- HTML --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"frameDoc"</span> <span class="attr">src</span>=<span class="string">"framePage.html"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">    $(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        $(<span class="string">"#frameDoc"</span>).bind(<span class="string">"load"</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="built_in">console</span>.log(<span class="string">"iframe page loaded"</span>);</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="获取彼此的window和document对象"><a href="#获取彼此的window和document对象" class="headerlink" title="获取彼此的window和document对象"></a>获取彼此的window和document对象</h3><p><code>iframe</code>嵌入文档的脚本与其父文档之间的脚本可以直接交互，但要满足<strong>同源策略</strong>,即<code>iframe</code>嵌入的页面URL与其父文档的URL要属于相同的域（协议，域名和端口号要完全相同）。在此基础上它们之间可以自由实现对象的互访。</p>
+<p>在<code>iframe</code>的页面中获取父文档的<code>window</code>对象和<code>document</code>对象
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- iframe page script --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> parentWindow = <span class="built_in">window</span>.parent ;</div><div class="line">    <span class="keyword">var</span> parentDoc = <span class="built_in">window</span>.parent.document ;</div><div class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span></div></pre></td></tr></table></figure></p>
+<p>在父文档中获取<code>ifrmae</code>嵌套页面的<code>window</code>对象和<code>document</code>对象
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- embed iframe--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"frameDoc"</span> <span class="attr">src</span>=<span class="string">"iframePage.html"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script of parent page containing iframe page--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    <span class="keyword">var</span> iframeDom = <span class="built_in">document</span>.getElementById(<span class="string">"frameDoc"</span>);</div><div class="line">    <span class="keyword">var</span> iframeWindow = iframeDom.contentWindow ;</div><div class="line">    <span class="keyword">var</span> iframeDoc = iframeDom.contentDocument || iframeWindow.document ; <span class="comment">// IE6/7/8不支持iframe.contentDocument属性</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="js代码互调"><a href="#js代码互调" class="headerlink" title="js代码互调"></a>js代码互调</h3><p>同样在满足<strong>同源策略</strong>的前提下，<code>iframe</code>嵌入文档的脚本与其父文档的脚本可以实现全局方法的调用和全局属性的访问。示例：</p>
+<p><code>iframe</code>的父文档<code>iframe-parent-page.html</code>代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>父文档<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Ifrmae Page<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"framePage"</span> <span class="attr">src</span>=<span class="string">"framePage.html"</span> <span class="attr">style</span>=<span class="string">"width:400px;"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"callIframeMethod()"</span>&gt;</span>调用iframe中嵌入文档的全局方法<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">"callIframeMethod()"</span>&gt;</span>访问iframe中嵌入文档的全局属性<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">            <span class="comment">// 当前文档的全局属性可以被iframe内嵌的文档访问</span></div><div class="line">            <span class="keyword">var</span> globalPro = <span class="string">"父文档的全局属性"</span> ;</div><div class="line">            <span class="comment">// 当前文档的全局方法可以被iframe内嵌的文档调用</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">globalMethod</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                alert(<span class="string">"父文档的全局方法"</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// ------------------------------------------------------</span></div><div class="line">            <span class="comment">// 调用iframe中嵌入页面的全部方法</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">callIframeMethod</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> framePage = <span class="built_in">document</span>.getElementById(<span class="string">"framePage"</span>);</div><div class="line">                <span class="keyword">var</span> iframeWin = framePage.contentWindow ;</div><div class="line">                iframeWin.globalMethod();</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 访问iframe中嵌入文档的全局属性</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">accessIframeProperty</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> framePage = <span class="built_in">document</span>.getElementById(<span class="string">"framePage"</span>);</div><div class="line">                <span class="keyword">var</span> iframeWin = framePage.contentWindow ;</div><div class="line">                alert(iframeWin.globalPro) ;</div><div class="line">            &#125;</div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p><code>iframe</code>的内嵌文档<code>frame-page.html</code>的代码
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>iframe内嵌文档<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">onclick</span>=<span class="string">"callParentGlobalMethod()"</span>&gt;</span>调用父文档的全局方法<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">onclick</span>=<span class="string">"accessParentGlobalPro()"</span>&gt;</span>访问父文档的全局属性<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">            <span class="comment">// 当前文档的全局属性可以被iframe内嵌的文档访问</span></div><div class="line">            <span class="keyword">var</span> globalPro = <span class="string">"iframe内嵌文档的全局属性"</span> ;</div><div class="line">            <span class="comment">// 当前文档的全局方法可以被iframe内嵌的文档调用</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">globalMethod</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                alert(<span class="string">"iframe内嵌文档的全局方法"</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// ----------------------------------------------------</span></div><div class="line">            <span class="comment">// 调用父文档的全局方法</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">callParentGlobalMethod</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> parentWindow = <span class="built_in">window</span>.parent ;</div><div class="line">                parentWindow.globalMethod();</div><div class="line">            &#125;</div><div class="line">            <span class="comment">// 访问父文档的全局属性</span></div><div class="line">            <span class="function"><span class="keyword">function</span> <span class="title">accessParentGlobalPro</span>(<span class="params"></span>)</span>&#123;</div><div class="line">                <span class="keyword">var</span> parentWindow = <span class="built_in">window</span>.parent ;</div><div class="line">                alert(parentWindow.globalPro);</div><div class="line">            &#125;</div><div class="line"></div><div class="line">        <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="自适应高度"><a href="#自适应高度" class="headerlink" title="自适应高度"></a>自适应高度</h3><p>有时在Web页面的布局中需要<code>iframe</code>元素的高度自适应其嵌入文档的高度，在满足<strong>同源策略</strong>的前提下，可以以下方式完成</p>
+<p>原生代码写法：
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- html--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">"http://www.google.com"</span> <span class="attr">onload</span>=<span class="string">"autoHeigt()"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="actionscript"></span></div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">autoHeigt</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">var</span> doc = docFrame.contentDocument || docFrame.contentWindow.document ;</div><div class="line">        <span class="keyword">this</span>.style.height = doc.documentElement.scrollHeight+<span class="string">"px"</span>;</div><div class="line">    &#125;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>使用jQuery，代码如下
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- html--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">id</span>=<span class="string">"frameDoc"</span> <span class="attr">src</span>=<span class="string">"http://www.google.com"</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- script --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"http://code.jquery.com/jquery-1.11.0.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="javascript"></span></div><div class="line">    $(<span class="string">"#frameDoc"</span>).bind(<span class="string">"load"</span> , <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="keyword">var</span> doc = <span class="keyword">this</span>.contentDocument || <span class="keyword">this</span>.contentWindow.document ;</div><div class="line">        $(<span class="keyword">this</span>).css(<span class="string">"height"</span> , $(doc).height());</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://stackoverflow.com/questions/65034/remove-border-from-iframe" target="_blank" rel="external">Remove border from IFrame</a></li>
+<li><a href="http://stackoverflow.com/questions/251420/invoking-javascript-code-in-an-iframe-from-the-parent-page" target="_blank" rel="external">Invoking JavaScript code in an iframe from the parent page</a></li>
+<li><a href="http://stackoverflow.com/questions/819416/adjust-width-height-of-iframe-to-fit-with-content-in-it?lq=1" target="_blank" rel="external">Adjust width height of iframe to fit with content in it</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ie/ms535258\(v=vs.85\" target="_blank" rel="external">iframe element | iframe object</a>.aspx)</li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ie/cc197055\(v=vs.85\" target="_blank" rel="external">load | onload event</a>.aspx)</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe" target="_blank" rel="external">iframe</a></li>
+<li><a href="http://www.w3school.com.cn/tags/tag_iframe.asp" target="_blank" rel="external">HTML iframe 标签</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Same_origin_policy_for_JavaScript" target="_blank" rel="external">Same-origin policy</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ms533028\(VS.85\" target="_blank" rel="external">About Cross-Frame Scripting and Security</a>.aspx)</li>
+<li><a href="http://www.nczonline.net/blog/2009/09/15/iframes-onload-and-documentdomain/" target="_blank" rel="external">Iframes, onload, and document.domain</a></li>
+<li><a href="http://stackoverflow.com/questions/153152/resizing-an-iframe-based-on-content" target="_blank" rel="external">Resizing an iframe based on content</a></li>
+</ul>
 
           
         
@@ -868,7 +1173,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/03/15/查看MySQL的运行状态/">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/02/15/关闭Tomcat的自动部署功能/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="monjer">
@@ -887,7 +1192,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2014/03/15/查看MySQL的运行状态/" itemprop="url">查看MySQL的运行状态</a></h1>
+                <a class="post-title-link" href="/2014/02/15/关闭Tomcat的自动部署功能/" itemprop="url">关闭Tomcat的自动部署功能</a></h1>
         
 
         <div class="post-meta">
@@ -899,8 +1204,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-03-15T00:00:00+08:00">
-                2014-03-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-02-15T00:00:00+08:00">
+                2014-02-15
               </time>
             
 
@@ -918,8 +1223,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2014/03/15/查看MySQL的运行状态/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/03/15/查看MySQL的运行状态/" itemprop="commentCount"></span>
+                <a href="/2014/02/15/关闭Tomcat的自动部署功能/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/15/关闭Tomcat的自动部署功能/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -946,28 +1251,14 @@
       
         
           
-            <h3 id="1-运行时间-单位-秒"><a href="#1-运行时间-单位-秒" class="headerlink" title="1.运行时间(单位:秒)"></a>1.运行时间(单位:秒)</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show status like <span class="string">"Uptime"</span>;</div><div class="line">+---------------+---------+</div><div class="line">| Variable_name | Value   |</div><div class="line">+---------------+---------+</div><div class="line">| Uptime        | 3560978 |</div><div class="line">+---------------+---------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure>
-<h3 id="2-连接信息"><a href="#2-连接信息" class="headerlink" title="2.连接信息"></a>2.连接信息</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show status like <span class="string">'Threads%'</span>;</div><div class="line">+-------------------+-------+</div><div class="line">| Variable_name     | Value |</div><div class="line">+-------------------+-------+</div><div class="line">| Threads_cached    | 0     |</div><div class="line">| Threads_connected | 51    |</div><div class="line">| Threads_created   | 6371  |</div><div class="line">| Threads_running   | 1     |</div><div class="line">+-------------------+-------+</div><div class="line">4 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure>
-<ul>
-<li>Threads_cached - 线程缓存内的线程的数量。</li>
-<li>Threads_connected - 当前打开的连接的数量。</li>
-<li><p>Threads_created - 创建用来处理连接的线程数。如果Threads_created较大，你可能要增加thread_cache_size值。缓存访问率的计算方法
-Threads_created/Connections。</p>
-</li>
-<li><p>Threads_running - 激活的（非睡眠状态）线程数。</p>
-</li>
-</ul>
-<h3 id="3-试图连接到-不管是否成功-MySQL服务器的连接数。"><a href="#3-试图连接到-不管是否成功-MySQL服务器的连接数。" class="headerlink" title="3.试图连接到(不管是否成功)MySQL服务器的连接数。"></a>3.试图连接到(不管是否成功)MySQL服务器的连接数。</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show status like <span class="string">'Connections'</span>;</div><div class="line">+---------------+-------+</div><div class="line">| Variable_name | Value |</div><div class="line">+---------------+-------+</div><div class="line">| Connections   | 6374  |</div><div class="line">+---------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</div></pre></td></tr></table></figure>
-<h3 id="4-服务器处理的最大并发连接数"><a href="#4-服务器处理的最大并发连接数" class="headerlink" title="4.服务器处理的最大并发连接数"></a>4.服务器处理的最大并发连接数</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show status like <span class="string">'Max_used_connections'</span>;</div><div class="line">+----------------------+-------+</div><div class="line">| Variable_name        | Value |</div><div class="line">+----------------------+-------+</div><div class="line">| Max_used_connections | 115   |</div><div class="line">+----------------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure>
-<h3 id="5-是否是从属服务器"><a href="#5-是否是从属服务器" class="headerlink" title="5.是否是从属服务器"></a>5.是否是从属服务器</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show status like <span class="string">'Slave_running'</span>;</div><div class="line">+---------------+-------+</div><div class="line">| Variable_name | Value |</div><div class="line">+---------------+-------+</div><div class="line">| Slave_running | OFF   |</div><div class="line">+---------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure>
-<p>如果该服务器是连接到主服务器的从服务器，则该值为ON。</p>
-<h3 id="6-试图连接到服务器而失败的连接数"><a href="#6-试图连接到服务器而失败的连接数" class="headerlink" title="6.试图连接到服务器而失败的连接数"></a>6.试图连接到服务器而失败的连接数</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show status like <span class="string">'Aborted_connects'</span>;</div><div class="line">+------------------+-------+</div><div class="line">| Variable_name    | Value |</div><div class="line">+------------------+-------+</div><div class="line">| Aborted_connects | 11    |</div><div class="line">+------------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure>
-<h3 id="7-客户端原因造成的连接中断次数"><a href="#7-客户端原因造成的连接中断次数" class="headerlink" title="7.客户端原因造成的连接中断次数"></a>7.客户端原因造成的连接中断次数</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show status like <span class="string">'Aborted_clients'</span>;</div><div class="line">+-----------------+-------+</div><div class="line">| Variable_name   | Value |</div><div class="line">+-----------------+-------+</div><div class="line">| Aborted_clients | 3713  |</div><div class="line">+-----------------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</div></pre></td></tr></table></figure>
-<p>由于客户端没有正确关闭MySQL的数据库连接,导致中断的连接总数。</p>
+            <p>默认配置下Tomcat在运行期会定期的检测是否有新的工程部署进来，或对现有工程进行了局部更新。这是通过开启server.xml文件中的<code>Host</code>元素的<code>autoDeploy</code>属性来完成的。Tomcat的默认配置中自动部署功能默认是开启的，如：
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span> <span class="attr">name</span>=<span class="string">"localhost"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p><code>autoDeploy</code>设置为true时，Tomcat会定期对<code>appBase</code>或<code>xmlBase</code>指定的目录的变更进行检测，保证部署到<code>appBase</code>下的新工程和添加到<code>xmlBase</code>目录中的context XML描述文件指向的新工程得到加载，以及当检测到有更新的web application后，能够对其进行重部署。背后机制是Tomcat会启动一个自动部署检测进程来监视web application的变化。这种检测伴随着占用更多的cpu资源和内存资源，这在实际的生产环境中是一种资源的浪费，所以需要将自动部署检测关闭掉，设置<code>autoDeloy</code>标记为false即可，如
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">autoDeploy</span>=<span class="string">"false"</span> <span class="attr">name</span>=<span class="string">"localhost"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span>&gt;</span></div></pre></td></tr></table></figure></p>
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://dev.mysql.com/doc/refman/5.6/en/server-status-variables.html#statvar_Max_used_connections" target="_blank" rel="external">Server Status Variables(MySQL5.6)</a></li>
-<li><a href="http://dev.mysql.com/doc/refman/5.1/zh/problems.html#communication-errors" target="_blank" rel="external">通信错误和失效连接(MySQl5.1)</a></li>
-<li><a href="http://dev.mysql.com/doc/refman/5.1/zh/database-administration.html#server-status-variables" target="_blank" rel="external">服务器状态变量(MySQL5.1)</a></li>
+<li><a href="http://tomcat.apache.org/tomcat-7.0-doc/config/host.html" target="_blank" rel="external">Tomcat Host Config</a></li>
+<li><a href="http://tomcat.apache.org/tomcat-7.0-doc/config/host.html#Automatic_Application_Deployment" target="_blank" rel="external">Automatic Application Deployment</a></li>
+<li><a href="http://community.jaspersoft.com/wiki/how-disable-automatic-deployment-production-servers-using-tomcat" target="_blank" rel="external">How to Disable automatic deployment on production servers using Tomcat</a></li>
 </ul>
 
           
@@ -1127,136 +1418,6 @@ Threads_created/Connections。</p>
 &lt;/Directory&gt;
 </code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a href="1">DirectoryIndex Directive</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/02/15/关闭Tomcat的自动部署功能/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/02/15/关闭Tomcat的自动部署功能/" itemprop="url">关闭Tomcat的自动部署功能</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-02-15T00:00:00+08:00">
-                2014-02-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2014/02/15/关闭Tomcat的自动部署功能/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/15/关闭Tomcat的自动部署功能/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>默认配置下Tomcat在运行期会定期的检测是否有新的工程部署进来，或对现有工程进行了局部更新。这是通过开启server.xml文件中的<code>Host</code>元素的<code>autoDeploy</code>属性来完成的。Tomcat的默认配置中自动部署功能默认是开启的，如：
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span> <span class="attr">name</span>=<span class="string">"localhost"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p><code>autoDeploy</code>设置为true时，Tomcat会定期对<code>appBase</code>或<code>xmlBase</code>指定的目录的变更进行检测，保证部署到<code>appBase</code>下的新工程和添加到<code>xmlBase</code>目录中的context XML描述文件指向的新工程得到加载，以及当检测到有更新的web application后，能够对其进行重部署。背后机制是Tomcat会启动一个自动部署检测进程来监视web application的变化。这种检测伴随着占用更多的cpu资源和内存资源，这在实际的生产环境中是一种资源的浪费，所以需要将自动部署检测关闭掉，设置<code>autoDeloy</code>标记为false即可，如
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">autoDeploy</span>=<span class="string">"false"</span> <span class="attr">name</span>=<span class="string">"localhost"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://tomcat.apache.org/tomcat-7.0-doc/config/host.html" target="_blank" rel="external">Tomcat Host Config</a></li>
-<li><a href="http://tomcat.apache.org/tomcat-7.0-doc/config/host.html#Automatic_Application_Deployment" target="_blank" rel="external">Automatic Application Deployment</a></li>
-<li><a href="http://community.jaspersoft.com/wiki/how-disable-automatic-deployment-production-servers-using-tomcat" target="_blank" rel="external">How to Disable automatic deployment on production servers using Tomcat</a></li>
 </ul>
 
           
@@ -1652,253 +1813,6 @@ function. <strong>(version added: 1.5)</strong></p>
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/02/15/Tomcat下GZip文件压缩/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/02/15/Tomcat下GZip文件压缩/" itemprop="url">Tomcat下GZip文件压缩</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-02-15T00:00:00+08:00">
-                2014-02-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2014/02/15/Tomcat下GZip文件压缩/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/15/Tomcat下GZip文件压缩/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>压缩网络传输的文件，通过减小文件大小，可以节省带宽，提高站点的响应速度，优化前端的页面展示体验。Tomcat中支持<a href="4">GZip</a>压缩。本篇以Tomcat7.0为例，介绍Tomcat如何开启<a href="4">GZip</a>功能。</p>
-<h3 id="配置属性及说明"><a href="#配置属性及说明" class="headerlink" title="配置属性及说明"></a>配置属性及说明</h3><p>通过浏览器请求服务器资源，使用的是HTTP协议，Tomcat中server.xml配置文件中的HTTP Connector组件用来支持HTTP/1.1协议，负责处理所有的HTTP请求和响应，默认配置如下：</p>
-<pre><code>&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
-         connectionTimeout=&quot;20000&quot;
-         redirectPort=&quot;8443&quot; /&gt;
-</code></pre><p> 需要在该配置上添加与Gzip相关的属性来开启<a href="4">GZip</a>压缩，配置如下：</p>
-<pre><code>&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
-        connectionTimeout=&quot;20000&quot;
-        redirectPort=&quot;8443&quot;
-        compression=&quot;on&quot;
-        compressionMinSize=&quot;2048&quot;
-        compressableMimeType=&quot;text/html,text/xml,text/plain&quot;
-        noCompressionUserAgents=&quot;Chrome&quot;/&gt;
-</code></pre><p>新增的四个属性都是与GZip相关的配置，其中</p>
-<ul>
-<li><p><code>comprress</code> - 控制是否开启HTTP/1.1 Gzip压缩，设置为</p>
-<ul>
-<li><code>on</code>，开启GZip；</li>
-<li><code>off</code>，关闭GZip；</li>
-<li><code>force</code>，强制所有文件都进行压缩；</li>
-<li><p><code>正整数数值</code>，等同于    设置为<code>on</code>并指定被压缩的数据量的最小阀值；</p>
-<p>默认设置为<code>off</code>关闭。如果compress设置为<code>on</code>或数值，并且响应消息头中没有添加<code>content-length</code>消息头，数据同样会被压缩。</p>
-</li>
-</ul>
-</li>
-<li><p><code>compressableMimeType</code> - 指定允许压缩的文件的MIME类型，可以以<code>,</code>分隔符指定一个类型列表，默认为<code>text/html,text/xml,text/plain</code>。</p>
-</li>
-<li><code>noCompressionUserAgents</code> - 指定一个字符串，过滤HTTP请求中的<code>user-agent</code>消息头，忽略来自匹配的HTTP客户端的<a href="4">GZip</a>压缩请求,支持正则表达式，默认为空字符串。</li>
-<li><code>compressionMinSize</code> - <code>compression</code>设置为<code>on</code>后，该属性用以指定可以被压缩的数据量的最小阀值，小于该值的数据将不会被压缩，默认为<strong>2048KB</strong>。</li>
-</ul>
-<h3 id="基于浏览器的示例"><a href="#基于浏览器的示例" class="headerlink" title="基于浏览器的示例"></a>基于浏览器的示例</h3><p>下面围绕这几个属性介绍几个简单的示例作为解释。本机Mac OS系统，7.0.42版本的Tomcat，使用Chrome浏览器请求页面并查看测试效果。此处省略环境的配置过程，直接跳到测试环节，通过对比来查看配置的效果。</p>
-<ol>
-<li><p><strong>开启GZip压缩</strong></p>
-<p> 默认情况下Tomcat关闭了<a href="4">GZip</a>，我们启动Tomcat，Chrome地址栏中输入<code>http://localhost:8080</code>请求Tomcat的默认页面，并打开控制台，查看默认页面的交互情况，页面如下：</p>
- <img src="/2014/02/15/Tomcat下GZip文件压缩/1.png" alt="1.png" title="">
-<p> 可以看到页面(localhost)当前的大小为<strong>11.1KB</strong>，之后开启<a href="4">GZip</a>配置，</p>
-<pre><code>&lt;Connector connectionTimeout=&quot;20000&quot;
-      port=&quot;8080&quot;
-      protocol=&quot;HTTP/1.1&quot;
-      redirectPort=&quot;8443&quot;
-      compression=&quot;on&quot;
-      /&gt;
-</code></pre><p> 重启Tomcat再次刷新页面，查看结果，如下</p>
- <img src="/2014/02/15/Tomcat下GZip文件压缩/2.png" alt="2.png" title="">
-<p> <code>localhost</code>页面被压缩到了<strong>2.2KB</strong></p>
-<p> 打开<code>localhost</code>页面的请求详情</p>
- <img src="/2014/02/15/Tomcat下GZip文件压缩/6.png" alt="6.png" title="">
-<p> 可以看到请求消息中的消息头</p>
-<pre><code>Accept-Encoding:gzip,deflate,sdch
-</code></pre><p> 响应消息的消息头</p>
-<pre><code>Content-Encoding:gzip
-</code></pre><p> 正式这两个消息头协调浏览器和服务器完成压缩的协商过程。</p>
-</li>
-<li><p><strong>添加对其它类型文件压缩的支持</strong></p>
-<p> 默认情况下Tomcat的<a href="4">GZip</a>压缩配置为支持<code>text/html,text/xml,text/plain</code>三种文件的类型，下面添加<code>text/css</code>类型来支持CSS文件的压缩，如下：</p>
-<pre><code>&lt;Connector connectionTimeout=&quot;20000&quot;
-  port=&quot;8080&quot;
-  protocol=&quot;HTTP/1.1&quot;
-  redirectPort=&quot;8443&quot;
-  compression=&quot;on&quot;
-   compressableMimeType=&quot;text/html,text/xml,text/plain,text/css&quot;
-  /&gt;
-</code></pre><p> 压缩前tomcat.css的大小为<strong>5.7KB</strong>,重启Tomcat，刷新页面</p>
- <img src="/2014/02/15/Tomcat下GZip文件压缩/3.png" alt="3.png" title="">
-<p> tomcat.css压缩到<strong>2.0KB</strong>。要压缩其它的文件，只要将其MIME类型字符串依次添加进去即可。</p>
-</li>
-<li><p><strong>屏蔽来自Chrome浏览器</strong></p>
-<p> 在Chrome的控制台打开locahost页面的请求详情，查看请求<code>User-Agent</code>的字符串描述</p>
- <img src="/2014/02/15/Tomcat下GZip文件压缩/4.png" alt="4.png" title="">
-<pre><code>User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.77 Safari/537.36
-</code></pre><p> 配置Tomcat，添加正则表达式<code>.*Chrome.*</code>来匹配Chrome浏览器，如下</p>
-<pre><code>&lt;Connector connectionTimeout=&quot;20000&quot;
-      port=&quot;8080&quot;
-      protocol=&quot;HTTP/1.1&quot;
-      redirectPort=&quot;8443&quot;
-      compression=&quot;on&quot;
-      compressableMimeType=&quot;text/html,text/xml,text/plain,text/css&quot;
-      noCompressionUserAgents=&quot;.*Chrome.*&quot;
-      /&gt;
-</code></pre><p>  重启Tomcat，刷新页面</p>
-<img src="/2014/02/15/Tomcat下GZip文件压缩/5.png" alt="5.png" title="">
-<p> 可以看到页面和CSS文件都未被压缩！类似的情况我们可以根据请求消息中的<code>User-Agent</code>消息头来屏蔽来自不同的浏览器或其它类型的客户端的<a href="4">GZip</a>请求。</p>
-</li>
-<li><p>限定可被压缩数据的最小值</p>
-<p> 设置<code>compression=&#39;on&#39;</code>之后，可以使用<code>compressionMinSize</code>属性来设置可以被压缩数据的最小值，如果HTTP的响应返回的数据或文件小于<code>compressionMinSize</code>指定的值则不会被压缩，但这有一个前提是<strong>HTTP响应中必须以<code>content-length</code>消息头返回数据的总长度</strong>，否则<code>compressionMinSize</code>设置不会起作用，返回的数据或文件照样会被Tomcat压缩。</p>
-<p> 由于要控制响应中<code>content-length</code>消息的设置，我们需要一个动态的JSP页面为例进行验证。Tomcat的<code>webapps</code>目录默认安装了几个web应用，其中<code>examples</code>应用中包含了一些学习jsp/servlet的实例代码，地址栏中输入<code>http://localhost:8080/examples/jsp/index.html</code>，该页面列出了所有示例代码，我们现在拷贝<code>index.html</code>页面中的HTML代码，在同级目录下新建名为<code>demo.jsp</code>的页面并将代码拷贝到其中，该页面其实还是一个纯静态的页面，现在我们关闭<a href="4">GZip</a>压缩，请求页面来查看该文件的大小，配置如下：</p>
-<pre><code>&lt;Connector connectionTimeout=&quot;20000&quot;
-  port=&quot;8080&quot;
-  protocol=&quot;HTTP/1.1&quot;
-  redirectPort=&quot;8443&quot;
-  compression=&quot;off&quot;
-  /&gt;
-</code></pre><p> 地址栏中输入<code>http://localhost:8080/examples/jsp/demo.jsp</code>,请求该页面：</p>
- <img src="/2014/02/15/Tomcat下GZip文件压缩/7.png" alt="7.png" title="">
-<p> 可以看到页面大小为<strong>18.9KB</strong>,这是页面未经压缩的原始大小。之后我们将<code>compressionMinSize</code>限定在<strong>100KB</strong>,配置如下:</p>
-<pre><code>&lt;Connector connectionTimeout=&quot;20000&quot;
-      port=&quot;8080&quot;
-      protocol=&quot;HTTP/1.1&quot;
-      redirectPort=&quot;8443&quot;
-      compression=&quot;on&quot;
-      compressionMinSize=&quot;102400&quot;
-      /&gt;
-</code></pre><p> 如上配置，想象中，当返回数据或文件小于<strong>100KB</strong>时将不会被压缩，但实际上我们重启服务器再次请求页面查看结果便知：</p>
- <img src="/2014/02/15/Tomcat下GZip文件压缩/8.png" alt="8.png" title="">
-<p> 可以看到<code>demo.jsp</code>文件被压缩到了<strong>3.4KB</strong>。下面我们在<code>demo.jsp</code>页面中加入设置<code>content-length</code>响应头的代码。</p>
-<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
-&lt;%
-    response.addHeader(&quot;content-length&quot;, &quot;19353&quot;);//设置大小为18.9KB
-%&gt;
-</code></pre><p> 再次刷新页面</p>
- <img src="/2014/02/15/Tomcat下GZip文件压缩/9.png" alt="9.png" title="">
-<p> 可以看到<code>demo.jsp</code>页面没有再被压缩，<code>content-length</code>属性的设置确实发生作用。</p>
-</li>
-</ol>
-<blockquote>
-<p>注:<code>compressionMinSize</code>属性是在Tomcai7.0版本中新增的属性，Tomcat6.0中不存在该属性。</p>
-</blockquote>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="1">compressionMinSize does not work on Tomcat 6</a></li>
-<li><a href="2">The HTTP Connector - Tomcat6</a></li>
-<li><a href="3">The HTTP Connector - Tomcat7</a></li>
-<li><a href="4">GZip</a></li>
-<li><a href="5">互联网媒体类型</a></li>
-<li><a href="6">多用途互聯網郵件擴展</a></li>
-<li><a href="7">Tomcat 7 GZIP compression not working</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1948,7 +1862,7 @@ function. <strong>(version added: 1.5)</strong></p>
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">136</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1961,7 +1875,7 @@ function. <strong>(version added: 1.5)</strong></p>
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

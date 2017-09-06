@@ -2,10 +2,8 @@
 
 
 
-  
 
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next muse" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -108,7 +106,7 @@
     scheme: 'Muse',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
-    motion: true,
+    motion: false,
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -253,6 +251,150 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/05/09/使用Apache-Commons-Codec提供的常用编解码方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014/05/09/使用Apache-Commons-Codec提供的常用编解码方法/" itemprop="url">使用Apache Commons Codec提供的常用编解码方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-05-09T00:00:00+08:00">
+                2014-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/05/09/使用Apache-Commons-Codec提供的常用编解码方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/05/09/使用Apache-Commons-Codec提供的常用编解码方法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Apache Commons codec提供了开发中常用的编码解码的工具类，包括Base64，Hex，MD5，URL等，以解决项目中重复的各种编解码操作。项目最早是用来实现Base64编码，但随着项目的发展，后面陆续加入了越来越多的编码工具类。以下是几种使用Codec中提供的编解码代码示例。</p>
+<h3 id="Base64编码解码"><a href="#Base64编码解码" class="headerlink" title="Base64编码解码"></a>Base64编码解码</h3><p><a href="http://commons.apache.org/proper/commons-codec/apidocs/org/apache/commons/codec/binary/Base64.html" target="_blank" rel="external">Base64</a>(线程安全类),提供<a href="http://zh.wikipedia.org/wiki/Base64" target="_blank" rel="external">Base64</a>的编码和解码方法。</p>
+<blockquote>
+<p>JDK中的<code>sun</code>包中提供了sun.misc.BASE64Encoder类来进行Base64编解码，但官方不推荐使用<code>sun</code>包中的方法，参见<a href="http://www.oracle.com/technetwork/java/faq-sun-packages-142232.html" target="_blank" rel="external">Why Developers Should Not Write Programs That Call ‘sun’ Packages</a>。</p>
+</blockquote>
+<p><strong>Base64编解码字符串</strong>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">String str = <span class="string">"Source String"</span>;</div><div class="line"></div><div class="line"><span class="comment">// 编码</span></div><div class="line">String encodeStr = Base64.encodeBase64String(str.getBytes(<span class="string">"utf-8"</span>));</div><div class="line">System.out.println(encodeStr); <span class="comment">// U291cmNlIFN0cmluZw==</span></div><div class="line"></div><div class="line"><span class="comment">// 解码</span></div><div class="line">String decodeStr = <span class="keyword">new</span> String(Base64.decodeBase64(encodeStr));</div><div class="line">System.out.println(decodeStr); <span class="comment">// Source String</span></div></pre></td></tr></table></figure></p>
+<p><strong>URL-safe模式下Base64编解码</strong>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">String url = <span class="string">"http://www.baidu.com?t=123&amp;c=asd"</span> ;</div><div class="line"></div><div class="line"><span class="comment">// 编码</span></div><div class="line">String encodeStr = Base64.encodeBase64URLSafeString(url.getBytes(<span class="string">"utf-8"</span>));</div><div class="line">System.out.println(encodeStr); <span class="comment">// aHR0cDovL3d3dy5iYWlkdS5jb20_dD0xMjMmYz1hc2Q</span></div><div class="line"></div><div class="line"><span class="comment">// 解码</span></div><div class="line">String decodeStr = <span class="keyword">new</span> String( Base64.decodeBase64(encodeStr));</div><div class="line">System.out.println(decodeStr); <span class="comment">// http://www.baidu.com?t=123&amp;c=asd</span></div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>   URL-safe模式下Base64编码是标准Base64编码的变体，URL编码器会把标准Base64中的「/」和「+」字符变为形如「%XX」的形式，而这些「%」号在存入数据库时还需要再进行转换，所以变体的Base64编码表中的<code>+</code>和<code>-</code>会替换为<code>-</code>,<code>_</code>，并且不在末尾填充’=’号。</p>
+</blockquote>
+<h3 id="摘要编码"><a href="#摘要编码" class="headerlink" title="摘要编码"></a>摘要编码</h3><p><a href="http://commons.apache.org/proper/commons-codec/apidocs/org/apache/commons/codec/digest/DigestUtils.html" target="_blank" rel="external">DigestUtils</a>类，简化原生JDK <a href="http://download.oracle.com/javase/6/docs/api/java/security/MessageDigest.html" target="_blank" rel="external">MessageDigest</a>类的常用操作。</p>
+<p><strong>MD5编码字符串</strong>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String password = <span class="string">"password string"</span>;</div><div class="line">String encodeStr = DigestUtils.md5Hex(password);</div><div class="line">System.out.println(encodeStr); <span class="comment">// 03d105778ae0b4d8205a05a5dbdfcfe9</span></div></pre></td></tr></table></figure></p>
+<p><strong>SHA编码字符串</strong>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String password = <span class="string">"password string"</span>;</div><div class="line">encodeStr = DigestUtils.sha1Hex(password);</div><div class="line">System.out.println(encodeStr); <span class="comment">// 5251fda188a58dac70c1a8e531b690a5ac2d3527</span></div></pre></td></tr></table></figure></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://commons.apache.org/proper/commons-codec/" target="_blank" rel="external">Apache Commons Codec</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/Base64" target="_blank" rel="external">Wiki Base64</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/ASCII" target="_blank" rel="external">Wiki ASCII</a></li>
+<li><a href="http://www.oracle.com/technetwork/java/faq-sun-packages-142232.html" target="_blank" rel="external">Why Developers Should Not Write Programs That Call ‘sun’ Packages</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -767,7 +909,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/04/20/MySQL数据库创建，选择，显示，删除/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="monjer">
@@ -786,7 +928,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/" itemprop="url">Mac OS X下安装MySQL的偏好设置面板(MySQL Preference Pane)</a></h1>
+                <a class="post-title-link" href="/2014/04/20/MySQL数据库创建，选择，显示，删除/" itemprop="url">MySQL数据库创建，选择，显示，删除</a></h1>
         
 
         <div class="post-meta">
@@ -817,8 +959,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/" itemprop="commentCount"></span>
+                <a href="/2014/04/20/MySQL数据库创建，选择，显示，删除/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/20/MySQL数据库创建，选择，显示，删除/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -845,186 +987,24 @@
       
         
           
-            <p>Mac OS X的MySQL的镜像文件中包括了一个MySQL偏好设置面板(MySQL Preference Pane)，可以用来启动，停止MySQL，以及控制在系统启动时MySQL是否自启动。以下是安装步骤：</p>
-<ol>
-<li><p>下载MySQL的镜像文件(.dmg文件)，双击打开镜像文件，查看MySQL.prefPane文件，</p>
- <img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/1.png" alt="1.png" title="">
-</li>
-<li><p>双击安装MySQL.prefPanel,</p>
-</li>
-<li><p>首次安装MySQL的偏好设置面板，系统会询问你是否确认安装，以及提供安装面向的用户类型，</p>
-<ol>
-<li>只为此用户安装；</li>
-<li><p>为这台电脑上的所有用户安装。</p>
-<p>选择2个选项的话，需要当前用户拥有管理员权限，可能需要输入相应的当前用户用户名和密码</p>
-<img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/2.png" alt="2.png" title="">
-</li>
-</ol>
-</li>
-<li><p>MySQL的偏好设置面板安装完成后，就可以通过它来控制MySQL服务器了。打开的方式如下，在Mac OS X下的苹果菜单中(Apple Menu)，选择<strong>系统偏好设置(System Preferences… )</strong>,在打开的系统偏好设置面板中的<strong>其它(Other)</strong>选区中，可以看到MySQL的logo，点击logo 进入MySQL的偏好设置面板中</p>
- <img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/3.png" alt="3.png" title="">
- <img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/4.png" alt="4.png" title="">
-<p> MySQL的偏好设置面板中，显示了当前MySQL服务器的状态，以<strong>绿色</strong>的<strong>running</strong>表示<strong>正在运行</strong>，以<strong>红色</strong>的<strong>stopped</strong>表示<strong>已经停止</strong></p>
- <img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/5.png" alt="5.png" title="">
- <img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/6.png" alt="6.png" title="">
-</li>
-<li><p>MySQL偏好设置面板用法</p>
-</li>
-</ol>
-<ul>
-<li><strong>启动MySQL</strong>,点击<code>Start MySQL Server</code>,当前用户需要有管理员权限，输入用户名和密码，启动MySQL服务。</li>
-<li><strong>关闭MySQL</strong>,点击<code>Stop MySQL Server</code>,当前用户需要有管理员权限，输入用户名和密码，关闭MySQL服务。</li>
-<li><strong>设置或关闭系统开机启动时，MySQL服务自动开启功能</strong>,选择或取消<code>Automatically Start MySQL Server on Startup</code>复选框</li>
-</ul>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://dev.mysql.com/doc/refman/5.6/en/macosx-installation-prefpane.html" target="_blank" rel="external">Installing and Using the MySQL Preference Pane</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/04/20/MySQL获取数据库和表的信息/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/04/20/MySQL获取数据库和表的信息/" itemprop="url">MySQL获取数据库和表的信息</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-04-20T00:00:00+08:00">
-                2014-04-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2014/04/20/MySQL获取数据库和表的信息/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/20/MySQL获取数据库和表的信息/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>命令行方式下，操作数据库，需要知道数据库的信息，如，当前使用数据库的名称，数据库中有多少个表以及表的名称，每个表的表结构是什么，表中有几个字段，每个字段的名称和数据类型是什么，我们都需要进行查看和定位，进而进行下一步的操作。承接上篇创建的<code>simpleDB</code>继续，假设创建一个保存人员信息的<code>Person</code>表，包含了姓名，出生日期，性别
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; create table Person(</div><div class="line">    -&gt; name varchar(100),</div><div class="line">    -&gt; birthday datetime,</div><div class="line">    -&gt; sex varchar(4)</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.53 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="select-database-获取当前使用的数据库名称"><a href="#select-database-获取当前使用的数据库名称" class="headerlink" title="select database()获取当前使用的数据库名称"></a><code>select database()</code>获取当前使用的数据库名称</h3><p>如，
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select database();</div><div class="line">+------------+</div><div class="line">| database() |</div><div class="line">+------------+</div><div class="line">| simpledb   |</div><div class="line">+------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>如果未选择任何数据库，select database()的结果为NULL；
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select database();</div><div class="line">+------------+</div><div class="line">| database() |</div><div class="line">+------------+</div><div class="line">| NULL       |</div><div class="line">+------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="show-tables-找出当前数据库中包含的表"><a href="#show-tables-找出当前数据库中包含的表" class="headerlink" title="show tables,找出当前数据库中包含的表"></a><code>show tables</code>,找出当前数据库中包含的表</h3><p>如
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show tables;</div><div class="line">+--------------------+</div><div class="line">| Tables_in_simpledb |</div><div class="line">+--------------------+</div><div class="line">| Person             |</div><div class="line">+--------------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure></p>
-<p>或，<code>show tables from db_name</code>,如
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show tables from simpleDB;</div><div class="line">+--------------------+</div><div class="line">| Tables_in_simpledb |</div><div class="line">+--------------------+</div><div class="line">| Person             |</div><div class="line">+--------------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.04 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
-<p>或，使用模糊匹配表名称,<code>show tables from db_name like &#39;pattern&#39;</code>,如
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show tables from simpleDB like <span class="string">'p%'</span>;</div><div class="line">+-------------------------+</div><div class="line">| Tables_in_simpledb (p%) |</div><div class="line">+-------------------------+</div><div class="line">| Person                  |</div><div class="line">+-------------------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.03 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="describe-table-name-或desc-table-name命令获取指定名称的表的结构"><a href="#describe-table-name-或desc-table-name命令获取指定名称的表的结构" class="headerlink" title="describe table_name,或desc table_name命令获取指定名称的表的结构"></a><code>describe table_name</code>,或<code>desc table_name</code>命令获取指定名称的表的结构</h3><p>如
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; describe Person;</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| Field    | Type         | Null | Key | Default | Extra |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| name     | varchar(100) | YES  |     | NULL    |       |</div><div class="line">| birthday | datetime     | YES  |     | NULL    |       |</div><div class="line">| sex      | varchar(4)   | YES  |     | NULL    |       |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">3 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.18 sec)</div></pre></td></tr></table></figure></p>
-<p>其中<code>Field</code>显示列名称，<code>Type</code>是列对应的数据类型，<code>Null</code>表示列是否可以包含NULL值，<code>Key</code>现实列是否被索引，<code>Default</code>指定列的默认值，<code>Extra</code>包含了对应列的附加信息。</p>
-<p>也可以查看表的某一列的信息，前提是知道具体列的名称，如
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; describe Person name;</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| Field | Type         | Null | Key | Default | Extra |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(100) | YES  |     | NULL    |       |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.08 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
-<p>如果不确定列的具体名称，也可以对列名使用模糊匹配，如，查询列名中包含字母<code>e</code>的列信息，
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mysql&gt; desc Person <span class="string">'%e%'</span>;</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| Field | Type         | Null | Key | Default | Extra |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(100) | YES  |     | NULL    |       |</div><div class="line">| sex   | varchar(4)   | YES  |     | NULL    |       |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">2 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.06 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
-<p>其实<code>describe</code>命令是<code>show columns</code>语句的快捷版,使用<code>show columns</code>语句也可以来获取表的结构，,简单语法格式如下,</p>
-<pre><code>SHOW COLUMNS FROM tbl_name [FROM db_name] [LIKE &apos;pattern&apos;]
-</code></pre><p>如：
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show columns from person;</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| Field    | Type         | Null | Key | Default | Extra |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| name     | varchar(100) | YES  |     | NULL    |       |</div><div class="line">| birthday | datetime     | YES  |     | NULL    |       |</div><div class="line">| sex      | varchar(4)   | YES  |     | NULL    |       |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">3 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.10 sec)</div><div class="line"></div><div class="line">mysql&gt; show columns from person from simpleDB;</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| Field    | Type         | Null | Key | Default | Extra |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| name     | varchar(100) | YES  |     | NULL    |       |</div><div class="line">| birthday | datetime     | YES  |     | NULL    |       |</div><div class="line">| sex      | varchar(4)   | YES  |     | NULL    |       |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">3 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</div><div class="line"></div><div class="line">mysql&gt; show columns from person like <span class="string">'%e%'</span>;</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| Field | Type         | Null | Key | Default | Extra |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(100) | YES  |     | NULL    |       |</div><div class="line">| sex   | varchar(4)   | YES  |     | NULL    |       |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">2 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</div></pre></td></tr></table></figure></p>
-<p>另外，也可以使用<code>db_name.tbl_name</code>代替<code>tbl_name from db_name</code>,所以
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show columns from person from simpleDB;</div></pre></td></tr></table></figure></p>
-<p>等价于
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show columns from simpleDB.person;</div></pre></td></tr></table></figure></p>
+            <p>本篇对MySQL数据库基本使用所涉及到的命令做简单的学习式记录，内容大多来源于MySQL的参考手册。SQL命令以字母大写方式做区分，在MySQL中SQL关键字本身不区分大小写。文档以MySQL5.6.15为例进行说明，新建数据库名称为<code>simpleDB</code>，并且省略了之前连接MySQL服务器的过程。</p>
+<h3 id="创建数据库-形式如CREATE-DATABASE-db-name"><a href="#创建数据库-形式如CREATE-DATABASE-db-name" class="headerlink" title="创建数据库,形式如CREATE DATABASE db_name"></a>创建数据库,形式如<code>CREATE DATABASE db_name</code></h3><p>如下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE DATABASE simpleDB;</div><div class="line">Query OK, 1 row affected (0.25 sec)</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
+<p><strong>注意</strong>，在Unix中数据库名称时区分大小写的，不同于SQL关键字是不区分大小写的。因此在数据库创建完毕之后，之后所有的操作都必须正确录入数据库的名称。但在Window系统下数据库的名称时不区分大小写的，因此为了统一这种差异化，建议以约定的方式保证在操作数据库时都使用相同的名称，并以此作为一种规范。</p>
+<h3 id="选择数据库-USE-db-name"><a href="#选择数据库-USE-db-name" class="headerlink" title="选择数据库,USE db_name"></a>选择数据库,<code>USE db_name</code></h3><p>如下
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE simpleDB;</div><div class="line">Database changed</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<p>创建数据库并不代表可以马上使用它，我们必须通过命令,明确的的告诉MySQL服务器我们接下来到底要操作的数据库的名称，这是通过<code>USE</code>语句实现的。<code>USE</code>告诉MySQL要把<code>db_name</code>作为当前的默认数据库，后续输入的SQL语句都是在<code>db_name</code>数据库上进行操作，直到使用<code>USE</code>切换到另一个新的数据库，或操作完毕。</p>
+<p>数据库的创建只需要一次操作，但是在每次要操作数据库之前，我们必须语句指定数据库的名称。除了在成功连接到MySQL服务器之后，再使用<code>USE</code>语句指定数据库名称之外，其实在连接MySQL数据库伊始，我们也可以在连接命令后指定数据库名称，如
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; mysql -h localhost -u root -p simpleDB</div><div class="line">Enter password:******</div></pre></td></tr></table></figure></p>
+<p>在<code>-p</code>选项后面紧跟的是一个空格，simpleDB指代的是在成功连接MySQL之后要使用的数据库的名称，而不是<code>-p</code>选项的密码，要在命令行上指定<code>-p</code>密码的话，密码必须紧挨着<code>-p</code>选项，如<code>-puserpassword</code>。</p>
+<h3 id="显示当前数据库"><a href="#显示当前数据库" class="headerlink" title="显示当前数据库"></a>显示当前数据库</h3><p>有时MySQL服务器上会安装部署多个数据库，默认情况下，MySQL首次安装时，<strong><a href="http://dev.mysql.com/doc/refman/5.1/zh/installing.html#mysql-install-db" target="_blank" rel="external">mysql_install_db</a></strong>程序会设置MySQL服务器的授权表，其中会创建拥有所有数据库权限的mysql数据库和用来测试MySQL的test数据库，在MySQL的5.1版本上新增了information_schema数据库，提供了访问数据库元数据的方式。MySQL5.5.3版本时新增了<a href="http://docs.oracle.com/cd/E17952_01/refman-5.5-en/performance-schema.html" target="_blank" rel="external">performance_schema</a>数据库,提供监测服务器运行时下的内部执行状态。
+可以使用 <code>SHOW DATABASES</code>语句来查看MySQL服务器安装的数据库列表，如
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW DATABASES;</div><div class="line">+--------------------+</div><div class="line">| Database           |</div><div class="line">+--------------------+</div><div class="line">| information_schema |</div><div class="line">| mysql              |</div><div class="line">| performance_schema |</div><div class="line">| simpleDB           |</div><div class="line">| <span class="built_in">test</span>               |</div><div class="line">+--------------------+</div><div class="line">5 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<p>或，结合<code>LIKE</code>进行模式查询，如：显示名称以<code>in</code>开头的数据库，
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW DATABASES LIKE <span class="string">'in%'</span>;</div><div class="line">+--------------------+</div><div class="line">| Database (<span class="keyword">in</span>%)     |</div><div class="line">+--------------------+</div><div class="line">| information_schema |</div><div class="line">+--------------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.03 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h3><p><code>DROP DATABASE db_name</code>用于取消数据库中所有的表并且删除数据库，是个危险操作。可以添加<code>IF EXISTS</code>来添加判断，防止因数据库不存在而导致删除错误,如<code>DROP DATABASE IF EXSITS db_name</code>,具体操作如下：
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mysql&gt; DROP DATABASE IF EXISTS simpleDB;</div><div class="line">Query OK, 0 rows affected (0.83 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<p><code>DORP DATABASE</code>会返回已被取消表的数量。</p>
 
           
         
@@ -1228,145 +1208,6 @@ shell&gt; mysql
 <li><a href="http://dev.mysql.com/doc/refman/5.6/en/invoking-programs.html" target="_blank" rel="external">Invoking MySQL Programs</a></li>
 <li><a href="http://dev.mysql.com/doc/refman/5.6/en/command-line-options.html" target="_blank" rel="external">Using Options on the Command Line</a></li>
 </ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/04/20/MySQL数据库创建，选择，显示，删除/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/04/20/MySQL数据库创建，选择，显示，删除/" itemprop="url">MySQL数据库创建，选择，显示，删除</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-04-20T00:00:00+08:00">
-                2014-04-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2014/04/20/MySQL数据库创建，选择，显示，删除/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/20/MySQL数据库创建，选择，显示，删除/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本篇对MySQL数据库基本使用所涉及到的命令做简单的学习式记录，内容大多来源于MySQL的参考手册。SQL命令以字母大写方式做区分，在MySQL中SQL关键字本身不区分大小写。文档以MySQL5.6.15为例进行说明，新建数据库名称为<code>simpleDB</code>，并且省略了之前连接MySQL服务器的过程。</p>
-<h3 id="创建数据库-形式如CREATE-DATABASE-db-name"><a href="#创建数据库-形式如CREATE-DATABASE-db-name" class="headerlink" title="创建数据库,形式如CREATE DATABASE db_name"></a>创建数据库,形式如<code>CREATE DATABASE db_name</code></h3><p>如下</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt; CREATE DATABASE simpleDB;</div><div class="line">Query OK, 1 row affected (0.25 sec)</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure>
-<p><strong>注意</strong>，在Unix中数据库名称时区分大小写的，不同于SQL关键字是不区分大小写的。因此在数据库创建完毕之后，之后所有的操作都必须正确录入数据库的名称。但在Window系统下数据库的名称时不区分大小写的，因此为了统一这种差异化，建议以约定的方式保证在操作数据库时都使用相同的名称，并以此作为一种规范。</p>
-<h3 id="选择数据库-USE-db-name"><a href="#选择数据库-USE-db-name" class="headerlink" title="选择数据库,USE db_name"></a>选择数据库,<code>USE db_name</code></h3><p>如下
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">mysql&gt; USE simpleDB;</div><div class="line">Database changed</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
-<p>创建数据库并不代表可以马上使用它，我们必须通过命令,明确的的告诉MySQL服务器我们接下来到底要操作的数据库的名称，这是通过<code>USE</code>语句实现的。<code>USE</code>告诉MySQL要把<code>db_name</code>作为当前的默认数据库，后续输入的SQL语句都是在<code>db_name</code>数据库上进行操作，直到使用<code>USE</code>切换到另一个新的数据库，或操作完毕。</p>
-<p>数据库的创建只需要一次操作，但是在每次要操作数据库之前，我们必须语句指定数据库的名称。除了在成功连接到MySQL服务器之后，再使用<code>USE</code>语句指定数据库名称之外，其实在连接MySQL数据库伊始，我们也可以在连接命令后指定数据库名称，如
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt; mysql -h localhost -u root -p simpleDB</div><div class="line">Enter password:******</div></pre></td></tr></table></figure></p>
-<p>在<code>-p</code>选项后面紧跟的是一个空格，simpleDB指代的是在成功连接MySQL之后要使用的数据库的名称，而不是<code>-p</code>选项的密码，要在命令行上指定<code>-p</code>密码的话，密码必须紧挨着<code>-p</code>选项，如<code>-puserpassword</code>。</p>
-<h3 id="显示当前数据库"><a href="#显示当前数据库" class="headerlink" title="显示当前数据库"></a>显示当前数据库</h3><p>有时MySQL服务器上会安装部署多个数据库，默认情况下，MySQL首次安装时，<strong><a href="http://dev.mysql.com/doc/refman/5.1/zh/installing.html#mysql-install-db" target="_blank" rel="external">mysql_install_db</a></strong>程序会设置MySQL服务器的授权表，其中会创建拥有所有数据库权限的mysql数据库和用来测试MySQL的test数据库，在MySQL的5.1版本上新增了information_schema数据库，提供了访问数据库元数据的方式。MySQL5.5.3版本时新增了<a href="http://docs.oracle.com/cd/E17952_01/refman-5.5-en/performance-schema.html" target="_blank" rel="external">performance_schema</a>数据库,提供监测服务器运行时下的内部执行状态。
-可以使用 <code>SHOW DATABASES</code>语句来查看MySQL服务器安装的数据库列表，如
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW DATABASES;</div><div class="line">+--------------------+</div><div class="line">| Database           |</div><div class="line">+--------------------+</div><div class="line">| information_schema |</div><div class="line">| mysql              |</div><div class="line">| performance_schema |</div><div class="line">| simpleDB           |</div><div class="line">| <span class="built_in">test</span>               |</div><div class="line">+--------------------+</div><div class="line">5 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
-<p>或，结合<code>LIKE</code>进行模式查询，如：显示名称以<code>in</code>开头的数据库，
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; SHOW DATABASES LIKE <span class="string">'in%'</span>;</div><div class="line">+--------------------+</div><div class="line">| Database (<span class="keyword">in</span>%)     |</div><div class="line">+--------------------+</div><div class="line">| information_schema |</div><div class="line">+--------------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.03 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
-<h3 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h3><p><code>DROP DATABASE db_name</code>用于取消数据库中所有的表并且删除数据库，是个危险操作。可以添加<code>IF EXISTS</code>来添加判断，防止因数据库不存在而导致删除错误,如<code>DROP DATABASE IF EXSITS db_name</code>,具体操作如下：
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">mysql&gt; DROP DATABASE IF EXISTS simpleDB;</div><div class="line">Query OK, 0 rows affected (0.83 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
-<p><code>DORP DATABASE</code>会返回已被取消表的数量。</p>
 
           
         
@@ -1885,7 +1726,7 @@ shell&gt; mysql
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/04/16/回车与换行/">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/04/20/MySQL获取数据库和表的信息/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="monjer">
@@ -1904,7 +1745,7 @@ shell&gt; mysql
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2014/04/16/回车与换行/" itemprop="url">回车与换行</a></h1>
+                <a class="post-title-link" href="/2014/04/20/MySQL获取数据库和表的信息/" itemprop="url">MySQL获取数据库和表的信息</a></h1>
         
 
         <div class="post-meta">
@@ -1916,8 +1757,8 @@ shell&gt; mysql
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-04-16T00:00:00+08:00">
-                2014-04-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-04-20T00:00:00+08:00">
+                2014-04-20
               </time>
             
 
@@ -1935,8 +1776,8 @@ shell&gt; mysql
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2014/04/16/回车与换行/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/16/回车与换行/" itemprop="commentCount"></span>
+                <a href="/2014/04/20/MySQL获取数据库和表的信息/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/20/MySQL获取数据库和表的信息/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -1963,46 +1804,186 @@ shell&gt; mysql
       
         
           
-            <h3 id="概念解释"><a href="#概念解释" class="headerlink" title="概念解释"></a>概念解释</h3><p><strong>换行(line feed)</strong>，从字面意思理解就是另起一行，如在一个定宽的文本编辑器中，当一段文字的尾部到达行尾时我们需要换到下一行继续输入文字。以下是wiki释义:</p>
-<blockquote>
-<p>换行，是在计算机领域中，换行（newline）或称为Line break或end-of-line（EOL）换行符是一种加在文字最后位置的特殊字符，在换行符的下一个字符将会出现在下一行。</p>
-</blockquote>
-<p><strong>回车(Carriage return)</strong>，简写为CR，这源于老式打字机的一个设计，以下是wiki释义：</p>
-<blockquote>
-<p>回车这术语用于打字机的板手。若打字机的语言由左至右书写的语言．回车用于将承载装纸滚筒的机架（carriage）移到最右边，以便令印字位置对准一行的开头，同时顺便转动滚筒，换至下一行。第一个有动力的回车功能是是在1960年由Smith Corona加入电打字机中，此键一般会标示为carriage return或return。</p>
-</blockquote>
-<h3 id="不同平台下字符的表示"><a href="#不同平台下字符的表示" class="headerlink" title="不同平台下字符的表示"></a>不同平台下字符的表示</h3><p>在计算机中，<strong>回车符(\r)</strong>和<strong>换行符(\n)</strong>都属于控制字符(或称，非打印字符)，本身并不是一个可写字符。在ASCII码中，<strong>回车符</strong>的值为<strong>0x0A</strong>,<strong>换行符</strong>的置为<strong>0x0D</strong>,由于历史原因，不同平台下在使用换行字符方面存在一些差异，这些差异在跨平台时会导致文字排版的错乱。不同的平台下使用的换行方式分类如下：</p>
+            <p>命令行方式下，操作数据库，需要知道数据库的信息，如，当前使用数据库的名称，数据库中有多少个表以及表的名称，每个表的表结构是什么，表中有几个字段，每个字段的名称和数据类型是什么，我们都需要进行查看和定位，进而进行下一步的操作。承接上篇创建的<code>simpleDB</code>继续，假设创建一个保存人员信息的<code>Person</code>表，包含了姓名，出生日期，性别
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; create table Person(</div><div class="line">    -&gt; name varchar(100),</div><div class="line">    -&gt; birthday datetime,</div><div class="line">    -&gt; sex varchar(4)</div><div class="line">    -&gt; );</div><div class="line">Query OK, 0 rows affected (0.53 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="select-database-获取当前使用的数据库名称"><a href="#select-database-获取当前使用的数据库名称" class="headerlink" title="select database()获取当前使用的数据库名称"></a><code>select database()</code>获取当前使用的数据库名称</h3><p>如，
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select database();</div><div class="line">+------------+</div><div class="line">| database() |</div><div class="line">+------------+</div><div class="line">| simpledb   |</div><div class="line">+------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>如果未选择任何数据库，select database()的结果为NULL；
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">mysql&gt; select database();</div><div class="line">+------------+</div><div class="line">| database() |</div><div class="line">+------------+</div><div class="line">| NULL       |</div><div class="line">+------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="show-tables-找出当前数据库中包含的表"><a href="#show-tables-找出当前数据库中包含的表" class="headerlink" title="show tables,找出当前数据库中包含的表"></a><code>show tables</code>,找出当前数据库中包含的表</h3><p>如
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show tables;</div><div class="line">+--------------------+</div><div class="line">| Tables_in_simpledb |</div><div class="line">+--------------------+</div><div class="line">| Person             |</div><div class="line">+--------------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</div></pre></td></tr></table></figure></p>
+<p>或，<code>show tables from db_name</code>,如
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show tables from simpleDB;</div><div class="line">+--------------------+</div><div class="line">| Tables_in_simpledb |</div><div class="line">+--------------------+</div><div class="line">| Person             |</div><div class="line">+--------------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.04 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<p>或，使用模糊匹配表名称,<code>show tables from db_name like &#39;pattern&#39;</code>,如
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show tables from simpleDB like <span class="string">'p%'</span>;</div><div class="line">+-------------------------+</div><div class="line">| Tables_in_simpledb (p%) |</div><div class="line">+-------------------------+</div><div class="line">| Person                  |</div><div class="line">+-------------------------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.03 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<h3 id="describe-table-name-或desc-table-name命令获取指定名称的表的结构"><a href="#describe-table-name-或desc-table-name命令获取指定名称的表的结构" class="headerlink" title="describe table_name,或desc table_name命令获取指定名称的表的结构"></a><code>describe table_name</code>,或<code>desc table_name</code>命令获取指定名称的表的结构</h3><p>如
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; describe Person;</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| Field    | Type         | Null | Key | Default | Extra |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| name     | varchar(100) | YES  |     | NULL    |       |</div><div class="line">| birthday | datetime     | YES  |     | NULL    |       |</div><div class="line">| sex      | varchar(4)   | YES  |     | NULL    |       |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">3 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.18 sec)</div></pre></td></tr></table></figure></p>
+<p>其中<code>Field</code>显示列名称，<code>Type</code>是列对应的数据类型，<code>Null</code>表示列是否可以包含NULL值，<code>Key</code>现实列是否被索引，<code>Default</code>指定列的默认值，<code>Extra</code>包含了对应列的附加信息。</p>
+<p>也可以查看表的某一列的信息，前提是知道具体列的名称，如
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">mysql&gt; describe Person name;</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| Field | Type         | Null | Key | Default | Extra |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(100) | YES  |     | NULL    |       |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.08 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<p>如果不确定列的具体名称，也可以对列名使用模糊匹配，如，查询列名中包含字母<code>e</code>的列信息，
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">mysql&gt; desc Person <span class="string">'%e%'</span>;</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| Field | Type         | Null | Key | Default | Extra |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(100) | YES  |     | NULL    |       |</div><div class="line">| sex   | varchar(4)   | YES  |     | NULL    |       |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">2 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.06 sec)</div><div class="line"></div><div class="line">mysql&gt;</div></pre></td></tr></table></figure></p>
+<p>其实<code>describe</code>命令是<code>show columns</code>语句的快捷版,使用<code>show columns</code>语句也可以来获取表的结构，,简单语法格式如下,</p>
+<pre><code>SHOW COLUMNS FROM tbl_name [FROM db_name] [LIKE &apos;pattern&apos;]
+</code></pre><p>如：
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show columns from person;</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| Field    | Type         | Null | Key | Default | Extra |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| name     | varchar(100) | YES  |     | NULL    |       |</div><div class="line">| birthday | datetime     | YES  |     | NULL    |       |</div><div class="line">| sex      | varchar(4)   | YES  |     | NULL    |       |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">3 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.10 sec)</div><div class="line"></div><div class="line">mysql&gt; show columns from person from simpleDB;</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| Field    | Type         | Null | Key | Default | Extra |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">| name     | varchar(100) | YES  |     | NULL    |       |</div><div class="line">| birthday | datetime     | YES  |     | NULL    |       |</div><div class="line">| sex      | varchar(4)   | YES  |     | NULL    |       |</div><div class="line">+----------+--------------+------+-----+---------+-------+</div><div class="line">3 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</div><div class="line"></div><div class="line">mysql&gt; show columns from person like <span class="string">'%e%'</span>;</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| Field | Type         | Null | Key | Default | Extra |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">| name  | varchar(100) | YES  |     | NULL    |       |</div><div class="line">| sex   | varchar(4)   | YES  |     | NULL    |       |</div><div class="line">+-------+--------------+------+-----+---------+-------+</div><div class="line">2 rows <span class="keyword">in</span> <span class="built_in">set</span> (0.01 sec)</div></pre></td></tr></table></figure></p>
+<p>另外，也可以使用<code>db_name.tbl_name</code>代替<code>tbl_name from db_name</code>,所以
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show columns from person from simpleDB;</div></pre></td></tr></table></figure></p>
+<p>等价于
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql&gt; show columns from simpleDB.person;</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/" itemprop="url">Mac OS X下安装MySQL的偏好设置面板(MySQL Preference Pane)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-04-20T00:00:00+08:00">
+                2014-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Mac OS X的MySQL的镜像文件中包括了一个MySQL偏好设置面板(MySQL Preference Pane)，可以用来启动，停止MySQL，以及控制在系统启动时MySQL是否自启动。以下是安装步骤：</p>
+<ol>
+<li><p>下载MySQL的镜像文件(.dmg文件)，双击打开镜像文件，查看MySQL.prefPane文件，</p>
+ <img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/1.png" alt="1.png" title="">
+</li>
+<li><p>双击安装MySQL.prefPanel,</p>
+</li>
+<li><p>首次安装MySQL的偏好设置面板，系统会询问你是否确认安装，以及提供安装面向的用户类型，</p>
+<ol>
+<li>只为此用户安装；</li>
+<li><p>为这台电脑上的所有用户安装。</p>
+<p>选择2个选项的话，需要当前用户拥有管理员权限，可能需要输入相应的当前用户用户名和密码</p>
+<img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/2.png" alt="2.png" title="">
+</li>
+</ol>
+</li>
+<li><p>MySQL的偏好设置面板安装完成后，就可以通过它来控制MySQL服务器了。打开的方式如下，在Mac OS X下的苹果菜单中(Apple Menu)，选择<strong>系统偏好设置(System Preferences… )</strong>,在打开的系统偏好设置面板中的<strong>其它(Other)</strong>选区中，可以看到MySQL的logo，点击logo 进入MySQL的偏好设置面板中</p>
+ <img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/3.png" alt="3.png" title="">
+ <img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/4.png" alt="4.png" title="">
+<p> MySQL的偏好设置面板中，显示了当前MySQL服务器的状态，以<strong>绿色</strong>的<strong>running</strong>表示<strong>正在运行</strong>，以<strong>红色</strong>的<strong>stopped</strong>表示<strong>已经停止</strong></p>
+ <img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/5.png" alt="5.png" title="">
+ <img src="/2014/04/20/Mac-OS-X下安装MySQL的偏好设置面板-MySQL-Preference-Pane/6.png" alt="6.png" title="">
+</li>
+<li><p>MySQL偏好设置面板用法</p>
+</li>
+</ol>
 <ul>
-<li>LF：在Unix或Unix相容系統（GNU/Linux, AIX, Xenix, Mac OS X, …）、BeOS、Amiga、RISC OS</li>
-<li>CR+LF：MS-DOS、Microsoft Windows、大部分非Unix的系統</li>
-<li>CR：Apple II家族，Mac OS至版本9</li>
+<li><strong>启动MySQL</strong>,点击<code>Start MySQL Server</code>,当前用户需要有管理员权限，输入用户名和密码，启动MySQL服务。</li>
+<li><strong>关闭MySQL</strong>,点击<code>Stop MySQL Server</code>,当前用户需要有管理员权限，输入用户名和密码，关闭MySQL服务。</li>
+<li><strong>设置或关闭系统开机启动时，MySQL服务自动开启功能</strong>,选择或取消<code>Automatically Start MySQL Server on Startup</code>复选框</li>
 </ul>
-<h3 id="Noteplus中的Line-Ending处理"><a href="#Noteplus中的Line-Ending处理" class="headerlink" title="Noteplus中的Line Ending处理"></a>Noteplus中的Line Ending处理</h3><p>多数的文本编辑器都提供Line Ending的转换处理，用来解决跨平台下文本文件的换行文本，如Windows下的NotePlus。打开NotePlus新建文件并输入几行文本，默认情况下编辑器本身不显示控制字符，如图：</p>
-<img src="/2014/04/16/回车与换行/1.png" alt="1.png" title="">
-<p>可以通过工具栏上的<em>视图</em>&gt;<em>显示符号</em>&gt;<em>显示行尾符</em>来查看编辑器当前用来处理换行的字符，如图：</p>
-<img src="/2014/04/16/回车与换行/2.png" alt="2.png" title="">
-<p>设置完成之后，由于是在Windows平台下的文本编辑器，所以显示的换行使用的是<strong>CRLF</strong>,如图</p>
-<img src="/2014/04/16/回车与换行/3.png" alt="3.png" title="">
-<p>另外，文本编辑器本身也可以了换行符类型的选择，如，在工具栏的<em>编辑</em>&gt;<em>档案格式转换</em>中，可以看到编辑器支持转换为三种格式的文本类型</p>
-<ul>
-<li>转换为Windows格式</li>
-<li>转换UNIX格式</li>
-<li>转换为MAC格式</li>
-</ul>
-<p>如图：</p>
-<img src="/2014/04/16/回车与换行/4.png" alt="4.png" title="">
-<p>由于是在Windows平台下，所以默认的文本格式为<em>Windows格式</em>,我们选择<strong>转换为UNIX格式</strong>,之后可以看到编辑器的换行处理是用<strong>LF</strong>，如图：</p>
-<img src="/2014/04/16/回车与换行/5.png" alt="5.png" title="">
-<p>也可以选择<strong>转换为MAC格式</strong>，如图</p>
-<img src="/2014/04/16/回车与换行/6.png" alt="6.png" title="">
-<p>在<strong>转换为MAC格式</strong>后保存文件，并用Windows下的notepad打开该文件，可以看到所有的文本都显示在同一行中。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://blog.csdn.net/tskyfree/article/details/8121951" target="_blank" rel="external">Windows、Unix、Mac不同操作系统的换行问题-剖析回车符\r和换行符\n</a></li>
-<li><a href="http://sourceforge.net/p/notepad-plus/discussion/1290589/thread/beb5c565/" target="_blank" rel="external">如何替换换行符</a></li>
-<li><a href="http://zh.wikipedia.org/wiki/%E6%8F%9B%E8%A1%8C" target="_blank" rel="external">换行</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Control_character" target="_blank" rel="external">Control character</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2006/04/post_213.html" target="_blank" rel="external">回车和换行</a></li>
-</ul>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://dev.mysql.com/doc/refman/5.6/en/macosx-installation-prefpane.html" target="_blank" rel="external">Installing and Using the MySQL Preference Pane</a></p>
 
           
         
@@ -2086,7 +2067,7 @@ shell&gt; mysql
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">136</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2099,7 +2080,7 @@ shell&gt; mysql
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

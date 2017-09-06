@@ -2,10 +2,8 @@
 
 
 
-  
 
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next muse" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -108,7 +106,7 @@
     scheme: 'Muse',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
-    motion: true,
+    motion: false,
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -253,6 +251,184 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2015/03/17/几种判断对象是否拥有指定属性的方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/03/17/几种判断对象是否拥有指定属性的方法/" itemprop="url">几种判断对象是否拥有指定属性的方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-17T00:00:00+08:00">
+                2015-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/03/17/几种判断对象是否拥有指定属性的方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/17/几种判断对象是否拥有指定属性的方法/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>有多种方法来检测一个对象是否拥有某个属性。你也许认为调用<code>myObject.hasOwnProperty(&#39;prop&#39;);</code>就简单的解决了这个问题。但，其它几个不同的方式也能完成相同的功能，每种方式有自己的问题和坑。让我们看下这几种检测属性存在的方法，困扰js开发者的概念，原型链的查找和问题。</p>
+<h3 id="双感叹号-属性查找"><a href="#双感叹号-属性查找" class="headerlink" title="双感叹号!!属性查找"></a>双感叹号<code>!!</code>属性查找</h3><p>我们可能已经见过<code>!!</code>的用法，如Modernizr中的特性检测，怪异的<code>!!</code>时不时的出现在我们面前。在我们开始介绍之前，我们需要注意的是，<code>!!</code>实际上不是检测一个对象是否拥有某个属性的，它是用来检测对象属性的值的。也就是说，如果属性值是false或者对象属性根本不存在，使用<code>!!</code>会得到<strong>falsy</strong>结果。在不知道它的用法和局限的情况下使用，会产生很糟糕的结果。</p>
+<h3 id="的意思"><a href="#的意思" class="headerlink" title="!!的意思"></a><code>!!</code>的意思</h3><p><code>!!</code>是一种将值转换为<code>Boolean</code>值的简单方法。真值(truthy)会转换为<code>Boolean</code>的<code>true</code>值。一些其它诸如<code>undefined</code>或<code>null</code>,二者都是falsy值，<code>!!</code>会将它们转换为布尔值的<code>false</code>。此处的关键是<code>!!</code>转换的是值。再次强调一遍，转换的是值。这与对象的结构和大小无关。<code>!!</code>只是将truthy和falsy值转换为布尔值。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>空数组是一个truthy值，如：
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = []; <span class="comment">// []</span></div></pre></td></tr></table></figure></p>
+<p>如果要将它转换为布尔值呢？它是truthy值，所以我们应该得到<code>true</code>:
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = !![]; <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
+<p><code>null</code>是一个falsy值，如
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="literal">null</span>; <span class="comment">// null</span></div></pre></td></tr></table></figure></p>
+<p>预期的结果应该<code>false</code>    :
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = !!<span class="literal">null</span>; <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
+<p>这意味着我们可以使用它来查询我们的对象！
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">  <span class="attr">cool</span>: <span class="literal">false</span></div><div class="line">&#125;;</div><div class="line">!!toddObject.name <span class="comment">// true (correct result as it's a truthy value)</span></div></pre></td></tr></table></figure></p>
+<p>这种方法也会查找对象的原型链(<code>prototype</code>)来判断属性是否存在，如果查询属性的名称与原型对象的属性重名，就会导致意外的负面影响。
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Object.prototype.toString</span></div><div class="line">!!toddObject.toString <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="comment">// !!Array.prototype.forEach</span></div><div class="line">!![][<span class="string">'forEach'</span>] <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
+<h3 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h3><p>记住我们可以使用<code>!!</code>来检测我们的对象。我们通常会如下新建对象和默认值：
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">    <span class="attr">favouriteDrink</span>: <span class="literal">null</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>使用<code>!!</code>来检查对象属性是否存在，是一个愚蠢的想法：
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">    <span class="attr">favouriteDrink</span>: <span class="literal">null</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">if</span> (!!toddObject.favouriteDrink) &#123; <span class="comment">// false</span></div><div class="line">  <span class="comment">// do something if it exists, I think...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这种方式显得幼稚不堪！以上代码（对于新的程序员或不懂<code>!!</code>用法的程序员来说）会说“如果<strong>toddObject.favouriteDrink</strong>存在，那就执行以下代码”。但不是这样的，因为<code>!!</code>(我再次强调一遍)是用来对值进行强制类型转换，这里的值是<code>null</code>，也是falsy的，尽管该属性存在。在这种情况下使用<code>!!</code>检测对象属性是否存在是一种不好的方法，因为已存在属性的初始值可以是falsy类型的。</p>
+<h3 id="hasOwnProperty-NaN"><a href="#hasOwnProperty-NaN" class="headerlink" title="hasOwnProperty"></a>hasOwnProperty</h3><p>它是一个本地方法，我们从开始就能使用它，但是出于几个原因它也不是百分之百可信的。让我们细细说来。</p>
+<h3 id="它的意思"><a href="#它的意思" class="headerlink" title="它的意思"></a>它的意思</h3><p>使用<code>myObject.hasOwnProperty(&#39;prop&#39;)</code>是直接访问对象属性的好方法，它不会检查对象的原型链。不错吧，对于某些特殊使用情况它尤其好用。<code>hasOwnProperty</code>会为我们返回布尔值，来判断对象属性是否存在。</p>
+<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">    <span class="attr">favouriteDrink</span>: <span class="literal">null</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">if</span> (toddObject.hasOwnProperty(<span class="string">'favouriteDrink'</span>)) &#123; <span class="comment">// true</span></div><div class="line">  <span class="comment">// do something if it exists, fo sho</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但不要对这种实现方式抱确信无疑的态度，继续往下读来获取最佳实践方法。</p>
+<h3 id="坑-1"><a href="#坑-1" class="headerlink" title="坑"></a>坑</h3><p>IE完全的把<code>hasOwnProperty</code>方法搞乱了，在<code>host</code>(宿主对象)上使用它会比较痛苦（宿主对象没有<code>hasOwnProperty</code>方法）。</p>
+<p>JavaScript本身也没有保护该方法的名称，事实上我们可以如下写代码
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">hasOwnProperty</span>: <span class="string">'hello...'</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这使得我们很难完全放心使用<code>hasOwnProperty</code>。然而我们可以直接拿到<code>Object.prototype</code>对象的<code>hasOwnProperty</code>方法，来保证任何<code>hasOwnProperty</code>的调用都是正确的。</p>
+<p>如下：
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">    <span class="attr">favouriteDrink</span>: <span class="literal">null</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.hasOwnProperty.call(toddObject, <span class="string">'favouriteDrink'</span>)) &#123; <span class="comment">// true</span></div><div class="line">  <span class="comment">// do something if it exists, fo sho sho!</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><code>.call()</code>可以改变<code>hasOwnProperty</code>方法的上下文(在IE下可以这么干)，并保证我们拿到的就是<code>Object.prototype</code>原型对象上的<code>hasOwnProperty</code>方法，这是这里的秘密所在。</p>
+<p>显然你可能已经将它封转在一个辅助函数，节省时间以避免每次都要写<code>prototype</code>:
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasProp</span> (<span class="params">obj, prop</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, prop);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (hasProp(toddObject, <span class="string">'favouriteDrink'</span>)) &#123;&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="‘prop’-in-myObject"><a href="#‘prop’-in-myObject" class="headerlink" title="‘prop’ in myObject"></a>‘prop’ in myObject</h3><p><code>in</code>操作符没有<code>hasOwnProperty</code>方法使用广泛，但读过本文后，它也是值得一用的。它也会返回一个布尔值，很像<code>!!myObject</code>,但它不会计算值，它会计算属性是否存在！也就是说如果属性值是<code>false</code>，我们仍旧可以正确的知道这个属性确实是存在的。
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">    <span class="attr">favouriteDrink</span>: <span class="literal">null</span>,</div><div class="line">    <span class="attr">cool</span>: <span class="literal">false</span></div><div class="line">&#125;;</div><div class="line"><span class="string">'cool'</span> <span class="keyword">in</span> toddObject; <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
+<p><code>in</code>操作符显然也是用来检测对象属性是否存在的比较好的方法，用法简洁明了。</p>
+<h3 id="坑-2"><a href="#坑-2" class="headerlink" title="坑"></a>坑</h3><p><code>in</code>操作符也会检测<code>prototype</code>(原型链对象),这会导致不想要的负面效果
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// inherits Object.prototype.toString</span></div><div class="line"><span class="string">'toString'</span> <span class="keyword">in</span> toddObject; <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
+<p>但是我们应该知道这些原型对象的属性名称，避免命名冲突。</p>
+<h3 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h3><p>我们也可以使用<code>typeof</code>。</p>
+<h3 id="意思"><a href="#意思" class="headerlink" title="意思"></a>意思</h3><p>标准的<code>typeof</code>操作符返回一个<code>String</code>类型的值（不太可信任的），我们可以拿结果值与其它一些字符串进行比较，如<code>!== &#39;undefined&#39;</code>，以示属性是否存在。
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> toddObject.name !== <span class="string">'undefined'</span>) &#123;</div><div class="line"><span class="comment">// do something</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>看起来有点丑陋，而且写法较长，尤其是当我们使用它同时进行多次比较。Also, null would fall under this check unless using != ‘undefined’ (single =) as null == undefined anyway.(此外，<code>null</code>在这种检测下会失败，除非使用<code>!= &#39;undefined&#39;</code>(一个<code>=</code>)，因为<code>null == undefined</code>恒成立。<strong>注</strong>:此句描述不妥)</p>
+<h3 id="坑-3"><a href="#坑-3" class="headerlink" title="坑"></a>坑</h3><p>只有了解它，才能使用它，因为对于标准的类型检测，此方法不太可信。</p>
+<h3 id="特性检测"><a href="#特性检测" class="headerlink" title="特性检测"></a>特性检测</h3><p>我不确定确切的说法，但之前确有人告诉我一些浏览器中的实现会以falsy值来表示一个不存在的属性（虽然我不确定，但此处也值得一提）…因此<code>in</code>操作符最适合进行特性检测：</p>
+<pre><code>// just an example, not the one somebody mentioned...
+if (&apos;draggable&apos; in document.createElement(&apos;div&apos;)) {
+  // do something if prop exists
+}
+</code></pre><h3 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h3><p><a href="http://toddmotto.com/methods-to-determine-if-an-object-has-a-given-property/" target="_blank" rel="external">Methods to determine if an Object has a given property</a></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty" target="_blank" rel="external">MDN Object.prototype.hasOwnProperty()</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/in" target="_blank" rel="external">MDN in Operator</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...in" target="_blank" rel="external">MDN for…in</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="external">Equality comparisons and when to use them</a></li>
+<li><a href="http://people.mozilla.org/~jorendorff/es6-draft.html" target="_blank" rel="external">Draft ECMA-262 6th Edition </a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -1966,171 +2142,6 @@ mysql&gt;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/06/20/Mac-OS-X下安装Homebrew/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/06/20/Mac-OS-X下安装Homebrew/" itemprop="url">Mac OS X下安装Homebrew</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-06-20T00:00:00+08:00">
-                2014-06-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2014/06/20/Mac-OS-X下安装Homebrew/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/20/Mac-OS-X下安装Homebrew/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="什么是Homebrew"><a href="#什么是Homebrew" class="headerlink" title="什么是Homebrew"></a>什么是Homebrew</h3><p>关于Homebrew，其官网主页简单的定义为：</p>
-<p><strong>The missing package manager for OS X.</strong></p>
-<p>Homebrew其实就是Mac OS X下的一款开源的<strong>软件包管理器</strong>，用来安装和管理Mac OS X中未提供的需要我们自己手工安装的软件或工具。</p>
-<p>关于 <strong>软件包管理系统</strong> Wiki上给出的定义是:</p>
-<blockquote>
-<p>软件包管理系统是在电脑中自动安装、配制、卸载和升级软件包的工具组合，在各种系统软件和应用软件的安装管理中均有广泛应用。</p>
-</blockquote>
-<p>那么，这也可以作为Homebrew的一个更为完整的说明。Homebrew作用与Debian的dpkg和Red Hat的RPM是类似的。</p>
-<h3 id="安装Homebrew"><a href="#安装Homebrew" class="headerlink" title="安装Homebrew"></a>安装Homebrew</h3><p>安装Homebrew的需要Mac OS X 10.5及以上版本的系统。并且需要提供在Mac OS X中安装ruby,Mac OS X10.5版本之后默认已经安装了 <em>ruby</em>，打开终端可以输入以下命令查看系统中是否已经安装 <em>ruby</em> ：
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ruby -v</div></pre></td></tr></table></figure></p>
-<p>如我的Mac OS X版本为10.8.5，运行以上命名在终端会输出以下内容
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby 1.8.7 (2012-02-08 patchlevel 358) [universal-darwin12.0]</div></pre></td></tr></table></figure></p>
-<p>在确认我们的系统安装了 <em>ruby</em> 之后，安装Homebrew的过程将非常简单，根据官网提示，在终端输入以下命令，然后根据提示就可以完成Homebrew的安装：
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby <span class="_">-e</span> <span class="string">"<span class="variable">$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)</span>"</span></div></pre></td></tr></table></figure></p>
-<p>以下是我的安装过程的截图</p>
-<img src="/2014/06/20/Mac-OS-X下安装Homebrew/a1.png" alt="a1.png" title="">
-<img src="/2014/06/20/Mac-OS-X下安装Homebrew/a2.png" alt="a2.png" title="">
-<img src="/2014/06/20/Mac-OS-X下安装Homebrew/a3.png" alt="a3.png" title="">
-<p>这样在经过几个简单的步骤后Homebrew就安装成功了。安装成功后，可以使用<code>brew</code>命令才使用Homebrew提供的管理功能，如查看Homebrew的版本:
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">www:~ manjun.han$ brew --version</div><div class="line">0.9.5</div><div class="line">www:~ manjun.han$</div></pre></td></tr></table></figure></p>
-<p>查看Homebrew的安装路径，默认为<code>/usr/local</code>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">www:~ manjun.han$ brew --prefix</div><div class="line">/usr/<span class="built_in">local</span></div><div class="line">www:~ manjun.han$</div></pre></td></tr></table></figure></p>
-<p>或者是查看Homebrew的构建环境
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">www:~ manjun.han$ brew --env</div><div class="line">HOMEBREW_CC: clang</div><div class="line">HOMEBREW_CXX: clang++</div><div class="line">MAKEFLAGS: -j4</div><div class="line">CMAKE_PREFIX_PATH: /usr/<span class="built_in">local</span></div><div class="line">CMAKE_INCLUDE_PATH: /usr/include/libxml2:/System/Library/Frameworks/OpenGL.framework/Versions/Current/Headers</div><div class="line">CMAKE_LIBRARY_PATH: /System/Library/Frameworks/OpenGL.framework/Versions/Current/Libraries</div><div class="line">PKG_CONFIG_LIBDIR: /usr/lib/pkgconfig:/usr/<span class="built_in">local</span>/Library/ENV/pkgconfig/10.8</div><div class="line">ACLOCAL_PATH: /usr/<span class="built_in">local</span>/share/aclocal</div><div class="line">PATH: /usr/<span class="built_in">local</span>/Library/ENV/4.3:/usr/bin:/bin:/usr/sbin:/sbin</div><div class="line">www:~ manjun.han$</div></pre></td></tr></table></figure></p>
-<p>关于<code>brew</code>命令的更多详细说明，请使用<code>man brew</code>查看。</p>
-<h3 id="简单的使用"><a href="#简单的使用" class="headerlink" title="简单的使用"></a>简单的使用</h3><p>关于使用Homebrew，我们最先用到的功能就是用它来帮助安装所需的软件或工具，这是最基本的需求，免去了我们对工具的下载，编译，或构建等过程。</p>
-<p>在Homebrew中，每个安装的软件或工具被命名为一个<strong>方案</strong>(formula——其实就是那些被管理的package)，可以使用<code>brew install formula-name</code>命令来安装我们需要的同时Homebrew又支持的软件或工具，其中命令行中的<code>formula-name</code>为待安装的方formula名称，我们以ant为例来查看下该命令的使用过程。</p>
-<p>打开终端，输入<code>brew install ant</code>,以下是我的安装过程截图</p>
-<img src="/2014/06/20/Mac-OS-X下安装Homebrew/a4.png" alt="a4.png" title="">
-<p>从log输出可以看到安装工具的 <em>版本号(1.9.4)</em>，<em>安装大小(39M)</em> ，以及<em>安装目录(/usr/local/Cellar/ant/1.9.4)</em>,并且如果之前该软件有未经Homebrew而安装到你的机器上时，在你使用Homebrew再次安装相同的软件时，它会给出提示。</p>
-<p>这里每个formula都会被安装到自己私有目录中去，之后文件会被链接到<code>/usr/local</code>目录下，所有的formula都会被安装到<code>/usr/local/Cellar</code>目录下面，<code>Cellar</code>就是所有formula的 <strong>仓库</strong>。可以通过命令<code>brew --cellar</code>查看<code>Cellar</code>的安装路径，如
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">manjunhan:~ manjun.han$ brew --cellar</div><div class="line">/usr/<span class="built_in">local</span>/Cellar</div><div class="line">manjunhan:~ manjun.han$</div></pre></td></tr></table></figure></p>
-<p>以及命令<code>brew --cellar formula-name</code>，查看formula的安装路径：
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">manjunhan:~ manjun.han$ brew --cellar ant</div><div class="line">/usr/<span class="built_in">local</span>/Cellar/ant</div><div class="line">manjunhan:~ manjun.han$</div></pre></td></tr></table></figure></p>
-<p>以上只是个人关于Homebrew的一些概念的理解和最基本的用例展示，难免有误。关于Homebrew支持的formula列表，可以<a href="https://github.com/Homebrew/homebrew/tree/master/Library/Formula/" target="_blank" rel="external">在此查看</a>,也可以通过一个第三方的<a href="http://braumeister.org/" target="_blank" rel="external">开源工具</a>进行搜索，或者是通过在终端输入<code>brew search</code>来查看Homebrew当前支持的所有formula的名字。更多高级功能需要参见Homebrew在github<a href="https://github.com/Homebrew/homebrew/wiki/Installation" target="_blank" rel="external">项目wiki</a>上的描述</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://github.com/Homebrew/homebrew" target="_blank" rel="external">Homebrew Github</a></li>
-<li><a href="http://brew.sh/" target="_blank" rel="external">Homebrew Homepage</a></li>
-<li><a href="http://zh.wikipedia.org/wiki/%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F" target="_blank" rel="external">软件包管理系统</a></li>
-<li><a href="https://developer.apple.com/library/mac/releasenotes/OpenSource/PerlExtensionsRelNotes/" target="_blank" rel="external">Creating Universal Extensions for Perl, Python and Ruby</a></li>
-<li><a href="https://developer.apple.com/legacy/library/documentation/Cocoa/Conceptual/RubyPythonCocoa/Introduction/Introduction.html" target="_blank" rel="external">Ruby and Python Programming Topics for Mac</a></li>
-<li><a href="https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/OSX_Technology_Overview/SoftwareProducts/SoftwareProducts.html" target="_blank" rel="external">Mac Technology Overview</a></li>
-<li><a href="http://tetsu.iteye.com/blog/1507524" target="_blank" rel="external">比较Fink, macports 和 homebrew</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2180,7 +2191,7 @@ mysql&gt;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">136</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2193,7 +2204,7 @@ mysql&gt;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

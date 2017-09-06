@@ -2,10 +2,8 @@
 
 
 
-  
 
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next muse" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -108,7 +106,7 @@
     scheme: 'Muse',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
-    motion: true,
+    motion: false,
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -253,6 +251,185 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2015/07/13/使用yui-compressor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/07/13/使用yui-compressor/" itemprop="url">使用yui_compressor</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-07-13T00:00:00+08:00">
+                2015-07-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2015/07/13/使用yui-compressor/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/13/使用yui-compressor/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h3><p>YUI Compressor，是出自Yahoo的js和css的代码压缩器。</p>
+<h3 id="干什么"><a href="#干什么" class="headerlink" title="干什么"></a>干什么</h3><p>YUI Compressor能够移除js代码中的注释，空白符，并且能够使用最短变量名，对js中的局部变量进行安全的混淆操作。与此同时，YUI Compressor也能够安全的压缩CSS文件，压缩的类型取决于传入的文件的扩展名类型。</p>
+<h3 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h3><p>依据Yahoo性能测试，超过40%-60%的用户在浏览Yahoo站点时，他们的浏览器cache都是用的，20%的用户的所有PV都是在无cache状态下进行的。基于这个事实，如何保证web页面足够轻量显得尤为重要。更好的web页面设计和web application的设计无论何时都是节省资源的首要选择的策略。除此之外，许多可用的能够提要性能的二级策略也是能够达到不错的效果的，因此YUI Compressor的作用就是通过压缩代码，来保证资源足够的轻量级，节省足够的代码，以达到更好的性能要求。</p>
+<h3 id="工作和使用方式"><a href="#工作和使用方式" class="headerlink" title="工作和使用方式"></a>工作和使用方式</h3><p>YUI Compressor是使用java语言编写的，因此具有良好的跨平台性，对于js文件来说，它首先分析源文件的代码结构，之后会移除空白符，注释，并使用诸如单个字符命名的变量来混淆所有局部变量,已达到压缩的目的。此外,对于CSS，其压缩算法会使用一系列的正则表达式来压缩CSS源文件。</p>
+<p>YUI Compressor可以使用命令行方式运行，也可以结构一些诸如Ant的构建工具使用，首先需要先<a href="https://github.com/yui/yuicompressor/releases" target="_blank" rel="external">下载YUI Compressor</a>的jar文件，当前版本为2.4.8，文件名为<code>yuicompressor-2.4.8.jar</code>，</p>
+<p>可以以下面的文件结构为例来说明其使用方法：</p>
+<pre><code>app-&gt;
+    js-&gt;
+        jquery.js
+        common.js
+        main.js
+    css-&gt;
+        reset.css
+        main.css            
+    yuicompressor-2.4.8.jar
+</code></pre><p>打开客户端命令行工具，本机 MAC OS,切换到app的目录下,以下操作命令都在app目录下操作</p>
+<h4 id="单文件压缩"><a href="#单文件压缩" class="headerlink" title="单文件压缩"></a>单文件压缩</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ java -jar yuicompressor-2.4.8.jar --type js ./js/jquery.js -o jquery.min.js</div></pre></td></tr></table></figure>
+<p>这会在<em>app/js</em>下生成<em>jquery.min.js</em>文件。<code>--type</code>选项，说明了带压缩文件的类型，<code>js</code>指明要压缩JavaScript文件，<code>css</code>指明要压缩css文件，省略<code>--type</code>的会根据输入文件的扩展名(.js或.css)来选择压缩方式；<code>./js/jquery.js</code>指定了输入的js源文件；<code>-o</code>选项说明了输出压缩文件的名称。可以省略<code>--type</code>,等价于
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ java -jar yuicompressor-2.4.8.jar ./js/jquery.js -o jquery.min.js</div></pre></td></tr></table></figure></p>
+<p>基于以上命令行格式，压缩<em>reset.css</em>如下
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ java -jar yuicompressor-2.4.8.jar ./css/reset.css -o reset.mini.css</div></pre></td></tr></table></figure></p>
+<p>会在<em>app/css</em>生成<em>reset.mini.css</em>文件</p>
+<h4 id="多文件压缩"><a href="#多文件压缩" class="headerlink" title="多文件压缩"></a>多文件压缩</h4><p>单个文件一个个压缩比较繁琐，可以选择使用多文件压缩一次搞定，这需要<code>-o</code>选项指定一定格式。批量压缩js文件
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ java -jar yuicompressor-2.4.8.jar ./js/*.js -o <span class="string">'.js$:.min.js'</span></div></pre></td></tr></table></figure></p>
+<p>会将<em>app/js</em>目录下所有<code>name.js</code>文件生成<code>name.min.js</code>。批量压缩css文件
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ java -jar yuicompressor-2.4.8.jar ./css/*.css -o <span class="string">'.css$:-min.css'</span></div></pre></td></tr></table></figure></p>
+<p>会将<em>app/css</em>目录下所有<code>name.css</code>文件生成<code>name.min.css</code>。</p>
+<p>其中<code>name</code>代替的是文件的名称，<code>&#39;.js$:.mini.js&#39;</code>,<code>&#39;.css$:.mini.css&#39;</code>均为输出压缩文件的文件名格式。</p>
+<p>多文件压缩只给定了重命名的语法规则，但不支持目录级别的重写，实际使用的时候，我们需要将所有生成的<code>*.min.js</code>文件分别移到新的目录下面，也可以使用以下命令行来完成此操作，比如要将所有压缩后的js文件和css文件，分别移到<em>app/dist/js</em>,<em>app/dist/css</em>目录下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ mkdir -p dist/js dist/css</div><div class="line">$ mv js/*.min.js dist/js</div><div class="line">$ mv js/*.min.css dist/css</div></pre></td></tr></table></figure>
+<h4 id="结合使用Ant压缩"><a href="#结合使用Ant压缩" class="headerlink" title="结合使用Ant压缩"></a>结合使用Ant压缩</h4><p>在<em>app</em>目录下新建文件<em>build.xml</em>脚本,并写入<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">name</span>=<span class="string">"Compress"</span> <span class="attr">default</span>=<span class="string">"compress"</span>&gt;</span></div><div class="line">	</div><div class="line">	<span class="comment">&lt;!--清空操作--&gt;</span>			</div><div class="line">	<span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"cleanup"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">delete</span> <span class="attr">dir</span>=<span class="string">"dist"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">mkdir</span> <span class="attr">dir</span>=<span class="string">"dist/js"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">mkdir</span> <span class="attr">dir</span>=<span class="string">"dist/css"</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">target</span>&gt;</span></div><div class="line">	<span class="comment">&lt;!--压缩所有css目录下的css文件，输出到dist/css目录下--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"compress.css"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">apply</span> <span class="attr">executable</span>=<span class="string">"java"</span> <span class="attr">parallel</span>=<span class="string">"false"</span> <span class="attr">failonerror</span>=<span class="string">"true"</span> <span class="attr">dest</span>=<span class="string">"dist/css"</span> <span class="attr">verbose</span>=<span class="string">"yes"</span>&gt;</span></div><div class="line">		    <span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">"css"</span>&gt;</span></div><div class="line">    			<span class="tag">&lt;<span class="name">include</span>  <span class="attr">name</span>=<span class="string">"**/*.css"</span> /&gt;</span></div><div class="line">			<span class="tag">&lt;/<span class="name">fileset</span>&gt;</span>  </div><div class="line">	        <span class="tag">&lt;<span class="name">arg</span> <span class="attr">line</span>=<span class="string">"-jar"</span> /&gt;</span>  </div><div class="line">    	    <span class="tag">&lt;<span class="name">arg</span> <span class="attr">path</span>=<span class="string">"yuicompressor-2.4.8.jar"</span> /&gt;</span></div><div class="line">	    	<span class="tag">&lt;<span class="name">srcfile</span> /&gt;</span>  </div><div class="line">    	    <span class="tag">&lt;<span class="name">arg</span> <span class="attr">line</span>=<span class="string">"-o"</span> /&gt;</span>  </div><div class="line">        	<span class="tag">&lt;<span class="name">mapper</span> <span class="attr">type</span>=<span class="string">"glob"</span> <span class="attr">from</span>=<span class="string">"*.css"</span> <span class="attr">to</span>=<span class="string">"*.min.css"</span> /&gt;</span></div><div class="line">    	    <span class="tag">&lt;<span class="name">targetfile</span> /&gt;</span>  </div><div class="line">	    <span class="tag">&lt;/<span class="name">apply</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">target</span>&gt;</span></div><div class="line">	<span class="comment">&lt;!--压缩所有js目录下的js文件，输出到dist/js目录下--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"compress.js"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">apply</span> <span class="attr">executable</span>=<span class="string">"java"</span> <span class="attr">parallel</span>=<span class="string">"false"</span> <span class="attr">failonerror</span>=<span class="string">"true"</span> <span class="attr">dest</span>=<span class="string">"dist/js"</span> <span class="attr">verbose</span>=<span class="string">"yes"</span>&gt;</span></div><div class="line">		    <span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">"js"</span>&gt;</span></div><div class="line">    			<span class="tag">&lt;<span class="name">include</span>  <span class="attr">name</span>=<span class="string">"**/*.js"</span> /&gt;</span></div><div class="line">        	<span class="tag">&lt;/<span class="name">fileset</span>&gt;</span>  </div><div class="line">	        <span class="tag">&lt;<span class="name">arg</span> <span class="attr">line</span>=<span class="string">"-jar"</span> /&gt;</span>  </div><div class="line">    	    <span class="tag">&lt;<span class="name">arg</span> <span class="attr">path</span>=<span class="string">"yuicompressor-2.4.8.jar"</span> /&gt;</span></div><div class="line">	    	<span class="tag">&lt;<span class="name">srcfile</span> /&gt;</span>  </div><div class="line">    	    <span class="tag">&lt;<span class="name">arg</span> <span class="attr">line</span>=<span class="string">"-o"</span> /&gt;</span></div><div class="line">        	<span class="tag">&lt;<span class="name">mapper</span> <span class="attr">type</span>=<span class="string">"glob"</span> <span class="attr">from</span>=<span class="string">"*.js"</span> <span class="attr">to</span>=<span class="string">"*.min.js"</span> /&gt;</span></div><div class="line">    	    <span class="tag">&lt;<span class="name">targetfile</span> /&gt;</span>  </div><div class="line">	    <span class="tag">&lt;/<span class="name">apply</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">target</span>&gt;</span></div><div class="line">	<span class="comment">&lt;!--main target 脚本运行主task--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"compress"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">antcall</span> <span class="attr">target</span>=<span class="string">"cleanup"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">antcall</span> <span class="attr">target</span>=<span class="string">"compress.css"</span>/&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">antcall</span> <span class="attr">target</span>=<span class="string">"compress.js"</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">target</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></div></pre></td></tr></table></figure>
+执行
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ant</div></pre></td></tr></table></figure></p>
+<p>脚本首先会在<em>app</em>目录下创建目录<em>dist/css</em>和<em>dist/js</em>目录，之后会将压缩后的js和css文件分别写入到两个目录下</p>
+<pre><code>app-&gt;
+    dist-&gt;
+        js-&gt;
+            jquery.min.js
+            common.min.js
+            main.min.js
+        css-&gt;
+            reset.min.css
+            main.min.css
+</code></pre><h3 id="其它选项说明"><a href="#其它选项说明" class="headerlink" title="其它选项说明"></a>其它选项说明</h3><p>关于yuicompressor.jar的说明，可以使用
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ java -jar yuicompressor-2.4.8.jar --help</div></pre></td></tr></table></figure></p>
+<p>查看，通用选项</p>
+<pre><code>--charset 以指定编码格式读入文件
+-v 显示压缩信息和警告
+</code></pre><p>JavaScript特殊选项</p>
+<pre><code>--nomunge 只压缩，不混淆
+--preserve-semi 保留所有分号
+--disable-optimizations 禁用所有优化
+</code></pre><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://yui.github.io/yuicompressor/" target="_blank" rel="external">YUI Compressor document</a></li>
+<li><a href="http://yuiblog.com/blog/2006/03/06/minification-v-obfuscation/" target="_blank" rel="external">Minification v Obfuscation</a></li>
+<li><a href="http://ant.apache.org/manual/index.html" target="_blank" rel="external">Apache ant</a>                </li>
+<li><a href="http://stackoverflow.com/questions/9852814/command-line-options-for-yui-compressor/9853192#9853192" target="_blank" rel="external">Command Line Options For YUI Compressor</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -1902,184 +2079,6 @@ person.sayHi(&quot;张三&quot;);
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2015/03/17/几种判断对象是否拥有指定属性的方法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2015/03/17/几种判断对象是否拥有指定属性的方法/" itemprop="url">几种判断对象是否拥有指定属性的方法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2015-03-17T00:00:00+08:00">
-                2015-03-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2015/03/17/几种判断对象是否拥有指定属性的方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/03/17/几种判断对象是否拥有指定属性的方法/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>有多种方法来检测一个对象是否拥有某个属性。你也许认为调用<code>myObject.hasOwnProperty(&#39;prop&#39;);</code>就简单的解决了这个问题。但，其它几个不同的方式也能完成相同的功能，每种方式有自己的问题和坑。让我们看下这几种检测属性存在的方法，困扰js开发者的概念，原型链的查找和问题。</p>
-<h3 id="双感叹号-属性查找"><a href="#双感叹号-属性查找" class="headerlink" title="双感叹号!!属性查找"></a>双感叹号<code>!!</code>属性查找</h3><p>我们可能已经见过<code>!!</code>的用法，如Modernizr中的特性检测，怪异的<code>!!</code>时不时的出现在我们面前。在我们开始介绍之前，我们需要注意的是，<code>!!</code>实际上不是检测一个对象是否拥有某个属性的，它是用来检测对象属性的值的。也就是说，如果属性值是false或者对象属性根本不存在，使用<code>!!</code>会得到<strong>falsy</strong>结果。在不知道它的用法和局限的情况下使用，会产生很糟糕的结果。</p>
-<h3 id="的意思"><a href="#的意思" class="headerlink" title="!!的意思"></a><code>!!</code>的意思</h3><p><code>!!</code>是一种将值转换为<code>Boolean</code>值的简单方法。真值(truthy)会转换为<code>Boolean</code>的<code>true</code>值。一些其它诸如<code>undefined</code>或<code>null</code>,二者都是falsy值，<code>!!</code>会将它们转换为布尔值的<code>false</code>。此处的关键是<code>!!</code>转换的是值。再次强调一遍，转换的是值。这与对象的结构和大小无关。<code>!!</code>只是将truthy和falsy值转换为布尔值。</p>
-<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>空数组是一个truthy值，如：
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = []; <span class="comment">// []</span></div></pre></td></tr></table></figure></p>
-<p>如果要将它转换为布尔值呢？它是truthy值，所以我们应该得到<code>true</code>:
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = !![]; <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
-<p><code>null</code>是一个falsy值，如
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="literal">null</span>; <span class="comment">// null</span></div></pre></td></tr></table></figure></p>
-<p>预期的结果应该<code>false</code>    :
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = !!<span class="literal">null</span>; <span class="comment">// false</span></div></pre></td></tr></table></figure></p>
-<p>这意味着我们可以使用它来查询我们的对象！
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">  <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">  <span class="attr">cool</span>: <span class="literal">false</span></div><div class="line">&#125;;</div><div class="line">!!toddObject.name <span class="comment">// true (correct result as it's a truthy value)</span></div></pre></td></tr></table></figure></p>
-<p>这种方法也会查找对象的原型链(<code>prototype</code>)来判断属性是否存在，如果查询属性的名称与原型对象的属性重名，就会导致意外的负面影响。
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Object.prototype.toString</span></div><div class="line">!!toddObject.toString <span class="comment">// true</span></div><div class="line"></div><div class="line"><span class="comment">// !!Array.prototype.forEach</span></div><div class="line">!![][<span class="string">'forEach'</span>] <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
-<h3 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h3><p>记住我们可以使用<code>!!</code>来检测我们的对象。我们通常会如下新建对象和默认值：
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">    <span class="attr">favouriteDrink</span>: <span class="literal">null</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>使用<code>!!</code>来检查对象属性是否存在，是一个愚蠢的想法：
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">    <span class="attr">favouriteDrink</span>: <span class="literal">null</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">if</span> (!!toddObject.favouriteDrink) &#123; <span class="comment">// false</span></div><div class="line">  <span class="comment">// do something if it exists, I think...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>这种方式显得幼稚不堪！以上代码（对于新的程序员或不懂<code>!!</code>用法的程序员来说）会说“如果<strong>toddObject.favouriteDrink</strong>存在，那就执行以下代码”。但不是这样的，因为<code>!!</code>(我再次强调一遍)是用来对值进行强制类型转换，这里的值是<code>null</code>，也是falsy的，尽管该属性存在。在这种情况下使用<code>!!</code>检测对象属性是否存在是一种不好的方法，因为已存在属性的初始值可以是falsy类型的。</p>
-<h3 id="hasOwnProperty-NaN"><a href="#hasOwnProperty-NaN" class="headerlink" title="hasOwnProperty"></a>hasOwnProperty</h3><p>它是一个本地方法，我们从开始就能使用它，但是出于几个原因它也不是百分之百可信的。让我们细细说来。</p>
-<h3 id="它的意思"><a href="#它的意思" class="headerlink" title="它的意思"></a>它的意思</h3><p>使用<code>myObject.hasOwnProperty(&#39;prop&#39;)</code>是直接访问对象属性的好方法，它不会检查对象的原型链。不错吧，对于某些特殊使用情况它尤其好用。<code>hasOwnProperty</code>会为我们返回布尔值，来判断对象属性是否存在。</p>
-<h3 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">    <span class="attr">favouriteDrink</span>: <span class="literal">null</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">if</span> (toddObject.hasOwnProperty(<span class="string">'favouriteDrink'</span>)) &#123; <span class="comment">// true</span></div><div class="line">  <span class="comment">// do something if it exists, fo sho</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>但不要对这种实现方式抱确信无疑的态度，继续往下读来获取最佳实践方法。</p>
-<h3 id="坑-1"><a href="#坑-1" class="headerlink" title="坑"></a>坑</h3><p>IE完全的把<code>hasOwnProperty</code>方法搞乱了，在<code>host</code>(宿主对象)上使用它会比较痛苦（宿主对象没有<code>hasOwnProperty</code>方法）。</p>
-<p>JavaScript本身也没有保护该方法的名称，事实上我们可以如下写代码
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">hasOwnProperty</span>: <span class="string">'hello...'</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>这使得我们很难完全放心使用<code>hasOwnProperty</code>。然而我们可以直接拿到<code>Object.prototype</code>对象的<code>hasOwnProperty</code>方法，来保证任何<code>hasOwnProperty</code>的调用都是正确的。</p>
-<p>如下：
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">    <span class="attr">favouriteDrink</span>: <span class="literal">null</span></div><div class="line">&#125;;</div><div class="line"><span class="keyword">if</span> (<span class="built_in">Object</span>.prototype.hasOwnProperty.call(toddObject, <span class="string">'favouriteDrink'</span>)) &#123; <span class="comment">// true</span></div><div class="line">  <span class="comment">// do something if it exists, fo sho sho!</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><code>.call()</code>可以改变<code>hasOwnProperty</code>方法的上下文(在IE下可以这么干)，并保证我们拿到的就是<code>Object.prototype</code>原型对象上的<code>hasOwnProperty</code>方法，这是这里的秘密所在。</p>
-<p>显然你可能已经将它封转在一个辅助函数，节省时间以避免每次都要写<code>prototype</code>:
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">hasProp</span> (<span class="params">obj, prop</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="built_in">Object</span>.prototype.hasOwnProperty.call(obj, prop);</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span> (hasProp(toddObject, <span class="string">'favouriteDrink'</span>)) &#123;&#125;</div></pre></td></tr></table></figure></p>
-<h3 id="‘prop’-in-myObject"><a href="#‘prop’-in-myObject" class="headerlink" title="‘prop’ in myObject"></a>‘prop’ in myObject</h3><p><code>in</code>操作符没有<code>hasOwnProperty</code>方法使用广泛，但读过本文后，它也是值得一用的。它也会返回一个布尔值，很像<code>!!myObject</code>,但它不会计算值，它会计算属性是否存在！也就是说如果属性值是<code>false</code>，我们仍旧可以正确的知道这个属性确实是存在的。
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> toddObject = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">'Todd'</span>,</div><div class="line">    <span class="attr">favouriteDrink</span>: <span class="literal">null</span>,</div><div class="line">    <span class="attr">cool</span>: <span class="literal">false</span></div><div class="line">&#125;;</div><div class="line"><span class="string">'cool'</span> <span class="keyword">in</span> toddObject; <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
-<p><code>in</code>操作符显然也是用来检测对象属性是否存在的比较好的方法，用法简洁明了。</p>
-<h3 id="坑-2"><a href="#坑-2" class="headerlink" title="坑"></a>坑</h3><p><code>in</code>操作符也会检测<code>prototype</code>(原型链对象),这会导致不想要的负面效果
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// inherits Object.prototype.toString</span></div><div class="line"><span class="string">'toString'</span> <span class="keyword">in</span> toddObject; <span class="comment">// true</span></div></pre></td></tr></table></figure></p>
-<p>但是我们应该知道这些原型对象的属性名称，避免命名冲突。</p>
-<h3 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h3><p>我们也可以使用<code>typeof</code>。</p>
-<h3 id="意思"><a href="#意思" class="headerlink" title="意思"></a>意思</h3><p>标准的<code>typeof</code>操作符返回一个<code>String</code>类型的值（不太可信任的），我们可以拿结果值与其它一些字符串进行比较，如<code>!== &#39;undefined&#39;</code>，以示属性是否存在。
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="keyword">typeof</span> toddObject.name !== <span class="string">'undefined'</span>) &#123;</div><div class="line"><span class="comment">// do something</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>看起来有点丑陋，而且写法较长，尤其是当我们使用它同时进行多次比较。Also, null would fall under this check unless using != ‘undefined’ (single =) as null == undefined anyway.(此外，<code>null</code>在这种检测下会失败，除非使用<code>!= &#39;undefined&#39;</code>(一个<code>=</code>)，因为<code>null == undefined</code>恒成立。<strong>注</strong>:此句描述不妥)</p>
-<h3 id="坑-3"><a href="#坑-3" class="headerlink" title="坑"></a>坑</h3><p>只有了解它，才能使用它，因为对于标准的类型检测，此方法不太可信。</p>
-<h3 id="特性检测"><a href="#特性检测" class="headerlink" title="特性检测"></a>特性检测</h3><p>我不确定确切的说法，但之前确有人告诉我一些浏览器中的实现会以falsy值来表示一个不存在的属性（虽然我不确定，但此处也值得一提）…因此<code>in</code>操作符最适合进行特性检测：</p>
-<pre><code>// just an example, not the one somebody mentioned...
-if (&apos;draggable&apos; in document.createElement(&apos;div&apos;)) {
-  // do something if prop exists
-}
-</code></pre><h3 id="原文"><a href="#原文" class="headerlink" title="原文"></a>原文</h3><p><a href="http://toddmotto.com/methods-to-determine-if-an-object-has-a-given-property/" target="_blank" rel="external">Methods to determine if an Object has a given property</a></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty" target="_blank" rel="external">MDN Object.prototype.hasOwnProperty()</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/in" target="_blank" rel="external">MDN in Operator</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/for...in" target="_blank" rel="external">MDN for…in</a></li>
-<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Equality_comparisons_and_sameness" target="_blank" rel="external">Equality comparisons and when to use them</a></li>
-<li><a href="http://people.mozilla.org/~jorendorff/es6-draft.html" target="_blank" rel="external">Draft ECMA-262 6th Edition </a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2129,7 +2128,7 @@ if (&apos;draggable&apos; in document.createElement(&apos;div&apos;)) {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">136</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2142,7 +2141,7 @@ if (&apos;draggable&apos; in document.createElement(&apos;div&apos;)) {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

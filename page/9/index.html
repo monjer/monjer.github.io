@@ -2,10 +2,8 @@
 
 
 
-  
 
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next muse" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -108,7 +106,7 @@
     scheme: 'Muse',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
-    motion: true,
+    motion: false,
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -253,6 +251,171 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/06/20/Mac-OS-X下安装Homebrew/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014/06/20/Mac-OS-X下安装Homebrew/" itemprop="url">Mac OS X下安装Homebrew</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-06-20T00:00:00+08:00">
+                2014-06-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/06/20/Mac-OS-X下安装Homebrew/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/20/Mac-OS-X下安装Homebrew/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="什么是Homebrew"><a href="#什么是Homebrew" class="headerlink" title="什么是Homebrew"></a>什么是Homebrew</h3><p>关于Homebrew，其官网主页简单的定义为：</p>
+<p><strong>The missing package manager for OS X.</strong></p>
+<p>Homebrew其实就是Mac OS X下的一款开源的<strong>软件包管理器</strong>，用来安装和管理Mac OS X中未提供的需要我们自己手工安装的软件或工具。</p>
+<p>关于 <strong>软件包管理系统</strong> Wiki上给出的定义是:</p>
+<blockquote>
+<p>软件包管理系统是在电脑中自动安装、配制、卸载和升级软件包的工具组合，在各种系统软件和应用软件的安装管理中均有广泛应用。</p>
+</blockquote>
+<p>那么，这也可以作为Homebrew的一个更为完整的说明。Homebrew作用与Debian的dpkg和Red Hat的RPM是类似的。</p>
+<h3 id="安装Homebrew"><a href="#安装Homebrew" class="headerlink" title="安装Homebrew"></a>安装Homebrew</h3><p>安装Homebrew的需要Mac OS X 10.5及以上版本的系统。并且需要提供在Mac OS X中安装ruby,Mac OS X10.5版本之后默认已经安装了 <em>ruby</em>，打开终端可以输入以下命令查看系统中是否已经安装 <em>ruby</em> ：
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ruby -v</div></pre></td></tr></table></figure></p>
+<p>如我的Mac OS X版本为10.8.5，运行以上命名在终端会输出以下内容
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby 1.8.7 (2012-02-08 patchlevel 358) [universal-darwin12.0]</div></pre></td></tr></table></figure></p>
+<p>在确认我们的系统安装了 <em>ruby</em> 之后，安装Homebrew的过程将非常简单，根据官网提示，在终端输入以下命令，然后根据提示就可以完成Homebrew的安装：
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby <span class="_">-e</span> <span class="string">"<span class="variable">$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)</span>"</span></div></pre></td></tr></table></figure></p>
+<p>以下是我的安装过程的截图</p>
+<img src="/2014/06/20/Mac-OS-X下安装Homebrew/a1.png" alt="a1.png" title="">
+<img src="/2014/06/20/Mac-OS-X下安装Homebrew/a2.png" alt="a2.png" title="">
+<img src="/2014/06/20/Mac-OS-X下安装Homebrew/a3.png" alt="a3.png" title="">
+<p>这样在经过几个简单的步骤后Homebrew就安装成功了。安装成功后，可以使用<code>brew</code>命令才使用Homebrew提供的管理功能，如查看Homebrew的版本:
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">www:~ manjun.han$ brew --version</div><div class="line">0.9.5</div><div class="line">www:~ manjun.han$</div></pre></td></tr></table></figure></p>
+<p>查看Homebrew的安装路径，默认为<code>/usr/local</code>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">www:~ manjun.han$ brew --prefix</div><div class="line">/usr/<span class="built_in">local</span></div><div class="line">www:~ manjun.han$</div></pre></td></tr></table></figure></p>
+<p>或者是查看Homebrew的构建环境
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">www:~ manjun.han$ brew --env</div><div class="line">HOMEBREW_CC: clang</div><div class="line">HOMEBREW_CXX: clang++</div><div class="line">MAKEFLAGS: -j4</div><div class="line">CMAKE_PREFIX_PATH: /usr/<span class="built_in">local</span></div><div class="line">CMAKE_INCLUDE_PATH: /usr/include/libxml2:/System/Library/Frameworks/OpenGL.framework/Versions/Current/Headers</div><div class="line">CMAKE_LIBRARY_PATH: /System/Library/Frameworks/OpenGL.framework/Versions/Current/Libraries</div><div class="line">PKG_CONFIG_LIBDIR: /usr/lib/pkgconfig:/usr/<span class="built_in">local</span>/Library/ENV/pkgconfig/10.8</div><div class="line">ACLOCAL_PATH: /usr/<span class="built_in">local</span>/share/aclocal</div><div class="line">PATH: /usr/<span class="built_in">local</span>/Library/ENV/4.3:/usr/bin:/bin:/usr/sbin:/sbin</div><div class="line">www:~ manjun.han$</div></pre></td></tr></table></figure></p>
+<p>关于<code>brew</code>命令的更多详细说明，请使用<code>man brew</code>查看。</p>
+<h3 id="简单的使用"><a href="#简单的使用" class="headerlink" title="简单的使用"></a>简单的使用</h3><p>关于使用Homebrew，我们最先用到的功能就是用它来帮助安装所需的软件或工具，这是最基本的需求，免去了我们对工具的下载，编译，或构建等过程。</p>
+<p>在Homebrew中，每个安装的软件或工具被命名为一个<strong>方案</strong>(formula——其实就是那些被管理的package)，可以使用<code>brew install formula-name</code>命令来安装我们需要的同时Homebrew又支持的软件或工具，其中命令行中的<code>formula-name</code>为待安装的方formula名称，我们以ant为例来查看下该命令的使用过程。</p>
+<p>打开终端，输入<code>brew install ant</code>,以下是我的安装过程截图</p>
+<img src="/2014/06/20/Mac-OS-X下安装Homebrew/a4.png" alt="a4.png" title="">
+<p>从log输出可以看到安装工具的 <em>版本号(1.9.4)</em>，<em>安装大小(39M)</em> ，以及<em>安装目录(/usr/local/Cellar/ant/1.9.4)</em>,并且如果之前该软件有未经Homebrew而安装到你的机器上时，在你使用Homebrew再次安装相同的软件时，它会给出提示。</p>
+<p>这里每个formula都会被安装到自己私有目录中去，之后文件会被链接到<code>/usr/local</code>目录下，所有的formula都会被安装到<code>/usr/local/Cellar</code>目录下面，<code>Cellar</code>就是所有formula的 <strong>仓库</strong>。可以通过命令<code>brew --cellar</code>查看<code>Cellar</code>的安装路径，如
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">manjunhan:~ manjun.han$ brew --cellar</div><div class="line">/usr/<span class="built_in">local</span>/Cellar</div><div class="line">manjunhan:~ manjun.han$</div></pre></td></tr></table></figure></p>
+<p>以及命令<code>brew --cellar formula-name</code>，查看formula的安装路径：
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">manjunhan:~ manjun.han$ brew --cellar ant</div><div class="line">/usr/<span class="built_in">local</span>/Cellar/ant</div><div class="line">manjunhan:~ manjun.han$</div></pre></td></tr></table></figure></p>
+<p>以上只是个人关于Homebrew的一些概念的理解和最基本的用例展示，难免有误。关于Homebrew支持的formula列表，可以<a href="https://github.com/Homebrew/homebrew/tree/master/Library/Formula/" target="_blank" rel="external">在此查看</a>,也可以通过一个第三方的<a href="http://braumeister.org/" target="_blank" rel="external">开源工具</a>进行搜索，或者是通过在终端输入<code>brew search</code>来查看Homebrew当前支持的所有formula的名字。更多高级功能需要参见Homebrew在github<a href="https://github.com/Homebrew/homebrew/wiki/Installation" target="_blank" rel="external">项目wiki</a>上的描述</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://github.com/Homebrew/homebrew" target="_blank" rel="external">Homebrew Github</a></li>
+<li><a href="http://brew.sh/" target="_blank" rel="external">Homebrew Homepage</a></li>
+<li><a href="http://zh.wikipedia.org/wiki/%E8%BD%AF%E4%BB%B6%E5%8C%85%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F" target="_blank" rel="external">软件包管理系统</a></li>
+<li><a href="https://developer.apple.com/library/mac/releasenotes/OpenSource/PerlExtensionsRelNotes/" target="_blank" rel="external">Creating Universal Extensions for Perl, Python and Ruby</a></li>
+<li><a href="https://developer.apple.com/legacy/library/documentation/Cocoa/Conceptual/RubyPythonCocoa/Introduction/Introduction.html" target="_blank" rel="external">Ruby and Python Programming Topics for Mac</a></li>
+<li><a href="https://developer.apple.com/library/mac/documentation/MacOSX/Conceptual/OSX_Technology_Overview/SoftwareProducts/SoftwareProducts.html" target="_blank" rel="external">Mac Technology Overview</a></li>
+<li><a href="http://tetsu.iteye.com/blog/1507524" target="_blank" rel="external">比较Fink, macports 和 homebrew</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -743,6 +906,245 @@ daemon
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/06/09/更改Tomcat虚拟主机的默认Web-Application/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014/06/09/更改Tomcat虚拟主机的默认Web-Application/" itemprop="url">更改Tomcat虚拟主机的默认Web Application</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-06-09T00:00:00+08:00">
+                2014-06-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/06/09/更改Tomcat虚拟主机的默认Web-Application/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/09/更改Tomcat虚拟主机的默认Web-Application/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Tomcat默认打开的Web-Application说明"><a href="#Tomcat默认打开的Web-Application说明" class="headerlink" title="Tomcat默认打开的Web Application说明"></a>Tomcat默认打开的Web Application说明</h3><p>在Tomcat的配置中，<strong>Context</strong>元素代表了服务器上部署的一个Web Application，所有的Web Application都要部署在所属的虚拟主机（由<strong>Host</strong>元素指定）对应的文件目录下面。默认的Tomcat配置下，打开<code>conf/server.xml</code>配置文件，默认虚拟主机配置如下：
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- SingleSignOn valve, share authentication between web applications</span></div><div class="line">     Documentation at: /docs/config/valve.html --&gt;</div><div class="line"><span class="comment">&lt;!--</span></div><div class="line">&lt;Valve className="org.apache.catalina.authenticator.SingleSignOn" /&gt;</div><div class="line">--&gt;</div><div class="line"></div><div class="line"><span class="comment">&lt;!-- Access log processes all example.</span></div><div class="line">     Documentation at: /docs/config/valve.html</div><div class="line">     <span class="doctag">Note:</span> The pattern used is equivalent to using pattern="common" --&gt;</div><div class="line"><span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attr">directory</span>=<span class="string">"logs"</span></span></div><div class="line">       <span class="attr">prefix</span>=<span class="string">"localhost_access_log."</span> <span class="attr">suffix</span>=<span class="string">".txt"</span></div><div class="line">       <span class="attr">pattern</span>=<span class="string">"%h %l %u %t &amp;quot;%r&amp;quot; %s %b"</span> /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>以Tomcat的安装目录(_$CATALINA_BASE_)目录为基准目录的<code>webapps</code>文件夹下包含了虚拟主机<code>locahost</code>的所有Web Appliactions,默认安装有以下几个application</p>
+<ul>
+<li><strong>Root</strong></li>
+<li><strong>docs</strong></li>
+<li><strong>examples</strong></li>
+<li><strong>host-manager</strong></li>
+<li><strong>manager</strong></li>
+</ul>
+<p>启动Tomcat之后，输入<code>http://location:8080</code>,默认加载的是<code>webapps</code>文件下的<code>Root</code>应用，显示的也就是Tomcat的信息页面，一般用来测试Tomcat是否安装成功。如我本机安装的7.0.50版本的Tomcat的默认打开目录：</p>
+<img src="/2014/06/09/更改Tomcat虚拟主机的默认Web-Application/1.png" alt="1.png" title="">
+<h3 id="Tomcat中context-path的匹配过程"><a href="#Tomcat中context-path的匹配过程" class="headerlink" title="Tomcat中context path的匹配过程"></a>Tomcat中context path的匹配过程</h3><p>每个虚拟主机下面可以同时部署N多个Context，要求是每个Context都必须有唯一的context name，无特殊情况下context name和context path是一样的。当<strong>Host</strong>元素的 <code>autoDeploy</code>和<code>deployOnStartup</code>选项设置为<code>true</code>时，Tomcat在启动时会以部署在<code>webapps</code>下的web application的根目录名称来自动生成<strong>同名的</strong>context name 和 context path。例如，我们要部署名为appA，appB的web application到Tomcat中，最简单的方式是在默认配置下直接将appA，appB的工程目录和文件文件分别放置到webapps目录下面，如：</p>
+<pre><code>webapps
+    --&gt; appA
+        --&gt; WEB-INF
+            --&gt; web.xml
+        --&gt; app-files            
+        --&gt; login
+            --&gt;index.jsp
+        --&gt; index.jsp
+        --&gt; *.html
+        --&gt; *.jsp
+
+    --&gt; appB
+        --&gt; WEB-INF
+            --&gt; web.xml
+        --&gt; app-files            
+        --&gt; login
+            --&gt;index.jsp
+        --&gt; index.jsp
+        --&gt; *.html
+        --&gt; *.jsp
+</code></pre><p>这里context path，context name，base file name的关系如</p>
+<table border="1" style="border:1px solid #ccc">
+    <tr>
+        <th>Context name</th>
+        <th>Context path</th>
+        <th>Base file name</th>
+    </tr>
+    <tr>
+        <td>/appA</td>
+        <td>/appA</td>
+        <td>appA</td>
+    </tr>
+    <tr>
+        <td>/appB</td>
+        <td>/appB</td>
+        <td>appB</td>
+    </tr>
+</table>
+
+<p>以上的关系表我们可以将其简单的理解为Tomcat的context path映射表，如果收到一个请求<code>http://localhost:8080/appA/login/index.jsp</code>时，Tomcat会截取url中的的uri的前缀部分(去除URL端口号之前的部分和文件名称部分之后剩下的部分)，也就是<code>/appA/login</code>部分来依次与虚拟主机下所有的context path进行匹配，未找到的话，会从后面逐级递减，也就是继续取出<code>/appA</code>部分重复与所有context path比较，直到找到相等的context path(<code>/appA</code>)对应的Web Application，并将请求交给它处理。如果所有遍历完成之后都为找到匹配的context path，那么Tomcat会返回404错误，例如我们在浏览器中访问<code>http://localhost:8080/appC/login/index.jsp</code>。</p>
+<p>前面我们已经知道，如果访问<code>http://localhost:8080</code>,Tomcat会将请求映射到默认<code>ROOT</code>应用来处理，这个又是怎么做到的呢？其实，默认情况下，<strong>HOST</strong>元素规定其包含的<strong>Context</strong>中必须有一个默认的Context，满足context path为空字符串，用来处理url中未指定Context path的请求。这个默认的Contex的context path，context name，base file name的关系如</p>
+<table border="1" style="border:1px solid #ccc">
+    <tr>
+        <th>Context name</th>
+        <th>Context path</th>
+        <th>Base file name</th>
+    </tr>
+    <tr>
+        <td>空字符串</td>
+        <td>空字符串</td>
+        <td>ROOT</td>
+    </tr>
+</table>
+
+<p>那么其实完整的Contex的context path，context name，base file name的关系应该是</p>
+<table border="1" style="border:1px solid #ccc">
+    <tr>
+        <th>Context name</th>
+        <th>Context path</th>
+        <th>Base file name</th>
+    </tr>
+    <tr>
+        <td>/appA</td>
+        <td>/appA</td>
+        <td>appA</td>
+    </tr>
+    <tr>
+        <td>/appB</td>
+        <td>/appB</td>
+        <td>appB</td>
+    </tr>
+    <tr>
+        <td>空字符串</td>
+        <td>空字符串</td>
+        <td>ROOT</td>
+    </tr>
+</table>
+
+<p>所以为添加context path的请求都交由<code>ROOT</code>应用处理。</p>
+<blockquote>
+<p>注：本节只是从概念上简单分析了Tomcat选择context path的逻辑过程，实际的处理过程要复杂的多，详细解释应以Tomcat的官方Doc为准。</p>
+</blockquote>
+<h3 id="更改Tomcat虚拟主机的默认Context"><a href="#更改Tomcat虚拟主机的默认Context" class="headerlink" title="更改Tomcat虚拟主机的默认Context"></a>更改Tomcat虚拟主机的默认Context</h3><p>实际应用中，我们需要在输入<code>http://localhost:8080</code>时，显示的是我们指定的Web Application,而不是默认的<code>ROOT</code>应用，也就是将我们指定的应用映射为服务器的root URI(“/“),以下有几种方式来达到这种效果：</p>
+<ul>
+<li>方式一 : 删除默认的<code>ROOT</code>应用，将你的web application命名为<code>ROOT</code>并部署上去。</li>
+<li>方式二 : 将你的应用<strong>部署在<code>webapps</code>之外</strong>的目录中，在<code>$CATALINA_BASE/conf/[enginename]/[hostname]/</code>目录下新建<code>ROOT.xml</code>的文件，并将写入以下内容  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version='1.0' encoding='utf-8'?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">docBase</span>=<span class="string">"/Applications/apache-tomcat-7.0.50/appA"</span> <span class="attr">path</span>=<span class="string">""</span>/&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><code>docBase</code>指定的是你应用的磁盘路径。</p>
+<ul>
+<li>方式三 : 打开<code>conf/server.xml</code>,在对应的<code>Host</code>中添加  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Context</span> <span class="attr">docBase</span>=<span class="string">"/Applications/apache-tomcat-7.0.50/appA"</span> <span class="attr">path</span>=<span class="string">""</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong>需要强调的是</strong><code>path</code>必须是空字符串，<code>docBase</code>指定的是你应用的磁盘路径，可以是绝对路径，也可以是相对于<code>webapps</code>的路径，依工程的部署情况而定。</p>
+<blockquote>
+<p>当<strong>Context</strong>元素的<code>docBase</code>路径是相对于<strong>Host</strong>元素的<code>appBase</code>路径的时候，一定要注意将<strong>Host</strong>元素的<code>autoDeploy</code>属性设置为<code>false</code>，以避免这个指定的web application在服务器启动时被加载两次。（一次发生server.xml中的Context配置而被部署（deployOnStartup=true），第二次发生设置autoDeploy=true而发生的自动部署。</p>
+</blockquote>
+<p><strong>方式一</strong>中，更好的做法是为<code>ROOT</code>应用更换新的名称，这样可以保留<code>ROOT</code>应用主页上提供的所有链接内容。</p>
+<p>Tomcat的文档中不推荐在<code>conf/server.xml</code>中去添加<strong>Context</strong>元素，也就是<strong>方式三</strong>中的配置，因为这污染了该配置文件，并且<code>conf/server.xml</code>中配置的变更只有在重启Tomcat服务器后才能生效。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://tomcat.apache.org/tomcat-7.0-doc/config/context.html" target="_blank" rel="external">Tomcat7.0 The Context Container</a></li>
+<li><a href="http://stackoverflow.com/questions/715506/tomcat-6-how-to-change-the-root-application" target="_blank" rel="external">Tomcat 6: How to change the ROOT application</a></li>
+<li><a href="http://tomcat.apache.org/tomcat-6.0-doc/config/context.html" target="_blank" rel="external">Tomcat 6.0 The Context Container</a></li>
+<li><a href="http://staraphd.blogspot.com/2009/10/change-default-root-folder-in-tomcat.html" target="_blank" rel="external">Change default ROOT folder in TOMCAT</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/06/09/设置Firebug网络日志显示个数的上限/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -964,245 +1366,6 @@ daemon
 127.0.0.1 developer.molasync.com
 127.0.0.1 www.molasync.com
 </code></pre><p>这样重启tomcat，在浏览器中输入<code>http://developer.molasync.com:8080</code>或<code>http://www.molasync.com:8080</code>，二者都会访问到同一个虚拟主机了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/06/09/更改Tomcat虚拟主机的默认Web-Application/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/06/09/更改Tomcat虚拟主机的默认Web-Application/" itemprop="url">更改Tomcat虚拟主机的默认Web Application</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-06-09T00:00:00+08:00">
-                2014-06-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2014/06/09/更改Tomcat虚拟主机的默认Web-Application/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/09/更改Tomcat虚拟主机的默认Web-Application/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Tomcat默认打开的Web-Application说明"><a href="#Tomcat默认打开的Web-Application说明" class="headerlink" title="Tomcat默认打开的Web Application说明"></a>Tomcat默认打开的Web Application说明</h3><p>在Tomcat的配置中，<strong>Context</strong>元素代表了服务器上部署的一个Web Application，所有的Web Application都要部署在所属的虚拟主机（由<strong>Host</strong>元素指定）对应的文件目录下面。默认的Tomcat配置下，打开<code>conf/server.xml</code>配置文件，默认虚拟主机配置如下：
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- SingleSignOn valve, share authentication between web applications</span></div><div class="line">     Documentation at: /docs/config/valve.html --&gt;</div><div class="line"><span class="comment">&lt;!--</span></div><div class="line">&lt;Valve className="org.apache.catalina.authenticator.SingleSignOn" /&gt;</div><div class="line">--&gt;</div><div class="line"></div><div class="line"><span class="comment">&lt;!-- Access log processes all example.</span></div><div class="line">     Documentation at: /docs/config/valve.html</div><div class="line">     <span class="doctag">Note:</span> The pattern used is equivalent to using pattern="common" --&gt;</div><div class="line"><span class="tag">&lt;<span class="name">Valve</span> <span class="attr">className</span>=<span class="string">"org.apache.catalina.valves.AccessLogValve"</span> <span class="attr">directory</span>=<span class="string">"logs"</span></span></div><div class="line">       <span class="attr">prefix</span>=<span class="string">"localhost_access_log."</span> <span class="attr">suffix</span>=<span class="string">".txt"</span></div><div class="line">       <span class="attr">pattern</span>=<span class="string">"%h %l %u %t &amp;quot;%r&amp;quot; %s %b"</span> /&gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>以Tomcat的安装目录(_$CATALINA_BASE_)目录为基准目录的<code>webapps</code>文件夹下包含了虚拟主机<code>locahost</code>的所有Web Appliactions,默认安装有以下几个application</p>
-<ul>
-<li><strong>Root</strong></li>
-<li><strong>docs</strong></li>
-<li><strong>examples</strong></li>
-<li><strong>host-manager</strong></li>
-<li><strong>manager</strong></li>
-</ul>
-<p>启动Tomcat之后，输入<code>http://location:8080</code>,默认加载的是<code>webapps</code>文件下的<code>Root</code>应用，显示的也就是Tomcat的信息页面，一般用来测试Tomcat是否安装成功。如我本机安装的7.0.50版本的Tomcat的默认打开目录：</p>
-<img src="/2014/06/09/更改Tomcat虚拟主机的默认Web-Application/1.png" alt="1.png" title="">
-<h3 id="Tomcat中context-path的匹配过程"><a href="#Tomcat中context-path的匹配过程" class="headerlink" title="Tomcat中context path的匹配过程"></a>Tomcat中context path的匹配过程</h3><p>每个虚拟主机下面可以同时部署N多个Context，要求是每个Context都必须有唯一的context name，无特殊情况下context name和context path是一样的。当<strong>Host</strong>元素的 <code>autoDeploy</code>和<code>deployOnStartup</code>选项设置为<code>true</code>时，Tomcat在启动时会以部署在<code>webapps</code>下的web application的根目录名称来自动生成<strong>同名的</strong>context name 和 context path。例如，我们要部署名为appA，appB的web application到Tomcat中，最简单的方式是在默认配置下直接将appA，appB的工程目录和文件文件分别放置到webapps目录下面，如：</p>
-<pre><code>webapps
-    --&gt; appA
-        --&gt; WEB-INF
-            --&gt; web.xml
-        --&gt; app-files            
-        --&gt; login
-            --&gt;index.jsp
-        --&gt; index.jsp
-        --&gt; *.html
-        --&gt; *.jsp
-
-    --&gt; appB
-        --&gt; WEB-INF
-            --&gt; web.xml
-        --&gt; app-files            
-        --&gt; login
-            --&gt;index.jsp
-        --&gt; index.jsp
-        --&gt; *.html
-        --&gt; *.jsp
-</code></pre><p>这里context path，context name，base file name的关系如</p>
-<table border="1" style="border:1px solid #ccc">
-    <tr>
-        <th>Context name</th>
-        <th>Context path</th>
-        <th>Base file name</th>
-    </tr>
-    <tr>
-        <td>/appA</td>
-        <td>/appA</td>
-        <td>appA</td>
-    </tr>
-    <tr>
-        <td>/appB</td>
-        <td>/appB</td>
-        <td>appB</td>
-    </tr>
-</table>
-
-<p>以上的关系表我们可以将其简单的理解为Tomcat的context path映射表，如果收到一个请求<code>http://localhost:8080/appA/login/index.jsp</code>时，Tomcat会截取url中的的uri的前缀部分(去除URL端口号之前的部分和文件名称部分之后剩下的部分)，也就是<code>/appA/login</code>部分来依次与虚拟主机下所有的context path进行匹配，未找到的话，会从后面逐级递减，也就是继续取出<code>/appA</code>部分重复与所有context path比较，直到找到相等的context path(<code>/appA</code>)对应的Web Application，并将请求交给它处理。如果所有遍历完成之后都为找到匹配的context path，那么Tomcat会返回404错误，例如我们在浏览器中访问<code>http://localhost:8080/appC/login/index.jsp</code>。</p>
-<p>前面我们已经知道，如果访问<code>http://localhost:8080</code>,Tomcat会将请求映射到默认<code>ROOT</code>应用来处理，这个又是怎么做到的呢？其实，默认情况下，<strong>HOST</strong>元素规定其包含的<strong>Context</strong>中必须有一个默认的Context，满足context path为空字符串，用来处理url中未指定Context path的请求。这个默认的Contex的context path，context name，base file name的关系如</p>
-<table border="1" style="border:1px solid #ccc">
-    <tr>
-        <th>Context name</th>
-        <th>Context path</th>
-        <th>Base file name</th>
-    </tr>
-    <tr>
-        <td>空字符串</td>
-        <td>空字符串</td>
-        <td>ROOT</td>
-    </tr>
-</table>
-
-<p>那么其实完整的Contex的context path，context name，base file name的关系应该是</p>
-<table border="1" style="border:1px solid #ccc">
-    <tr>
-        <th>Context name</th>
-        <th>Context path</th>
-        <th>Base file name</th>
-    </tr>
-    <tr>
-        <td>/appA</td>
-        <td>/appA</td>
-        <td>appA</td>
-    </tr>
-    <tr>
-        <td>/appB</td>
-        <td>/appB</td>
-        <td>appB</td>
-    </tr>
-    <tr>
-        <td>空字符串</td>
-        <td>空字符串</td>
-        <td>ROOT</td>
-    </tr>
-</table>
-
-<p>所以为添加context path的请求都交由<code>ROOT</code>应用处理。</p>
-<blockquote>
-<p>注：本节只是从概念上简单分析了Tomcat选择context path的逻辑过程，实际的处理过程要复杂的多，详细解释应以Tomcat的官方Doc为准。</p>
-</blockquote>
-<h3 id="更改Tomcat虚拟主机的默认Context"><a href="#更改Tomcat虚拟主机的默认Context" class="headerlink" title="更改Tomcat虚拟主机的默认Context"></a>更改Tomcat虚拟主机的默认Context</h3><p>实际应用中，我们需要在输入<code>http://localhost:8080</code>时，显示的是我们指定的Web Application,而不是默认的<code>ROOT</code>应用，也就是将我们指定的应用映射为服务器的root URI(“/“),以下有几种方式来达到这种效果：</p>
-<ul>
-<li>方式一 : 删除默认的<code>ROOT</code>应用，将你的web application命名为<code>ROOT</code>并部署上去。</li>
-<li>方式二 : 将你的应用<strong>部署在<code>webapps</code>之外</strong>的目录中，在<code>$CATALINA_BASE/conf/[enginename]/[hostname]/</code>目录下新建<code>ROOT.xml</code>的文件，并将写入以下内容  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version='1.0' encoding='utf-8'?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">Context</span> <span class="attr">docBase</span>=<span class="string">"/Applications/apache-tomcat-7.0.50/appA"</span> <span class="attr">path</span>=<span class="string">""</span>/&gt;</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><code>docBase</code>指定的是你应用的磁盘路径。</p>
-<ul>
-<li>方式三 : 打开<code>conf/server.xml</code>,在对应的<code>Host</code>中添加  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">Host</span> <span class="attr">name</span>=<span class="string">"localhost"</span>  <span class="attr">appBase</span>=<span class="string">"webapps"</span> <span class="attr">unpackWARs</span>=<span class="string">"true"</span> <span class="attr">autoDeploy</span>=<span class="string">"true"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">Context</span> <span class="attr">docBase</span>=<span class="string">"/Applications/apache-tomcat-7.0.50/appA"</span> <span class="attr">path</span>=<span class="string">""</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">Host</span>&gt;</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p><strong>需要强调的是</strong><code>path</code>必须是空字符串，<code>docBase</code>指定的是你应用的磁盘路径，可以是绝对路径，也可以是相对于<code>webapps</code>的路径，依工程的部署情况而定。</p>
-<blockquote>
-<p>当<strong>Context</strong>元素的<code>docBase</code>路径是相对于<strong>Host</strong>元素的<code>appBase</code>路径的时候，一定要注意将<strong>Host</strong>元素的<code>autoDeploy</code>属性设置为<code>false</code>，以避免这个指定的web application在服务器启动时被加载两次。（一次发生server.xml中的Context配置而被部署（deployOnStartup=true），第二次发生设置autoDeploy=true而发生的自动部署。</p>
-</blockquote>
-<p><strong>方式一</strong>中，更好的做法是为<code>ROOT</code>应用更换新的名称，这样可以保留<code>ROOT</code>应用主页上提供的所有链接内容。</p>
-<p>Tomcat的文档中不推荐在<code>conf/server.xml</code>中去添加<strong>Context</strong>元素，也就是<strong>方式三</strong>中的配置，因为这污染了该配置文件，并且<code>conf/server.xml</code>中配置的变更只有在重启Tomcat服务器后才能生效。</p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://tomcat.apache.org/tomcat-7.0-doc/config/context.html" target="_blank" rel="external">Tomcat7.0 The Context Container</a></li>
-<li><a href="http://stackoverflow.com/questions/715506/tomcat-6-how-to-change-the-root-application" target="_blank" rel="external">Tomcat 6: How to change the ROOT application</a></li>
-<li><a href="http://tomcat.apache.org/tomcat-6.0-doc/config/context.html" target="_blank" rel="external">Tomcat 6.0 The Context Container</a></li>
-<li><a href="http://staraphd.blogspot.com/2009/10/change-default-root-folder-in-tomcat.html" target="_blank" rel="external">Change default ROOT folder in TOMCAT</a></li>
-</ul>
 
           
         
@@ -1658,150 +1821,6 @@ https://itunes.apple.com/lookup?id=284910350
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/05/09/使用Apache-Commons-Codec提供的常用编解码方法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/05/09/使用Apache-Commons-Codec提供的常用编解码方法/" itemprop="url">使用Apache Commons Codec提供的常用编解码方法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-05-09T00:00:00+08:00">
-                2014-05-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2014/05/09/使用Apache-Commons-Codec提供的常用编解码方法/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/05/09/使用Apache-Commons-Codec提供的常用编解码方法/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Apache Commons codec提供了开发中常用的编码解码的工具类，包括Base64，Hex，MD5，URL等，以解决项目中重复的各种编解码操作。项目最早是用来实现Base64编码，但随着项目的发展，后面陆续加入了越来越多的编码工具类。以下是几种使用Codec中提供的编解码代码示例。</p>
-<h3 id="Base64编码解码"><a href="#Base64编码解码" class="headerlink" title="Base64编码解码"></a>Base64编码解码</h3><p><a href="http://commons.apache.org/proper/commons-codec/apidocs/org/apache/commons/codec/binary/Base64.html" target="_blank" rel="external">Base64</a>(线程安全类),提供<a href="http://zh.wikipedia.org/wiki/Base64" target="_blank" rel="external">Base64</a>的编码和解码方法。</p>
-<blockquote>
-<p>JDK中的<code>sun</code>包中提供了sun.misc.BASE64Encoder类来进行Base64编解码，但官方不推荐使用<code>sun</code>包中的方法，参见<a href="http://www.oracle.com/technetwork/java/faq-sun-packages-142232.html" target="_blank" rel="external">Why Developers Should Not Write Programs That Call ‘sun’ Packages</a>。</p>
-</blockquote>
-<p><strong>Base64编解码字符串</strong>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">String str = <span class="string">"Source String"</span>;</div><div class="line"></div><div class="line"><span class="comment">// 编码</span></div><div class="line">String encodeStr = Base64.encodeBase64String(str.getBytes(<span class="string">"utf-8"</span>));</div><div class="line">System.out.println(encodeStr); <span class="comment">// U291cmNlIFN0cmluZw==</span></div><div class="line"></div><div class="line"><span class="comment">// 解码</span></div><div class="line">String decodeStr = <span class="keyword">new</span> String(Base64.decodeBase64(encodeStr));</div><div class="line">System.out.println(decodeStr); <span class="comment">// Source String</span></div></pre></td></tr></table></figure></p>
-<p><strong>URL-safe模式下Base64编解码</strong>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">String url = <span class="string">"http://www.baidu.com?t=123&amp;c=asd"</span> ;</div><div class="line"></div><div class="line"><span class="comment">// 编码</span></div><div class="line">String encodeStr = Base64.encodeBase64URLSafeString(url.getBytes(<span class="string">"utf-8"</span>));</div><div class="line">System.out.println(encodeStr); <span class="comment">// aHR0cDovL3d3dy5iYWlkdS5jb20_dD0xMjMmYz1hc2Q</span></div><div class="line"></div><div class="line"><span class="comment">// 解码</span></div><div class="line">String decodeStr = <span class="keyword">new</span> String( Base64.decodeBase64(encodeStr));</div><div class="line">System.out.println(decodeStr); <span class="comment">// http://www.baidu.com?t=123&amp;c=asd</span></div></pre></td></tr></table></figure></p>
-<blockquote>
-<p>   URL-safe模式下Base64编码是标准Base64编码的变体，URL编码器会把标准Base64中的「/」和「+」字符变为形如「%XX」的形式，而这些「%」号在存入数据库时还需要再进行转换，所以变体的Base64编码表中的<code>+</code>和<code>-</code>会替换为<code>-</code>,<code>_</code>，并且不在末尾填充’=’号。</p>
-</blockquote>
-<h3 id="摘要编码"><a href="#摘要编码" class="headerlink" title="摘要编码"></a>摘要编码</h3><p><a href="http://commons.apache.org/proper/commons-codec/apidocs/org/apache/commons/codec/digest/DigestUtils.html" target="_blank" rel="external">DigestUtils</a>类，简化原生JDK <a href="http://download.oracle.com/javase/6/docs/api/java/security/MessageDigest.html" target="_blank" rel="external">MessageDigest</a>类的常用操作。</p>
-<p><strong>MD5编码字符串</strong>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String password = <span class="string">"password string"</span>;</div><div class="line">String encodeStr = DigestUtils.md5Hex(password);</div><div class="line">System.out.println(encodeStr); <span class="comment">// 03d105778ae0b4d8205a05a5dbdfcfe9</span></div></pre></td></tr></table></figure></p>
-<p><strong>SHA编码字符串</strong>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">String password = <span class="string">"password string"</span>;</div><div class="line">encodeStr = DigestUtils.sha1Hex(password);</div><div class="line">System.out.println(encodeStr); <span class="comment">// 5251fda188a58dac70c1a8e531b690a5ac2d3527</span></div></pre></td></tr></table></figure></p>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://commons.apache.org/proper/commons-codec/" target="_blank" rel="external">Apache Commons Codec</a></li>
-<li><a href="http://zh.wikipedia.org/wiki/Base64" target="_blank" rel="external">Wiki Base64</a></li>
-<li><a href="http://zh.wikipedia.org/wiki/ASCII" target="_blank" rel="external">Wiki ASCII</a></li>
-<li><a href="http://www.oracle.com/technetwork/java/faq-sun-packages-142232.html" target="_blank" rel="external">Why Developers Should Not Write Programs That Call ‘sun’ Packages</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1851,7 +1870,7 @@ https://itunes.apple.com/lookup?id=284910350
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">136</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1864,7 +1883,7 @@ https://itunes.apple.com/lookup?id=284910350
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

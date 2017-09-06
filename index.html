@@ -2,10 +2,8 @@
 
 
 
-  
 
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next muse" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -108,7 +106,7 @@
     scheme: 'Muse',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
-    motion: true,
+    motion: false,
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -253,6 +251,204 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2017/08/03/CSS外边距折叠/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/03/CSS外边距折叠/" itemprop="url">CSS外边距折叠</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-03T23:11:37+08:00">
+                2017-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/03/CSS外边距折叠/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/08/03/CSS外边距折叠/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在我们页面布局的时候，经常会出现的情况是在垂直方向上我们同时设置相邻的父子元素或兄弟元素之间的margin外边距，但最后的结果并不是按照我们想象中的叠加值，而是最终它们当中margin的最大值。这种情况在CSS的盒模型中被称作是 <em>外边距折叠</em>（margin collapsing）。我们通常会困惑于这种情况，即使通过各种设置，最后也不一定能达到我们最终的效果。下面是一些关于外边距折叠的一些总结。</p>
+<h3 id="外边距折叠定义"><a href="#外边距折叠定义" class="headerlink" title="外边距折叠定义"></a>外边距折叠定义</h3><p>下面是W3C中关于margin collapsing的定义：</p>
+<p><strong>在CSS中相邻的两个或者多个盒子之间的margin会组合成单个margin。这个组合的方式叫折叠（collapse），组合后的margin结果称作是折叠的margin。</strong></p>
+<p>有几点需要注意的是：</p>
+<ul>
+<li>外边距堆叠只发生在相邻元素之间；</li>
+<li>外边距折叠只发生在垂直方向上；</li>
+</ul>
+<p>两个margin相邻要满足：</p>
+<ul>
+<li>都必须是在普通文档流中；</li>
+<li>都必须是在同一个块格式上下文中（block formatting contexts）;</li>
+<li>它们中间不存在内联盒子，清除浮动，内边距（padding），边框；</li>
+<li>两个盒子都是在垂直方向上相邻，包括以下几种情况：<ul>
+<li>父元素的上外边距与其第一个子元素的上外边距</li>
+<li>父元素的下外边距与最后一个子元素的下外边距</li>
+<li>元素的下外边距与子下一个兄弟元素的上外边距</li>
+<li>无法建立块级上下文的元素的上外边距和下外边距之间（min-height的计算值为0；height的计算值为0或auto；没有处于同一文档流的子元素）</li>
+</ul>
+</li>
+</ul>
+<p>其中不会发生margin collapsing的情况包括：</p>
+<ul>
+<li>水平方向上相邻元素不会发生外边距折叠；</li>
+<li>文档根元素的margin不会折叠；</li>
+<li>浮动元素与其它元素之间，包括浮动元素与其文档流中的子元素之间</li>
+<li>建立新的块级别上下文的元素与其处于文档流的子元素之间</li>
+<li>绝对定位的元素与其它元素，包括其文档流中的子元素之间</li>
+<li>内联块元素之间，包括与其子元素之间</li>
+<li>元素下外边距与清除浮动的相邻兄弟元素的上外边距之间</li>
+<li>元素的上外边距与元素的第一个子元素的上外边距之间有上边框，上内边距，或者子元素已清除浮动</li>
+<li>元素的下外边距与元素的最后一个子元素的下外边距之间有下边框，下内边距，或者子元素已清除浮动</li>
+<li>空元素自己的上外边距和下外边距之间，如果元素的min-height属性不是0；有上或下边距；有上火下内边距；它的height是非0且非auto值；包含line box；只要满足一种情况</li>
+</ul>
+<h3 id="合并的计算规则"><a href="#合并的计算规则" class="headerlink" title="合并的计算规则"></a>合并的计算规则</h3><p>在外边距折叠后，计算规则如下：</p>
+<ul>
+<li>如果两个margin值都是正值，则取其中的最大值</li>
+<li>如果一个正值一个负值，则取相加后的结果</li>
+<li>如果两个都是负数，取最小的那个负数值</li>
+</ul>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><ul>
+<li>父子关系</li>
+</ul>
+<script async src="//jsfiddle.net/onoh4rsx/embed/html,css,result/"></script>
+
+<ul>
+<li>相邻兄弟关系</li>
+</ul>
+<script async src="//jsfiddle.net/pvehz1mm/1/embed/html,css,result/"></script>
+
+<ul>
+<li>单个空元素</li>
+</ul>
+<script async src="//jsfiddle.net/j3f2y2n6/embed/html,css,result/"></script>
+
+<h3 id="清除折叠"><a href="#清除折叠" class="headerlink" title="清除折叠"></a>清除折叠</h3><ul>
+<li>父子关系</li>
+</ul>
+<script async src="//jsfiddle.net/LbLvL3zp/embed/html,css,result/"></script>
+
+<ul>
+<li>相邻兄弟</li>
+</ul>
+<script async src="//jsfiddle.net/fLqe09uu/embed/html,css,result/"></script>
+
+<ul>
+<li>单个空元素</li>
+</ul>
+<script async src="//jsfiddle.net/u566rush/embed/html,css,result/"></script>
+
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="https://www.w3.org/TR/CSS2/box.html#collapsing-margins" target="_blank" rel="external">Collapsing margins</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing" target="_blank" rel="external">Mastering margin collapsing</a></li>
+<li><a href="http://www.seifi.org/css/understanding-taming-collapsing-margins-in-css.html" target="_blank" rel="external">Understanding &amp; Taming Collapsing Margins in CSS</a></li>
+<li><a href="https://stackoverflow.com/questions/19718634/how-to-disable-margin-collapsing" target="_blank" rel="external">How to disable margin-collapsing?</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -1729,174 +1925,6 @@ DOM对象的NodeList代表了在文档中一组DOM对象的集合，经常操作
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2016/05/22/ES6笔记-Symbol/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/05/22/ES6笔记-Symbol/" itemprop="url">ES6笔记 - Symbol</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-05-22T18:32:18+08:00">
-                2016-05-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2016/05/22/ES6笔记-Symbol/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/05/22/ES6笔记-Symbol/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>在ES6之前，JavaScript只有有5种基本数据类型，分别是布尔类型(Boolean type)，数值类型(Number type)，字符串类型(String type)，Null类型(Null type)，Undefined类型(Undefined type)，ES6中增加了一个新的基本数据类型Symbol类型。Symbol类型用来代表唯一的不可变的数据类型，只要用来创建对象的私有成员。</p>
-<p>之前JavaScript对象的属性名称只能是字符串类型，同一对象上的同名属性，后面添加的会覆盖之前的。比如我们通常执行的mixin操作，用来将一个对象的属性复制到另一个对象上，如果属性名相同的话，那么原对象的该属性会被覆盖调。但有时我们希望创建一个属性对象自己的私有属性，Symbol这是用来支持在对象上添加私有属性。Symbol类型可以作为对象属性，因此ES6后的JavaScript对象的属性名称除了字符串类型外，还可以是Symbol类型。</p>
-<h3 id="创建Symbol"><a href="#创建Symbol" class="headerlink" title="创建Symbol"></a>创建Symbol</h3><p>可以使用全局函数<code>Symbol()</code>来创建Symbol类型，</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sym = <span class="built_in">Symbol</span>();</div><div class="line"><span class="built_in">console</span>.log(sym); <span class="comment">// Symbol();</span></div></pre></td></tr></table></figure>
-<p>也可以为Symbol传入一个描述字符串<code>Symbol(description)</code>,</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sym = <span class="built_in">Symbol</span>(<span class="string">'a symbol'</span>);</div><div class="line"><span class="built_in">console</span>.log(sym); <span class="comment">// Symbol(a symbol)</span></div></pre></td></tr></table></figure>
-<p>该字符串仅用来调试使用，两个同名描述符的Symbol类型也是不一样的，</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sym1 = <span class="built_in">Symbol</span>(<span class="string">'name'</span>);</div><div class="line"><span class="keyword">let</span> sym2 = <span class="built_in">Symbol</span>(<span class="string">'name'</span>);</div><div class="line"><span class="built_in">console</span>.log(sym1 === sym2); <span class="comment">// false</span></div></pre></td></tr></table></figure>
-<p>可以使用<code>typeof</code>操作符，返回Symbol的类型</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">Symbol</span>()); <span class="comment">// symbol</span></div></pre></td></tr></table></figure>
-<p>不同于其它基本数据类型的包装器，如<code>let num = new Number(1)</code>，不能在Symbol上使用<code>new</code>，</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sym = <span class="keyword">new</span> <span class="built_in">Symbol</span>(); <span class="comment">// TypeError</span></div></pre></td></tr></table></figure>
-<p>但可以使用Object作为其包装器</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sym = <span class="built_in">Symbol</span>(); <span class="comment">// TypeError</span></div><div class="line"><span class="keyword">let</span> symObj = <span class="keyword">new</span> <span class="built_in">Object</span>(sym);</div><div class="line"><span class="built_in">console</span>.log(symObj); <span class="comment">// object</span></div></pre></td></tr></table></figure>
-<h3 id="Symbol与其它类型的转换"><a href="#Symbol与其它类型的转换" class="headerlink" title="Symbol与其它类型的转换"></a>Symbol与其它类型的转换</h3><p>不能使用Symbol进行数学运算，以下操作都是不允许的</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sym = <span class="built_in">Symbol</span>();</div><div class="line">+sym; <span class="comment">// TypeError</span></div><div class="line"><span class="built_in">console</span>.log(sym + <span class="number">1</span>); <span class="comment">// TypeError</span></div><div class="line">sym += <span class="number">1</span>; <span class="comment">// TypeError</span></div></pre></td></tr></table></figure>
-<p>Symbol也不能隐式转换为字符串类型，以下操作时不允许的</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sym = <span class="built_in">Symbol</span>();</div><div class="line"><span class="built_in">console</span>.log(sym + <span class="string">"name"</span>); <span class="comment">// TypeError</span></div></pre></td></tr></table></figure>
-<p>但可以显示转换为字符串
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sym = <span class="built_in">Symbol</span>(<span class="string">'name'</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">String</span>(sym)); <span class="comment">// Symbol(name)</span></div><div class="line"><span class="comment">// 等价于</span></div><div class="line"><span class="built_in">console</span>.log(sym.toString()); <span class="comment">// Symbol(name)</span></div></pre></td></tr></table></figure></p>
-<p>Symbol可以转换为布尔类型</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sym = <span class="built_in">Symbol</span>();</div><div class="line"><span class="built_in">console</span>.log(!sym);  <span class="comment">// false</span></div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Boolean</span>(sym)); <span class="comment">// true</span></div><div class="line"><span class="keyword">if</span> (sym) &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'true'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="使用Symbol作为对象的属性名"><a href="#使用Symbol作为对象的属性名" class="headerlink" title="使用Symbol作为对象的属性名"></a>使用Symbol作为对象的属性名</h3><p>在任何使用计算属性名的地方都可以使用Symbol。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> name = <span class="built_in">Symbol</span>(<span class="string">'name'</span>);</div><div class="line"><span class="comment">// 在对象字面量上使用</span></div><div class="line"><span class="keyword">let</span> person = &#123;</div><div class="line">  [name]: <span class="string">'Jim'</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 在Object.defineProperty()方法上使用</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.defineProperty(person , name , &#123;</div><div class="line">  <span class="attr">writeable</span>: <span class="literal">true</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 在Object.definePropertys()方法上使用</span></div><div class="line"></div><div class="line"><span class="built_in">Object</span>.defineProperties(person , &#123;</div><div class="line">  [name]:&#123;</div><div class="line">    <span class="attr">value</span>: <span class="string">'Jim'</span>,</div><div class="line">    <span class="attr">writeable</span>: <span class="literal">true</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(person[name]); <span class="comment">// Jim</span></div></pre></td></tr></table></figure>
-<p>在对象上访问Symbol属性时只能用中括号，不能有点运算
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(person.name) ;<span class="comment">// undefined</span></div></pre></td></tr></table></figure></p>
-<h3 id="共享的Symbol"><a href="#共享的Symbol" class="headerlink" title="共享的Symbol"></a>共享的Symbol</h3><p>有时不同的对象会有同名的属性，如果使用<code>Symbol()</code>函数来分别为这些对象创建同名属性的话，会显得啰嗦，尤其是在跨文件时使用，</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// filea.js</span></div><div class="line"><span class="keyword">let</span> name = <span class="built_in">Symbol</span>(<span class="string">'name'</span>);</div><div class="line"><span class="keyword">let</span> ChinaPerson = &#123;</div><div class="line">  [name]: <span class="string">'张三'</span></div><div class="line">&#125;</div><div class="line"><span class="comment">// fileb.js</span></div><div class="line"><span class="keyword">let</span> name = <span class="built_in">Symbol</span>(<span class="string">'name'</span>);</div><div class="line"><span class="keyword">let</span> AmericanPerson = &#123;</div><div class="line">  [name]:<span class="string">'Jim'</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>以上两个不同的文件的不同对象使用同名的Symbol，需要在每个文件中单独定义，十分啰嗦。好在Symbol提供了<code>Symbol.for(uid)</code>和<code>Symbol.keyFor(symbol)</code>来实现全Symbol的共享与跟踪。</p>
-<p><code>Symbol.for(uid)</code>用来返回一个名为<code>uid</code>的symbol，如果该symbol不存在，则创建并注册到全局。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> nameA = <span class="built_in">Symbol</span>.for(<span class="string">'name'</span>); <span class="comment">// 创建名为name的Symbol</span></div><div class="line"><span class="keyword">let</span> nameB = <span class="built_in">Symbol</span>.for(<span class="string">'name'</span>); <span class="comment">// 名为name的Symbol以存在，直接获取</span></div><div class="line"><span class="built_in">console</span>.log(nameA === nameB); <span class="comment">// true</span></div></pre></td></tr></table></figure>
-<p>以上在定义nameA时，因为名为name的Symbol尚未存在，所以<code>Symbol.for(&#39;name&#39;)</code>会先创建在注册到全局，之后在定义nameB时，发现名为name的Symbol已存在，则直接返回即可。</p>
-<p><code>Symbol.keyFor(symbol)</code>会在全局注册过的Symbol列表上查找symbol的名称，不存在则返回undefined。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sym = <span class="built_in">Symbol</span>.for(<span class="string">'name'</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Symbol</span>.keyFor(sym)); <span class="comment">// name</span></div><div class="line"><span class="keyword">let</span> sym2 = <span class="built_in">Symbol</span>.for(<span class="string">'name'</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Symbol</span>.keyFor(sym2)); <span class="comment">// name</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> sym2 = <span class="built_in">Symbol</span>(<span class="string">'name'</span>);</div><div class="line"><span class="built_in">console</span>.log(<span class="built_in">Symbol</span>.keyFor(sym3)); <span class="comment">// undefined</span></div></pre></td></tr></table></figure>
-<p>像jQuery注册事件时使用命名空间来避免命名冲突，这里也可以使用为Symbol添加命名空间来避免命名冲突</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sym = <span class="built_in">Symbol</span>.for(<span class="string">'module.symName'</span>);</div></pre></td></tr></table></figure>
-<h3 id="内置Symbol"><a href="#内置Symbol" class="headerlink" title="内置Symbol"></a>内置Symbol</h3><p>除了可以自定义Symbol外，ES6还定义了许多内置的Symbol。</p>
-<p><code>Symbol.hasInstance</code>，在使用<code>instanceof</code>时，判断对象是否是函数的实例，每个函数对象都有该属性，如</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">obj <span class="keyword">instanceof</span> <span class="built_in">String</span> ;</div><div class="line"><span class="comment">// 等价于</span></div><div class="line"><span class="built_in">String</span>[<span class="built_in">Symbol</span>.hasInstance](obj);</div><div class="line"></div><div class="line">为了避免错误的覆盖，<span class="string">`Symbol.hasInstance`</span>默认是不可写，不可配置，不可枚举的，但可以使用<span class="string">`Object.defineProperty()`</span>方法来重新对其定义</div><div class="line"><span class="string">``</span><span class="string">`js</span></div><div class="line">function MyClass()&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line">Object.defineProperty(MyClass , Symbol.hasInstance , &#123;</div><div class="line">  value:function(v)&#123;</div><div class="line">    return false;</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">var obj = new MyClass();</div><div class="line">obj instanceof MyClass;</div></pre></td></tr></table></figure>
-<p>关于内置的Symbol定义及使用参见<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol" target="_blank" rel="external">MDN Symbol</a></p>
-<blockquote>
-<p>ES6新增了诸多新的语法，Symbol作为实现对象私有属性的特性还是有可取之处，其它Symbol的特性个人觉得有点鸡肋的感觉，增加了语言语法的复杂度。</p>
-</blockquote>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="https://developer.mozilla.org/en-US/docs/Glossary/Primitive" target="_blank" rel="external">MDN Primitive</a></li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol" target="_blank" rel="external">MDN Symbol</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1946,7 +1974,7 @@ DOM对象的NodeList代表了在文档中一组DOM对象的集合，经常操作
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">136</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1959,7 +1987,7 @@ DOM对象的NodeList代表了在文档中一组DOM对象的集合，经常操作
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

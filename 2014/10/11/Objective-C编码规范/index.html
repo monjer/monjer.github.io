@@ -2,10 +2,8 @@
 
 
 
-  
 
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next muse" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -112,7 +110,7 @@
     scheme: 'Muse',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
-    motion: true,
+    motion: false,
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -645,17 +643,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -670,7 +659,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">136</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -683,7 +672,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -715,22 +704,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#文件命名"><span class="nav-number">1.</span> <span class="nav-text">文件命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件说明"><span class="nav-number">2.</span> <span class="nav-text">文件说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件目录"><span class="nav-number">3.</span> <span class="nav-text">文件目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import与-include"><span class="nav-number">4.</span> <span class="nav-text">#import与#include</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缩进及代码格式化"><span class="nav-number">5.</span> <span class="nav-text">缩进及代码格式化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类-class-命名"><span class="nav-number">6.</span> <span class="nav-text">类(class)命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分类-categories-命名"><span class="nav-number">7.</span> <span class="nav-text">分类(categories)命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性-property-命名"><span class="nav-number">8.</span> <span class="nav-text">属性(property)命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量-variable-命名"><span class="nav-number">9.</span> <span class="nav-text">变量(variable)命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点符号-dot-notation-用法"><span class="nav-number">10.</span> <span class="nav-text">点符号(dot-notation)用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注释-comment"><span class="nav-number">11.</span> <span class="nav-text">注释(comment)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单例"><span class="nav-number">12.</span> <span class="nav-text">单例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#块-Blocks"><span class="nav-number">13.</span> <span class="nav-text">块(Blocks)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图片命名"><span class="nav-number">14.</span> <span class="nav-text">图片命名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Prefix-pch文件"><span class="nav-number">15.</span> <span class="nav-text">Prefix.pch文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGGeometry函数"><span class="nav-number">16.</span> <span class="nav-text">CGGeometry函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-pragma-mark"><span class="nav-number">17.</span> <span class="nav-text">使用#pragma mark -</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#私有属性-amp-amp-私有方法"><span class="nav-number">18.</span> <span class="nav-text">私有属性&&私有方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象字面量-Literals"><span class="nav-number">19.</span> <span class="nav-text">对象字面量(Literals)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性-Properties-和实例变量-Instance-Variables"><span class="nav-number">20.</span> <span class="nav-text">属性(Properties)和实例变量(Instance Variables)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除自动生成的不必要的代码注释和模板"><span class="nav-number">21.</span> <span class="nav-text">删除自动生成的不必要的代码注释和模板</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">22.</span> <span class="nav-text">参考</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

@@ -2,10 +2,8 @@
 
 
 
-  
 
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next muse" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -108,7 +106,7 @@
     scheme: 'Muse',
     sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
     fancybox: true,
-    motion: true,
+    motion: false,
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -253,6 +251,253 @@
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/02/15/Tomcat下GZip文件压缩/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014/02/15/Tomcat下GZip文件压缩/" itemprop="url">Tomcat下GZip文件压缩</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-02-15T00:00:00+08:00">
+                2014-02-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/02/15/Tomcat下GZip文件压缩/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/15/Tomcat下GZip文件压缩/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>压缩网络传输的文件，通过减小文件大小，可以节省带宽，提高站点的响应速度，优化前端的页面展示体验。Tomcat中支持<a href="4">GZip</a>压缩。本篇以Tomcat7.0为例，介绍Tomcat如何开启<a href="4">GZip</a>功能。</p>
+<h3 id="配置属性及说明"><a href="#配置属性及说明" class="headerlink" title="配置属性及说明"></a>配置属性及说明</h3><p>通过浏览器请求服务器资源，使用的是HTTP协议，Tomcat中server.xml配置文件中的HTTP Connector组件用来支持HTTP/1.1协议，负责处理所有的HTTP请求和响应，默认配置如下：</p>
+<pre><code>&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+         connectionTimeout=&quot;20000&quot;
+         redirectPort=&quot;8443&quot; /&gt;
+</code></pre><p> 需要在该配置上添加与Gzip相关的属性来开启<a href="4">GZip</a>压缩，配置如下：</p>
+<pre><code>&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+        connectionTimeout=&quot;20000&quot;
+        redirectPort=&quot;8443&quot;
+        compression=&quot;on&quot;
+        compressionMinSize=&quot;2048&quot;
+        compressableMimeType=&quot;text/html,text/xml,text/plain&quot;
+        noCompressionUserAgents=&quot;Chrome&quot;/&gt;
+</code></pre><p>新增的四个属性都是与GZip相关的配置，其中</p>
+<ul>
+<li><p><code>comprress</code> - 控制是否开启HTTP/1.1 Gzip压缩，设置为</p>
+<ul>
+<li><code>on</code>，开启GZip；</li>
+<li><code>off</code>，关闭GZip；</li>
+<li><code>force</code>，强制所有文件都进行压缩；</li>
+<li><p><code>正整数数值</code>，等同于    设置为<code>on</code>并指定被压缩的数据量的最小阀值；</p>
+<p>默认设置为<code>off</code>关闭。如果compress设置为<code>on</code>或数值，并且响应消息头中没有添加<code>content-length</code>消息头，数据同样会被压缩。</p>
+</li>
+</ul>
+</li>
+<li><p><code>compressableMimeType</code> - 指定允许压缩的文件的MIME类型，可以以<code>,</code>分隔符指定一个类型列表，默认为<code>text/html,text/xml,text/plain</code>。</p>
+</li>
+<li><code>noCompressionUserAgents</code> - 指定一个字符串，过滤HTTP请求中的<code>user-agent</code>消息头，忽略来自匹配的HTTP客户端的<a href="4">GZip</a>压缩请求,支持正则表达式，默认为空字符串。</li>
+<li><code>compressionMinSize</code> - <code>compression</code>设置为<code>on</code>后，该属性用以指定可以被压缩的数据量的最小阀值，小于该值的数据将不会被压缩，默认为<strong>2048KB</strong>。</li>
+</ul>
+<h3 id="基于浏览器的示例"><a href="#基于浏览器的示例" class="headerlink" title="基于浏览器的示例"></a>基于浏览器的示例</h3><p>下面围绕这几个属性介绍几个简单的示例作为解释。本机Mac OS系统，7.0.42版本的Tomcat，使用Chrome浏览器请求页面并查看测试效果。此处省略环境的配置过程，直接跳到测试环节，通过对比来查看配置的效果。</p>
+<ol>
+<li><p><strong>开启GZip压缩</strong></p>
+<p> 默认情况下Tomcat关闭了<a href="4">GZip</a>，我们启动Tomcat，Chrome地址栏中输入<code>http://localhost:8080</code>请求Tomcat的默认页面，并打开控制台，查看默认页面的交互情况，页面如下：</p>
+ <img src="/2014/02/15/Tomcat下GZip文件压缩/1.png" alt="1.png" title="">
+<p> 可以看到页面(localhost)当前的大小为<strong>11.1KB</strong>，之后开启<a href="4">GZip</a>配置，</p>
+<pre><code>&lt;Connector connectionTimeout=&quot;20000&quot;
+      port=&quot;8080&quot;
+      protocol=&quot;HTTP/1.1&quot;
+      redirectPort=&quot;8443&quot;
+      compression=&quot;on&quot;
+      /&gt;
+</code></pre><p> 重启Tomcat再次刷新页面，查看结果，如下</p>
+ <img src="/2014/02/15/Tomcat下GZip文件压缩/2.png" alt="2.png" title="">
+<p> <code>localhost</code>页面被压缩到了<strong>2.2KB</strong></p>
+<p> 打开<code>localhost</code>页面的请求详情</p>
+ <img src="/2014/02/15/Tomcat下GZip文件压缩/6.png" alt="6.png" title="">
+<p> 可以看到请求消息中的消息头</p>
+<pre><code>Accept-Encoding:gzip,deflate,sdch
+</code></pre><p> 响应消息的消息头</p>
+<pre><code>Content-Encoding:gzip
+</code></pre><p> 正式这两个消息头协调浏览器和服务器完成压缩的协商过程。</p>
+</li>
+<li><p><strong>添加对其它类型文件压缩的支持</strong></p>
+<p> 默认情况下Tomcat的<a href="4">GZip</a>压缩配置为支持<code>text/html,text/xml,text/plain</code>三种文件的类型，下面添加<code>text/css</code>类型来支持CSS文件的压缩，如下：</p>
+<pre><code>&lt;Connector connectionTimeout=&quot;20000&quot;
+  port=&quot;8080&quot;
+  protocol=&quot;HTTP/1.1&quot;
+  redirectPort=&quot;8443&quot;
+  compression=&quot;on&quot;
+   compressableMimeType=&quot;text/html,text/xml,text/plain,text/css&quot;
+  /&gt;
+</code></pre><p> 压缩前tomcat.css的大小为<strong>5.7KB</strong>,重启Tomcat，刷新页面</p>
+ <img src="/2014/02/15/Tomcat下GZip文件压缩/3.png" alt="3.png" title="">
+<p> tomcat.css压缩到<strong>2.0KB</strong>。要压缩其它的文件，只要将其MIME类型字符串依次添加进去即可。</p>
+</li>
+<li><p><strong>屏蔽来自Chrome浏览器</strong></p>
+<p> 在Chrome的控制台打开locahost页面的请求详情，查看请求<code>User-Agent</code>的字符串描述</p>
+ <img src="/2014/02/15/Tomcat下GZip文件压缩/4.png" alt="4.png" title="">
+<pre><code>User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.77 Safari/537.36
+</code></pre><p> 配置Tomcat，添加正则表达式<code>.*Chrome.*</code>来匹配Chrome浏览器，如下</p>
+<pre><code>&lt;Connector connectionTimeout=&quot;20000&quot;
+      port=&quot;8080&quot;
+      protocol=&quot;HTTP/1.1&quot;
+      redirectPort=&quot;8443&quot;
+      compression=&quot;on&quot;
+      compressableMimeType=&quot;text/html,text/xml,text/plain,text/css&quot;
+      noCompressionUserAgents=&quot;.*Chrome.*&quot;
+      /&gt;
+</code></pre><p>  重启Tomcat，刷新页面</p>
+<img src="/2014/02/15/Tomcat下GZip文件压缩/5.png" alt="5.png" title="">
+<p> 可以看到页面和CSS文件都未被压缩！类似的情况我们可以根据请求消息中的<code>User-Agent</code>消息头来屏蔽来自不同的浏览器或其它类型的客户端的<a href="4">GZip</a>请求。</p>
+</li>
+<li><p>限定可被压缩数据的最小值</p>
+<p> 设置<code>compression=&#39;on&#39;</code>之后，可以使用<code>compressionMinSize</code>属性来设置可以被压缩数据的最小值，如果HTTP的响应返回的数据或文件小于<code>compressionMinSize</code>指定的值则不会被压缩，但这有一个前提是<strong>HTTP响应中必须以<code>content-length</code>消息头返回数据的总长度</strong>，否则<code>compressionMinSize</code>设置不会起作用，返回的数据或文件照样会被Tomcat压缩。</p>
+<p> 由于要控制响应中<code>content-length</code>消息的设置，我们需要一个动态的JSP页面为例进行验证。Tomcat的<code>webapps</code>目录默认安装了几个web应用，其中<code>examples</code>应用中包含了一些学习jsp/servlet的实例代码，地址栏中输入<code>http://localhost:8080/examples/jsp/index.html</code>，该页面列出了所有示例代码，我们现在拷贝<code>index.html</code>页面中的HTML代码，在同级目录下新建名为<code>demo.jsp</code>的页面并将代码拷贝到其中，该页面其实还是一个纯静态的页面，现在我们关闭<a href="4">GZip</a>压缩，请求页面来查看该文件的大小，配置如下：</p>
+<pre><code>&lt;Connector connectionTimeout=&quot;20000&quot;
+  port=&quot;8080&quot;
+  protocol=&quot;HTTP/1.1&quot;
+  redirectPort=&quot;8443&quot;
+  compression=&quot;off&quot;
+  /&gt;
+</code></pre><p> 地址栏中输入<code>http://localhost:8080/examples/jsp/demo.jsp</code>,请求该页面：</p>
+ <img src="/2014/02/15/Tomcat下GZip文件压缩/7.png" alt="7.png" title="">
+<p> 可以看到页面大小为<strong>18.9KB</strong>,这是页面未经压缩的原始大小。之后我们将<code>compressionMinSize</code>限定在<strong>100KB</strong>,配置如下:</p>
+<pre><code>&lt;Connector connectionTimeout=&quot;20000&quot;
+      port=&quot;8080&quot;
+      protocol=&quot;HTTP/1.1&quot;
+      redirectPort=&quot;8443&quot;
+      compression=&quot;on&quot;
+      compressionMinSize=&quot;102400&quot;
+      /&gt;
+</code></pre><p> 如上配置，想象中，当返回数据或文件小于<strong>100KB</strong>时将不会被压缩，但实际上我们重启服务器再次请求页面查看结果便知：</p>
+ <img src="/2014/02/15/Tomcat下GZip文件压缩/8.png" alt="8.png" title="">
+<p> 可以看到<code>demo.jsp</code>文件被压缩到了<strong>3.4KB</strong>。下面我们在<code>demo.jsp</code>页面中加入设置<code>content-length</code>响应头的代码。</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=UTF-8&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%
+    response.addHeader(&quot;content-length&quot;, &quot;19353&quot;);//设置大小为18.9KB
+%&gt;
+</code></pre><p> 再次刷新页面</p>
+ <img src="/2014/02/15/Tomcat下GZip文件压缩/9.png" alt="9.png" title="">
+<p> 可以看到<code>demo.jsp</code>页面没有再被压缩，<code>content-length</code>属性的设置确实发生作用。</p>
+</li>
+</ol>
+<blockquote>
+<p>注:<code>compressionMinSize</code>属性是在Tomcai7.0版本中新增的属性，Tomcat6.0中不存在该属性。</p>
+</blockquote>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="1">compressionMinSize does not work on Tomcat 6</a></li>
+<li><a href="2">The HTTP Connector - Tomcat6</a></li>
+<li><a href="3">The HTTP Connector - Tomcat7</a></li>
+<li><a href="4">GZip</a></li>
+<li><a href="5">互联网媒体类型</a></li>
+<li><a href="6">多用途互聯網郵件擴展</a></li>
+<li><a href="7">Tomcat 7 GZIP compression not working</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
     
       
 
@@ -995,175 +1240,6 @@ trace(<span class="string">"internalBuildNumber : "</span>+platform);   <span cl
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/01/20/Mac-OS-X下卸载MySQL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2014/01/20/Mac-OS-X下卸载MySQL/" itemprop="url">Mac OS X下卸载MySQL</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-01-20T00:00:00+08:00">
-                2014-01-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2014/01/20/Mac-OS-X下卸载MySQL/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/20/Mac-OS-X下卸载MySQL/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Mac OS X下可以使用MySQL pkg安装文件安装MySQL，但该安装包并没有提供卸载MySQL的功能，如果要卸载已经安装的MySQL，需要使用命令或者直接查看目录的形式来手工删除MySQL的安装目录和文件。<strong>在卸载MySQL之前确保系统已经停止MySQL服务的运行。</strong>以下以MySQL的默认安装目录来说明其卸载过程。</p>
-<h3 id="查看MySQL的安装目录，手工删除MySQL的目录文件"><a href="#查看MySQL的安装目录，手工删除MySQL的目录文件" class="headerlink" title="查看MySQL的安装目录，手工删除MySQL的目录文件"></a>查看MySQL的安装目录，手工删除MySQL的目录文件</h3><ul>
-<li><p>删除MySQL的安装主目录</p>
-<p>  在Finder中进入MySQL的默认安装路径<code>/usr/local/mysql</code>,删除MySQL的主目录(mysql-VERSION)和链接(mysql)</p>
-  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/1.png" alt="1.png" title="">
-</li>
-<li><p>删除MySQL Startup Item以及相关配置文件（可选，如果已经<a href="http://dev.mysql.com/doc/refman/5.6/en/macosx-installation-startupitem.html" target="_blank" rel="external">安装</a>）</p>
-<p>  在Finder中进入<code>/Library/StartupItems/MySQLCOM</code>,删除<code>MySQLCOM</code>目录。</p>
-  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/2.png" alt="2.png" title="">
-<p>  在Finder中进入<code>/etc</code>目录，查找<code>hostconfig</code>文件，用<code>vim</code>或其它文本编辑器打开，删除配置项中的<code>MYSQLCOM=-YES-</code>一项。</p>
-  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/3.png" alt="3.png" title="">
-</li>
-<li><p>删除MySQL prefPane(可选，如果已经<a href="http://dev.mysql.com/doc/refman/5.6/en/macosx-installation-prefpane.html" target="_blank" rel="external">安装</a>)</p>
-<p>  在Finder中进入<code>/Library/PreferencePanes</code>,查找<code>MySQL.prefPane</code>文件，并删除</p>
-  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/4.png" alt="4.png" title="">
-</li>
-<li><p>删除Receipts相关文件</p>
-<p>  在Finder中进入<code>/Library/Receipts</code>,将对应的mysql-VERSION对应的<code>Package Recepit</code>目录删除</p>
-  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/5.png" alt="5.png" title="">
-<p>  在Finder中进入<code>/var/db/receipts</code>,将以<code>com.mysql</code>开头的文件删除</p>
-  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/6.png" alt="6.png" title="">
-</li>
-</ul>
-<h3 id="以命令方式，卸载MySQL"><a href="#以命令方式，卸载MySQL" class="headerlink" title="以命令方式，卸载MySQL"></a>以命令方式，卸载MySQL</h3><ul>
-<li><p>删除主目录</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt;sudo rm /usr/<span class="built_in">local</span>/mysql</div><div class="line">shell&gt;sudo rm -rf /usr/<span class="built_in">local</span>/mysql*</div></pre></td></tr></table></figure>
-</li>
-<li><p>删除MySQL Startup Item及<code>hostconfig</code>配置项<code>MYSQLCOM=-YES-</code></p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shell&gt;sudo rm -rf /Library/StartupItems/MySQLCOM</div><div class="line">shell&gt;sudo rm -rf /Library/PreferencePanes/My</div><div class="line">shell&gt;vim /etc/hostconfig</div></pre></td></tr></table></figure>
-</li>
-<li><p>删除MySQL prefPane</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shell&gt;rm -rf ~/Library/PreferencePanes/My*</div></pre></td></tr></table></figure>
-</li>
-<li><p>删除Receipts</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shell&gt;sudo rm -rf /Library/Receipts/mysql*</div><div class="line">shell&gt;sudo rm -rf /Library/Receipts/MySQL*</div><div class="line">shell&gt;sudo rm -rf /var/db/receipts/com.mysql.*</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<blockquote>
-<p>对已有的MySQL进行升级，新的MySQL pkg安装包不会卸载旧的安装目录，Mac OS X的安装包未提供合适的功能来正确升级之前旧的已经安装的软件包。</p>
-<p>在新安装的MySQL中使用已有的数据库，需要将旧数据目录(<code>/usr/local/mysql/data</code>)中的内容复制到新的数据目录中。执行
-该操作时确保关闭新、旧服务器。将以前安装的MySQL数据库文件复制过来并成功重启服务器后，应当卸载旧的文件以节省磁盘空
-间。并且还要卸载掉在/Library/Receipts/mysql-VERSION.pkg的旧版本的Package Receipt</p>
-</blockquote>
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
-<li><a href="http://dev.mysql.com/doc/refman/5.1/zh/installing.html#mac-os-x-installation" target="_blank" rel="external">在Mac OS X中安装MySQL</a></li>
-<li><a href="http://dev.mysql.com/doc/refman/5.6/en/macosx-installation-pkg.html" target="_blank" rel="external">Installing MySQL on Mac OS X Using Native Packages</a></li>
-<li><a href="http://stackoverflow.com/questions/1436425/how-do-you-uninstall-mysql-from-mac-os-x" target="_blank" rel="external">How do you uninstall MySQL from Mac OS X?</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/01/20/Mac-OS-X下初始化MySQL账户安全/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1493,6 +1569,175 @@ Unix下<strong>mysql.server</strong>位于MySQL安装目录的下的<code>suppor
 <h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
 <li><a href="http://dev.mysql.com/doc/refman/5.1/zh/database-administration.html#server-options" target="_blank" rel="external">mysqld命令行选项,5.1版</a></li>
 <li><a href="http://dev.mysql.com/doc/refman/5.6/en/server-options.html#option_mysqld_user" target="_blank" rel="external">mysqld<code>--user</code>命令行选项,5.6版</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2014/01/20/Mac-OS-X下卸载MySQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="monjer">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="monjer's note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2014/01/20/Mac-OS-X下卸载MySQL/" itemprop="url">Mac OS X下卸载MySQL</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-01-20T00:00:00+08:00">
+                2014-01-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2014/01/20/Mac-OS-X下卸载MySQL/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/01/20/Mac-OS-X下卸载MySQL/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Mac OS X下可以使用MySQL pkg安装文件安装MySQL，但该安装包并没有提供卸载MySQL的功能，如果要卸载已经安装的MySQL，需要使用命令或者直接查看目录的形式来手工删除MySQL的安装目录和文件。<strong>在卸载MySQL之前确保系统已经停止MySQL服务的运行。</strong>以下以MySQL的默认安装目录来说明其卸载过程。</p>
+<h3 id="查看MySQL的安装目录，手工删除MySQL的目录文件"><a href="#查看MySQL的安装目录，手工删除MySQL的目录文件" class="headerlink" title="查看MySQL的安装目录，手工删除MySQL的目录文件"></a>查看MySQL的安装目录，手工删除MySQL的目录文件</h3><ul>
+<li><p>删除MySQL的安装主目录</p>
+<p>  在Finder中进入MySQL的默认安装路径<code>/usr/local/mysql</code>,删除MySQL的主目录(mysql-VERSION)和链接(mysql)</p>
+  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/1.png" alt="1.png" title="">
+</li>
+<li><p>删除MySQL Startup Item以及相关配置文件（可选，如果已经<a href="http://dev.mysql.com/doc/refman/5.6/en/macosx-installation-startupitem.html" target="_blank" rel="external">安装</a>）</p>
+<p>  在Finder中进入<code>/Library/StartupItems/MySQLCOM</code>,删除<code>MySQLCOM</code>目录。</p>
+  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/2.png" alt="2.png" title="">
+<p>  在Finder中进入<code>/etc</code>目录，查找<code>hostconfig</code>文件，用<code>vim</code>或其它文本编辑器打开，删除配置项中的<code>MYSQLCOM=-YES-</code>一项。</p>
+  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/3.png" alt="3.png" title="">
+</li>
+<li><p>删除MySQL prefPane(可选，如果已经<a href="http://dev.mysql.com/doc/refman/5.6/en/macosx-installation-prefpane.html" target="_blank" rel="external">安装</a>)</p>
+<p>  在Finder中进入<code>/Library/PreferencePanes</code>,查找<code>MySQL.prefPane</code>文件，并删除</p>
+  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/4.png" alt="4.png" title="">
+</li>
+<li><p>删除Receipts相关文件</p>
+<p>  在Finder中进入<code>/Library/Receipts</code>,将对应的mysql-VERSION对应的<code>Package Recepit</code>目录删除</p>
+  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/5.png" alt="5.png" title="">
+<p>  在Finder中进入<code>/var/db/receipts</code>,将以<code>com.mysql</code>开头的文件删除</p>
+  <img src="/2014/01/20/Mac-OS-X下卸载MySQL/6.png" alt="6.png" title="">
+</li>
+</ul>
+<h3 id="以命令方式，卸载MySQL"><a href="#以命令方式，卸载MySQL" class="headerlink" title="以命令方式，卸载MySQL"></a>以命令方式，卸载MySQL</h3><ul>
+<li><p>删除主目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">shell&gt;sudo rm /usr/<span class="built_in">local</span>/mysql</div><div class="line">shell&gt;sudo rm -rf /usr/<span class="built_in">local</span>/mysql*</div></pre></td></tr></table></figure>
+</li>
+<li><p>删除MySQL Startup Item及<code>hostconfig</code>配置项<code>MYSQLCOM=-YES-</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shell&gt;sudo rm -rf /Library/StartupItems/MySQLCOM</div><div class="line">shell&gt;sudo rm -rf /Library/PreferencePanes/My</div><div class="line">shell&gt;vim /etc/hostconfig</div></pre></td></tr></table></figure>
+</li>
+<li><p>删除MySQL prefPane</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">shell&gt;rm -rf ~/Library/PreferencePanes/My*</div></pre></td></tr></table></figure>
+</li>
+<li><p>删除Receipts</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">shell&gt;sudo rm -rf /Library/Receipts/mysql*</div><div class="line">shell&gt;sudo rm -rf /Library/Receipts/MySQL*</div><div class="line">shell&gt;sudo rm -rf /var/db/receipts/com.mysql.*</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>对已有的MySQL进行升级，新的MySQL pkg安装包不会卸载旧的安装目录，Mac OS X的安装包未提供合适的功能来正确升级之前旧的已经安装的软件包。</p>
+<p>在新安装的MySQL中使用已有的数据库，需要将旧数据目录(<code>/usr/local/mysql/data</code>)中的内容复制到新的数据目录中。执行
+该操作时确保关闭新、旧服务器。将以前安装的MySQL数据库文件复制过来并成功重启服务器后，应当卸载旧的文件以节省磁盘空
+间。并且还要卸载掉在/Library/Receipts/mysql-VERSION.pkg的旧版本的Package Receipt</p>
+</blockquote>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://dev.mysql.com/doc/refman/5.1/zh/installing.html#mac-os-x-installation" target="_blank" rel="external">在Mac OS X中安装MySQL</a></li>
+<li><a href="http://dev.mysql.com/doc/refman/5.6/en/macosx-installation-pkg.html" target="_blank" rel="external">Installing MySQL on Mac OS X Using Native Packages</a></li>
+<li><a href="http://stackoverflow.com/questions/1436425/how-do-you-uninstall-mysql-from-mac-os-x" target="_blank" rel="external">How do you uninstall MySQL from Mac OS X?</a></li>
 </ul>
 
           
@@ -1893,327 +2138,6 @@ Unix下<strong>mysql.server</strong>位于MySQL安装目录的下的<code>suppor
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://monjer.github.io/2013/11/04/苹果专有的meta标签说明/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="monjer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="monjer's note">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2013/11/04/苹果专有的meta标签说明/" itemprop="url">苹果专有的meta标签说明</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-11-04T00:00:00+08:00">
-                2013-11-04
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2013/11/04/苹果专有的meta标签说明/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/11/04/苹果专有的meta标签说明/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>名称:</strong> apple-mobile-web-app-capable
-<strong>目的:</strong> 设置Web App是否运行在全屏模式下(full-screen mode)。
-<strong>语法:</strong>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"apple-mobile-web-app-capable"</span> <span class="attr">content</span>=<span class="string">"yes"</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p><strong>说明:</strong></p>
-<blockquote>
-<p>content设置为yes，Web Application会运行在全屏模式下。默认会使用Safari显示web内容。通过window.navigator.standalone属性可以判断当前页面是否运行在全屏模式下，该属性为只读属性(read-only)。</p>
-</blockquote>
-<p><strong>名称:</strong> apple-mobile-web-app-status-bar-style
-<strong>目的:</strong> 设置Web Application设置状态栏(status bar)的样式。
-<strong>语法:</strong>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"apple-mobile-web-app-status-bar-style"</span> <span class="attr">content</span>=<span class="string">"black"</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p><strong>说明:</strong></p>
-<blockquote>
-<p>该标签要求首先要设置Web Application运行在全屏模式下。设置content为default，状态栏以常态显示。设置为black，状态栏会变为黑色背景。设置为black-transparent，状态栏会变为黑色透明背景。设置black或default，web内容会显示在状态栏下面，设置为black-transparent，web内容会全屏显示，同时会被状态栏遮盖。默认值为default。</p>
-</blockquote>
-<p><strong>名称:</strong> format-detection
-<strong>目的:</strong> 启用或禁用IOS Safari下web页面中电话号码的自动检测。
-<strong>语法:</strong>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"format-detection"</span> <span class="attr">content</span>=<span class="string">"telephone=no"</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p><strong>说明:</strong></p>
-<blockquote>
-<p>IOS中的Safari默认会检测任何格式类似于电话号码的字符串，并将其作为一个直接拨号link。设置telephone=no会禁用该功能。</p>
-</blockquote>
-<p><strong>名称:</strong> viewport
-<strong>目的:</strong> 在IOS下，改变展示页面使用的逻辑窗口大小。
-<strong>语法:</strong>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span> = <span class="string">"viewport"</span> <span class="attr">content</span> = <span class="string">"width = 320, initial-scale = 2.3, user-scalable = no"</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p><strong>说明:</strong></p>
-<blockquote>
-<p>使用viewport meta关键字可以提升IOS下web内容的展示效果。可以使用viewport meta标签来设置viewport的宽度和初始缩放比。
-例如，如果webpage的宽度小于980px，可以设置viewport的大小来适配网页内容。设计IOS专有的web application，需要将其宽度设置为设备宽度。
-<strong>表-1</strong> 描述了viewport meta支持的关键字和默认值。在viewport meta中设置多属性时，需要使用逗号分隔的赋值列表。规则如下：</p>
-<ul>
-<li>不要使用分号作为分隔符。</li>
-<li>空格也可以作为分隔符使用，但逗号优先。</li>
-<li>数值型属性的值包含了非数值型字符串，但以数字开头，那么数字前缀会被当做值来使用。例如1.0x等价于1.0；123x456等价于123。非数字开头的参数，取值为0。
-在使用设备尺寸时，不要使用具体数值进行硬编码，相反需要使用<strong>表-2</strong>规定的常量。例如，在横屏下，使用device-width而不是320设置viewport宽度，使用device-height而不是480来设置viewport高度。</li>
-</ul>
-<p>不必设置viewport的所有属性。部分属性设置后，IOS上的Safari会推断其余属性的值。例如，设置缩放比(scale)为1.0后，Safari会认为viewport的宽度在竖屏下是device-width，在横屏下是device-height。因此，想要设置viewport的宽度为980px，缩放比为1.0，则需要同时显示设置这两个属性。</p>
-<p>例如:</p>
-<p><strong>设置viewport的宽度为设备宽度</strong>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span> = <span class="string">"viewport"</span> <span class="attr">content</span> = <span class="string">"width = device-width"</span>&gt;</span></div></pre></td></tr></table></figure>
->**设置初始缩放比为1.0**
-><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span> = <span class="string">"viewport"</span> <span class="attr">content</span> = <span class="string">"initial-scale = 1.0"</span>&gt;</span></div></pre></td></tr></table></figure>
-<strong>设置初始缩放比并禁用用户的缩放行为</strong>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span> = <span class="string">"viewport"</span> <span class="attr">content</span> = <span class="string">"initial-scale = 2.3, user-scalable = no"</span>&gt;</span></div></pre></td></tr></table></figure></p>
-</blockquote>
-<table border="0" cellspacing="0" cellpadding="5" style="width:858px;" width="858">
-    <caption> <strong class="caption_number">表-1</strong>
-        &nbsp;&nbsp;Viewport属性
-    </caption>
-    <tbody>
-        <tr>
-            <th>
-                <p>属性</p>
-            </th>
-            <th>
-                <p>描述</p>
-            </th>
-        </tr>
-        <tr>
-            <td>
-                <p>
-                    width
-                </p>
-            </td>
-            <td>
-                <p>
-                    viewport的像素宽度. 默认980。取值范围从200-10000像素
-                </p>
-                <p>
-                    也可以使用表-2描述的常量来为该属性赋值。
-                </p>
-                <p>iOS 1.0及以后可用.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>
-                    height
-                </p>
-            </td>
-            <td>
-                <p>
-                    viewport的像素高度。默认会根据width属性值以及设备的宽高比来计算高度值。取值范围223到10000像素。
-                </p>
-                <p>
-                    也可以使用表-2描述的常量来为该属性赋值。
-                </p>
-                <p>iOS 1.0及以后可用.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>
-                    initial-scale
-                </p>
-            </td>
-            <td>
-                <p>
-                    作为乘数的viewport的初始缩放比，默认会填充页面内容适配显示区来计算值。取值范围取决于
-                    minimum-scale
-                    和
-                    maximum-scale
-                    属性.
-                </p>
-                <p>
-                    该属性只能设置视口的初始缩放比——页面首次显示的viewport的缩放比例。之后用户可以放大或缩小viewport，除非将user-scalable设置为no。缩放范围限定在minimun-scale和maximum-scale之间。
-                </p>
-                <p>iOS 1.0及以后可用.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>
-                    minimum-scale
-                </p>
-            </td>
-            <td>
-                <p>
-                    指定viewport的最小缩放值。默认为0.25，取值范围大于0小于等于10.0。
-                </p>
-                <p>iOS 1.0及以后可用.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>
-                    maximum-scale
-                </p>
-            </td>
-            <td>
-                <p>
-                    指定viewport的最大缩放值。默认为5.0，取值范围大于0小于等于10.0。
-                </p>
-                <p>iOS 1.0及以后可用.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>
-                    user-scalable
-                </p>
-            </td>
-            <td>
-                <p>
-                    决定用户是否可以进行放大或缩小页面操作——亦即是否可以改变viewport的缩放比(scale)。设置yes允许缩放，no禁用缩放，默认为yes。
-                </p>
-                <p>
-                    设置user-scalable为no同时会阻止页面在input框中输入文本时的滚动。
-                </p>
-                <p>iOS 1.0及以后可用.</p>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<table border="0" cellspacing="0" cellpadding="5">
-    <caption> <strong class="caption_number">表-2</strong>
-        &nbsp;&nbsp;指定viewport属性值
-    </caption>
-    <tbody>
-        <tr>
-            <th scope="col">
-                <p>值</p>
-            </th>
-            <th scope="col">
-                <p>说明</p>
-            </th>
-        </tr>
-        <tr>
-            <td>
-                <p>
-                    device-width
-                </p>
-            </td>
-            <td>
-                <p>设备的像素宽度。</p>
-                <p>OS 1.1.1及以后可用.</p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p>
-                    <code>device-height</code>
-                </p>
-            </td>
-            <td>
-                <p>设备的像素高度</p>
-                <p>OS 1.1.1及以后可用.</p>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<h3 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h3><ul>
-<li><a href="https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#//apple_ref/doc/uid/TP40008193-SW3" target="_blank" rel="external">Supported Meta Tags</a></li>
-<li><a href="https://developer.apple.com/library/safari/documentation/AppleApplications/Reference/SafariWebContent/UsingtheViewport/UsingtheViewport.html#//apple_ref/doc/uid/TP40006509-SW19" target="_blank" rel="external">Configuring the Viewport</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2263,7 +2187,7 @@ Unix下<strong>mysql.server</strong>位于MySQL安装目录的下的<code>suppor
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">135</span>
+                <span class="site-state-item-count">136</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2276,7 +2200,7 @@ Unix下<strong>mysql.server</strong>位于MySQL安装目录的下的<code>suppor
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">82</span>
+                <span class="site-state-item-count">84</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
