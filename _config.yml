@@ -70,3 +70,5 @@ nav:
     title: 关于
     url: "/about"
 date_format: "%Y-%m-%d"
+
+with_comments: true
