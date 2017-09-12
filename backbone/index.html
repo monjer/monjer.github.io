@@ -1,0 +1,3758 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <meta name="viewport" content="width=device-width">
+  <link rel="canonical" href="http://backbonejs.org" />
+  <title>Backbone.js</title>
+  <style>
+    body {
+      font-size: 14px;
+      line-height: 22px;
+      font-family: arial,sans-serif,YaHei, Helvetica Neue, Helvetica, Arial;
+      background: #f4f4f4 url(docs/images/background.png);
+    }
+    .interface {
+      font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif !important;
+    }
+    div#sidebar {
+      background: #fff;
+      position: fixed;
+      z-index: 10;
+      top: 0; left: 0; bottom: 0;
+      width: 200px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding: 15px 0 30px 30px;
+      border-right: 1px solid #bbb;
+      box-shadow: 0 0 20px #ccc; -webkit-box-shadow: 0 0 20px #ccc; -moz-box-shadow: 0 0 20px #ccc;
+    }
+      a.toc_title, a.toc_title:visited {
+        display: block;
+        color: black;
+        font-weight: bold;
+        margin-top: 15px;
+      }
+        a.toc_title:hover {
+          text-decoration: underline;
+        }
+        #sidebar .version {
+          font-size: 10px;
+          font-weight: normal;
+        }
+      ul.toc_section {
+        font-size: 11px;
+        line-height: 14px;
+        margin: 5px 0 0 0;
+        padding-left: 0px;
+        list-style-type: none;
+        font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif;
+      }
+        .toc_section li {
+          cursor: pointer;
+          margin: 0 0 3px 0;
+        }
+          .toc_section li a {
+            text-decoration: none;
+            color: black;
+          }
+            .toc_section li a:hover {
+              text-decoration: underline;
+            }
+    div.container {
+      position: relative;
+      width: 550px;
+      margin: 40px 0 50px 260px;
+    }
+    img#logo {
+      width: 450px;
+      height: 80px;
+    }
+    div.run {
+      position: absolute;
+      right: 15px;
+      width: 26px; height: 18px;
+      background: url('docs/images/arrows.png') no-repeat -26px 0;
+    }
+      div.run:active {
+        background-position: -51px 0;
+      }
+    p, div.container ul {
+      margin: 25px 0;
+      width: 550px;
+    }
+      p.warning {
+        font-size: 12px;
+        line-height: 18px;
+        font-style: italic;
+      }
+      div.container ul {
+        list-style: circle;
+        padding-left: 15px;
+        font-size: 13px;
+        line-height: 18px;
+      }
+        div.container ul li {
+          margin-bottom: 10px;
+        }
+        div.container ul.small {
+          font-size: 12px;
+        }
+    a, a:visited {
+      color: #444;
+    }
+    a:active, a:hover {
+      color: #000;
+    }
+    a.punch {
+      display: inline-block;
+      background: #4162a8;
+      border-top: 1px solid #38538c;
+      border-right: 1px solid #1f2d4d;
+      border-bottom: 1px solid #151e33;
+      border-left: 1px solid #1f2d4d;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      -ms-border-radius: 4px;
+      -o-border-radius: 4px;
+      border-radius: 4px;
+      -webkit-box-shadow: inset 0 1px 10px 1px #5c8bee, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
+      -moz-box-shadow: inset 0 1px 10px 1px #5c8bee, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
+      -ms-box-shadow: inset 0 1px 10px 1px #5c8bee, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
+      -o-box-shadow: inset 0 1px 10px 1px #5c8bee, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
+      box-shadow: inset 0 1px 10px 1px #5c8bee, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
+      color: #fff;
+      font: bold 14px "helvetica neue", helvetica, arial, sans-serif;
+      line-height: 1;
+      margin-bottom: 15px;
+      padding: 8px 0 10px 0;
+      text-align: center;
+      text-shadow: 0px -1px 1px #1e2d4d;
+      text-decoration: none;
+      width: 225px;
+      -webkit-background-clip: padding-box; }
+      a.punch:hover {
+        -webkit-box-shadow: inset 0 0px 20px 1px #87adff, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
+        -moz-box-shadow: inset 0 0px 20px 1px #87adff, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
+        -ms-box-shadow: inset 0 0px 20px 1px #87adff, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
+        -o-box-shadow: inset 0 0px 20px 1px #87adff, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
+        box-shadow: inset 0 0px 20px 1px #87adff, 0px 1px 0 #1d2c4d, 0 6px 0px #1f3053, 0 8px 4px 1px #111111;
+        cursor: pointer; }
+      a.punch:active {
+        -webkit-box-shadow: inset 0 1px 10px 1px #5c8bee, 0 1px 0 #1d2c4d, 0 2px 0 #1f3053, 0 4px 3px 0 #111111;
+        -moz-box-shadow: inset 0 1px 10px 1px #5c8bee, 0 1px 0 #1d2c4d, 0 2px 0 #1f3053, 0 4px 3px 0 #111111;
+        -ms-box-shadow: inset 0 1px 10px 1px #5c8bee, 0 1px 0 #1d2c4d, 0 2px 0 #1f3053, 0 4px 3px 0 #111111;
+        -o-box-shadow: inset 0 1px 10px 1px #5c8bee, 0 1px 0 #1d2c4d, 0 2px 0 #1f3053, 0 4px 3px 0 #111111;
+        box-shadow: inset 0 1px 10px 1px #5c8bee, 0 1px 0 #1d2c4d, 0 2px 0 #1f3053, 0 4px 3px 0 #111111;
+        margin-top: 5px; margin-bottom: 10px; }
+    a img {
+      border: 0;
+    }
+    a.travis-badge {
+      display: block;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      padding-top: 20px;
+    }
+      h2 {
+        font-size: 22px;
+      }
+    b.header {
+      font-size: 18px;
+      line-height: 35px;
+    }
+    span.alias {
+      font-size: 14px;
+      font-style: italic;
+      margin-left: 20px;
+    }
+    table {
+      margin: 15px 0 0; padding: 0;
+    }
+      tr, td {
+        margin: 0; padding: 0;
+      }
+        td {
+          padding: 0px 15px 5px 0;
+        }
+        table .rule {
+          height: 1px;
+          background: #ccc;
+          margin: 5px 0;
+        }
+    code, pre, tt {
+      font-family: Monaco, Consolas, "Lucida Console", monospace;
+      font-size: 12px;
+      line-height: 18px;
+      font-style: normal;
+    }
+      tt {
+        padding: 0px 3px;
+        background: #fff;
+        border: 1px solid #ddd;
+        zoom: 1;
+      }
+      code {
+        margin-left: 20px;
+      }
+      pre {
+        font-size: 12px;
+        padding: 2px 0 2px 15px;
+        border: 4px solid #bbb; border-top: 0; border-bottom: 0;
+        margin: 0px 0 25px;
+      }
+      img.example_image {
+        margin: 0px auto;
+      }
+        img.example_retina {
+          margin: 20px;
+          box-shadow: 0 8px 15px rgba(0,0,0,0.4);
+        }
+    @media only screen and (-webkit-max-device-pixel-ratio: 1) and (max-width: 600px),
+           only screen and (max--moz-device-pixel-ratio: 1) and (max-width: 600px) {
+      div#sidebar {
+        display: none;
+      }
+      img#logo {
+        max-width: 450px;
+        width: 100%;
+        height: auto;
+      }
+      div.container {
+        width: auto;
+        margin-left: 15px;
+        margin-right: 15px;
+      }
+        p, div.container ul {
+          width: auto;
+        }
+    }
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.5) and (max-width: 640px),
+          only screen and (-o-min-device-pixel-ratio: 3/2) and (max-width: 640px),
+          only screen and (min-device-pixel-ratio: 1.5) and (max-width: 640px) {
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+      div#sidebar {
+        -webkit-overflow-scrolling: initial;
+        position: relative;
+        width: 90%;
+        height: 120px;
+        left: 0;
+        top: -7px;
+        padding: 10px 0 10px 30px;
+        border: 0;
+      }
+      img#logo {
+        width: auto;
+        height: auto;
+      }
+      div.container {
+        margin: 0;
+        width: 100%;
+      }
+      p, div.container ul {
+        max-width: 98%;
+        overflow-x: scroll;
+      }
+      table {
+        position: relative;
+      }
+        tr:first-child td {
+          padding-bottom: 25px;
+        }
+        td.text {
+          line-height: 12px;
+          padding: 0;
+          position: absolute;
+          left: 0;
+          top: 48px;
+        }
+        tr:last-child td.text {
+          top: 122px;
+        }
+      pre {
+        overflow: scroll;
+      }
+    }
+    img.figure {
+      width: 100%;
+    }
+    div.columns {
+      display: table;
+      table-layout: fixed;
+      width: 100%;
+    }
+      div.columns ul {
+        margin: 10px 0;
+      }
+    div.col-50 {
+      display: table-cell;
+      width: 50%;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar" class="interface">
+
+    <a class="toc_title" href="#">
+      Backbone.js <span class="version">(1.3.3)</span>
+    </a>
+    <ul class="toc_section">
+      <li>&raquo; <a href="http://github.com/jashkenas/backbone">GitHub Repository</a></li>
+      <li>&raquo; <a href="docs/backbone.html">源码注释</a></li>
+    </ul>
+
+    <a class="toc_title" href="#Getting-started">
+      入门指南 - Getting Started
+    </a>
+    <ul class="toc_section">
+      <li>- <a href="#Getting-started">Introduction</a></li>
+      <li>– <a href="#Model-View-separation">Models and Views</a></li>
+      <li>– <a href="#Model-Collections">Collections</a></li>
+      <li>– <a href="#API-integration">API Integration</a></li>
+      <li>– <a href="#View-rendering">Rendering</a></li>
+      <li>– <a href="#Routing">Routing</a></li>
+    </ul>
+
+    <a class="toc_title" href="#Events">
+      事件 - Events
+    </a>
+    <ul class="toc_section">
+      <li>– <a href="#Events-on">on</a></li>
+      <li>– <a href="#Events-off">off</a></li>
+      <li>– <a href="#Events-trigger">trigger</a></li>
+      <li>– <a href="#Events-once">once</a></li>
+      <li>– <a href="#Events-listenTo">listenTo</a></li>
+      <li>– <a href="#Events-stopListening">stopListening</a></li>
+      <li>– <a href="#Events-listenToOnce">listenToOnce</a></li>
+      <li>- <a href="#Events-catalog"><b>Catalog of Built-in Events</b></a></li>
+    </ul>
+
+    <a class="toc_title" href="#Model">
+      模型 - Model
+    </a>
+    <ul class="toc_section">
+      <li>– <a href="#Model-extend">extend</a></li>
+      <li>– <a href="#Model-constructor">constructor / initialize</a></li>
+      <li>– <a href="#Model-get">get</a></li>
+      <li>– <a href="#Model-set">set</a></li>
+      <li>– <a href="#Model-escape">escape</a></li>
+      <li>– <a href="#Model-has">has</a></li>
+      <li>– <a href="#Model-unset">unset</a></li>
+      <li>– <a href="#Model-clear">clear</a></li>
+      <li>– <a href="#Model-id">id</a></li>
+      <li>– <a href="#Model-idAttribute">idAttribute</a></li>
+      <li>– <a href="#Model-cid">cid</a></li>
+      <li>– <a href="#Model-attributes">attributes</a></li>
+      <li>– <a href="#Model-changed">changed</a></li>
+      <li>– <a href="#Model-defaults">defaults</a></li>
+      <li>– <a href="#Model-toJSON">toJSON</a></li>
+      <li>– <a href="#Model-sync">sync</a></li>
+      <li>– <a href="#Model-fetch">fetch</a></li>
+      <li>– <a href="#Model-save">save</a></li>
+      <li>– <a href="#Model-destroy">destroy</a></li>
+      <li>– <a href="#Model-Underscore-Methods"><b>Underscore Methods (9)</b></a></li>
+      <li>– <a href="#Model-validate">validate</a></li>
+      <li>– <a href="#Model-validationError">validationError</a></li>
+      <li>– <a href="#Model-isValid">isValid</a></li>
+      <li>– <a href="#Model-url">url</a></li>
+      <li>– <a href="#Model-urlRoot">urlRoot</a></li>
+      <li>– <a href="#Model-parse">parse</a></li>
+      <li>– <a href="#Model-clone">clone</a></li>
+      <li>– <a href="#Model-isNew">isNew</a></li>
+      <li>– <a href="#Model-hasChanged">hasChanged</a></li>
+      <li>– <a href="#Model-changedAttributes">changedAttributes</a></li>
+      <li>– <a href="#Model-previous">previous</a></li>
+      <li>– <a href="#Model-previousAttributes">previousAttributes</a></li>
+    </ul>
+
+    <a class="toc_title" href="#Collection">
+      集合 - Collection
+    </a>
+    <ul class="toc_section">
+      <li>– <a href="#Collection-extend">extend</a></li>
+      <li>– <a href="#Collection-model">model</a></li>
+      <li>– <a href="#Collection-modelId">modelId</a></li>
+      <li>– <a href="#Collection-constructor">constructor / initialize</a></li>
+      <li>– <a href="#Collection-models">models</a></li>
+      <li>– <a href="#Collection-toJSON">toJSON</a></li>
+      <li>– <a href="#Collection-sync">sync</a></li>
+      <li>– <a href="#Collection-Underscore-Methods"><b>Underscore Methods (46)</b></a></li>
+      <li>– <a href="#Collection-add">add</a></li>
+      <li>– <a href="#Collection-remove">remove</a></li>
+      <li>– <a href="#Collection-reset">reset</a></li>
+      <li>– <a href="#Collection-set">set</a></li>
+      <li>– <a href="#Collection-get">get</a></li>
+      <li>– <a href="#Collection-at">at</a></li>
+      <li>– <a href="#Collection-push">push</a></li>
+      <li>– <a href="#Collection-pop">pop</a></li>
+      <li>– <a href="#Collection-unshift">unshift</a></li>
+      <li>– <a href="#Collection-shift">shift</a></li>
+      <li>– <a href="#Collection-slice">slice</a></li>
+      <li>– <a href="#Collection-length">length</a></li>
+      <li>– <a href="#Collection-comparator">comparator</a></li>
+      <li>– <a href="#Collection-sort">sort</a></li>
+      <li>– <a href="#Collection-pluck">pluck</a></li>
+      <li>– <a href="#Collection-where">where</a></li>
+      <li>– <a href="#Collection-findWhere">findWhere</a></li>
+      <li>– <a href="#Collection-url">url</a></li>
+      <li>– <a href="#Collection-parse">parse</a></li>
+      <li>– <a href="#Collection-clone">clone</a></li>
+      <li>– <a href="#Collection-fetch">fetch</a></li>
+      <li>– <a href="#Collection-create">create</a></li>
+    </ul>
+
+    <a class="toc_title" href="#Router">
+      路由 - Router
+    </a>
+    <ul class="toc_section">
+      <li>– <a href="#Router-extend">extend</a></li>
+      <li>– <a href="#Router-routes">routes</a></li>
+      <li>– <a href="#Router-constructor">constructor / initialize</a></li>
+      <li>– <a href="#Router-route">route</a></li>
+      <li>– <a href="#Router-navigate">navigate</a></li>
+      <li>– <a href="#Router-execute">execute</a></li>
+    </ul>
+
+    <a class="toc_title" href="#History">
+      历史 - History
+    </a>
+    <ul class="toc_section">
+      <li>– <a href="#History-start">start</a></li>
+    </ul>
+
+    <a class="toc_title" href="#Sync">
+      同步 - Sync
+    </a>
+    <ul class="toc_section">
+      <li>– <a href="#Sync">Backbone.sync</a></li>
+      <li>– <a href="#Sync-ajax">Backbone.ajax</a></li>
+      <li>– <a href="#Sync-emulateHTTP">Backbone.emulateHTTP</a></li>
+      <li>– <a href="#Sync-emulateJSON">Backbone.emulateJSON</a></li>
+    </ul>
+
+    <a class="toc_title" href="#View">
+      视图 - View
+    </a>
+    <ul class="toc_section">
+      <li>– <a href="#View-extend">extend</a></li>
+      <li>– <a href="#View-constructor">constructor / initialize</a></li>
+      <li>– <a href="#View-el">el</a></li>
+      <li>– <a href="#View-$el">$el</a></li>
+      <li>– <a href="#View-setElement">setElement</a></li>
+      <li>– <a href="#View-attributes">attributes</a></li>
+      <li>– <a href="#View-dollar">$ (jQuery)</a></li>
+      <li>– <a href="#View-template">template</a></li>
+      <li>– <a href="#View-render">render</a></li>
+      <li>– <a href="#View-remove">remove</a></li>
+      <li>– <a href="#View-events">events</a></li>
+      <li>– <a href="#View-delegateEvents">delegateEvents</a></li>
+      <li>– <a href="#View-undelegateEvents">undelegateEvents</a></li>
+    </ul>
+
+    <a class="toc_title" href="#Utility">
+      工具 - Utility
+    </a>
+    <ul class="toc_section">
+      <li>– <a href="#Utility-Backbone-noConflict">Backbone.noConflict</a></li>
+      <li>– <a href="#Utility-Backbone-$">Backbone.$</a></li>
+    </ul>
+
+    <a class="toc_title" href="#faq">
+      常见问题 - F.A.Q.
+    </a>
+    <ul class="toc_section">
+      <li>– <a href="#FAQ-why-backbone">Why Backbone?</a></li>
+      <li>– <a href="#FAQ-tim-toady">More Than One Way To Do It</a></li>
+      <li>– <a href="#FAQ-nested">Nested Models &amp; Collections</a></li>
+      <li>– <a href="#FAQ-bootstrap">Loading Bootstrapped Models</a></li>
+      <li>– <a href="#FAQ-extending">Extending Backbone</a></li>
+      <li>– <a href="#FAQ-mvc">Traditional MVC</a></li>
+      <li>– <a href="#FAQ-this">Binding "this"</a></li>
+      <li>– <a href="#FAQ-rails">Working with Rails</a></li>
+    </ul>
+
+    <a class="toc_title" href="#examples">
+      案例 - Examples
+    </a>
+    <ul class="toc_section">
+      <li>– <a href="#examples-todos">Todos</a></li>
+      <li>– <a href="#examples-documentcloud">DocumentCloud</a></li>
+      <li>– <a href="#examples-usa-today">USA Today</a></li>
+      <li>– <a href="#examples-rdio">Rdio</a></li>
+      <li>– <a href="#examples-hulu">Hulu</a></li>
+      <li>– <a href="#examples-quartz">Quartz</a></li>
+      <li>– <a href="#examples-earth">Earth</a></li>
+      <li>– <a href="#examples-vox">Vox</a></li>
+      <li>– <a href="#examples-gawker">Gawker Media</a></li>
+      <li>– <a href="#examples-flow">Flow</a></li>
+      <li>– <a href="#examples-gilt">Gilt Groupe</a></li>
+      <li>– <a href="#examples-enigma">Enigma</a></li>
+      <li>– <a href="#examples-newsblur">NewsBlur</a></li>
+      <li>– <a href="#examples-wordpress">WordPress.com</a></li>
+      <li>– <a href="#examples-foursquare">Foursquare</a></li>
+      <li>– <a href="#examples-bitbucket">Bitbucket</a></li>
+      <li>– <a href="#examples-disqus">Disqus</a></li>
+      <li>– <a href="#examples-delicious">Delicious</a></li>
+      <li>– <a href="#examples-khan-academy">Khan Academy</a></li>
+      <li>– <a href="#examples-irccloud">IRCCloud</a></li>
+      <li>– <a href="#examples-pitchfork">Pitchfork</a></li>
+      <li>– <a href="#examples-spin">Spin</a></li>
+      <li>– <a href="#examples-zocdoc">ZocDoc</a></li>
+      <li>– <a href="#examples-walmart">Walmart Mobile</a></li>
+      <li>– <a href="#examples-groupon">Groupon Now!</a></li>
+      <li>– <a href="#examples-basecamp">Basecamp</a></li>
+      <li>– <a href="#examples-slavery-footprint">Slavery Footprint</a></li>
+      <li>– <a href="#examples-stripe">Stripe</a></li>
+      <li>– <a href="#examples-airbnb">Airbnb</a></li>
+      <li>– <a href="#examples-soundcloud">SoundCloud Mobile</a></li>
+      <li>- <a href="#examples-artsy">Art.sy</a></li>
+      <li>– <a href="#examples-pandora">Pandora</a></li>
+      <li>– <a href="#examples-inkling">Inkling</a></li>
+      <li>– <a href="#examples-code-school">Code School</a></li>
+      <li>– <a href="#examples-cloudapp">CloudApp</a></li>
+      <li>– <a href="#examples-seatgeek">SeatGeek</a></li>
+      <li>– <a href="#examples-easel">Easel</a></li>
+      <li>- <a href="#examples-jolicloud">Jolicloud</a></li>
+      <li>– <a href="#examples-salon">Salon.io</a></li>
+      <li>– <a href="#examples-tilemill">TileMill</a></li>
+      <li>– <a href="#examples-blossom">Blossom</a></li>
+      <li>– <a href="#examples-trello">Trello</a></li>
+      <li>– <a href="#examples-tzigla">Tzigla</a></li>
+    </ul>
+
+    <a class="toc_title" href="#changelog">
+      变更日志 - Change Log
+    </a>
+
+  </div>
+
+  <div class="container">
+
+    <p>
+      <img id="logo" src="docs/images/backbone.png" alt="Backbone.js" />
+    </p>
+
+    <p>
+      Backbone.js为Web应用提供了组织结构，它提供了键值绑定的<b>模型</b>，自定义事件，拥有丰富的可枚举函数API的<b>集合</b>，
+      带有声明式事件处理的<b>视图</b>，并且它通过一个RESTful的JSON接口与你所有已存在的API相互连接起来。
+    </p>
+
+    <p>
+      本项目托管在<a href="http://github.com/jashkenas/backbone/">GitHub</a>上，有一份<a href="docs/backbone.html">带有注释的源码</a>，一份线上的<a href="test/">测试套件</a>，一个<a href="examples/todos/index.html">示例应用</a>，以及一个使用Backbone的<a href="#examples">真实项目的列表</a>。遵循 <a href="http://github.com/jashkenas/backbone/blob/master/LICENSE">MIT软件许可证</a>的情况下就可以使用Backbone。
+    </p>
+
+    <p>
+      你可以在<a href="http://github.com/jashkenas/backbone/issues">GitHub issues page</a>上，在Freenode IRC的<tt>#documentcloud</tt>上，报告bugs和讨论新功能，在<a href="https://groups.google.com/forum/#!forum/backbonejs">Google Group</a>上提交问题，在<a href="https://github.com/jashkenas/backbone/wiki">wiki</a>上添加页面，或者在<a href="http://twitter.com/documentcloud">@documentcloud</a>上发tweets。
+    </p>
+
+    <p>
+      <i>
+        Backbone是<a href="http://documentcloud.org/">DocumentCloud</a>的开源组件。
+      </i>
+    </p>
+
+    <h2 id="downloads">
+      下载 &amp; 依赖
+      <span style="padding-left: 7px; font-size:11px; font-weight: normal;" class="interface">(右键,使用“另存为”)</span>
+    </h2>
+
+    <table>
+      <tr>
+        <td><a class="punch" href="backbone.js">开发版本 (1.3.3)</a></td>
+        <td class="text"><i>72kb, 全部源码，大量的注释</i></td>
+      </tr>
+      <tr>
+        <td><a class="punch" href="backbone-min.js">生产版本 (1.3.3)</a></td>
+        <td class="text" style="line-height: 16px;">
+          <i>7.6kb, 打包和gzipped压缩后</i><br />
+          <small>(<a href="backbone-min.map">Source Map</a>)</small>
+        </td>
+      </tr>
+      <tr>
+        <td><a class="punch" href="https://raw.github.com/jashkenas/backbone/master/backbone.js">Edge Version (master)</a></td>
+        <td>
+          <i>未发布, 使用风险自负</i>
+          <a class="travis-badge" href="https://travis-ci.org/jashkenas/backbone">
+            <img src="https://travis-ci.org/jashkenas/backbone.png" />
+          </a>
+        </td>
+      </tr>
+    </table>
+
+    <p>
+      Backbone仅严重依赖 <a href="http://underscorejs.org/">Underscore.js</a> <small>( >= 1.8.3)</small>。为了进行RESTful数据持久化和在<a href="#View">Backbone.View</a>中操作DOM，需要包含<b><a href="https://jquery.com/">jQuery</a></b> ( >= 1.11.0)，为了支持老版本IE还要包含<b><a href="https://github.com/douglascrockford/JSON-js">json2.js</a></b>。<i>（Underscore和jQuery的类似品，如<a href="https://lodash.com/">Lodash</a> 和 <a href="http://zeptojs.com/">Zepto</a>，在不同的兼容度下也可以工作）</i>
+    </p>
+    <h2 id="Getting-started">入门指南</h2>
+
+    <p>
+      当工作在一个包含了许多JavaScript的web应用中时，第一件你需要学习的事是停止将你的数据绑定到DOM上。在JavaScript应用中你最终很容易创建许多缠绕在一起的jQuery选择器和回调，并且慌慌张张的尝试在HTML UI，JavaScript逻辑以及服务器端的数据库之间同步数据。对于富客户端应用来说，一个更加结构化的方法通常会比较有用。
+    </p>
+
+    <p>
+      使用Backbone，你用<a href="#Model">Models</a>代表你的数据，可以对模型执行创建，校验，销毁以及保存到服务器等操作。无论何时一个界面的action引起模型的属性变更，它都会触发一个“change”事件；所有的展示这个模型状态的<a href="#View">Views</a>都会收到变更通知，以便做出反应，根据新的信息重新渲染自己。在一个完整的Backbone应用中，你不必去写胶水代码来查询DOM，找到一个带有特殊<i>id</i>的元素，然后手工更新HTML — 当模型变更后，视图只要简单的更新它们自己即可。
+    </p>
+
+    <p>
+      哲学上，Backbone尝试找到一组数据结构（模型和集合）以及基本的用户界面（视图和URLs）的最小集合，它们是构建JavaScript应用通常所需的。在一个无所不包的生态系统中，帮你决定好一切的框架是陈腐的，许多库要求你的网站按照它们的外观，感觉以及默认的行为来进行组织 - Backbone是一个工具，让你<i>随心所欲</i>地设计你web应用的整体体验。
+    </p>
+
+    <p>
+      如果你是新手，不是很确定Backbone到底可以用在什么地方，请先浏览这个<a href="#examples">基于Backbone的项目列表</a>。
+    </p>
+
+    <p>
+      文档中的许多代码示例是可以运行的，因为这个页面包含了Backbone。
+    </p>
+
+    <h2 id="Model-View-separation">模型和视图</h2>
+
+    <img class="figure" src="docs/images/intro-model-view.svg" alt="Model-View Separation.">
+
+    <p>
+      Backbone可以帮助你的一个最重要的事，是将你的业务逻辑与你的用户界面分离。当这二者纠缠在一起时，很难进行变更；当业务逻辑不依赖你的用户界面时，你的界面会更易处理。
+    </p>
+
+    <div class="columns">
+      <div class="col-50">
+        <b>模型</b>
+        <ul>
+          <li>协调数据和业务逻辑。</li>
+          <li>从服务器加载数据或保存数据。</li>
+          <li>数据变更时触发事件。</li>
+        </ul>
+      </div>
+      <div class="col-50">
+        <b>视图</b>
+        <ul>
+          <li>监听模型的变更，渲染界面。</li>
+          <li>处理用户输入和交互。</li>
+          <li>将捕获到的输入发送给模型。</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>
+      一个<b>模型</b>管理了一个数据属性的内部表，任何数据的变更都会触发<tt>"change"</tt>事件。模型在持久层上处理数据同步 - 使用REST API操作后台数据库。将你的模型设计成原子性可重用对象，包含所有辅助函数来操作它们特有的数据。模型应该在你的应用中进行传递，用在任何需要数据的地方。
+    </p>
+
+    <p>
+      一个<b>视图</b>就是一块原子的用户界面。它通常是用来渲染的数据，数据来自一个特定模型，或许多模型 - 但视图也可能是数据无关的单独的一块界面。模型通常不知道视图的存在。相反，视图监听模型的<tt>"change"</tt>事件，做出响应或适时的重新渲染它们自己。
+    </p>
+
+    <h2 id="Model-Collections">Collections</h2>
+
+    <img class="figure" src="docs/images/intro-collections.svg" alt="Model Collections.">
+
+    <p>
+      一个<b>集合</b>帮助你处理一组相关的模型，负责加载模型，或保存新的模型到服务器端，提供辅助函数，用以在模型的列表上执行聚合或计算操作。除了它们自己的事件外，集合也会代理所有发生在内部模型上的事件，允许你在一个地方监听任何可能发生在模型上的变更。
+    </p>
+
+    <h2 id="API-integration">API 集成</h2>
+
+    <p>
+      Backbone提前配置好与RESTful API风格保持一致。简单的创建一个新的集合，它带有指向你资源终点的<tt>url</tt>：
+    </p>
+
+<pre>
+var Books = Backbone.Collection.extend({
+  url: '/books'
+});
+</pre>
+
+    <p>
+      使用以下方法，<b>集合</b> 和 <b>模型</b>组件一起直接组成了REST资源的映射：
+    </p>
+
+<pre>
+GET  /books/ .... collection.fetch();
+POST /books/ .... collection.create();
+GET  /books/1 ... model.fetch();
+PUT  /books/1 ... model.save();
+DEL  /books/1 ... model.destroy();
+</pre>
+
+    <p>
+      当从API中抓取JSON数据时，一个<b>集合</b>会自动将数据以数组格式进行填充，而一个<b>模型</b>会自动将数据以对象格式进行填充：
+    </p>
+
+<pre>
+[{"id": 1}] ..... populates a Collection with one model.
+{"id": 1} ....... populates a Model with one attribute.
+</pre>
+
+    <p>
+      然而，经常会遇到一些APIs，它们返回的数据格式与Backbone期望的不一致。比如，考虑从一个API中抓取一个<b>集合</b>，它返回的真实数据数组是封装在元数据中的：
+    </p>
+
+<pre>
+{
+  "page": 1,
+  "limit": 10,
+  "total": 2,
+  "books": [
+    {"id": 1, "title": "Pride and Prejudice"},
+    {"id": 4, "title": "The Great Gatsby"}
+  ]
+}
+</pre>
+
+    <p>
+      在上面例子中的数据，一个<b>集合</b>应该使用<tt>"books"</tt>数组而不是根对象填充数据。这种差异使用<tt>parse</tt>方法很容易协调，它会返回（或转换）API数据的所需部分：
+    </p>
+
+<pre>
+var Books = Backbone.Collection.extend({
+  url: '/books',
+  parse: function(data) {
+    return data.books;
+  }
+});
+</pre>
+
+    <h2 id="View-rendering">视图渲染</h2>
+
+    <img class="figure" src="docs/images/intro-views.svg" alt="View rendering.">
+
+    <p>
+      每个<b>视图</b>在自己的DOM元素上，都负责管理渲染和用户交互。如果你严格遵循不让你的视图插手别的视图的事情，这会保持你界面的灵活性 &mdash; 需要时，视图可以在任何地方隔离渲染。
+    </p>
+
+    <p>
+      Backbone没有规定渲染<b>视图</b>和其子视图到界面的流程：你需要定义你的模型是如何转换为HTML（或SVG，或Canvas，或其它方式）。可以使用简单的<a href="http://underscorejs.org/#template">Underscore template</a>，或酷炫的<a href="http://facebook.github.io/react/docs/tutorial.html">React virtual DOM</a>。一些渲染视图的基本方法可以查看<a href="https://github.com/jashkenas/backbone/wiki/Backbone%2C-The-Primer">Backbone primer</a>。
+    </p>
+
+    <h2 id="Routing">URLs路由</h2>
+
+    <img class="figure" src="docs/images/intro-routing.svg" alt="Routing">
+
+    <p>
+      在富web应用中，我们仍希望提供可链接的，可书签化的，可分享的URLs，在一个应用中提供有意义的地址。使用<b>Router</b>来更新浏览器的URL，无论何时用户在你的应用中浏览一个他们可能需要添加书签或分享的新“地方”。相反，<b>Router</b>也会检测URL的变更 &mdash;  比如说，按下“回退”按钮 &mdash;  告诉你的应用你当前的位置。
+    </p>
+
+    <h2 id="Events">事件 - Backbone.Events</h2>
+
+    <p>
+      <b>Events</b>是可以混入任意对象的模块，赋予对象能够绑定和触发自定义命名事件的能力。事件在绑定前不用声明，并且可以接收任何参数。比如：
+    </p>
+
+<pre class="runnable">
+var object = {};
+
+_.extend(object, Backbone.Events);
+
+object.on("alert", function(msg) {
+  alert("Triggered " + msg);
+});
+
+object.trigger("alert", "an event");
+</pre>
+
+    <p>
+      比如，创建一个方便的事件派发器，它可以在你应用的不同区域协调事件<tt>var dispatcher = _.clone(Backbone.Events)</tt>
+    </p>
+
+    <p id="Events-on">
+      <b class="header">on</b><code>object.on(event, callback, [context])</code><span class="alias">别名: bind</span>
+      <br />
+      在对象上绑定一个<b>回调</b>函数。回调函数会在<b>event</b>触发时调用。如果在一个页面上有大量不同的事件，使用冒号将它们指定命名空间会方便许多：<tt>"poll:start"</tt>, 或 <tt>"change:selection"</tt>。事件字符串也可以是用空格分割的几个事件的列表...
+    </p>
+
+<pre>
+book.on("change:title change:author", ...);
+</pre>
+
+    <p>
+      绑定到<tt>"all"</tt>事件的回调，任意事件发生时它都会被触发，并且会把事件名称当做第一个参数传入。比如，在一个对象上代理另一个对象的所有事件：
+    </p>
+
+<pre>
+proxy.on("all", function(eventName) {
+  object.trigger(eventName);
+});
+</pre>
+
+    <p>
+      所有的Backbone事件方法也支持事件map语法，作为一种可选的指定参数的方式：
+    </p>
+
+<pre>
+book.on({
+  "change:author": authorPane.update,
+  "change:title change:subtitle": titleView.update,
+  "destroy": bookView.remove
+});
+</pre>
+
+    <p>
+      在回调调用时如若要为<tt>this</tt>提供一个<b>context</b>值，就传入最后一个可选参数：<tt>model.on('change', this.render, this)</tt>或 <tt>model.on({change: this.render}, this)</tt>
+    </p>
+
+    <p id="Events-off">
+      <b class="header">off</b><code>object.off([event], [callback], [context])</code><span class="alias">别名: unbind</span>
+      <br />
+      从一个对象上删除之前绑定的<b>回调</b>函数。如果没有给定<b>context</b>，所有的回调，不管context是否一样，都会被移除。如果没有给定回调函数，所有<b>event</b>的回调都会被移除。如果没有给定事件，所有事件的回调都会被移除。
+    </p>
+
+<pre>
+// Removes just the `onChange` callback.
+object.off("change", onChange);
+
+// Removes all "change" callbacks.
+object.off("change");
+
+// Removes the `onChange` callback for all events.
+object.off(null, onChange);
+
+// Removes all callbacks for `context` for all events.
+object.off(null, null, context);
+
+// Removes all callbacks on `object`.
+object.off();
+</pre>
+
+    <p>
+      注意调用<tt>model.off()</tt>，实际上会删除<i>所有</i>在model上的事件 &mdash; 包括Backbone用来内部使用的那些事件。
+    </p>
+
+    <p id="Events-trigger">
+      <b class="header">trigger</b><code>object.trigger(event, [*args])</code>
+      <br />
+      触发给定的<b>事件</b>，或给定的空格分割的事件列表上的回调。<b>trigger</b>函数后续的参数也会传入事件回调函数中。
+    </p>
+
+    <p id="Events-once">
+      <b class="header">once</b><code>object.once(event, callback, [context])</code>
+      <br />
+      和<a href="#Events-on">on</a>类似，但在移除前最多只会调用一次。方便用于诸如“下次X发生时，就这么做”的情况。当以空白分割传入多个事件时，每个事件都会触发一次，而不是所有事件只触发一次。
+    </p>
+
+    <p id="Events-listenTo">
+      <b class="header">listenTo</b><code>object.listenTo(other, event, callback)</code>
+      <br />
+      告诉一个<b>object</b>去监听<b>另一个对象</b>的某个事件。使用这种方式，而不是<tt>other.on(event,
+      callback, object)</tt>的好处是，<b>listenTo</b>允许<b>object</b>记录事件，之后可以一次移除所有事件。回调函数也会以<b>object</b>作为上下文。
+    </p>
+
+<pre>
+view.listenTo(model, 'change', view.render);
+</pre>
+
+    <p id="Events-stopListening">
+      <b class="header">stopListening</b><code>object.stopListening([other], [event], [callback])</code>
+      <br />
+      告诉<b>object</b>停止监听事件。要么在未传入参数的情况下移除<b>object</b><a href="#Events-listenTo">注册的</a>所有回调函数...或者是更加精确的告诉对象去移除监听的某个对象的某个事件，或者某个事件的所有回调，或者特定的事件回调。
+    </p>
+
+<pre>
+view.stopListening();
+
+view.stopListening(model);
+</pre>
+
+    <p id="Events-listenToOnce">
+      <b class="header">listenToOnce</b><code>object.listenToOnce(other, event, callback)</code>
+      <br />
+      和<a href="#Events-listenTo">listenTo</a>类似，但在回调移除前只会触发一次。
+    </p>
+
+    <p id="Events-catalog">
+      <b class="header">事件分类</b>
+      <br />
+      以下是Backbone所有带有参数的内置事件的列表。你可以自由地触发你定义在模型，集合或视图上的事件，只要你觉得合适。<tt>Backbone</tt>对象本身就混入了<tt>Events</tt>的方法，所以可以用来在你的应用中触发任何全局事件。
+    </p>
+
+    <ul class="small">
+      <li><b>"add"</b> (model, collection, options) &mdash; 当集合中添加一个模型时触发。</li>
+      <li><b>"remove"</b> (model, collection, options) &mdash; 当一个模型从集合中移除后触发。</li>
+      <li><b>"update"</b> (collection, options) &mdash; 集合中加入或删除任意数量的模型时触发。</li>
+      <li><b>"reset"</b> (collection, options) &mdash; 集合中所有模型都 <a href="#Collection-reset">重置</a>时触发。</li>
+      <li><b>"sort"</b> (collection, options) &mdash; 集合重排序时触发。</li>
+      <li><b>"change"</b> (model, options) &mdash; 当模型的属性变更时触发。</li>
+      <li><b>"change:[attribute]"</b> (model, value, options) &mdash; 当一个特定的属性更新时触发。</li>
+      <li><b>"destroy"</b> (model, collection, options) &mdash; 当<a href="#Model-destroy">销毁</a>一个模型时触发。</li>
+      <li><b>"request"</b> (model_or_collection, xhr, options) &mdash; 当一个模型或集合开始向服务器请求数据时触发。</li>
+      <li><b>"sync"</b> (model_or_collection, response, options) &mdash; 当一个模型或集合成功与服务器同步数据后触发。</li>
+      <li><b>"error"</b> (model_or_collection, response, options) &mdash; 当一个模型或集合的请求失败后触发。</li>
+      <li><b>"invalid"</b> (model, error, options) &mdash; 当一个模型的<a href="#Model-validate">validation</a> 在客户端校验失败后触发。</li>
+      <li><b>"route:[name]"</b> (params) &mdash; 匹配特定的路由时，由router触发。</li>
+      <li><b>"route"</b> (route, params) &mdash; 当任意路由匹配时，由router触发。</li>
+      <li><b>"route"</b> (router, route, params) &mdash; 当<i>任意</i>路由匹配时，由history触发。</li>
+      <li><b>"all"</b> &mdash; 这个特殊的事件会在<i>任意</i>事件触发后触发，第一个参数是事件名称，剩下的是其它参数。</li>
+    </ul>
+
+    <p>
+      总的来说，当调用一个触发事件的函数时（<tt>model.set</tt>, <tt>collection.add</tt>等等...），如果你希望阻止事件触发，只需要传入<tt>{silent: true}</tt>选项。注意这种情况很少是，可能永远不会是，一个好的用法。在事件回调中传入一个特殊的标记到选项中，然后判断是否需要忽略此事件，这样可能会更好些。
+    </p>
+
+    <h2 id="Model">模型 - Backbone.Model</h2>
+
+    <p>
+      <b>模型</b>是JavaScript应用的核心，包含了交互数据以及许多围绕模型的逻辑：转换，校验，计算属性，以及访问控制。你可以用特定领域的方法，扩充<b>Backbone.Model</b> ，<b>模型</b>提供了一个管理变更的基本函数的合集。
+    </p>
+
+    <p>
+      以下是一个模拟的例子，但它展示了定义模型的过程，定义方法，设置属性，在特定的属性上触发变更事件。运行代码一次后，你的浏览器控制台就有了<tt>sidebar</tt>，所以你可以继续在它上面发挥。
+    </p>
+
+<pre class="runnable">
+var Sidebar = Backbone.Model.extend({
+  promptColor: function() {
+    var cssColor = prompt("Please enter a CSS color:");
+    this.set({color: cssColor});
+  }
+});
+
+window.sidebar = new Sidebar;
+
+sidebar.on('change:color', function(model, color) {
+  $('#sidebar').css({background: color});
+});
+
+sidebar.set({color: 'white'});
+
+sidebar.promptColor();
+</pre>
+
+    <p id="Model-extend">
+      <b class="header">extend</b><code>Backbone.Model.extend(properties, [classProperties])</code>
+      <br />
+      要创建你自己的<b>Model</b>类，你需要扩展<b>Backbone.Model</b>并提供<b>实例属性</b>，以及可选的直接添加到构造器函数上的<b>类属性</b>。
+    </p>
+
+    <p>
+      <b>extend</b>方法会正确的构建原型链，所以用<b>extend</b>创建的子类，可以进一步扩展继续定义其子类。
+    </p>
+
+<pre>
+var Note = Backbone.Model.extend({
+
+  initialize: function() { ... },
+
+  author: function() { ... },
+
+  coordinates: function() { ... },
+
+  allowedToEdit: function(account) {
+    return true;
+  }
+
+});
+
+var PrivateNote = Note.extend({
+
+  allowedToEdit: function(account) {
+    return account.owns(this);
+  }
+
+});
+</pre>
+
+    <p class="warning">
+        关于<tt>super</tt>的旁白：JavaScript并没有提供简单调用super的方法 &mdash; 即原型链上更高一层的同名函数。如果你覆盖一些核心方法，比如<tt>set</tt>, 或 <tt>save</tt>，你希望调用父类对象的实现，你不得不显示的调用父类方法，如下：
+    </p>
+
+<pre>
+var Note = Backbone.Model.extend({
+  set: function(attributes, options) {
+    Backbone.Model.prototype.set.apply(this, arguments);
+    ...
+  }
+});
+</pre>
+
+    <p id="Model-constructor">
+      <b class="header">constructor / initialize</b><code>new Model([attributes], [options])</code>
+      <br />
+      在创建一个模型的实例时，你可以传入 <b>attributes</b>的初始值，它们会<a href="#Model-set">设置</a>到模型对象上。如果你定义了一个<b>initialize</b>函数，它会在模型创建后调用。
+    </p>
+
+<pre>
+new Book({
+  title: "One Thousand and One Nights",
+  author: "Scheherazade"
+});
+</pre>
+
+    <p>
+      极少情况下，如果你希望实现一些新奇的做法，可能你希望覆盖<b>constructor</b>，这会替换模型的实际构造函数。
+    </p>
+
+<pre>
+var Library = Backbone.Model.extend({
+  constructor: function() {
+    this.books = new Books();
+    Backbone.Model.apply(this, arguments);
+  },
+  parse: function(data, options) {
+    this.books.reset(data.books);
+    return data.library;
+  }
+});
+</pre>
+
+    <p>
+      如果你传入<tt>{collection: ...}</tt>作为选项，那么模型就拥有了一个 <tt>collection</tt> 属性，这用来表明模型属于哪个集合，同时也可以用来辅助计算模型的<a href="#Model-url">url</a>。当你第一次将一个模型加入到一个集合中时，会自动为模型添加<tt>model.collection</tt> 属性。注意反过来不成立，因为传入这个选项到构造器中不会自动将模型添加到集合中。有时这会很有用。
+    </p>
+
+    <p>
+      如果传入<tt>{parse: true}</tt>作为<b>选项</b>，<b>attributes</b>首先会被<a href="#Model-parse">parse</a>转换，之后才会<a href="#Model-set">设置</a>到模型上。
+    </p>
+
+    <p id="Model-get">
+      <b class="header">get</b><code>model.get(attribute)</code>
+      <br />
+      从模型上获取一个属性的当前值。比如：<tt>note.get("title")</tt>。
+    </p>
+
+    <p id="Model-set">
+      <b class="header">set</b><code>model.set(attributes, [options])</code>
+      <br />
+      在模型上设置一个属性的hash（一个或多个）。如果任何属性改变了模型的状态，模型都会触发一个<tt>"change"</tt>事件。特定属性的change事件也会触发，你同样可以监听这些事件，比如： <tt>change:title</tt>, 和 <tt>change:content</tt>。·
+    </p>
+
+<pre>
+note.set({title: "March 20", content: "In his eyes she eclipses..."});
+
+book.set("title", "A Scandal in Bohemia");
+</pre>
+
+    <p id="Model-escape">
+      <b class="header">escape</b><code>model.escape(attribute)</code>
+      <br />
+      与<a href="#Model-get">get</a>类似，但返回的是模型属性值的HTML转义版本。如果你打算将模型的数据插入到HTML中，使用<b>escape</b> 来获取属性，会防止<a href="http://en.wikipedia.org/wiki/Cross-site_scripting">XSS</a>攻击。
+    </p>
+
+<pre class="runnable">
+var hacker = new Backbone.Model({
+  name: "&lt;script&gt;alert('xss')&lt;/script&gt;"
+});
+
+alert(hacker.escape('name'));
+</pre>
+
+    <p id="Model-has">
+      <b class="header">has</b><code>model.has(attribute)</code>
+      <br />
+      如果属性值不是null也不是undefined就返回<tt>true</tt>。
+    </p>
+
+<pre>
+if (note.has("title")) {
+  ...
+}
+</pre>
+
+    <p id="Model-unset">
+      <b class="header">unset</b><code>model.unset(attribute, [options])</code>
+      <br />
+      删除一个属性，把它从内部的属性hash上移除掉。如果没有传入<tt>silent</tt>选项，就触发<tt>"change"</tt>事件。
+    </p>
+
+    <p id="Model-clear">
+      <b class="header">clear</b><code>model.clear([options])</code>
+      <br />
+      移除模型的所有属性，包括 <tt>id</tt>属性。如果没有传入<tt>silent</tt>选项，就触发<tt>"change"</tt>事件。
+
+    </p>
+
+    <p id="Model-id">
+      <b class="header">id</b><code>model.id</code>
+      <br />
+      模型的一个特殊属性，<b>id</b>可以是任意的字符串（数值id或UUID）。如果你在属性的hash上设置了<b>id</b>，它会被直接拷贝到模型对象上。模型在集合中可以根据id获取，默认情况下id用来生成模型的URLs。
+    </p>
+
+    <p id="Model-idAttribute">
+      <b class="header">idAttribute</b><code>model.idAttribute</code>
+      <br />
+      一个模型的唯一标识符存储在<tt>id</tt>属性上。如果你使用一个不同的唯一键与后端（CouchDB, MongoDB）通信，你可以设置模型的<tt>idAttribute</tt>属性来将那个键映射成<tt>id</tt>。
+<pre class="runnable">
+var Meal = Backbone.Model.extend({
+  idAttribute: "_id"
+});
+
+var cake = new Meal({ _id: 1, name: "Cake" });
+alert("Cake id: " + cake.id);
+</pre>
+    </p>
+
+    <p id="Model-cid">
+      <b class="header">cid</b><code>model.cid</code>
+      <br />
+      模型上一个特殊的属性，<b>cid</b> 或客户端id是模型对象的唯一标识符，模型创建后会自动添加此属性。在模型还没保存到服务器端时，它就没有真正的id，但在UI中总会需要展示此模型，此时客户端id很便捷。
+    </p>
+
+    <p id="Model-attributes">
+      <b class="header">attributes</b><code>model.attributes</code>
+      <br />
+      <b>attributes</b>属性包含了模型状态的内部hash &mdash; 通常（但不总是必须的）是代表了服务器端模型数据的JSON对象。它通常是数据库中一行数据的序列化，但它也可能是客户端的计算状态。
+    </p>
+
+    <p>
+      请使用 <a href="#Model-set">set</a>更新<b>attributes</b>，而不是直接修改它们。如果你希望获取模型属性的拷贝，使用<tt>_.clone(model.attributes)</tt>。
+    </p>
+
+    <p class="warning">
+      由于<a href="#Events">Events</a>接收空格分割的事件列表这一事实，属性名称不应该包含空格。
+    </p>
+
+    <p id="Model-changed">
+      <b class="header">changed</b><code>model.changed</code>
+      <br />
+      <b>changed</b>属性是内部的一个hash，包含了所有自上次 <a href="#Model-set">set</a>调用之后变更的属性。请不要直接更新<b>changed</b>属性，因为它的状态是在内部由<a href="#Model-set">set</a>维护的。<b>changed</b>的拷贝可以从<a href="#Model-changedAttributes">changedAttributes</a>上获取。
+    </p>
+
+    <p id="Model-defaults">
+      <b class="header">defaults</b><code>model.defaults or model.defaults()</code>
+      <br />
+      <b>默认的</b>hash（或函数），用来指定模型的默认属性。在创建一个模型实例时，任何未指定值的属性都会设置它们的默认值。
+    </p>
+
+<pre class="runnable">
+var Meal = Backbone.Model.extend({
+  defaults: {
+    "appetizer":  "caesar salad",
+    "entree":     "ravioli",
+    "dessert":    "cheesecake"
+  }
+});
+
+alert("Dessert will be " + (new Meal).get('dessert'));
+</pre>
+
+    <p class="warning">
+      记住，在JavaScript中，对象传递的是引用，所以如果你包含了一个对象作为默认值，它会被所有实例共享。相反，要将<b>defaults</b>定义为函数。
+    </p>
+
+    <p id="Model-toJSON">
+      <b class="header">toJSON</b><code>model.toJSON([options])</code>
+      <br />
+
+      返回模型<a href="#Model-attributes">attributes</a>的浅拷贝，用以转换为JSON字符串。这可以用来进行持久化，序列化，之后发送到服务器。此方法的名字有点让人困惑，因为它实际上没有返回一个JSON字符串 &mdash; 但恐怕这是<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#toJSON_behavior">JavaScript API 的 <b>JSON.stringify</b></a>方法能够正常工作的方式。
+    </p>
+
+<pre class="runnable">
+var artist = new Backbone.Model({
+  firstName: "Wassily",
+  lastName: "Kandinsky"
+});
+
+artist.set({birthday: "December 16, 1866"});
+
+alert(JSON.stringify(artist));
+</pre>
+
+    <p id="Model-sync">
+      <b class="header">sync</b><code>model.sync(method, model, [options])</code>
+      <br />
+      使用<a href="#Sync">Backbone.sync</a>来持久化一个模型的状态到服务器上。可以用自定义逻辑覆盖。
+    </p>
+
+    <p id="Model-fetch">
+      <b class="header">fetch</b><code>model.fetch([options])</code>
+      <br />
+      通过代理<a href="#Sync">Backbone.sync</a>，将从服务器抓取的属性合并到模型的状态里。返回一个<a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>对象。用来填充模型数据，或保证模型与服务器的数据同步。如果服务器的状态与当前的属性不同，则触发一个<tt>"change"</tt>事件。<tt>fetch</tt>的选项中接收<tt>success</tt> 和 <tt>error</tt>回调，两个回调的参数都是<tt>(model, response, options)</tt>。
+    </p>
+
+<pre>
+// Poll every 10 seconds to keep the channel model up-to-date.
+setInterval(function() {
+  channel.fetch();
+}, 10000);
+</pre>
+
+    <p id="Model-save">
+      <b class="header">save</b><code>model.save([attributes], [options])</code>
+      <br />
+      通过代理 <a href="#Sync">Backbone.sync</a>方法，将模型的数据保存到数据库（或另外的持久层）。如果校验成功则返回一个 <a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>对象，否则返回<tt>false</tt>。<b>attributes</b>应该包含能够修改的属性（如<a href="#Model-set">set</a>方法一样） &mdash; 没有提到的键是不会修改的 &mdash; 但是，一个<i>完整的</i>资源需要发送到服务器端。如<tt>set</tt>一样，你可以传入单独的keys和values，而不是一个hash对象。如果模型有一个<a href="#Model-validate">validate</a>方法，并且校验失败了，模型将不会存储。如果模型 <a href="#Model-isNew">isNew</a>，本次保存会是一个<tt>"create"</tt>
+      (HTTP <tt>POST</tt>)行为，如果模型已存在于服务器端，本次保存会是一个<tt>"update"</tt> (HTTP <tt>PUT</tt>)。
+    </p>
+
+    <p>
+      如果，你仅希望<i>变化的</i>的属性发送到服务器端，请调用<tt>model.save(attrs, {patch: true})</tt>。这会将传入的属性以一个HTTP
+      <tt>PATCH</tt>请求形式发送到服务器端。
+    </p>
+
+    <p>
+      使用新的属性调用<tt>save</tt> 会立即出发一个<tt>"change"</tt>事件，Ajax请求开始发送到服务器后会触发一个<tt>"request"</tt>事件，在服务器成功识别了变更后触发一个<tt>"sync"</tt>事件。如果你希望等待服务器返回后再设置属性到模型上，就传入<tt>{wait: true}</tt>选项。
+    </p>
+
+    <p>
+      下面的例子，请注意我们是如果覆盖<tt>Backbone.sync</tt> ，模型第一次保存后收到<tt>"create"</tt>请求，第二次收到<tt>"update"</tt>请求。
+    </p>
+
+<pre class="runnable">
+Backbone.sync = function(method, model) {
+  alert(method + ": " + JSON.stringify(model));
+  model.set('id', 1);
+};
+
+var book = new Backbone.Model({
+  title: "The Rough Riders",
+  author: "Theodore Roosevelt"
+});
+
+book.save();
+
+book.save({author: "Teddy"});
+</pre>
+
+    <p>
+      <b>save</b>的选项接收<tt>success</tt> 和 <tt>error</tt>回调，它们会被传入参数 <tt>(model, response, options)</tt>。如果一个服务器端的校验失败了，会返回一个非<tt>200</tt>的响应码，以及一个文本格式或JSON格式的错误响应。
+    </p>
+
+<pre>
+book.save("author", "F.D.R.", {error: function(){ ... }});
+</pre>
+
+    <p id="Model-destroy">
+      <b class="header">destroy</b><code>model.destroy([options])</code>
+      <br />
+      通过代理<a href="#Sync">Backbone.sync</a>，并发送一个HTTP <tt>DELETE</tt> 请求到服务器端销毁一个模型。返回<a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a> 对象，如果模型<a href="#Model-isNew">isNew</a>，则返回false。选项中接收<tt>success</tt> 和 <tt>error</tt> 回调，它们会被传入参数 <tt>(model, response, options)</tt>。在模型上触发一个<tt>"destroy"</tt> 事件，此事件会冒泡到包含模型的集合上，它发送Ajax请求到服务器端后会触发一个<tt>"request"</tt> 事件，在服务器成功删除了模型后，会触发一个<tt>"sync"</tt> 事件。如果你希望等待服务器响应后再把模型从集合中删除，就传入<tt>{wait: true}</tt> 。
+    </p>
+
+<pre>
+book.destroy({success: function(model, response) {
+  ...
+}});
+</pre>
+
+    <p id="Model-Underscore-Methods">
+      <b class="header">Underscore的方法(9)</b>
+      <br />
+      Backbone代理了<b>Underscore.js</b>，提供了9个对象函数到<b>Backbone.Model</b>上。它们没有都在此说明，但你可以查看Underscore的文档，浏览全部详细资料&hellip;
+    </p>
+
+    <ul class="small">
+      <li><a href="http://underscorejs.org/#keys">keys</a></li>
+      <li><a href="http://underscorejs.org/#values">values</a></li>
+      <li><a href="http://underscorejs.org/#pairs">pairs</a></li>
+      <li><a href="http://underscorejs.org/#invert">invert</a></li>
+      <li><a href="http://underscorejs.org/#pick">pick</a></li>
+      <li><a href="http://underscorejs.org/#omit">omit</a></li>
+      <li><a href="http://underscorejs.org/#chain">chain</a></li>
+      <li><a href="http://underscorejs.org/#isEmpty">isEmpty</a></li>
+    </ul>
+
+<pre>
+user.pick('first_name', 'last_name', 'email');
+
+chapters.keys().join(', ');
+</pre>
+
+    <p id="Model-validate">
+      <b class="header">validate</b><code>model.validate(attributes, options)</code>
+      <br />
+      此方法并没有定义在Backbone.Model上，你需要用任何自定义的校验逻辑覆盖它。默认情况下<tt>save</tt>在设置任何属性时会先检测<b>validate</b>，但你可以传入<tt>{validate: true}</tt>选项，告诉<tt>set</tt>验证新的属性。
+      <br/>
+      <b>validate</b>接收模型的属性以及任何传入<tt>set</tt>或 <tt>save</tt>的选项。如果属性是合法的，<b>validate</b>方法不会返回任何值；否则返回你定义的错误。这个错误可以是一个简单的错误字符串信息，或一个完整的错误对象以编程形式描述错误。如果<tt>"invalid"</tt> 返回一个错误的话，<tt>save</tt> 不会继续执行，模型的属性也不会在服务器端修改。失败的校验会触发一个<tt>"invalid"</tt>事件，并设置<tt>validationError</tt>属性到模型上，值为这个方法的返回值。
+    </p>
+
+<pre class="runnable">
+var Chapter = Backbone.Model.extend({
+  validate: function(attrs, options) {
+    if (attrs.end &lt; attrs.start) {
+      return "can't end before it starts";
+    }
+  }
+});
+
+var one = new Chapter({
+  title : "Chapter One: The Beginning"
+});
+
+one.on("invalid", function(model, error) {
+  alert(model.get("title") + " " + error);
+});
+
+one.save({
+  start: 15,
+  end:   10
+});
+</pre>
+
+    <p>
+      <tt>"invalid"</tt> 事件在模型对象和集合对象级别上提供了粗粒度的错误信息。
+    </p>
+
+    <p id="Model-validationError">
+      <b class="header">validationError</b><code>model.validationError</code>
+      <br />
+      上次检测失败，<a href="#Model-validate">validate</a>返回的值。
+    </p>
+
+    <p id="Model-isValid">
+      <b class="header">isValid</b><code>model.isValid()</code>
+      <br />
+      运行<a href="#Model-validate">validate</a>来检测模型的状态。
+    </p>
+
+<pre class="runnable">
+var Chapter = Backbone.Model.extend({
+  validate: function(attrs, options) {
+    if (attrs.end &lt; attrs.start) {
+      return "can't end before it starts";
+    }
+  }
+});
+
+var one = new Chapter({
+  title : "Chapter One: The Beginning"
+});
+
+one.set({
+  start: 15,
+  end:   10
+});
+
+if (!one.isValid()) {
+  alert(one.get("title") + " " + one.validationError);
+}
+</pre>
+
+    <p id="Model-url">
+      <b class="header">url</b><code>model.url()</code>
+      <br />
+      返回一个相对URL，指向模型资源在服务器端的位置。如果你的模型存储在别的地方，你需要以正确的逻辑覆盖此方法。通常URLs的格式：默认是<tt>"[collection.url]/[id]"</tt>，但你可以通过指定一个显示的<tt>urlRoot</tt>来覆盖它，这是在不用考虑模型的集合的情况下。
+    </p>
+
+    <p>
+      代理给<a href="#Collection-url">Collection#url</a>来生成URL，请确保你已经定义它，或者如果所有这个类的模型共享一个通用的root URL，则使用 <a href="#Model-urlRoot">urlRoot</a>属性。一个模型的id是<tt>101</tt>，它存储在<tt>url</tt>是<tt>"/documents/7/notes"</tt>的集合上，那么它会得到一个URL：<tt>"/documents/7/notes/101"</tt>
+    </p>
+
+    <p id="Model-urlRoot">
+      <b class="header">urlRoot</b><code>model.urlRoot or model.urlRoot()</code>
+      <br />
+      如果你在集合外面使用一个模型，你需要指定一个<tt>urlRoot</tt>，以使用默认的 <a href="#Model-url">url</a>函数生成一个基于模型id的URLs。通常情况下你不需要定义<tt>"[urlRoot]/id"</tt>。注意<tt>urlRoot</tt>也可以是个函数。
+    </p>
+
+<pre class="runnable">
+var Book = Backbone.Model.extend({urlRoot : '/books'});
+
+var solaris = new Book({id: "1083-lem-solaris"});
+
+alert(solaris.url());
+</pre>
+
+    <p id="Model-parse">
+      <b class="header">parse</b><code>model.parse(response, options)</code>
+      <br />
+      <b>parse</b>会在服务器使用<a href="#Model-fetch">fetch</a>或 <a href="#Model-save">save</a>返回模型的数据时调用。
+      此函数会传入未处理的<tt>response</tt>对象，并且应该返回一个可以用来<a href="#Model-set">set</a>到模型上的属性的hash。默认的实现是空的，只是简单的返回JSON响应。如果你需要使用已存的API，或使用更好的为响应提供命名空间，你可以覆盖此方法。
+    </p>
+
+    <p>
+      如果你正在使用Rails做后端开发，并且它是3.1之前的版本，你需要注意它默认的<tt>to_json</tt>实现，返回的模型是在一个命名空间下。要禁用此行为来无缝整合Backbone，只要设置：
+    </p>
+
+<pre>
+ActiveRecord::Base.include_root_in_json = false
+</pre>
+
+    <p id="Model-clone">
+      <b class="header">clone</b><code>model.clone()</code>
+      <br />
+      返回一个新的具有相等属性的model的实例。
+    </p>
+
+    <p id="Model-isNew">
+      <b class="header">isNew</b><code>model.isNew()</code>
+      <br />
+      判断模型是否已保存到服务器端。如果模型没有 <tt>id</tt>属性，那么就认为它是的新的。
+    </p>
+
+    <p id="Model-hasChanged">
+      <b class="header">hasChanged</b><code>model.hasChanged([attribute])</code>
+      <br />
+      判断自从上次调用 <a href="#Model-set">set</a>以来模型是否已经发生变化。传入一个<b>attribute</b>参数，如果它已经发生变化了，那么就返回<tt>true</tt>
+    </p>
+
+    <p class="warning">
+      注意这个方法，以及下面变更相关的代码，它们只有在<tt>"change"</tt>事件中才有用。
+    </p>
+
+<pre>
+book.on("change", function() {
+  if (book.hasChanged("title")) {
+    ...
+  }
+});
+</pre>
+
+    <p id="Model-changedAttributes">
+      <b class="header">changedAttributes</b><code>model.changedAttributes([attributes])</code>
+      <br />
+      获取模型属性的一个hash，它是自上次调用<a href="#Model-set">set</a>以来变更的部分，如果没有任何变更则返回false。可以传入一个可选的外部<b>attributes</b> 的hashu，并返回该attributes中与模型的attributes不同的部分。者可以用来计算view需要更新的部分，或者那些数据是需要同步到服务器端的
+    </p>
+
+    <p id="Model-previous">
+      <b class="header">previous</b><code>model.previous(attribute)</code>
+      <br />
+      在<tt>"change"</tt>事件中，此方法可以用来获取属性之前的值。
+    </p>
+
+<pre class="runnable">
+var bill = new Backbone.Model({
+  name: "Bill Smith"
+});
+
+bill.on("change:name", function(model, name) {
+  alert("Changed name from " + bill.previous("name") + " to " + name);
+});
+
+bill.set({name : "Bill Jones"});
+</pre>
+
+    <p id="Model-previousAttributes">
+      <b class="header">previousAttributes</b><code>model.previousAttributes()</code>
+      <br />
+      返回一个模型上一个状态下属性的拷贝。用来计算模型数据不同版本间的差异，或者在校验失败后回到之前合法的状态下。
+    </p>
+
+    <h2 id="Collection">集合 - Backbone.Collection</h2>
+
+    <p>
+      Collections是模型的排序集合。你可以绑定<tt>"change"</tt>事件，集合上任意模型修改后，集合都会得到通知，还可以监听 <tt>"add"</tt>， <tt>"remove"</tt>事件，以及从服务器抓取集合的<tt>fetch</tt>事件，以及使用一整套的<a href="#Collection-Underscore-Methods">Underscore.js 方法</a>。
+    </p>
+
+    <p>
+      任何发生在集合里模型上的事件，也会直接在集合上触发，这样比较方便。这允许你在集合上监听任意特定属性的变更，比如：<tt>documents.on("change:selected", ...)</tt>
+    </p>
+
+    <p id="Collection-extend">
+      <b class="header">extend</b><code>Backbone.Collection.extend(properties, [classProperties])</code>
+      <br />
+      要创建你自己的<b>集合</b>类，需要扩展<b>Backbone.Collection</b>，并提供实例<b>属性properties</b>，以及可选的直接附加到集合构造器上的<b>类属性classProperties</b>。
+    </p>
+
+    <p id="Collection-model">
+      <b class="header">model</b><code>collection.model([attrs], [options])</code>
+      <br />
+      覆盖此属性，指定集合所包含的模型的类。定义后，你就能传递属性对象（和数组）到<a href="#Collection-add">add</a>， <a href="#Collection-create">create</a>和<a href="#Collection-reset">reset</a>方法中，这些属性会被转换为合适类型的模型对象。
+    </p>
+
+<pre>
+var Library = Backbone.Collection.extend({
+  model: Book
+});
+</pre>
+
+    <p>
+      一个集合也可以包含多种模型，可以使用一个构造器函数覆盖此属性然后根据条件返回模型。
+    </p>
+
+<pre>
+var Library = Backbone.Collection.extend({
+
+  model: function(attrs, options) {
+    if (condition) {
+      return new PublicDocument(attrs, options);
+    } else {
+      return new PrivateDocument(attrs, options);
+    }
+  }
+
+});
+</pre>
+
+    <p id="Collection-modelId">
+      <b class="header">modelId</b><code>collection.modelId(attrs)</code>
+      <br />
+      覆盖此方法，它接收模型的属性，并返回集合用来标识模型唯一性的值。用来合并模型，将不同表中带有不同<a href="#Model-idAttribute"><tt>idAttribute</tt></a>的值整合到单个集合中。
+    </p>
+
+    <p>
+      默认情况下此方法会返回集合中模型类的<a href="#Model-idAttribute"><tt>idAttribute</tt></a>属性的值，如果不存在则返回<tt>id</tt>属性的值。如果你的集合使用了<a href="#Collection-model">model factory</a>并且这些模型拥有<tt>idAttribute</tt>而没有<tt>id</tt>，你必须要覆盖此方法。
+    </p>
+
+<pre class="runnable">
+var Library = Backbone.Collection.extend({
+  modelId: function(attrs) {
+    return attrs.type + attrs.id;
+  }
+});
+
+var library = new Library([
+  {type: 'dvd', id: 1},
+  {type: 'vhs', id: 1}
+]);
+
+var dvdId = library.get('dvd1').id;
+var vhsId = library.get('vhs1').id;
+alert('dvd: ' + dvdId + ', vhs: ' + vhsId);
+</pre>
+
+    <p id="Collection-constructor">
+      <b class="header">constructor / initialize</b><code>new Backbone.Collection([models], [options])</code>
+      <br />
+      在创建集合时，你需要传入初始化的<b>models</b>数组。集合的<a href="#Collection-comparator">comparator</a>可以作为一个选项传入。<a href="#Collection-comparator">comparator</a>传入<tt>false</tt>，会阻止集合排序。如果你定义了<b>initialize</b>函数，它会在集合对象创建后调用。有些选项是可以作为属性直接添加到集合对象上的： <tt>model</tt> 和 <tt>comparator</tt>。传入值为<tt>null</tt>的<tt>models</tt>会创建一个空的集合对象。
+    </p>
+
+<pre>
+var tabs = new TabSet([tab1, tab2, tab3]);
+var spaces = new Backbone.Collection(null, {
+  model: Space
+});
+</pre>
+
+    <p id="Collection-models">
+      <b class="header">models</b><code>collection.models</code>
+      <br />
+      集合内部模型的JavaScript数组引用。通常你应该使用<tt>get</tt>， <tt>at</tt>，或<b>Underscore的方法</b>来访问模型对象，但偶尔也希望直接引用模型数组。
+    </p>
+
+    <p id="Collection-toJSON">
+      <b class="header">toJSON</b><code>collection.toJSON([options])</code>
+      <br />
+      返回集合中所有模型属性的hash(通过 <a href="#Model-toJSON">toJSON</a>返回)组成的数组。用来集合的序列化和持久化。这个方法的名称有点让人困惑，因为它与<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify#toJSON_behavior">JavaScript's JSON API</a>的toJSON方法重名了。
+    </p>
+
+<pre class="runnable">
+var collection = new Backbone.Collection([
+  {name: "Tim", age: 5},
+  {name: "Ida", age: 26},
+  {name: "Rob", age: 55}
+]);
+
+alert(JSON.stringify(collection));
+</pre>
+
+    <p id="Collection-sync">
+      <b class="header">sync</b><code>collection.sync(method, collection, [options])</code>
+      <br />
+      使用<a href="#Sync">Backbone.sync</a> 来将集合的状态持久化到服务器中。可以覆盖或添加自定义行为。
+    </p>
+
+    <p id="Collection-Underscore-Methods">
+      <b class="header">Underscore Methods (46)</b>
+      <br />
+      Backbone代理了<b>Underscore.js</b>，并在<b>Backbone.Collection</b>上提供了46个迭代函数。它们没有都在这里记录，但你可以查看Underscore的文档来寻找详细的细节&hellip;
+    </p>
+
+    <p>
+      多数的方法可以接收一个对象或一个字符串，以支持model-attribute-style的判断，或接收一个函数，函数的参数是模型的实例。
+    </p>
+
+    <ul class="small">
+      <li><a href="http://underscorejs.org/#each">forEach (each)</a></li>
+      <li><a href="http://underscorejs.org/#map">map (collect)</a></li>
+      <li><a href="http://underscorejs.org/#reduce">reduce (foldl, inject)</a></li>
+      <li><a href="http://underscorejs.org/#reduceRight">reduceRight (foldr)</a></li>
+      <li><a href="http://underscorejs.org/#find">find (detect)</a></li>
+      <li><a href="http://underscorejs.org/#findIndex">findIndex</a></li>
+      <li><a href="http://underscorejs.org/#findLastIndex">findLastIndex</a></li>
+      <li><a href="http://underscorejs.org/#filter">filter (select)</a></li>
+      <li><a href="http://underscorejs.org/#reject">reject</a></li>
+      <li><a href="http://underscorejs.org/#every">every (all)</a></li>
+      <li><a href="http://underscorejs.org/#some">some (any)</a></li>
+      <li><a href="http://underscorejs.org/#contains">contains (includes)</a></li>
+      <li><a href="http://underscorejs.org/#invoke">invoke</a></li>
+      <li><a href="http://underscorejs.org/#max">max</a></li>
+      <li><a href="http://underscorejs.org/#min">min</a></li>
+      <li><a href="http://underscorejs.org/#sortBy">sortBy</a></li>
+      <li><a href="http://underscorejs.org/#groupBy">groupBy</a></li>
+      <li><a href="http://underscorejs.org/#shuffle">shuffle</a></li>
+      <li><a href="http://underscorejs.org/#toArray">toArray</a></li>
+      <li><a href="http://underscorejs.org/#size">size</a></li>
+      <li><a href="http://underscorejs.org/#first">first (head, take)</a></li>
+      <li><a href="http://underscorejs.org/#initial">initial</a></li>
+      <li><a href="http://underscorejs.org/#rest">rest (tail, drop)</a></li>
+      <li><a href="http://underscorejs.org/#last">last</a></li>
+      <li><a href="http://underscorejs.org/#without">without</a></li>
+      <li><a href="http://underscorejs.org/#indexOf">indexOf</a></li>
+      <li><a href="http://underscorejs.org/#lastIndexOf">lastIndexOf</a></li>
+      <li><a href="http://underscorejs.org/#isEmpty">isEmpty</a></li>
+      <li><a href="http://underscorejs.org/#chain">chain</a></li>
+      <li><a href="http://underscorejs.org/#difference">difference</a></li>
+      <li><a href="http://underscorejs.org/#sample">sample</a></li>
+      <li><a href="http://underscorejs.org/#partition">partition</a></li>
+      <li><a href="http://underscorejs.org/#countBy">countBy</a></li>
+      <li><a href="http://underscorejs.org/#indexBy">indexBy</a></li>
+    </ul>
+
+<pre>
+books.each(function(book) {
+  book.publish();
+});
+
+var titles = books.map("title");
+
+var publishedBooks = books.filter({published: true});
+
+var alphabetical = books.sortBy(function(book) {
+  return book.author.get("name").toLowerCase();
+});
+
+var randomThree = books.sample(3);
+</pre>
+
+    <p id="Collection-add">
+      <b class="header">add</b><code>collection.add(models, [options])</code>
+      <br />
+      向集合中添加一个模型（或一个模型的数组），为每个模型触发一个<tt>"add"</tt>事件，之后会触发一个<tt>"update"</tt> 事件。如果定义了<a href="#Collection-model">model</a>属性，你可以传入原始属性对象，让它们当做是模型的实例。此方法返回添加后的（或已存在的，如果重复了）模型。传入<tt>{at: index}</tt>将你的模型加入到集合中给定的<tt>index</tt>位置上。如果你添加的模型在集合中已存在，它们会被忽略掉，除非你传入<tt>{merge: true}</tt>选项，这会使得它们的属性合并到对应已存在的模型上，并且会触发合适的<tt>"change"</tt>事件。
+    </p>
+
+<pre class="runnable">
+var ships = new Backbone.Collection;
+
+ships.on("add", function(ship) {
+  alert("Ahoy " + ship.get("name") + "!");
+});
+
+ships.add([
+  {name: "Flying Dutchman"},
+  {name: "Black Pearl"}
+]);
+</pre>
+
+    <p class="warning">
+      注意，多次添加相同的模型（模型的<tt>id</tt>相同）到集合中是没有效果的。
+    </p>
+
+    <p id="Collection-remove">
+      <b class="header">remove</b><code>collection.remove(models, [options])</code>
+      <br />
+      从集合中删除一个模型（或一组模型），并返回它们。每个模型可以是Model的实例，或一个<tt>id</tt>字符串，或一个JS对象，它们是<a href="#Collection-get"><tt>collection.get</tt></a>方法可接收的任何的<tt>id</tt>参数。除非传入<tt>{silent: true}</tt> 选项，否则会在每个模型上都会触发一个<tt>"remove"</tt>事件，之后触发一个<tt>"update"</tt>事件。模型在删除前的索引可以在监听函数上以<tt>options.index</tt>的形式获取。
+    </p>
+
+    <p id="Collection-reset">
+      <b class="header">reset</b><code>collection.reset([models], [options])</code>
+      <br />
+      一次添加和删除一个模型是不错的，但是有时你有许多模型要变更，以至于你希望在集合上执行批量更新。使用<b>reset</b>方法，用一个新的模型（或属性的hash）列表代替集合中已有的模型，在完成后会在集合上触发一个<tt>"reset"</tt>事件，而不是在每个添加或删除的模型上触发事件。此方法返回新设置的模型的列表。为了便于操作，在一个<tt>"reset"</tt>事件中，之前的模型都可以在<tt>options.previousModels</tt>上获取到。传入<tt>null</tt>到<tt>options</tt>的<tt>models</tt>属性上可以清空集合。
+    </p>
+
+    <p>
+      以下是一个在Rails应用中使用 <b>reset</b> 方法，在页面初始加载时创建集合的例子：
+    </p>
+
+<pre>
+&lt;script&gt;
+  var accounts = new Backbone.Collection;
+  accounts.reset(&lt;%= @accounts.to_json %&gt;);
+&lt;/script&gt;
+</pre>
+
+    <p>
+      在未传入任何模型的情况下调用<tt>collection.reset()</tt>会清空集合。
+    </p>
+
+    <p id="Collection-set">
+      <b class="header">set</b><code>collection.set(models, [options])</code>
+      <br />
+      传入一个模型的列表，<b>set</b> 方法会在集合上执行一个“智能”的更新。未存在于集合的模型会被加进去；已存在于集合中的模型属性会被合并；不在传入的列表中但却在当前集合中的模型会被删除。这些情况发生时，<tt>"add"</tt>, <tt>"remove"</tt>, 和 <tt>"change"</tt>事件都会适时触发。如果你希望自定义这种行为，你可以通过在选项中分别传入 <tt>{add: false}</tt>, <tt>{remove: false}</tt>, 或 <tt>{merge: false}</tt>来禁止它们。
+    </p>
+
+<pre>
+var vanHalen = new Backbone.Collection([eddie, alex, stone, roth]);
+
+vanHalen.set([eddie, alex, stone, hagar]);
+
+// Fires a "remove" event for roth, and an "add" event for "hagar".
+// Updates any of stone, alex, and eddie's attributes that may have
+// changed over the years.
+</pre>
+
+    <p id="Collection-get">
+      <b class="header">get</b><code>collection.get(id)</code>
+      <br />
+      给定一个<a href="#Model-id">id</a>或一个<a href="#Model-cid">cid</a>，或一个 <b>model</b>来从集合中获取对应的模型对象。
+    </p>
+
+<pre>
+var book = library.get(110);
+</pre>
+
+    <p id="Collection-at">
+      <b class="header">at</b><code>collection.at(index)</code>
+      <br />
+      给定一个索引，从集合中获取一个模型。如果你的集合是排过序的这会很有用，否则 <b>at</b> 方法仍会按照插入顺序返回对应的模型。当传入一个负值索引，会从集合的后面开始返回对应的模型。
+    </p>
+
+    <p id="Collection-push">
+      <b class="header">push</b><code>collection.push(model, [options])</code>
+      <br />
+      在集合的末尾添加一个模型。参数与<a href="#Collection-add">add</a>方法相同。
+    </p>
+
+    <p id="Collection-pop">
+      <b class="header">pop</b><code>collection.pop([options])</code>
+      <br />
+      从一个集合中删除并返回最后一个模型对象。参数与<a href="#Collection-remove">remove</a>方法相同。
+    </p>
+
+    <p id="Collection-unshift">
+      <b class="header">unshift</b><code>collection.unshift(model, [options])</code>
+      <br />
+      在模型的开始处添加一个模型。参数与<a href="#Collection-add">add</a>方法相同。
+    </p>
+
+    <p id="Collection-shift">
+      <b class="header">shift</b><code>collection.shift([options])</code>
+      <br />
+      移除并返回一个集合的第一个模型对象。参数与<a href="#Collection-remove">remove</a>相同。
+    </p>
+
+    <p id="Collection-slice">
+      <b class="header">slice</b><code>collection.slice(begin, end)</code>
+      <br />
+      返回一个集合模型的浅拷贝，参数与原生的<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/slice">Array#slice</a>方法相同。
+    </p>
+
+    <p id="Collection-length">
+      <b class="header">length</b><code>collection.length</code>
+      <br />
+      与数组相同，集合也维护了一个 <tt>length</tt>属性，记录了它所包含的模型的数量。
+    </p>
+
+    <p id="Collection-comparator">
+      <b class="header">comparator</b><code>collection.comparator</code>
+      <br />
+      默认情况下集合没有<b>comparator</b>比较器。如果你定义了一个比较器，集合会用它来维护模型的顺序。这意味着，添加一个模型时，它会被插入到<tt>collection.models</tt>的正确的索引位置。比较器可以用<a href="http://underscorejs.org/#sortBy">sortBy</a>函数（传入一个接收唯一参数的函数）定义，或用<a href="https://developer.mozilla.org/JavaScript/Reference/Global_Objects/Array/sort">sort</a>函数（传入一个接收两个参数的比较器函数）定义，或一个标识用来排序属性的字符串。
+    </p>
+
+    <p>
+      "sortBy"比较器函数接收一个模型，并返回一个数字或字符串，表明模型相对其它模型的排序位置。"sort"比较器接收两个模型，如果第一个应该排在第二个前面则返回<tt>-1</tt>，如果两个排序相等则返回<tt>0</tt>，如果第一个应该排在第二个后面则返回<tt>1</tt>。注意Backbone会根据你比较器参数的个数来决定使用哪个形式，所以请注意你绑定的比较器函数。
+    </p>
+
+    <p>
+      注意虽然本例中所有的章节是从后往前加的，但它们出来的顺序是正确的：
+    </p>
+
+<pre class="runnable">
+var Chapter  = Backbone.Model;
+var chapters = new Backbone.Collection;
+
+chapters.comparator = 'page';
+
+chapters.add(new Chapter({page: 9, title: "The End"}));
+chapters.add(new Chapter({page: 5, title: "The Middle"}));
+chapters.add(new Chapter({page: 1, title: "The Beginning"}));
+
+alert(chapters.pluck('title'));
+</pre>
+
+    <p class="warning">
+      带有比较器的集合，如果稍后你改变了模型的属性，那么集合也不会自动重排序，所以如果你修改了会影响排序的模型的属性后，你需要调用<tt>sort</tt> 方法来重新排序。
+    </p>
+
+    <p id="Collection-sort">
+      <b class="header">sort</b><code>collection.sort([options])</code>
+      <br />
+      强制集合重新排序。某些情况下你不需要调用本方法，因为带有<a href="#Collection-comparator">comparator</a>的集合在添加模型时会自动排序。添加模型时如若要禁用排序，请传入<tt>{sort: false}</tt>到<tt>add</tt>方法中。调用<tt>sort</tt>方法会触发一个<tt>"sort"</tt>事件。
+    </p>
+
+    <p id="Collection-pluck">
+      <b class="header">pluck</b><code>collection.pluck(attribute)</code>
+      <br />
+      从集合的每个模型上剥去一个属性。等价于调用<tt>map</tt>并从迭代器上返回单个属性。
+    </p>
+
+<pre class="runnable">
+var stooges = new Backbone.Collection([
+  {name: "Curly"},
+  {name: "Larry"},
+  {name: "Moe"}
+]);
+
+var names = stooges.pluck("name");
+
+alert(JSON.stringify(names));
+</pre>
+
+    <p id="Collection-where">
+      <b class="header">where</b><code>collection.where(attributes)</code>
+      <br />
+      从集合上返回与传入的<b>attributes</b>相匹配的所有模型。可以用来当做<tt>filter</tt>。
+    </p>
+
+<pre class="runnable">
+var friends = new Backbone.Collection([
+  {name: "Athos",      job: "Musketeer"},
+  {name: "Porthos",    job: "Musketeer"},
+  {name: "Aramis",     job: "Musketeer"},
+  {name: "d'Artagnan", job: "Guard"},
+]);
+
+var musketeers = friends.where({job: "Musketeer"});
+
+alert(musketeers.length);
+</pre>
+
+    <p id="Collection-findWhere">
+      <b class="header">findWhere</b><code>collection.findWhere(attributes)</code>
+      <br />
+      与<a href="#Collection-where">where</a>类似，但只返回集合上与传入<b>attributes</b>相匹配的第一个模型。
+    </p>
+
+    <p id="Collection-url">
+      <b class="header">url</b><code>collection.url or collection.url()</code>
+      <br />
+      在集合上设置<b>url</b>属性（或函数）来返回集合在服务器端上的定位。集合内部的模型也会使用<b>url</b>来构造它们自己的URLs。
+    </p>
+
+<pre>
+var Notes = Backbone.Collection.extend({
+  url: '/notes'
+});
+
+// Or, something more sophisticated:
+
+var Notes = Backbone.Collection.extend({
+  url: function() {
+    return this.document.url() + '/notes';
+  }
+});
+</pre>
+
+    <p id="Collection-parse">
+      <b class="header">parse</b><code>collection.parse(response, options)</code>
+      <br />
+      无论何时在<a href="#Collection-fetch">fetch</a>方法上，从服务器端返回集合上的模型都会调用<b>parse</b>。这个函数会接收原生的<tt>response</tt>对象，并返回要<a href="#Collection-add">添加</a>到集合上的模型的数组。默认的实现是空操作，只是简单的回传了返回的JSON响应。如果你需要与已存的API协作，那么需要覆盖它，或者最好为响应添加命名空间。
+    </p>
+
+<pre>
+var Tweets = Backbone.Collection.extend({
+  // The Twitter Search API returns tweets under "results".
+  parse: function(response) {
+    return response.results;
+  }
+});
+</pre>
+
+    <p id="Collection-clone">
+      <b class="header">clone</b><code>collection.clone()</code>
+      <br />
+      返回一个新的集合的实例，它的模型列表与当前集合的模型列表相等。
+    </p>
+
+    <p id="Collection-fetch">
+      <b class="header">fetch</b><code>collection.fetch([options])</code>
+      <br />
+      从服务器端为集合抓取默认的模型列表，并在返回后将其<a href="#Collection-set">set</a>到集合上。<b>options</b>选项接<tt>success</tt> 和 <tt>error</tt> 回调，回调的参数都是<tt>(collection, response, options)</tt>。当服务器端的数据返回时，集合内部使用 <a href="#Collection-set">set</a>将抓取到的模型进行合并，如果你传入<tt>{reset: true}</tt>选项，那么集合会很高效的将抓取的模型<a href="#Collection-reset">reset</a>到自身。本方法代理了<a href="#Sync">Backbone.sync</a>并返回一个<a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>对象。处理<b>fetch</b>请求的服务器，需要返回一个模型的JSON数组。
+    </p>
+
+<pre class="runnable">
+Backbone.sync = function(method, model) {
+  alert(method + ": " + model.url);
+};
+
+var accounts = new Backbone.Collection;
+accounts.url = '/accounts';
+
+accounts.fetch();
+</pre>
+
+    <p>
+      <b>fetch</b>的行为可以使用<a href="#Collection-set">set</a>方法中的选项来自定义。比如抓取一个集合，每新增一个模型上都触发一个<tt>"add"</tt>事件，每个已存在模型的变更都触发一个<tt>"change"</tt>事件，但不会移除模型：<tt>collection.fetch({remove: false})</tt>
+    </p>
+
+    <p>
+      <b>jQuery.ajax</b> 的选项也可以直接作为<b>fetch</b>的选项传入，所以抓取一个分页集合的特定页可以：<tt>Documents.fetch({data: {page: 3}})</tt>
+    </p>
+
+    <p>
+      注意<b>fetch</b>不应该用来在页面加载时填充集合 &mdash; 所有在加载时需要的模型应该已经在某个地方<a href="#FAQ-bootstrap">bootstrapped</a>了。<b>fetch</b>为的是需要模型懒加载的界面，通常这部分界面不是马上就展示的：例如，带有笔记集合的文档，可能需要打开或关闭。
+    </p>
+
+    <p id="Collection-create">
+      <b class="header">create</b><code>collection.create(attributes, [options])</code>
+      <br />
+      用来在集合中创建一个模型实例的快捷方法。等价于用一个属性的hash实例化一个模型，保存模型到服务器端，在成功创建后再将模型设置到模型的列表上。返回新的模型对象。如果客户端校验失败，模型则不会保存，并返回校验失败的错误。为了此方法正常工作，你需要设置集合的<a href="#Collection-model">model</a>属性。本方法既可以接收一个属性的hash，也可以接收一个已存在的未保存的模型对象。
+    </p>
+
+    <p>
+      创建一个模型对象，集合会马上触发一个<tt>"add"</tt>事件，在将新模型发送到服务器端集合后会触发一个<tt>"request"</tt>事件，一旦服务器响应并成功创建了模型，集合会触发一个<tt>"sync"</tt>事件。如果你希望等待服务器响应后在将新模型加入到集合中，那么传入<tt>{wait: true}</tt>选项即可。
+    </p>
+
+<pre>
+var Library = Backbone.Collection.extend({
+  model: Book
+});
+
+var nypl = new Library;
+
+var othello = nypl.create({
+  title: "Othello",
+  author: "William Shakespeare"
+});
+</pre>
+
+    <h2 id="Router">路由 - Backbone.Router</h2>
+
+    <p>
+      Web应用程序经常在应用中提供可链接的，可书签化的，可分享的URLs。直到最近hash片段(<tt>#page</tt>) 才用来提供这些固定连接，但是由于History API的到来，现在可以使用标准的URLs（<tt>/page</tt>）。<b>Backbone.Router</b>用来实现客户端路由，将它们与行为和事件联系起来。对于不支持History API的浏览器，路由处理会优雅降级并转换到使用hash片段的URL版本。
+    </p>
+
+    <p>
+      页面加载过程中，在你的应用完成创建所有路由后，一定要调用 <tt>Backbone.history.start()</tt>或<tt>Backbone.history.start({pushState: true})</tt> 来初始化URL的路由。
+    </p>
+
+    <p id="Router-extend">
+      <b class="header">extend</b><code>Backbone.Router.extend(properties, [classProperties])</code>
+      <br />
+      创建自定义路由类。定义路由匹配时需要触发的动作，提供一个 <a href="#Router-routes">routes</a>的hash，包含了路由到action的映射。记住在定义路由时不要在开始处添加斜杠：
+    </p>
+
+<pre>
+var Workspace = Backbone.Router.extend({
+
+  routes: {
+    "help":                 "help",    // #help
+    "search/:query":        "search",  // #search/kiwis
+    "search/:query/p:page": "search"   // #search/kiwis/p7
+  },
+
+  help: function() {
+    ...
+  },
+
+  search: function(query, page) {
+    ...
+  }
+
+});
+</pre>
+
+    <p id="Router-routes">
+      <b class="header">routes</b><code>router.routes</code>
+      <br />
+      路由的hash将带有参数的URLs映射到你路由的方法上（如果你愿意，也可以直接定义路由映射的函数），与<a href="#View">View</a>的<a href="#View-delegateEvents">events hash</a>类似。路由字符串可以包含参数部分，<tt>:param</tt>，它会匹配URL中两个反斜杠之间的单个组件；可以包含通配符部分， <tt>*splat</tt>，它可以匹配URL中任意数量的组件。路由中的某部分也可以是可选的，只要将它用括号抱起来即可<tt>(/:optional)</tt>。
+    </p>
+
+    <p>
+      比如，路由<tt>"search/:query/p:page"</tt> 会匹配<tt>#search/obama/p2</tt>，并将<tt>"obama"</tt>，和 <tt>"2"</tt>作为参数传入action中。
+    </p>
+
+    <p>
+      路由<tt>"file/*path"</tt>会匹配<tt>#file/folder/file.txt</tt>，并将<tt>"folder/file.txt"</tt>作为参数传入action中。
+    </p>
+
+    <p>
+      路由<tt>"docs/:section(/:subsection)"</tt>会匹配<tt>#docs/faq</tt> 和<tt>#docs/faq/installing</tt>，第一种情况下传入 <tt>"faq"</tt>到action中，第二种情况下传入<tt>"faq"</tt>和 <tt>"installing"</tt>到action中。
+    </p>
+
+    <p>
+      嵌套路由<tt>"docs(/:section)(/:subsection)"</tt> 可以匹配 <tt>#docs</tt>，<tt>#docs/faq</tt>, 和 <tt>#docs/faq/installing</tt>，在第二种情况下传入<tt>"faq"</tt>到action中，第三种情况下传入<tt>"faq"</tt>和 <tt>"installing"</tt> 到action中。
+    </p>
+
+    <p>
+      尾部的反斜杠会当做URL的一部分进行处理，在访问时会当做一个唯一的路由进行匹配。 <tt>docs</tt> and <tt>docs/</tt> 会触发不同的回调。如果你希望避免生成两种类型的URLs，你可以定义一个<tt>"docs(/)"</tt>路由来同时匹配两种情况。
+    </p>
+
+    <p>
+      在用户点击回退按钮，或输入新的URL后，当匹配一个特定的路由时，会触发一个以action的名字为事件名的<a href="#Events">事件</a>，所以别的对象可以监听这个路由，并获得通知。以下例子中，访问<tt>#help/uploading</tt>会在路由对象上触发一个<tt>route:help</tt>事件。
+    </p>
+
+<pre>
+routes: {
+  "help/:page":         "help",
+  "download/*path":     "download",
+  "folder/:name":       "openFolder",
+  "folder/:name-:mode": "openFolder"
+}
+</pre>
+
+<pre>
+router.on("route:help", function(page) {
+  ...
+});
+</pre>
+
+    <p id="Router-constructor">
+      <b class="header">constructor / initialize</b><code>new Router([options])</code>
+      <br />
+      在创建一个新的路由对象时，你可以直接传入它的<a href="#Router-routes">路由</a>的hash作为选项。所有的 <tt>options</tt> 也将会传入到 <tt>initialize</tt>方法中。
+    </p>
+
+    <p id="Router-route">
+      <b class="header">route</b><code>router.route(route, name, [callback])</code>
+      <br />
+      为路由对象手工创建一个路由，<tt>route</tt>参数可以是一个 <a href="#Router-routes">路由字符串</a>或正则表达式。每个从路由字符串或正则表达式捕获的匹配，都会当做参数传入回调中。<tt>name</tt> 参数会在路由匹配时触发一个 <tt>router[name]</tt>事件。如果<tt>callback</tt>没有定义，那么会替换为<tt>router[name]</tt>。后加入的路由可以覆盖之前定义的路由。
+    </p>
+
+<pre>
+initialize: function(options) {
+
+  // Matches #page/10, passing "10"
+  this.route("page/:number", "page", function(number){ ... });
+
+  // Matches /117-a/b/c/open, passing "117-a/b/c" to this.open
+  this.route(/^(.*?)\/open$/, "open");
+
+},
+
+open: function(id) { ... }
+</pre>
+
+    <p id="Router-navigate">
+      <b class="header">navigate</b><code>router.navigate(fragment, [options])</code>
+      <br />
+      当你要到达一个状态时，你如果需要把它保存为一个URL，就调用<b>navigate</b>来更新URL。如果你希望调用路由函数，只要将选项<b>trigger</b>设为<tt>true</tt>即可。更新URL但不创建浏览器历史记录，需要设置<b>replace</b>选项为 <tt>true</tt>。
+    </p>
+
+<pre>
+openPage: function(pageNumber) {
+  this.document.pages.at(pageNumber).open();
+  this.navigate("page/" + pageNumber);
+}
+
+# Or ...
+
+app.navigate("help/troubleshooting", {trigger: true});
+
+# Or ...
+
+app.navigate("help/troubleshooting", {trigger: true, replace: true});
+</pre>
+
+    <p id="Router-execute">
+      <b class="header">execute</b><code>router.execute(callback, args, name)</code>
+      <br />
+      当匹配一个路由并且它对应的<b>callback</b>将要执行时，路由会在内部调用这个方法。如果需要取消当前的转换，这个方法需返回 <b>false</b> 。自定义解析流程或封装你自己的路由，需要覆盖此方法，比如，在路由回调处理查询参数之前就解析它们，如下：
+    </p>
+
+<pre>
+var Router = Backbone.Router.extend({
+  execute: function(callback, args, name) {
+    if (!loggedIn) {
+      goToLogin();
+      return false;
+    }
+    args.push(parseQueryString(args.pop()));
+    if (callback) callback.apply(this, args);
+  }
+});
+</pre>
+
+    <h2 id="History">历史 - Backbone.history</h2>
+
+    <p>
+      <b>History</b>充当了一个全局路由的角色，用来处理 <tt>hashchange</tt>事件或 <tt>pushState</tt>事件，匹配合适的路由，触发回调。你不用自己来处理这些事，因为<tt>Backbone.history</tt>已经为你做了。
+    </p>
+
+    <p>
+      <b>pushState</b>在Backbone中作为一个纯碎的选项存在。不支持<tt>pushState</tt>的老的浏览器会继续使用hash-based URL片段的方式，如果在兼容<tt>pushState</tt>的浏览器中访问了带有hash的URL，那么它会透明的升级为真正的URL。注意使用真实的URLs需要你的Web服务器能正确的渲染这些页面，所以也需要后台做些变动。比如，如果你定义了路由<tt>/documents/100</tt>，当浏览器直接访问了这个URL时，你的Web服务器必须能够返回这个页面。为了支持搜索引擎的爬取，最好是你的服务器能为此页面生成完整的HTML...但如果一个Web应用，仅渲染了与root URL同样的内容，然后剩下的试图由JavaScript和Backbone填满也是可以的。
+    </p>
+
+    <p id="History-start">
+      <b class="header">start</b><code>Backbone.history.start([options])</code>
+      <br />
+      当你创建了所有的<a href="#Router">Routers</a>，并正确的设置了所有的路由，就调用<tt>Backbone.history.start()</tt>开始监视<tt>hashchange</tt>事件，并触发路由。之后如果再次调用<tt>Backbone.history.start()</tt>则会抛出异常，<tt>Backbone.History.started</tt>是一个boolean值，用来标识是否此方法已调用过了。
+    </p>
+
+    <p>
+      如果你希望在你的应用中使用HTML5的<tt>pushState</tt>，需要使用 <tt>Backbone.history.start({pushState: true})</tt>。如果希望使用<tt>pushState</tt>，但如果浏览器不支持就使用页面刷新代替，你需要在选项中加入<tt>{hashChange: false}</tt>。
+    </p>
+
+    <p>
+      如果你的应用不是在你域名的<tt>/</tt> 下返回的，请一定要告诉History，root应该是什么，可以使用选项：<tt>Backbone.history.start({pushState: true, root: "/public/search/"})</tt>。
+    </p>
+
+    <p>
+      调用时，如果有路由匹配当前的URL，<tt>Backbone.history.start()</tt>会返回<tt>true</tt>。如果定义的路由没有匹配当前URL的，它会返回<tt>false</tt>。
+    </p>
+
+    <p>
+      如果你的服务器已经渲染了整个界面，而你不希望History开始时触发初始路由，就传入<tt>silent: true</tt>。
+    </p>
+
+    <p>
+      因为IEhash-based的历史依赖一个<tt>&lt;iframe&gt;</tt>，请一定要在DOM准备完成后在调用<tt>start()</tt>。
+    </p>
+
+<pre>
+$(function(){
+  new WorkspaceRouter();
+  new HelpPaneRouter();
+  Backbone.history.start({pushState: true});
+});
+</pre>
+
+    <h2 id="Sync">同步 - Backbone.sync</h2>
+
+    <p>
+      Backbone使用<b>Backbone.sync</b> 函数来保存一个模型到服务器端。默认情况下，它使用<tt>jQuery.ajax</tt>发送 RESTful JSON请求，并返回<a href="http://api.jquery.com/jQuery.ajax/#jqXHR">jqXHR</a>对象。你可以覆盖它，使用不同的持久化策略，比如WebSockets，XML transport，或Local Storage。
+    </p>
+
+    <p>
+       <b>Backbone.sync</b>的特征是：<tt>sync(method, model, [options])</tt>
+    </p>
+
+    <ul>
+      <li><b>method</b> – CRUD 方法 (<tt>"create"</tt>, <tt>"read"</tt>, <tt>"update"</tt>, or <tt>"delete"</tt>)</li>
+      <li><b>model</b> – 要保存的模型 (或要读取的集合)</li>
+      <li><b>options</b> – success 和 error回调, 以及所有jQuery的请求选项</li>
+    </ul>
+
+    <p>
+      在默认的实现中，<b>Backbone.sync</b>发送一个保存模型的请求时，会把模型的属性序列化为JSON传过去，同时HTTP的消息体会设置为<tt>application/json</tt>。当返回一个JSON响应时，会将服务器变更后的属性保存到模型中，并更新客户端。在响应来自集合中的 <tt>"read"</tt>请求（<a href="#Collection-fetch">Collection#fetch</a>）时，一个模型的属性对象的数组会被传入到集合中。
+    </p>
+
+    <p>
+      模型或集合开始与服务器<b>同步（sync）</b>时 ，都会触发一个<tt>"request"</tt> 事件。如果响应成功，会触发一个<tt>"sync"</tt>事件，否则触发一个<tt>"error"</tt>事件。
+    </p>
+
+    <p>
+      <b>sync</b> 函数可以以<tt>Backbone.sync</tt>的形式在全局覆盖，也可以细粒度的覆盖Backbone的集合或单个模型的<tt>sync</tt>函数。
+    </p>
+
+    <p>
+      默认的<b>sync</b>处理将CRUD映射成如下的REST风格：
+    </p>
+
+    <ul>
+      <li><b>create &rarr; POST &nbsp; </b><tt>/collection</tt></li>
+      <li><b>read &rarr; GET &nbsp; </b><tt>/collection[/id]</tt></li>
+      <li><b>update &rarr; PUT &nbsp; </b><tt>/collection/id</tt></li>
+      <li><b>patch &rarr; PATCH &nbsp; </b><tt>/collection/id</tt></li>
+      <li><b>delete &rarr; DELETE &nbsp; </b><tt>/collection/id</tt></li>
+    </ul>
+
+    <p>
+      比如，在Rails4中处理来自<tt>Backbone</tt>的<tt>"update"</tt>调用代码如下：
+    </p>
+
+<pre>
+def update
+  account = Account.find params[:id]
+  permitted = params.require(:account).permit(:name, :otherparam)
+  account.update_attributes permitted
+  render :json => account
+end
+</pre>
+
+    <p>
+      整合3.1版本之前的Rails需要注意为<tt>to_json</tt>的调用禁用默认的命名空间，可以设置<tt>ActiveRecord::Base.include_root_in_json = false</tt>。
+    </p>
+
+    <p id="Sync-ajax">
+      <b class="header">ajax</b><code>Backbone.ajax = function(request) { ... };</code>
+      <br />
+      如果你希望使用自定义的AJAX函数，或者你的后台不支持<a href="http://api.jquery.com/jQuery.ajax/">jQuery.ajax</a>接口，你需要做出某些调整，所有这些你都可以覆盖<tt>Backbone.ajax</tt>实现。
+    </p>
+
+    <p id="Sync-emulateHTTP">
+      <b class="header">emulateHTTP</b><code>Backbone.emulateHTTP = true</code>
+      <br />
+      如果你希望与不支持Backbone默认Rest/HTTP风格的老式Web服务器一起工作，你可以选择关闭 <tt>Backbone.emulateHTTP</tt>。设置此选项为true，Backbone会将<tt>PUT</tt>, <tt>PATCH</tt> 和 <tt>DELETE</tt>请求伪装成HTTP <tt>POST</tt>，并设置<tt>X-HTTP-Method-Override</tt>为true。如果<tt>emulateJSON</tt>也打开，会传一个额外的<tt>_method</tt>参数携带此消息头。
+    </p>
+
+<pre>
+Backbone.emulateHTTP = true;
+
+model.save();  // POST to "/collection/id", with "_method=PUT" + header.
+</pre>
+
+    <p id="Sync-emulateJSON">
+      <b class="header">emulateJSON</b><code>Backbone.emulateJSON = true</code>
+      <br />
+      如果你正工作在一个老式的Web服务器上，并且不能处理<tt>application/json</tt>编码的请求，设置<tt>Backbone.emulateJSON = true;</tt>会将JSON序列化为字符串添加到名为<tt>model</tt> 的参数上，请求会以<tt>application/x-www-form-urlencoded</tt>MIME类型发送，就好像发送表单一样。
+    </p>
+
+    <h2 id="View">视图 - Backbone.View</h2>
+
+    <p>
+      Backbone的视图比较规则 &mdash; 它们不决定你的任何HTML或CSS，你可以使用任意的JavaScript模板。大致的流程是，你将界面组织成逻辑的视图，依靠模型，每当模型变更时视图会单独更新而不会重绘整个页面。相比较挖掘一个JSON对象，在DOM中查询一个元素，然后手工更新HTML的做法，你可以将视图的<tt>render</tt> 函数绑定到模型的 <tt>"change"</tt>事件上 &mdash; 现在无论模型的数据展示在UI的什么地方，视图都会马上更新到最新。
+    </p>
+
+    <p id="View-extend">
+      <b class="header">extend</b><code>Backbone.View.extend(properties, [classProperties])</code>
+      <br />
+      通过创建一个自定义的视图类来开始使用视图。你可能会覆盖<a href="#View-render">render</a>函数，声明式的执行你的<a href="#View-delegateEvents">events</a>，以及指定View根元素的<tt>tagName</tt>, <tt>className</tt>, 或 <tt>id</tt>属性。
+    </p>
+
+<pre>
+var DocumentRow = Backbone.View.extend({
+
+  tagName: "li",
+
+  className: "document-row",
+
+  events: {
+    "click .icon":          "open",
+    "click .button.edit":   "openEditDialog",
+    "click .button.delete": "destroy"
+  },
+
+  initialize: function() {
+    this.listenTo(this.model, "change", this.render);
+  },
+
+  render: function() {
+    ...
+  }
+
+});
+</pre>
+
+    <p>
+      像属性<tt>tagName</tt>, <tt>id</tt>, <tt>className</tt>,<tt>el</tt>, 和 <tt>events</tt> 都可以定义成函数，然后等到运行期在真正定义它们。
+    </p>
+
+    <p id="View-constructor">
+      <b class="header">constructor / initialize</b><code>new View([options])</code>
+      <br />
+      有几个特定的选项，如果传入的话会直接加到视图对象上： <tt>model</tt>, <tt>collection</tt>,
+      <tt>el</tt>, <tt>id</tt>, <tt>className</tt>, <tt>tagName</tt>, <tt>attributes</tt> 和 <tt>events</tt>。如果视图定义了一个<b>initialize</b>方法，在视图对象首次创建后会调用它。如果你希望创建一个视图对象，它会引用<i>已存在</i>DOM上的元素，只要将次元素作为一个选项传入即可：<tt>new View({el: existingElement})</tt>。
+    </p>
+
+<pre>
+var doc = documents.first();
+
+new DocumentRow({
+  model: doc,
+  id: "document-row-" + doc.id
+});
+</pre>
+
+    <p id="View-el">
+      <b class="header">el</b><code>view.el</code>
+      <br />
+      所有的视图对象始终都拥有一个DOM元素（<b>el</b>属性引用的元素），不管此元素是否已经插入到页面中。这样视图对象可以在任何时候渲染，并一次插入到DOM上，这样会尽可能的减少页面重排和重绘（reflow和repaints）的几率，因此UI渲染性能更高。
+    </p>
+
+    <p>
+      <tt>this.el</tt> 可以是一个DOM选择器字符串或是一个DOM元素；否则它会从视图对象的<tt>tagName</tt>, <tt>className</tt>,
+      <tt>id</tt> 和 <a href="#View-attributes"><tt>attributes</tt></a> 属性上创建。如果没有指定的话，<tt>this.el</tt>就是一个空的<tt>div</tt>，通常情况下这都没问题。<b>el</b>的引用也可以传入视图对象的构造器函数。
+    </p>
+
+<pre class="runnable">
+var ItemView = Backbone.View.extend({
+  tagName: 'li'
+});
+
+var BodyView = Backbone.View.extend({
+  el: 'body'
+});
+
+var item = new ItemView();
+var body = new BodyView();
+
+alert(item.el + ' ' + body.el);
+</pre>
+
+    <p id="View-$el">
+      <b class="header">$el</b><code>view.$el</code>
+      <br />
+      一个缓存的视图对象DOM元素的jQuery对象。不用每次都重新用jQuery封装DOM元素，这样比较便捷。
+    </p>
+
+<pre>
+view.$el.show();
+
+listView.$el.append(itemView.el);
+</pre>
+
+    <p id="View-setElement">
+      <b class="header">setElement</b><code>view.setElement(element)</code>
+      <br />
+      如果你希望Backbone的视图对象引用一个不同的DOM元素，使用<b>setElement</b>重新设置即可，它也会重新创建缓存的 <tt>$el</tt>引用，并将之前的代理事件从老的元素移到新的元素。
+    </p>
+
+    <p id="View-attributes">
+      <b class="header">attributes</b><code>view.attributes</code>
+      <br />
+      一个属性的hash或者返回属性hash函数，它会设置到视图的<tt>el</tt>DOM元素的HTML属性上(id， class， data-properties， 等等)。
+    </p>
+
+    <p id="View-dollar">
+      <b class="header">$ (jQuery)</b><code>view.$(selector)</code>
+      <br />
+      如果页面引用了jQuery，每个视图对象都会拥有一个 <b>$</b> 函数，用来在视图对象的DOM元素范围内执行元素查询。如果你使用此限定范围的jQuery函数，你就不用使用模型的ids作为查询的一部分，来引用特定的元素，这让你更多的依赖HTML的class属性。等价于运行<tt>view.$el.find(selector)</tt>。
+    </p>
+
+<pre>
+ui.Chapter = Backbone.View.extend({
+  serialize : function() {
+    return {
+      title: this.$(".title").text(),
+      start: this.$(".start-page").text(),
+      end:   this.$(".end-page").text()
+    };
+  }
+});
+</pre>
+
+    <p id="View-template">
+      <b class="header">template</b><code>view.template([data])</code>
+      <br />
+      Backbone并没有为视图提供模板函数，由你自己定义 <b>template</b>函数可能会比较好。这样，当渲染你的视图时，你可以便捷的访问你的实例对象的数据。比如，使用Underscore的模板：
+    </p>
+
+<pre>
+var LibraryView = Backbone.View.extend({
+  template: _.template(...)
+});
+</pre>
+
+    <p id="View-render">
+      <b class="header">render</b><code>view.render()</code>
+      <br />
+       <b>render</b> 函数的默认实现是一个空操作。用你自己的代码覆盖此方法，从模型的数据上渲染你的模板，之后使用新的HTML更新<tt>this.el</tt> 属性。一个好的约定是在<b>render</b>的后面返回<tt>this</tt>，这样可以使用链式语法调用。
+    </p>
+
+<pre>
+var Bookmark = Backbone.View.extend({
+  template: _.template(...),
+  render: function() {
+    this.$el.html(this.template(this.model.attributes));
+    return this;
+  }
+});
+</pre>
+
+    <p>
+      Backbone对于你首选的HTML模板方式是无感的。你的 <b>render</b>函数可以是拼接HTML字符串，或使用<tt>document.createElement</tt>生成DOM树。然而我们建议你选择一个好的JavaS模板库。<a href="http://github.com/janl/mustache.js">Mustache.js</a>,
+      <a href="http://github.com/creationix/haml-js">Haml-js</a>, 和
+      <a href="http://github.com/sstephenson/eco">Eco</a>都是比较好的选择。因为页面已经引入了<a href="http://underscorejs.org/">Underscore.js</a>，所有也可以使用<a href="http://underscorejs.org/#template">_.template</a>，如果你选择使用简单的内插JavaScript（interpolated-JavaScript）风格的模板，那么它会是一个很好的选择。
+    </p>
+
+    <p>
+      不管最终你选择什么样的模板策略，都比直接使用JavaScript拼接HTML字符串要好。在DocumentCloud里，我们使用使用<a href="http://documentcloud.github.com/jammit/">Jammit</a>来打包所有的存储在<tt>/app/views</tt>中的JavaScript模板到<tt>core.js</tt>这一主要资源包中。
+
+    <p id="View-remove">
+      <b class="header">remove</b><code>view.remove()</code>
+      <br />
+      将视图对象以及它的<tt>el</tt>元素从DOM中移除，并调用<a href="#Events-stopListening">stopListening</a>移除所有视图通过<a href="#Events-listenTo">listenTo</a>绑定的事件。
+    </p>
+
+    <p id="View-events">
+      <b class="header">events</b><code>view.events or view.events()</code>
+      <br />
+      <b>events</b> hash对象（或函数）可以用来指定一个DOM事件的合集，它们会通过<a href="#View-delegateEvents">delegateEvents</a>绑定到视图对象的方法上。
+    </p>
+
+    <p>
+      Backbone会在视图对象初始化时，自动将事件监听绑定到元素上，这之后才会调用<a href="#View-constructor">initialize</a>。
+    </p>
+
+<pre>
+var ENTER_KEY = 13;
+var InputView = Backbone.View.extend({
+
+  tagName: 'input',
+
+  events: {
+    "keydown" : "keyAction",
+  },
+
+  render: function() { ... },
+
+  keyAction: function(e) {
+    if (e.which === ENTER_KEY) {
+      this.collection.add({text: this.$el.val()});
+    }
+  }
+});
+</pre>
+
+    <p id="View-delegateEvents">
+      <b class="header">delegateEvents</b><code>delegateEvents([events])</code>
+      <br />
+      使用jQuery的 <tt>on</tt>函数在视图上提供声明式的DOM事件绑定。如果没有直接传入<b>events</b> hash。就会使用<tt>this.events</tt>作为源。事件的格式是 <tt>{"event selector": "callback"}</tt>。回调既可以是视图对象的方法名称，也可以是一个函数。省略<tt>selector</tt> 会让事件直接绑定到视图对象的根元素上（<tt>this.el</tt>）。默认情况下，<tt>delegateEvents</tt>是在视图的构造器里调用的，所以如果你有一个简单的<tt>events</tt>hash，所有的DOM事件会被直接连接上，你不会也不用自己调用这个方法。
+    </p>
+
+    <p>
+      <tt>events</tt>属性也可以定义为函数，它返回一个<tt>events</tt>的hash，这使得更容易以编程的形式定义你的事件，同时也可以从父类继承事件。
+    </p>
+
+    <p>
+      相比较直接使用jQuery在<a href="#View-render">render</a>函数里绑定事件到子元素上，<b>delegateEvents</b>提供了更多的优势。所有绑定的回调在用jQuery处理前已经绑定上下文到视图对象上，所以不管何时调用，它的<tt>this</tt>总是指向的是视图对象。当<b>delegateEvents</b>重新执行时，这时<tt>events</tt>可能是不同的，所有之前的回调都会移除，然后从新代理 &mdash; 这对于不同模式下表现不同的视图很有用。
+    </p>
+
+    <p>
+      单个事件版本的<b>delegateEvents</b>可以使用<tt>delegate</tt>替换。实际上<b>delegateEvents</b> 只是简单的封装了<tt>delegate</tt>，之后循环调用它。类似的<tt>undelegateEvents</tt>也有对应的<tt>undelegate</tt>。
+    </p>
+
+    <p>
+      一个用来在搜索结果中展示文档的视图可能看起来是以下的样子：
+    </p>
+
+<pre>
+var DocumentView = Backbone.View.extend({
+
+  events: {
+    "dblclick"                : "open",
+    "click .icon.doc"         : "select",
+    "contextmenu .icon.doc"   : "showMenu",
+    "click .show_notes"       : "toggleNotes",
+    "click .title .lock"      : "editAccessLevel",
+    "mouseover .title .date"  : "showTooltip"
+  },
+
+  render: function() {
+    this.$el.html(this.template(this.model.attributes));
+    return this;
+  },
+
+  open: function() {
+    window.open(this.model.get("viewer_url"));
+  },
+
+  select: function() {
+    this.model.set({selected: true});
+  },
+
+  ...
+
+});
+</pre>
+
+    <p id="View-undelegateEvents">
+      <b class="header">undelegateEvents</b><code>undelegateEvents()</code>
+      <br />
+      将所有视图对象代理的事件都移除。如果你希望在DOM中临时性的禁用或移除一个视图对象，它会比较有用。
+    </p>
+
+    <h2 id="Utility">工具 - Utility</h2>
+
+    <p id="Utility-Backbone-noConflict">
+      <b class="header">Backbone.noConflict</b><code>var backbone = Backbone.noConflict();</code>
+      <br />
+      回退<tt>Backbone</tt>到原来的值，并返回Backbone的引用。你可以使用 <tt>Backbone.noConflict()</tt>在本地保存一个Backbone的引用。在将Backbone嵌入到第三方站点时，你可能不希望扰乱已存在的Backbone对象，这时此方法比较有用。
+    </p>
+
+<pre>
+var localBackbone = Backbone.noConflict();
+var model = localBackbone.Model.extend(...);
+</pre>
+
+    <p id="Utility-Backbone-$">
+      <b class="header">Backbone.$</b><code>Backbone.$ = $;</code>
+      <br />
+      如果你的页面有多个<tt>jQuery</tt> 的版本，或你希望告诉Backbone来使用特定的对象充当DOM/Ajax库，就使用这个属性。
+    </p>
+
+<pre>
+Backbone.$ = require('jquery');
+</pre>
+
+    <h2 id="faq">常见问题 - F.A.Q.</h2>
+
+    <p id="FAQ-why-backbone">
+      <b class="header">为什么要用Backbone，而不是别的框架[other framework X]?</b>
+      <br />
+      如果你看了下面的<a href="#examples">案例列表</a>，还未被Backbone的适应性和优雅所吸引，那就让我们说的更具体些：Backbone.js的目标是，面对重数据且界面复杂的Web应用，提供其所需的通用的基础 &mdash; 同时十分谨慎的避免将你逼入死角，避免为你做出任何的决定，这些决定你可能自己做的更好。
+    </p>
+
+    <ul>
+      <li>
+        重点是为你提供<a href="#Collection-Underscore-Methods">辅助方法来操作和查询你的数据</a>，而不是HTML工具或重塑JavaScript对象模型。
+      </li>
+      <li>
+        Backbone不强制你使用单一模板引擎。视图对象可以绑定到<a href="http://underscorejs.org/#template">你</a><a href="http://guides.rubyonrails.org/layouts_and_rendering.html">喜欢的</a><a href="http://mustache.github.com">方式</a>构造出的HTML上。
+      </li>
+      <li>
+        它更加轻量。你的浏览器或手机会节省更多流量，代码量更少。你可以花一个下午的时间阅读和搞懂它的源码。
+      </li>
+      <li>
+        它不依赖于在HTML中添加逻辑。没有内嵌的JavaScript代码，模板逻辑，或绑定到<tt>data-</tt> 或 <tt>ng-</tt>属性的钩子代码（hookup code）, 也不需要发明你自己的HTML标签。
+      </li>
+      <li>
+        <a href="#Events">同步事件</a>是构建代码的基础，没有难于理解的run loop，或不断通过轮训或遍历你的数据结构来寻找变更。如果你希望一个异步的事件或聚合，<a href="http://underscorejs.org/#debounce">没问题</a>。
+      </li>
+      <li>
+        Backbone扩展性良好，从<a href="http://disqus.com">嵌入式的小部件</a>到<a href="http://www.usatoday.com">大规模的应用</a>。
+      </li>
+      <li>
+        Backbone是一个库，而不是一个框架，所以与其它的代码可以很好的融合。你可以在毫不费力的情况下在Dojo应用中嵌入Backbone的部件，或者使用Backbone的模型作为D3可视化的数据。
+      </li>
+      <li>
+        避免了数据的双向绑定（Two-way data-binding）。虽然双向绑定确实可以制作漂亮的demo，能够工作在多数基本的CURD上，但在现实的应用中它也不是特别的有用。有时你需要执行更新，或许因为键盘操作，或是失去焦点操作，有时也可能是面板关闭了，又有时是点击了保存按钮。所有的情况下，简单的表单序列化成JSON格式会更快更容易。所有这些加在一起，如果你仍希望双向绑定功能，请<a href="http://rivetsjs.com">参见</a>已有<a href="http://nytimes.github.com/backbone.stickit/">实现</a>吧。
+      </li>
+      <li>
+        Backbone中没有内置的用来构建高性能的结构。如果你希望进一步优化，痩模型和细粒度的模板，可以尽可能压缩直到去掉最后潜在的性能消耗代码，比如IE8。
+      </li>
+    </ul>
+
+    <p id="FAQ-tim-toady">
+      <b class="header">方式不止一种</b>
+      <br />
+      人们通常会将本页列出的所有例子视为真理。事实上，Backbone.js对于许多常用的客户端代码模式是没有囊括的，比如...
+    </p>
+
+    <p>
+      <b>模型对象和视图对象的引用关系</b> 可以以多种方式处理。一些人喜欢直接引用，一个视图对应一个模型。另一些人选择使用”controller“对象指挥视图的创建以及组织视图层次。还有一些人仍偏向事件的方式，一直使用触发事件而不是直接调用方法。所有这些风格都能很好的工作。
+    </p>
+
+    <p>
+      <b>批处理操作</b>在模型上很常见，但是根据服务器端的设置不同，处理方式也不同。一些人不介意使用单独的Ajax请求。另一些人为RESTful批处理操作创建显示的资源： <tt>/notes/batch/destroy?ids=1,2,3,4</tt>。还有些人创建”变更集“（”changeset“）请求，在REST隧道上使用JSON。
+    </p>
+
+<pre>
+  {
+    "create":  [array of models to create]
+    "update":  [array of models to update]
+    "destroy": [array of model ids to destroy]
+  }
+</pre>
+
+    <p>
+      <b>任意的定义你的事件</b>。<a href="#Events">Backbone.Events</a>设计用来混入到任意的JavaScript对象或原型对象上。因为你可以使用任何的字符串作为事件名，很方便的就可以绑定和触发你自己的事件：<tt>model.on("selected:true")</tt> 或<tt>model.on("editing")</tt>。
+    </p>
+
+    <p>
+      <b>渲染界面UI</b>，如你所期望的那样。Backbone不知道你使用的是<a href="http://underscorejs.org/#template">Underscore templates</a>,
+      <a href="https://github.com/janl/mustache.js">Mustache.js</a>，直接的DOM操作，服务器端渲染的HTML片段，或是在<tt>render</tt>函数中使用<a href="http://jqueryui.com/">jQuery UI</a> 。有时你需要为每个模型创建视图...有时你定义一个在一个紧凑的循环中一次渲染上千个模型的视图。二者都可以用在同一个应用中，取决于涉及到的数据量，以及UI的复杂度。
+    </p>
+
+    <p id="FAQ-nested">
+      <b class="header">嵌套模型 &amp;集合 -  Nested Models &amp; Collections</b>
+      <br />
+      在Backbone中通常很容易在模型中就嵌套了集合。比如，考虑一个<tt>Mailbox</tt> 模型，它包含了许多<tt>Message</tt>模型。一种处理这种情况的模式是在每个mailbox中包含一个<tt>this.messages</tt>集合，在mailbox第一次打开时，允许消息执行懒加载...可能是在<tt>MessageList</tt>视图上监听<tt>"add"</tt> 和 <tt>"remove"</tt>事件。
+    </p>
+
+<pre>
+var Mailbox = Backbone.Model.extend({
+
+  initialize: function() {
+    this.messages = new Messages;
+    this.messages.url = '/mailbox/' + this.id + '/messages';
+    this.messages.on("reset", this.updateCounts);
+  },
+
+  ...
+
+});
+
+var inbox = new Mailbox;
+
+// And then, when the Inbox is opened:
+
+inbox.messages.fetch({reset: true});
+</pre>
+
+    <p>
+      如果你正在寻找一些更多的选项，外面有许多Backbone的插件来处理复杂的模型关联，可以<a href="https://github.com/jashkenas/backbone/wiki/Extensions%2C-Plugins%2C-Resources">在wiki上查看</a>。
+    </p>
+
+    <p>
+      Backbone不支持内嵌的模型或集合，或者”hash many“关联，因为在客户端已经有许多处理结构化数据的好的模式，Backbone应该是为它们提供基础。你可能想要&hellip;
+    </p>
+
+    <ul>
+      <li>
+        映射一个SQL数据库的结构或NoSQL数据库的结构。
+      </li>
+      <li>
+        Use models with arrays of "foreign key" ids, and join to top level
+        collections (a-la tables).
+      </li>
+      <li>
+        对于复杂的关系，使用一组ids而不是一组列表对象。
+      </li>
+      <li>
+        避免ids，使用直接引用，创建一个代表你数据集合的对象图。
+      </li>
+      <li>
+        对于关联模型，要执行懒加载，或延迟从JSON文档中反序列化内嵌模型。
+      </li>
+    </ul>
+
+    <p id="FAQ-bootstrap">
+      <b class="header">加载启动数据</b>
+      <br />
+      当你的应用首次加载时，通常的情况是创建你所需的初始化数据的集合，以此来渲染应用。比较好的模式是在页面中你的数据已经加载好了，而不是再触发一个额外的Ajax请求来<a href="#Collection-fetch">抓取</a>它们。你可以使用<a href="#Collection-reset">reset</a> 方法将初始化数据填充到你的集合中。在DocumentCloud中，在我们工程的<a href="http://en.wikipedia.org/wiki/ERuby">ERB</a>模板里，我们会编译一些如下代码：
+    </p>
+
+<pre>
+&lt;script&gt;
+  var accounts = new Backbone.Collection;
+  accounts.reset(&lt;%= @accounts.to_json %&gt;);
+  var projects = new Backbone.Collection;
+  projects.reset(&lt;%= @projects.to_json(:collaborators => true) %&gt;);
+&lt;/script&gt;
+</pre>
+    <p>你必须使用在JSON字符串中用<a href="http://mathiasbynens.be/notes/etago">escape</a>转码<tt>&lt;/</tt>，以防止JavaScript注入攻击。</p>
+    <p id="FAQ-extending">
+      <b class="header">扩展Backbone</b>
+      <br />
+      许多JavaScript库设计的都向一个孤岛并自我封闭，你只能通过调用它们公共的API来与其打交道，但从不能窥视其内部的实现。Backbone.js不是那样的库。
+    </p>
+
+    <p>
+      因为它只是充当你应用的基础，你可以按照你自己的方式扩展它，强化它 &mdash; 全部的代码都添加了注释，让你更加容易理解。你可以看到除了一些核心的函数，剩下的代码很少，你可以按你所需覆盖或增强它们当中的大多数。如果你能hold住，你可以向<tt>Backbone.Model.prototype</tt>添加方法，或创建你自己的基类，不用担心 &mdash; 所有这些你都可以实现。
+    </p>
+
+    <p id="FAQ-mvc">
+      <b class="header">Backbone与”传统的“MVC的关系</b>
+      <br />
+      不同的<a href="http://en.wikipedia.org/wiki/Model–View–Controller">Model-View-Controller</a>模式的实现趋于争论控制器controller的定义。如果这种争论是有用的，那么在Backbone中，<a href="#View">View</a>应该充当控制器，派发UI产生的事件，而HTML模板充当真正的视图。我们之所以称之为view，是因为它代表了一个UI的逻辑块，并负责单个DOM元素内容的渲染。
+    </p>
+
+    <p>
+      将Backbone的所有结构与服务器端的MVC框架，比如<b>Rails</b>相比，得出以下对比：
+    </p>
+
+    <ul>
+      <li>
+        <b>Backbone.Model</b> &ndash; 就像Rails的模型加上类方法。封装业务逻辑中一组数据。
+      </li>
+      <li>
+        <b>Backbone.Collection</b> &ndash; 客户端里一组模型，支持排序/过滤/聚合逻辑。
+      </li>
+      <li>
+        <b>Backbone.Router</b> &ndash; Rails <tt>routes.rb</tt> + Rails 控制器的actions。将URLs映射到函数上。
+      </li>
+      <li>
+        <b>Backbone.View</b> &ndash; 一个逻辑可重用的UI块。通常会但也不总是与一个模型关联。
+      </li>
+      <li>
+        <b>Client-side Templates</b> &ndash; Rails <tt>.html.erb</tt> 视图，渲染一块HTML。
+      </li>
+    </ul>
+
+    <p id="FAQ-this">
+      <b class="header">"this"绑定</b>
+      <br />
+      可能唯独只有在JavaScript中才会出现问题，就是你在传入函数作为回调时，它的<tt>this</tt>值丢掉了。在处理Backbone的<a href="#Events">events</a>和回调时，你通常会依靠 <a href="#Events-listenTo">listenTo</a>，以及在Underscore方法或Backbone方法中用来指定<tt>this</tt>的可选参数<tt>context</tt>，它在回调调用时会用到。（参见<a href="http://underscorejs.org/#each">_.each</a>，
+      <a href="http://underscorejs.org/#map">_.map</a>， 和
+      <a href="#Events-on">object.on</a> ）<a href="#View-delegateEvents">View events</a>是自动绑定到视图的context上的。你会发现使用Underscore.js的<a href="http://underscorejs.org/#bind">_.bind</a> 和
+      <a href="http://underscorejs.org/#bindAll">_.bindAll</a>也会比较有用。
+    </p>
+
+<pre>
+var MessageList = Backbone.View.extend({
+
+  initialize: function() {
+    var messages = this.collection;
+    messages.on("reset", this.render, this);
+    messages.on("add", this.addMessage, this);
+    messages.on("remove", this.removeMessage, this);
+
+    messsages.each(this.addMessage, this);
+  }
+
+});
+
+// Later, in the app...
+
+Inbox.messages.add(newMessage);
+</pre>
+
+    <p id="FAQ-rails">
+      <b class="header">与Rails一起工作</b>
+      <br />
+      Backbone.js最开始是提取自<a href="http://www.documentcloud.org">一个Rails应用</a>；让你的客户端模型（Backbone）正确的与服务器端（Rails）同步是比较痛苦的事情，但是有几件事你需要注意：
+    </p>
+
+    <p>
+      默认情况下，3.1版本前的Rails会添加一个封装模型JSON数据的额外层。你可以在你的配置文件中通过以下设置禁用此封装：
+    </p>
+
+<pre>
+ActiveRecord::Base.include_root_in_json = false
+</pre>
+
+    <p>
+      否则，就覆盖<a href="#Model-parse">parse</a>将model的属性从封装中提取出来。类似的，Backbone的PUTs 和 POSTs模型的JSON标识，这是Rails默认期望的命名空间属性。你可以让你的控制器直接从<tt>params</tt>上过滤属性，或者你可以覆盖Backbone的<a href="#Model-toJSON">toJSON</a>添加Rails期望的额外的封装。
+    </p>
+
+    <h2 id="examples">例子 - Examples</h2>
+
+    <p>
+      接下来下面的例子，虽然很长但却不够详尽。如果你在你的应用中使用了Backbone，请将它添加到<a href="https://github.com/jashkenas/backbone/wiki/Projects-and-Companies-using-Backbone">wiki page of Backbone apps</a>。
+    </p>
+
+    <p id="examples-todos">
+      <a href="http://jgn.me/">Jérôme Gravel-Niquet</a>贡献了一个<a href="examples/todos/index.html">Todo List application</a>示例，它作为Backbone的示例被打包进仓库里。如果你还在徘徊，不知道如何入门Backbone，请花上几分钟来<a href="docs/todos.html">通读注释源码</a>。该应用使用<a href="http://github.com/jeromegn/Backbone.localStorage">LocalStorage adapter</a>，将所有的todos都保存在浏览器中，不会发送至服务器。Jérôme也有一个线上版本<a href="http://localtodos.com/">localtodos.com</a>.
+    </p>
+
+    <div style="text-align: center;">
+      <a href="examples/todos/index.html">
+        <img width="400" height="427" data-original="docs/images/todos.jpg" alt="Todos" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-documentcloud">DocumentCloud</h2>
+
+    <p>
+      <a href="http://www.documentcloud.org/public/#search/">DocumentCloud workspace</a>构建在Backbone.js之上，其中的文档，项目，笔记以及账户都使用Backbone的模型和集合表示。如果你对历史感兴趣 &mdash; Underscore.js和Backbone.js就是从DocumenCloud代码中萃取出来的，并打包成独立的JS库。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.documentcloud.org/public/#search/">
+        <img width="550" height="453" data-original="docs/images/dc-workspace.jpg" alt="DocumentCloud Workspace" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-usa-today">USA Today</h2>
+
+    <p>
+      鉴于Backbones数据/模型生命周期的模块化，可以很容易的创建，继承，隔离以及连接应用对象，<a href="http://usatoday.com">USA Today</a>充分利用这些特性，保证代码的可维护性和高效性。不管是在拥有pushSate能力的浏览器还是老的浏览器上，新的网站也严重依赖Backbone Router来控制页面。最后，团队充分利用Backbone的Event模块创建一个PubSub API，允许第三方包或分析包在应用的核心处进行hook。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://usatoday.com">
+        <img width="550" height="532" data-original="docs/images/usa-today.jpg" alt="USA Today" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-rdio">Rdio</h2>
+
+    <p>
+      <a href="http://rdio.com/new">New Rdio</a>从开始就是使用基于Backbone.js的组件框架开发出来的。每个屏幕上的组件都是动态加载和渲染的，数据由<a href="http://developer.rdio.com/">Rdio API</a>提供。当变更推送时，每个组件都可以自我更新，而不用重新加载整个页面，或打断用户的音乐。所有这些都依赖于Backbone的视图和模型，所有的URL路由都是由Backbone的Router处理。当数据实时变更时，Backbone的Events会通知对数据变更感兴趣的组件。Backbone构成了新的动态的实时的Rdio的web版和桌面版的核心。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://rdio.com/new">
+        <img width="550" height="344" data-original="docs/images/rdio.jpg" alt="Rdio" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-hulu">Hulu</h2>
+
+    <p>
+      <a href="http://hulu.com">Hulu</a>使用Backbone.js构建了它下一代的在线视频体验。基于Backbone，web界面从头重写，为的是所有的页面内容可以动态加载，平滑过渡。Backbone使得应用可以转换流畅，不会重新加载脚本或内嵌的视频，同时为额外的数据操作提供了模型和集合。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://hulu.com">
+        <img width="550" height="449" data-original="docs/images/hulu.jpg" alt="Hulu" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-quartz">Quartz</h2>
+
+    <p>
+      <a href="http://qz.com">Quartz</a>视自己为新兴全球经济下的数字原生新闻媒体。因为Quartz相信未来的web应用是开放的，跨平台的，所以他们选择了Backbone和Underscore抓取，排列，存储和展示来自自定义的WordPress API的内容。虽然<a href="http://qz.com">qz.com</a>使用响应式设计，来适配手机，平板和桌面浏览器，但它仍然充分利用了Backbone的事件和视图来刷新某些情况下设备独有的模板。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://qz.com">
+        <img width="510" height="360" data-original="docs/images/quartz.jpg" alt="Quartz" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-earth">Earth</h2>
+
+    <p>
+      <a href="http://earth.nullschool.net">Earth.nullschool.net</a>在一个交互式的动画地球上展示了实时天气状况，Backbone提供了所有构建网站组件的基础。虽然也使用了几个别的JavaScript库，但Backbone精细的设计，使得毫不费力就可以把用来派发状态变更的<a href="#Events">Events</a>功能融合到界面里。决定使用Backbone后，大块的自定义逻辑都消失了。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://earth.nullschool.net">
+        <img width="545" height="583" data-original="docs/images/earth.jpg" alt="Earth" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-vox">Vox</h2>
+
+    <p>
+      Vox Media，<a href="http://www.sbnation.com/">SB Nation</a>,
+      <a href="http://www.theverge.com/">The Verge</a>,
+      <a href="http://www.polygon.com/">Polygon</a>,
+      <a href="http://www.eater.com/">Eater</a>,
+      <a href="http://www.racked.com/">Racked</a>,
+      <a href="http://www.curbed.com/">Curbed</a>, 和
+      <a href="http://www.vox.com/">Vox.com</a>的发布者，在<a href="http://techcrunch.com/2012/05/07/a-closer-look-at-chorus-the-next-generation-publishing-platform-that-runs-vox-media/">Chorus</a>上使用Backbone，这是它自产的发布平台。Backbone支撑了所有 Vox Media使用的<a href="http://product.voxmedia.com/post/25113965826/introducing-syllabus-vox-medias-s3-powered-liveblog">liveblogging platform</a>
+      和 <a href="http://product.voxmedia.com/2013/11/11/5426878/using-backbone-js-for-sanity-and-stability">commenting system</a>。Coverage一个内部编辑协调工具；<a href="http://www.sbnation.com/college-basketball/2014/4/7/5592112/kentucky-vs-uconn-2014-ncaa-tournament-championship-live-chat">SB Nation Live</a>，一个实时事件报道和聊天工具；<a href="http://www.vox.com/cards/ukraine-everything-you-need-to-know/what-is-the-ukraine-crisis">Vox Cards</a>，Vox.com's highlighter-and-index-card inspired app for providing context about the news.
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://vox.com">
+        <img width="550" height="402" data-original="docs/images/vox.jpg" alt="Vox" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-gawker">Gawker Media</h2>
+
+    <p>
+      <a href="http://kinja.com">Kinja</a>是Gawker媒体的发布平台，设计用来创建好的故事，打破传统的内容创建者和消费者的鸿沟。每个人- 作者，读者，市场人员 - 都可以访问同一个工具，参与到充满激情的讨论和追求真理的过程中。在Kinja的生态系统中分享，推荐和关注，可以提高发掘全网信息的效率。
+    </p>
+    <p>
+      Kinja是
+      <a href="http://gawker.com/">Gawker</a>,
+      <a href="http://gizmodo.com/">Gizmodo</a>,
+      <a href="http://lifehacker.com/">Lifehacker</a>,
+      <a href="http://io9.com/">io9</a> 以及其他 Gawker Media
+      博客的背后平台. Backbone.js构成了前端应用代码的基础，支撑了从用户验证到博客编辑，评论，以及广告服务。JavaScript技术栈包括 <a href="http://underscorejs.org/">Underscore.js</a>和<a href="http://jquery.com/">jQuery</a>，以及一些插件，所有的代码都是用<a href="http://requirejs.org/">RequireJS</a>加载。Closure模板在基于Sacla的<a href="http://www.playframework.com/">Play! Framework</a>和Backbone的视图间共享，响应式布局使用的是<a href="http://foundation.zurb.com/">Foundation</a> 框架，使用<a href="http://sass-lang.com/">SASS</a>构建。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://gawker.com">
+        <img width="558" height="473" data-original="docs/images/gawker.jpg" alt="Gawker" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-flow">Flow</h2>
+
+    <p>
+      <a href="http://www.metalabdesign.com/">MetaLab</a>使用Backbone.js来构建<a href="http://www.getflow.com/">Flow</a>，它是一个团队任务管理应用。应用的工作空间依赖Backbone.js来构建任务视图，活动，账号，文件夹，项目，标签。你可以使用<tt>window.Flow</tt>来观察应用的内部。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.getflow.com/">
+        <img width="550" height="416" data-original="docs/images/flow.jpg" alt="Flow" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-gilt">Gilt Groupe</h2>
+
+    <p>
+      <a href="http://gilt.com">Gilt Groupe</a>使用Backbone.js构建多个他们网站家族中的应用。<a href="http://m.gilt.com">Gilt's mobile website</a>使用Backbone和<a href="http://zeptojs.com">Zepto.js</a>为活跃用户创建瞬间的购物体验，<a href="http://live.gilt.com">Gilt Live</a>将Backbone与WebSockets组合起来，实时展示用户在购买的东西。Gilt的搜索功能也使用Backbone来在客户端上高效的过滤和排序产品。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.gilt.com/">
+        <img width="550" height="444" data-original="docs/images/gilt.jpg" alt="Gilt Groupe" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-enigma">Enigma</h2>
+
+    <p>
+      <a href="http://enigma.io">Enigma</a>是一个门户网站，积累了大量的政府，大学，公司，组织提供的公共数据。Enigma使用Backbone的模型和集合代表复杂的数据结构；Backbone的路由给Enigma的用户唯一的代表应用的状态URL，他们能够快速的浏览网站，标记页面，在他们会话中前进和后退。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.enigma.io/">
+        <img width="550" height="409" data-original="docs/images/enigma.jpg" alt="Enigma" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-newsblur">NewsBlur</h2>
+
+    <p>
+      <a href="http://github.com/samuelclay/NewsBlur">open-source</a>.
+      <a href="http://www.newsblur.com">NewsBlur</a>是一个RSS阅读器和社会化新闻网络，流畅的响应式界面感觉就像一个原生桌面应用。选用Backbone.js进行重写，摆脱了<a href="http://www.ofbrooklyn.com/2012/11/13/backbonification-migrating-javascript-to-backbone/">面条式的代码</a>，这得益于Backbone的强大而不失简洁的特性，集成简单，社区庞大。如果你想看下是如何构建的，那也没问题，NewBlur是完全<a href="http://github.com/samuelclay/NewsBlur">开源的</a>。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://newsblur.com">
+        <img width="510" height="340" data-original="docs/images/newsblur.jpg" alt="Newsblur" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-wordpress">WordPress.com</h2>
+
+    <p>
+      <a href="http://wordpress.com/">WordPress.com</a>是一个<a href="http://wordpress.org">WordPress</a>的软件即服务版本。它的通知系统使用Backbone.js的模型，集合和视图。之所以选择Backbone.js是因为它很容易适配应用的结构，而不是别的原因。<a href="http://automattic.com">Automattic</a>（WordPress.com背后的公司）集成Backbone.js到它主页的Stats tab以及其它特性中。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://wordpress.com/">
+        <img width="550" height="387" data-original="docs/images/wpcom-notifications.jpg" alt="WordPress.com Notifications"
+    title="WordPress.com Notifications" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-foursquare">Foursquare</h2>
+
+    <p>
+      Foursquare是一个有趣的初创小公司，帮助你与朋友约会，发现新的地点，节省money。核心的JavaScript API层上严重依赖Backbone的模型，视图支撑了许多受欢迎的特性，比如<a href="https://foursquare.com">homepage map</a> 和
+      <a href="https://foursquare.com/seriouseats/list/the-best-doughnuts-in-ny">lists</a>。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://foursquare.com">
+        <img width="550" height="427" data-original="docs/images/foursquare.jpg" alt="Foursquare" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-bitbucket">Bitbucket</h2>
+
+    <p>
+      <a href="http://www.bitbucket.org">Bitbucket</a>是一个免费的Git和Mercurial的源码托管服务。通过集合和模型，Backbone.js已经证明其价值，支撑了Bitbucket的<a href="https://api.bitbucket.org">REST API</a>，以及新的组件，比如内联代码评论，以及通过pull requests。Mustache模板提供了服务器端和客户端的渲染，同时自定义的灵感来自<a href="https://developers.google.com/closure/library/">Google Closure</a>的生命周期组件，使得Bitbucket可以装饰已存在的DOM树，并插入新的DOM树。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.bitbucket.org">
+        <img width="550" height="356" data-original="docs/images/bitbucket.jpg" alt="Bitbucket" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-disqus">Disqus</h2>
+
+    <p>
+      <a href="http://www.disqus.com">Disqus</a>选用Backbone.js来支撑最新版本的评论组件。小巧和易扩展的Backbone，是Disqus&rsquo;分布式web应用的正确选择，这个应用是在一个iframe提供的，服务了成千上万的大型web应用，包括IGN, Wired, CNN, MLB,等等。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.disqus.com">
+        <img width="550" height="454" data-original="docs/images/disqus.jpg" alt="Disqus" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-delicious">Delicious</h2>
+
+    <p>
+      <a href="https://delicious.com/">Delicious</a> 是一个社会化书签平台，很容易保存，分类，存储跨web的书签。Delicious使用<a href="http://chaplinjs.org">Chaplin.js</a>，Backbone.js和AppCache来构建全特性的MVC web应用。Backbone的使用帮助站点和<a href="http://delicious.com/tools">mobile apps</a>共享单个API服务器，模型层的重用，使得更加容易在重新设计的新版本的Delicious中共享代码。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.delicious.com">
+        <img width="510" height="321" data-original="docs/images/delicious.jpg" alt="Delicious" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-khan-academy">Khan Academy</h2>
+
+    <p>
+      <a href="http://www.khanacademy.org">Khan Academy</a>的使命是为任何地方的任何人提供免费的世界级的教育。大量的视频，几百个JavaScript驱动的练习，以及未来更大的计划，Khan Academy 使用Backbone使得前端代码模块化组织化。用户简介和目标设置是使用Backbone，<a href="http://jquery.com/">jQuery</a>以及<a href="http://handlebarsjs.com/">Handlebars</a>实现的，并且大量的新特性工作正逐步的推送到前台，极大的提升了<a href="https://github.com/Khan/khan-api/">the API</a>的质量。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.khanacademy.org">
+        <img width="550" height="454" data-original="docs/images/khan-academy.jpg" alt="Khan Academy" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-irccloud">IRCCloud</h2>
+
+    <p>
+      <a href="http://irccloud.com/">IRCCloud</a>是一个你可以在浏览器中使用的长连接IRC客户端 &mdash; 需要在一个tab中整天都打开它。整洁的web界面通过weosocket和<a href="https://github.com/irccloud/irccloud-tools/wiki/API-Overview">IRCCloud API</a>，与Erlang支持的后台通信。它大量的使用的Backbone.js的事件，模型，视图和路由来实时保证IRC通话的流畅。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://irccloud.com/">
+        <img width="550" height="392" data-original="docs/images/irccloud.png" alt="IRCCloud" class="example_image" />
+      </a>
+    </div>
+
+    <h2 id="examples-pitchfork">Pitchfork</h2>
+
+    <p>
+      <a href="http://pitchfork.com/">Pitchfork</a>使用Backbone.js来支撑其站点范围内的音乐播放器，<a href="http://pitchfork.com/tv/">Pitchfork.tv</a>，为主路由， a write-thru page fragment cache，等等。Backbone.js（和<a href="http://underscorejs.org/">Underscore.js</a>）帮助团队创建了干净和模块化的组件，开发更加迅速，专注站点，而避免意式面条代码。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://pitchfork.com/">
+        <img width="550" height="428" data-original="docs/images/pitchfork.jpg" alt="Pitchfork" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-spin">Spin</h2>
+
+    <p>
+      <a href="http://spin.com/">Spin</a>从他们的内部API中推送<a href="http://www.spin.com/news">最新的新闻故事</a>到网站上，用的是Backbone的模型和集合，和一个自定义的<tt>sync</tt>方法。因为音乐应该不间断的播放，即使是你在不同的页面点击它们，Spin使用Backbone的路由来在站内导航。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://spin.com/">
+        <img width="550" height="543" data-original="docs/images/spin.jpg" alt="Spin" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-zocdoc">ZocDoc</h2>
+
+    <p>
+      <a href="http://www.zocdoc.com">ZocDoc</a>帮助病人找到本地的在线医生和牙医，实时查看哪些医生可用，并立即约诊。在公共端，webapp使用Backbone.js来处理客户端状态，渲染<a href="http://www.zocdoc.com/primary-care-doctors/los-angeles-13122pm">搜索界面</a>和<a href="http://www.zocdoc.com/doctor/nathan-hashimoto-md-58078">医生介绍</a>页。此外，站点新版的医生面对面部分是一个大的单页应用，得益于Backbone的结构化和模块化。ZocDoc的Backbone类使用<a href="http://pivotal.github.io/jasmine/">Jasmine</a>测试，并使用<a href="http://getcassette.net/">Cassette</a>派发到终端用户。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.zocdoc.com">
+        <img width="510" height="464" data-original="docs/images/zocdoc.jpg" alt="ZocDoc" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-walmart">Walmart Mobile</h2>
+
+    <p>
+      <a href="http://www.walmart.com/">Walmart</a>使用Backbone.js来创建新版的<a href="http://mobile.walmart.com/">手机web应用</a>，在这个过程中也创建了两个新的框架。<a href="http://walmartlabs.github.com/thorax/">Thorax</a>提供mixins，可继承事件，以及集成了<a href="http://handlebarsjs.com/">Handlebars</a>模板的模型和集合的视图绑定。<a href="http://walmartlabs.github.com/lumbar/">Lumbar</a>允许应用分割成模块，从而实现按需加载，创建特定平台的web应用部分，可以用来嵌入Walmart的本地安卓和iOS应用。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://mobile.walmart.com/r/phoenix">
+        <img width="256" height="534" data-original="docs/images/walmart-mobile.png" alt="Walmart Mobile" class="example_image" />
+      </a>
+    </div>
+
+    <h2 id="examples-groupon">Groupon Now!</h2>
+
+    <p>
+      <a href="http://www.groupon.com/now">Groupon Now!</a>帮助你找到本地可以现在购买和使用的经营网点。起初在开发产品时，团队决定它会大量使用Ajax，在不同的区域转换而不是全页面刷新，同时页面也必须全部可链接和可分享的。虽然之前从没使用过Backbone，但学习曲线却异常平滑 &mdash;  一个下午就把原型开发出来了，两周后团队就将其转化成了产品。因为源码十分精炼易理解，很容易的就将几个Backbone的扩展集成到Groupon Now！：变换路由来处理带参数的URLs，为同样数据的重复请求添加简单的内存存储。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.groupon.com/now">
+        <img width="550" height="466" data-original="docs/images/groupon.jpg" alt="Groupon Now!" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-basecamp">Basecamp</h2>
+
+    <p>
+      <a href="http://37signals.com/">37Signals</a>选择Backbone.js在流行的项目管理软件<a href="http://basecamp.com/">Basecamp</a>里创建<a href="http://basecamp.com/calendar">日历功能</a>。Basecamp日历使用Backbone.js的模型和视图，联合<a href="https://github.com/sstephenson/eco">Eco</a>模板系统来展示一个优雅的，高交互的群组计划界面。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://basecamp.com/calendar">
+        <img width="530" height="380" data-original="docs/images/basecamp-calendar.jpg" alt="Basecamp Calendar" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-slavery-footprint">Slavery Footprint</h2>
+
+    <p>
+      <a href="http://slaveryfootprint.org/survey">Slavery Footprint</a>允许消费者查看他们的消费习惯是如何与modern-day slavery 联系的，让他们和他们购买商品的生产商之间有一个深层次的对话。位于加州奥克兰，通过在线网络工具，离线社区教育和动员计划，Slavery Footprint的团队致力于让个人，组织，和企业build awareness for and create deployable action against forced labor, human trafficking, and modern-day 
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://slaveryfootprint.org/survey">
+        <img width="550" height="394" data-original="docs/images/slavery-footprint.jpg" alt="Slavery Footprint" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-stripe">Stripe</h2>
+
+    <p>
+      <a href="https://stripe.com">Stripe</a>提供可以访问信用卡的Web API。Strip的<a href="https://manage.stripe.com">管理界面</a>最近自底向上从新用CoffeeScript重写，使用Backbone.js作为主框架，<a href="https://github.com/sstephenson/eco">Eco</a> 作为模板，<a href="http://sass-lang.com/">Sass</a> 作为样式，使用<a href="https://github.com/sstephenson/stitch">Stitch</a>将所有代码打包成<a href="http://commonjs.org/">CommonJS</a> 模块。新的app使用<a href="https://stripe.com/docs/api">Stripe's API</a>直接充当了主要的动作；Backbone.js模型十分简单的就将客户端的模型映射成它们对应的RESTful资源。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="https://stripe.com">
+        <img width="555" height="372" data-original="docs/images/stripe.png" alt="Stripe" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-airbnb">Airbnb</h2>
+
+    <p>
+      <a href="http://airbnb.com">Airbnb</a>在多个产品中使用了Backbone。从<a href="http://m.airbnb.com">Airbnb Mobile Web</a>开始（一个三人团队六个星期构建的），并扩展至 <a href="https://www.airbnb.com/wishlists/popular">Wish Lists</a>，
+      <a href="http://www.airbnb.com/match">Match</a>，
+      <a href="http://www.airbnb.com/s/">Search</a>社区，支付，和内部工具。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://m.airbnb.com/">
+        <img width="500" height="489" data-original="docs/images/airbnb.png" alt="Airbnb" class="example_image" />
+      </a>
+    </div>
+
+    <h2 id="examples-soundcloud">SoundCloud Mobile</h2>
+
+    <p>
+      <a href="http://soundcloud.com">SoundCloud</a> 是领先的音频分享平台，使用Backbone.js作为<a href="http://m.soundcloud.com">SoundCloud Mobile</a>的基础。这个项目使用公开的SoundCloud <a href="http://soundcloud.com/developers">API</a>作为数据源（使用ngnix作为代理），<a href="http://api.jquery.com/category/plugins/templates/">jQuery templates</a>作为渲染模板， <a href="http://docs.jquery.com/Qunit">Qunit
+      </a> 和 <a href="http://www.phantomjs.org/">PhantomJS</a>作为测试套件。JS代码和CSS使用了多个Node.js工具进行生产部署，比如 <a href="https://github.com/dsimard/ready.js">ready.js</a>，
+      <a href="https://github.com/mde/jake">Jake</a>，
+      <a href="https://github.com/tmpvar/jsdom">jsdom</a>。修改后的<b>Backbone.History</b>用来支持HTML5的 <tt>history.pushState</tt>。<b>Backbone.sync</b>使用基于SessionStorage的存储层进行扩充。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://m.soundcloud.com">
+        <img width="266" height="555" data-original="docs/images/soundcloud.png" alt="SoundCloud" class="example_image" />
+      </a>
+    </div>
+
+    <h2 id="examples-artsy">Art.sy</h2>
+
+    <p>
+      <a href="http://artsy.net">Art.sy</a> 是一个用来发现你喜爱的艺术品的地方。Art.sy使用Rails构建，使用<a href="https://github.com/intridea/grape">Grape</a>提供健壮的<a href="http://artsy.net/api">JSON API</a>。主站使用CoffeeScript编写单页应用，使用Backbone提供围绕API的基本结构。管理面板和部分CMS也提取它们的API - 使用Backbone的项目。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://artsy.net">
+        <img width="550" height="550" data-original="docs/images/artsy.jpg" alt="Art.sy" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-pandora">Pandora</h2>
+
+    <p>
+      在<a href="http://www.pandora.com/newpandora">Pandora</a>重新以HTML5设计它们的网站时，他们选择了Backbone.js来帮助管理用户界面和交互。比如，有一个模型代表“当前播放进度”，多个视图会在进度改变后自动更新。站点列表是一个集合，因此当站点添加或变化后，UI会保持更新。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.pandora.com/newpandora">
+        <img width="476" height="359" data-original="docs/images/pandora.jpg" alt="Pandora" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-inkling">Inkling</h2>
+
+    <p>
+      <a href="http://inkling.com/">Inkling</a>是一个跨平台的发布交互式教学内容的方式。<a href="https://www.inkling.com/read/">Inkling for Web</a>使用Backbone.js制作了几百本复杂的书 - 从学生的文字书籍到旅行指南和编程手册 - 这些都可以在网上访问。linking支持WebGL 3D图形，互动评价，社会化分享，以及在书中的一个运行练习代码的系统，所有都是在Backbone驱动的单页应用中。早先，团队决定通过Backbone.js和原生JavaScript代码来保持站点轻量化。结果如何？复杂的源码只有350kb大小，包含了iPad，iPhone和web端的所有功能。可以尝试看看 <a href="https://www.inkling.com/read/javascript-definitive-guide-david-flanagan-6th/chapter-4/function-definition-expressions">The Definitive Guide</a>
+
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://inkling.com">
+        <img width="550" height="361" data-original="docs/images/inkling.jpg" alt="Inkling" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-code-school">Code School</h2>
+
+    <p>
+      <a href="http://www.codeschool.com">Code School</a> 的课程教人们各种编程主题，比如<a href="http://coffeescript.org">CoffeeScript</a>，CSS,Ruby on Rails，等等。新的Code School课程的<a href="http://coffeescript.codeschool.com/levels/1/challenges/1">challenge page</a>是基于Backbone.js构建的，使用了它所提供的一切：路由，集合，模型，复杂的事件处理。之前页面充斥这大量的<a href="http://jquery.com/">jQuery</a> DOM操作和手工的Ajax调用。Backbone帮助引入了一个新的方式，思考使用JavaScript开发一个组织化的前端应用。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.codeschool.com">
+        <img width="550" height="482" data-original="docs/images/code-school.jpg" alt="Code School" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-cloudapp">CloudApp</h2>
+
+    <p>
+      <a href="http://getcloudapp.com">CloudApp</a> 是一个Mac下简单的文件和链接分享的应用。Backbone.js支撑了web工具，此工具使用<a href="http://developer.getcloudapp.com">documented API</a>来管理文件。数据要么是手工拉取的，要么是通过<a href="http://pusher.com">Pusher</a>推送的，使用<a href="http://github.com/janl/mustache.js">Mustache</a>模板渲染。查看<a href="http://cloudapp.github.com/engine">注释源码</a>一窥究竟。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://getcloudapp.com">
+        <img width="550" height="426" data-original="docs/images/cloudapp.jpg" alt="CloudApp" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-seatgeek">SeatGeek</h2>
+
+    <p>
+      <a href="http://seatgeek.com">SeatGeek</a>的体育场售票地图原来是使用<a href="http://prototypejs.org/">Prototype.js</a>开发的。迁移到Backbone.js和<a href="http://jquery.com/">jQuery</a>帮助组织了大量的UI代码，强化的结构使得加入新代码更容易。SeatGeek也正在使用Backbone.js自底向上构建手机界面。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://seatgeek.com">
+        <img width="550" height="455" data-original="docs/images/seatgeek.jpg" alt="SeatGeek" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-easel">Easel</h2>
+
+    <p>
+      <a href="http://easel.io">Easel</a>是一个浏览器端，高精度的web设计工具，可以与你的设计和开发过程集成。Easel团队使用CoffeeScript，Underscore.js和Backbone.js来开发<a href="http://easel.io/demo">富可视化编辑器</a>，以及其它一些用户站点的管理函数。Backbone的结构使得团队可以打破构建可视化编辑器的复杂问题为可管理的组件，使得开发效率得到提升。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://easel.io">
+        <img width="550" height="395" data-original="docs/images/easel.jpg" alt="Easel" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-jolicloud">Jolicloud</h2>
+
+    <p>
+      <a href="http://www.jolicloud.com/">Jolicloud</a>是一个开放的独立的平台和<a href="http://www.jolicloud.com/jolios">操作系统</a>，提供音乐重放，视频流，照片浏览和文档编辑 &mdash; 将低耗的计算机转换为优雅的云设备。<a href="https://my.jolicloud.com/">新的Jolicloud HTML5 app</a>是使用Backbone构建的，与基于Node.js的<a href="http://developers.jolicloud.com">Jolicloud Platform</a>进行通信。Jolicloud通过HTML5的AppCache进行离线运行，扩充了Backbone.sync，存储数据到IndexedDB或localStorage，通过WebSockets与<a href="http://www.jolicloud.com/jolios">Joli OS</a>通信。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://jolicloud.com/">
+        <img width="510" height="384" data-original="docs/images/jolicloud.jpg" alt="Jolicloud" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-salon">Salon.io</h2>
+
+    <p>
+      <a href="http://salon.io">Salon.io</a> 提供一个摄影师，艺术家和设计师可以在虚拟墙上自由整理它们视觉作品的空间。 <a href="http://salon.io">Salon.io</a> 运行在<a href="http://rubyonrails.org/">Rails</a>上，但是没有使用过多的传统技术站，因为全部的前端被设计为一个单页web应用，使用了Backbone.js，<a href="http://brunch.io/">Brunch</a> 和
+      <a href="http://coffeescript.org">CoffeeScript</a>
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://salon.io">
+        <img width="550" height="483" data-original="docs/images/salon.jpg" alt="Salon.io" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-tilemill">TileMill</h2>
+
+    <p>
+      我们的会员，<a href="http://www.newschallenge.org/">Knight Foundation News Challenge</a>获胜者，<a href="http://mapbox.com/">MapBox</a>使用Backbone.js创建了一个开源的地图设计工作室：<a href="https://www.mapbox.com/tilemill/">TileMill</a>。TileMill让你基于数据和位图管理地图层，直接在浏览器编辑它们的外观，使用的是<a href="https://github.com/mapbox/carto">Carto styling language</a>。注意华丽的 <a href="http://mapbox.com/">MapBox</a>主页也是一个Backbone.js应用。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="https://www.mapbox.com/tilemill/">
+        <img width="544" height="375" data-original="docs/images/tilemill.jpg" alt="TileMill" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-blossom">Blossom</h2>
+
+    <p>
+      <a href="http://blossom.io">Blossom</a>是一个轻量级的项目管理工具，专为精益团队打造。大量使用了Backbone.js和<a href="http://coffeescript.org">CoffeeScript</a>，提供了一个流畅的交互体验，应用是使用<a href="http://brunch.io">Brunch</a>打包。RESTful后端是在Google App Engine使用<a href="http://flask.pocoo.org/">Flask</a> 构建的。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://blossom.io">
+        <img width="550" height="367" data-original="docs/images/blossom.jpg" alt="Blossom" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-trello">Trello</h2>
+
+    <p>
+      <a href="http://trello.com">Trello</a>是一个协同工具，可以用来在白板上组织你的项目。一个Trello板持有许多卡片列表，可以包含检查清单，文件和对话，可以投票或用标签管理。板上的更新都是实时发生的。站点是用Backbone.js构建的，使用了模型，视图和路由。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://trello.com">
+        <img width="550" height="416" data-original="docs/images/trello.jpg" alt="Trello" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="examples-tzigla">Tzigla</h2>
+
+    <p>
+      <a href="http://twitter.com/evilchelu">Cristi Balan</a> 和
+      <a href="http://dira.ro">Irina Dumitrascu</a> 创建了
+      <a href="http://tzigla.com">Tzigla</a>, 一个协同绘画应用，艺术家们可以制作相互连接的瓷砖，来创建<a href="http://tzigla.com/boards/1">超现实主义绘画</a>。Backbone的模型帮助组织代码，路由提供了<a href="http://tzigla.com/boards/1#!/tiles/2-2">可书签的深度连接</a>，视图使用<a href="https://github.com/creationix/haml-js">haml.js</a>和<a href="http://zeptojs.com/">Zepto</a>渲染。Tzigla是使用Ruby（<a href="http://rubyonrails.org/">Rails</a>）作为后端，<a href="http://coffeescript.org">CoffeeScript</a>作为前台，<a href="http://documentcloud.github.com/jammit/">Jammit</a>作为预打包静态资源的工具。
+    </p>
+
+    <div style="text-align: center;">
+      <a href="http://www.tzigla.com/">
+        <img width="550" height="376" data-original="docs/images/tzigla.jpg" alt="Tzigla" class="example_retina" />
+      </a>
+    </div>
+
+    <h2 id="changelog">Change Log</h2>
+
+    <b class="header">1.3.3</b> &mdash; <small><i>Mar. 12, 2016</i></small>
+    &mdash; <a href="https://github.com/jashkenas/backbone/compare/1.2.3...1.3.3">Diff</a>
+    &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/1.3.3/index.html">Docs</a>
+    <br />
+    <ul style="margin-top: 5px;">
+      <li>
+        添加Underscore的<tt>findIndex</tt> 和 <tt>findLastIndex</tt>到<tt>Collection</tt>上。
+      </li>
+      <li>
+        向<tt>Collection</tt>的”update“事件中添加<tt>options.changes</tt>选项，其中包含了added, merged, 和 removed的模型对象。
+      </li>
+      <li>
+        保证<tt>Collection#reduce</tt> 和 <tt>Collection#reduceRight</tt>在没有初始<tt>累加器</tt>时也能正常工作。
+      </li>
+      <li>
+        保证<tt>Collection#_removeModels</tt>总会返回一个数组。
+      </li>
+      <li>
+        修复一个bug，在<tt>Events.once</tt> 中使用对象语法不会绑定context。
+      </li>
+      <li>
+        修复一个<tt>Collection#_onModelEvent</tt>退化，在触发<tt>change</tt>事件而不指定 <tt>model</tt>时会报错。
+      </li>
+      <li>
+        修复一个<tt>Collection#set</tt>退化，<tt>parse</tt>会返回一个falsy值。
+      </li>
+      <li>
+        修复<tt>Model#id</tt>的一个退化，<tt>id</tt>不能是一个无意义的<tt>undefined</tt>。
+      </li>
+      <li>
+        修复<tt>_removeModels</tt>的一个退化，在某些条件下会引发死循环。
+      </li>
+      <li>
+        不再支持<tt>component</tt>包。
+      </li>
+    </ul>
+
+    <b class="header">1.2.3</b> &mdash; <small><i>Sept. 3, 2015</i></small>
+    &mdash; <a href="https://github.com/jashkenas/backbone/compare/1.2.2...1.2.3">Diff</a>
+    &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/1.2.3/index.html">Docs</a>
+    <br />
+    <ul style="margin-top: 5px;">
+      <li>
+        修复1.2.2版本中的一个小的退化，添加模型到集合时，<tt>at</tt>超过边界后会抛出错误。
+      </li>
+    </ul>
+
+    <b class="header">1.2.2</b> &mdash; <small><i>Aug. 19, 2015</i></small>
+    &mdash; <a href="https://github.com/jashkenas/backbone/compare/1.2.1...1.2.2">Diff</a>
+    &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/1.2.2/index.html">Docs</a>
+    <br />
+    <ul style="margin-top: 5px;">
+      <li>
+        集合方法<tt>find</tt>， <tt>filter</tt>， <tt>reject</tt>， <tt>every</tt>，
+        <tt>some</tt>， 和 <tt>partition</tt>现在接受一个model-attributes-style 的断言：<tt>this.collection.reject({user: 'guybrush'})</tt>。
+      </li>
+      <li>
+        Backbone的Events重新支持多事件映射（multiple-event maps）(<tt>obj.on({'error change': action})</tt>)。这是在1.2.0中，文档没有说明的不小心删掉的功能。
+      </li>
+      <li>
+        添加<tt>Collection#contains</tt>的别名<tt>Collection#includes</tt> ，替换Underscore>=1.8版本中的<tt>Collection#include</tt>。
+      </li>
+    </ul>
+
+    <b class="header">1.2.1</b> &mdash; <small><i>Jun. 4, 2015</i></small>
+    &mdash; <a href="https://github.com/jashkenas/backbone/compare/1.2.0...1.2.1">Diff</a>
+    &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/1.2.1/index.html">Docs</a>
+    <br />
+    <ul style="margin-top: 5px;">
+      <li>
+        <tt>Collection#add</tt>在传入传入 <tt>parse: false</tt>后，就不会再尝试解析模型实例了。
+      </li>
+      <li>
+        <tt>Collection#remove</tt>中的bug修复。移除掉的对象现在是真的删掉了。
+      </li>
+      <li>
+        <tt>Model#fetch</tt>在传入<tt>patch: false</tt>后，就不在解析响应对象了。
+      </li>
+      <li>
+        修复在使用JSDOM操作iframe-based History时的bug。
+      </li>
+      <li>
+        修复<tt>Collection#invoke</tt>没有接收额外参数的bug。
+      </li>
+      <li>
+        在<tt>on</tt>上使用event map时，现在你可以传入context作为第二个参数。这是之前在1.2.0版本中不小心删掉的功能，并且也没有在文档中指明。
+      </li>
+    </ul>
+
+    <b class="header">1.2.0</b> &mdash; <small><i>May 13, 2015</i></small>
+    &mdash; <a href="https://github.com/jashkenas/backbone/compare/1.1.2...1.2.0">Diff</a>
+    &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/1.2.0/index.html">Docs</a>
+    <br />
+    <ul style="margin-top: 5px;">
+      <li>
+        向View中添加新的钩子方法，允许在没有jQuery的情况下正常运行，参见<a href="https://github.com/jashkenas/backbone/wiki/Using-Backbone-without-jQuery">wiki page</a>了解更多信息。
+      </li>
+      <li>
+        Backbone.History不在使用jQuery的事件方法，来监听<tt>pushState</tt> 和 <tt>hashChange</tt>。我们现在使用原生方法。
+      </li>
+      <li>
+        也是关于jQuery的，如果你现在在CommonJS（node, browserify, webpack）中使用Backbone，Backbone会自动尝试为你加载jQuery。
+      </li>
+      <li>
+        Views现在总会在<a href="#View-setElement">setElement</a>方法中代理它们的事件。你不能再在<tt>initialize</tt>方法中，修改事件的hash或<tt>el</tt>属性了。
+      </li>
+      <li>
+        添加一个<tt>"update"</tt> 事件，只要是集合中添加或删除了集合就会触发。方便在不抖动（debouncing）的情况下重新渲染列表。
+      </li>
+      <li>
+        <tt>Collection#at</tt>可以接收负值索引。
+      </li>
+      <li>
+        添加<tt>modelId</tt>到Collection中，为的是在多态的集合中生成模型的唯一id。在你模型的ids发生冲突时此方法很有用。
+      </li>
+      <li>
+        添加一个可被覆盖的<tt>_isModel</tt> 方法，为了更高级的控制哪些对象会被认定是集合的模型。
+      </li>
+      <li>
+        传入<tt>Model#destroy</tt>中的<tt>success</tt>回调现在一直是异步调用。
+      </li>
+      <li>
+        <tt>Router#execute</tt>现在会在第三个参数上回传路由的名字。
+      </li>
+      <li>
+        <tt>Router#execute</tt>返回<tt>false</tt>就取消当前路由的转换。用于检测登录状态或其它先置条件很不错。
+      </li>
+      <li>
+        添加<tt>getSearch</tt>和<tt>getPath</tt>方法到Backbone.History，用作跨浏览器覆盖分割URL的方式。
+      </li>
+      <li>
+        添加<tt>delegate</tt> 和 <tt>undelegate</tt>作为更细粒度的<tt>delegateEvents</tt> 和 <tt>undelegateEvents</tt>。插件作者可以在Backbone中使用一致的事件接口。
+      </li>
+      <li>
+        集合只有在顺序真正更新后才会触发"sort事件，而不是在每次调用<tt>set</tt>时都触发。
+      </li>
+      <li>
+        Any passed <tt>options.attrs</tt> are now respected when saving a model with
+        <tt>patch: true</tt>.
+      </li>
+      <li>
+        <tt>Collection#clone</tt>现在会在新clone的集合对象上设置<tt>model</tt> 和 <tt>comparator</tt>方法。
+      </li>
+      <li>
+        向集合中添加模型并指定<tt>at</tt>位置时，现在会在<tt>add</tt>事件中发送所有模型当前的真实位置，而不是最起始那个的位置。
+      </li>
+      <li>
+        <tt>Collection#remove</tt>现在只会返回真正从集合中移除的模型的列表。
+      </li>
+      <li>
+        修复在严格的ES6模块加载器中加载Backbone.js的问题。
+      </li>
+    </ul>
+
+    <b class="header">1.1.2</b> &mdash; <small><i>Feb. 20, 2014</i></small>
+    &mdash; <a href="https://github.com/jashkenas/backbone/compare/1.1.1...1.1.2">Diff</a>
+    &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/1.1.2/index.html">Docs</a>
+    <br />
+    <ul style="margin-top: 5px;">
+      <li>
+        Backbone不再尝试在Node/CommonJS环境中require jQuery了，为了更好的兼容Browserify。如果你喜欢在Node中让Backbone使用jQuery，就这样赋值：<tt>Backbone.$ = require('jquery');</tt>。
+      </li>
+      <li>
+        修复路由参数中的换行符导致的bug。
+      </li>
+    </ul>
+
+    <b class="header">1.1.1</b> &mdash; <small><i>Feb. 13, 2014</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/1.1.0...1.1.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/1.1.1/index.html">Docs</a><br />
+    <ul style="margin-top: 5px;">
+      <li>
+        Backbone现在支持AMD (Require.js)，Bower和Component，以及作为CommonJS模块和常规（Java）Script库。
+      </li>
+      <li>
+        在Router上添加一个<tt>execute</tt>钩子，允许你自定义解析路由的参数，比如查询字符串（query stirngs）。
+      </li>
+      <li>
+        Backbone Events的性能调整。
+      </li>
+      <li>
+        老旧浏览器中，更好的匹配路由中的Unicode。
+      </li>
+      <li>
+        Backbone Router现在处理路由片段中的查询参数时，将它们作为最后的参数传入处理函数中，定义为字符串形式的路由不再包含查询字符串（<tt>'foo?:query'</tt> 应该为 <tt>'foo'</tt>）。
+      </li>
+    </ul>
+
+    <b class="header">1.1.0</b> &mdash; <small><i>Oct. 10, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/1.0.0...1.1.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/1.1.0/index.html">Docs</a><br />
+    <ul style="margin-top: 5px;">
+      <li>
+        让集合的<tt>set</tt>， <tt>add</tt>，<tt>remove</tt>， 和 <tt>reset</tt>方法的返回值更有效。现在他们会返回变更的（added，removed 或 update）模型或模型的列表，而不是集合的<tt>this</tt>。
+      </li>
+      <li>
+        Backbone的Views现在不在自动将传入构造器的options添加为<tt>this.options</tt>，现在Backbone的Model也不再添加<tt>url</tt>和<tt>urlRoot</tt>选项，但你喜欢可以自己做。
+      </li>
+      <li>
+        所有的<tt>"invalid"</tt>事件现在传入一致的参数。第一个是有问题的模型对象，之后是错误对象，最后是options对象。
+      </li>
+      <li>
+        现在在<tt>parse</tt>中，你不能再改变模型的<b>id</b>。替换使用<tt>idAttribute</tt>。
+      </li>
+      <li>
+        另一方面，现在提取和灵活的处理嵌套的JSON为关联的子模型的地方就是<tt>parse</tt>方法。
+      </li>
+      <li>
+        大量相对于Backbone 1.0版本的微调，优化和bugfixed，包括URL重写，options的变化，大批量数据排序，尾部斜杠便捷监听器的遗漏，嵌套模型的解析...
+      </li>
+    </ul>
+
+    <b class="header">1.0.0</b> &mdash; <small><i>March 20, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.9.10...1.0.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/1.0.0/index.html">Docs</a><br />
+    <ul style="margin-top: 5px;">
+      <li>
+        重命名集合的"update"为<a href="#Collection-set">set</a>，为了向<tt>model.set()</tt>看齐，而与<a href="#Collection-reset">reset</a>形成比对。现在是<a href="#Collection-fetch">fetch</a>后默认的更新机制。如果你喜欢继续使用”reset“，传入<tt>{reset: true}</tt>。
+      </li>
+      <li>
+        你的路由处理现在会接收它们解码后的URL参数。
+      </li>
+      <li>
+        添加一个<a href="#Events-listenToOnce">listenToOnce</a>，与<a href="#Events-once">once</a>类似。
+      </li>
+      <li>
+        添加<a href="#Collection-findWhere">findWhere</a>方法到集合上，与<a href="#Collection-where">where</a>类似。
+      </li>
+      <li>
+        添加Underscore上的<tt>keys</tt>， <tt>values</tt>， <tt>pairs</tt>， <tt>invert</tt>，
+        <tt>pick</tt>和 <tt>omit</tt>方法到Backbone的模型上。
+      </li>
+      <li>
+        如果你喜欢，Router的route map中的路由现在可以定义为函数字面量，而不是方法的引用。
+      </li>
+      <li>
+        <tt>url</tt> 和 <tt>urlRoot</tt>属性现在可以作为选项传入新实例化的模型对象上。
+      </li>
+    </ul>
+
+    <b class="header">0.9.10</b> &mdash; <small><i>Jan. 15, 2013</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.9.9...0.9.10">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.9.10/index.html">Docs</a><br />
+    <ul style="margin-top: 5px;">
+      <li>
+        现在除了会在<tt>Backbone.history</tt>上触发<tt>"route"</tt>事件，路由对象上也会触发此事件。
+      </li>
+      <li>
+        现在<tt>Model#save</tt>会强制执行模型校验，而不是在构造器或在<tt>Model#set</tt>上调用，除非传入<tt>{validate:true}</tt>选项。
+      </li>
+      <li>
+        移除<tt>View#make</tt>。你现在需要直接使用<tt>$</tt>来构造DOM元素。
+      </li>
+      <li>
+        在change中传入<tt>{silent:true}</tt>不会延迟单个的<tt>"change:attr"</tt>事件，而是不再触发。
+      </li>
+      <li>
+        现在移除<tt>Model#change</tt>方法，因为不再支持延迟的属性变更。
+      </li>
+      <li>
+        修复<tt>change</tt>上的bug，属性的比较使用<tt>!==</tt>而不是<tt>_.isEqual</tt>。
+      </li>
+      <li>
+        修复在保存调用后，服务器返回空的响应时不会调用success函数的bug。
+      </li>
+      <li>
+        <tt>parse</tt>现在接收<tt>options</tt>作为第二个参数。
+      </li>
+      <li>
+        模型校验现在会触发<tt>invalid</tt>事件而不触发<tt>error</tt>事件。
+      </li>
+    </ul>
+
+    <b class="header">0.9.9</b> &mdash; <small><i>Dec. 13, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.9.2...0.9.9">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.9.9/index.html">Docs</a><br />
+    <ul style="margin-top: 5px;">
+      <li>
+        在Events中添加<a href="#Events-listenTo">listenTo</a>
+        和 <a href="#Events-stopListening">stopListening</a>方法。它们可以当做是<tt>on</tt> 和 <tt>off</tt>的反转操作，为的是解绑一个对象当前正在监听的所有事件。<tt>view.remove()</tt>会自动调用<tt>view.stopListening()</tt>。
+      </li>
+      <li>
+        在集合上使用<tt>add</tt>方法时，传入 <tt>{merge: true}</tt>现在会将重复的模型的属性合并到已存在的模型上，而不是忽略掉。
+      </li>
+      <li>
+        添加<a href="#Collection-update">update</a>事件，为了更巧妙的更新模型的属性。
+      </li>
+      <li>
+        通过传入<tt>{patch: true}</tt>，<a href="#Model-save">save</a>现在支持HTTP <tt>PATCH</tt>。
+      </li>
+      <li>
+        <tt>Backbone</tt>对象现在扩充了<tt>Events</tt> ，因此你可以将它当做全局的event bus使用。
+      </li>
+      <li>
+        在<a href="#Sync">Backbone.sync</a>上添加一个<tt>"request"</tt>事件，每次向服务器发送请求都会触发。它是<tt>"sync"</tt>事件的补充，
+      </li>
+      <li>
+        路由的URLs现在通过括号形式支持可选参数部分，而不必使用正则表达式。
+      </li>
+      <li>
+        Backbone的events现在支持<tt>once</tt>，与Node的<tt>once</tt>，或jQuery的<tt>one</tt>类似。
+      </li>
+      <li>
+        Backbone的events现在支持jQuery风格的事件映射<tt>obj.on({click: action})</tt>。
+      </li>
+      <li>
+        在监听<tt>reset</tt>事件时，之前的模型现在可以很方便的在<tt>options.previousModels</tt>上获取。
+      </li>
+      <li>
+        <a href="#Model-validate">Validation</a>现在即使在"silent"事件里也会触发。这个变更意味着<tt>isValid</tt>方法已经被移除掉了。校验失败也会触发一个错误，即使是在options上定义error回调。
+      </li>
+      <li>
+        在<a href="#Sync">Backbone.sync</a>里，合并<tt>"sync"</tt> 和 <tt>"error"</tt>事件。不管是不是定义了<tt>success</tt> 和 <tt>error</tt>回调，它们都会触发。
+      </li>
+      <li>
+        对于mixed-mode APIs，<tt>Backbone.sync</tt>现在接收<tt>emulateHTTP</tt> 和 <tt>emulateJSON</tt>作为内联选项。
+      </li>
+      <li>
+        现在集合也代理了Underscore的方法名字的别名（collect，
+        inject， foldl， foldr， head， tail， take，等等）。
+      </li>
+      <li>
+        从集合上移除<tt>getByCid</tt> 。<tt>collection.get</tt>现在支持根据<tt>id</tt>和<tt>cid</tt>查询。
+      </li>
+      <li>
+        在抓取一个模型或集合时，<i>所有</i>定义的<tt>parse</tt>现在也会执行。所以如果你在集合和模型上同时定义了<tt>parse</tt>，现在抓取一个集合设置新的模型会引发集合和模型都会顺序解析响应数据。
+      </li>
+      <li>
+        修复路由定义中的首部和尾部的反斜杠正常化时的bug。它们的出现（或缺失）不会影响正常的行为。
+      </li>
+      <li>
+        现在定义一个View时，<tt>options</tt>， <tt>el</tt>， <tt>tagName</tt>，
+        <tt>id</tt> 和 <tt>className</tt> 现在可以定义为函数，只要你希望它们的值是在运行时确定的。
+      </li>
+      <li>
+        添加一个<tt>Backbone.ajax</tt>钩子函数，为了方便的覆盖默认的 <tt>$.ajax</tt>实现。如果AJAX比较老旧，你可以设置最优的方法来和服务器通信。
+      </li>
+      <li>
+        <tt>Collection#sort</tt>现在触发<tt>sort</tt>事件，而不触发<tt>reset</tt>事件。
+      </li>
+      <li>
+        在模型上调用<tt>destroy</tt>，如果模型<tt>isNew</tt>，现在会返回<tt>false</tt>。
+      </li>
+      <li>
+        设置Backbone所使用的用来操作DOM和Ajax调用的库，使用<tt>Backbone.$ = ...</tt>替代<tt>setDomLibrary</tt>。
+      </li>
+      <li>
+        移除<tt>Backbone.wrapError</tt>辅助方法。在这些特定情形下覆盖<tt>sync</tt>会更好。
+      </li>
+      <li>
+        为了提升<tt>add</tt>的性能，<tt>add</tt>， <tt>options.index</tt>现在不会再<tt>add</tt>事件回调上添加了。<tt>collection.indexOf(model)</tt>可以用来按需获取模型的索引。
+      </li>
+      <li>
+        为了语义化和跨浏览器原因，路由现在会忽略搜索参数。向<tt>search?query=…&amp;page=3</tt>这样的路由会变成<tt>search/…/3</tt>。
+      </li>
+      <li>
+        <tt>Model#set</tt> 现在不再接收另一个模型作为参数。这回引发一些小问题，但很容易替换为<tt>model.set(other.attributes)</tt>。
+      </li>
+    </ul>
+
+    <b class="header">0.9.2</b> &mdash; <small><i>March 21, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.9.1...0.9.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.9.2/index.html">Docs</a><br />
+    <ul style="margin-top: 5px;">
+      <li>
+        现在在集合中添加重复的模型对象不会再抛出异常，而是会静默的跳过它们。
+      </li>
+      <li>
+        添加 <a href="#Collection-push">push</a>，
+        <a href="#Collection-pop">pop</a>，
+        <a href="#Collection-unshift">unshift</a>， 和
+        <a href="#Collection-shift">shift</a> 方法到集合中.
+      </li>
+      <li>
+        现在模型的<a href="#Model-changed">changed</a>hash可以用来很方便的读取变更属性从上次<tt>"change"</tt>事件后的差异，
+      </li>
+      <li>
+        添加<a href="#Collection-where">where</a>到集合中，用来执行过滤操作。
+      </li>
+      <li>
+        可以使用 <a href="#Events-off">off</a>来移除绑定到给定对象上的所有回调。
+      </li>
+      <li>
+        修复嵌套的单个change时间的bug，其中有些是"silent"事件。
+      </li>
+      <li>
+        修复<tt>location.hash</tt> fragments中的URL转码的bug。
+      </li>
+      <li>
+        修复在<tt>save</tt>调用中，传入<tt>{wait: true}</tt>选项，产生的客户端校验bug。
+      </li>
+      <li>
+        更新实例<a href="examples/todos/index.html">Todo List</a> app.
+      </li>
+    </ul>
+
+    <b class="header">0.9.1</b> &mdash; <small><i>Feb. 2, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.9.0...0.9.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.9.1/index.html">Docs</a><br />
+    <ul style="margin-top: 5px;">
+      <li>
+        恢复0.5.3版本的模型校验行为。Silent change事件不会再触发validation事件（更容易处理表单）。添加<tt>isValid</tt>方法，你可以使用它来检测模型对象是否是合法的状态。
+      </li>
+      <li>
+        如果你的页面有多个版本的jQuery，现在你可以使用<tt>Backbone.setDomLibrary</tt>方法确定到底使用哪一个。
+      </li>
+      <li>
+        恢复<b>0.9.0</b>版本带有"root"的路由的一个改动，保留"wait" and "validate"事件，以及嵌套的"change"事件的顺序。
+      </li>
+    </ul>
+
+    <b class="header">0.9.0</b> &mdash; <small><i>Jan. 30, 2012</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.5.3...0.9.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.9.0/index.html">Docs</a><br />
+    <ul style="margin-top: 5px;">
+      <li>
+        使用<tt>create</tt> 和 <tt>destroy</tt>创建或销毁模型现在是开放式的了。传入<tt>{wait: true}</tt>选项，允许在服务器响应后在创建对象。
+      </li>
+      <li>
+        视图上添加了两个新属性：<tt>$el</tt> &mdash;一个视图元素的jQuery缓存对象，<tt>setElement</tt>，代替手工设置视图的<tt>el</tt>方式。它会正确的设置<tt>view.el</tt> 和 <tt>view.$el</tt>，以及在新的DOM对象上重新代理事件。
+      </li>
+      <li>
+        你现在可以一次绑定并触发多个由空白符分割的事件。比如： <tt>model.on("change:name change:age", ...)</tt>
+      </li>
+      <li>
+        在你不知道key的情况下，你可以调用<tt>model.set(key, value)</tt>或<tt>save</tt>。
+      </li>
+      <li>
+        在单个集合中不允许多个模型对象共用同一个<tt>id</tt> 。
+      </li>
+      <li>
+        添加一个<tt>"sync"</tt>事件，模型的状态成功同服务器同步后调用（create, save, destroy）。
+      </li>
+      <li>
+        <tt>bind</tt> 和 <tt>unbind</tt>已经重命名为<tt>on</tt>
+        和 <tt>off</tt>，这样更清晰，效仿了jQuery。老名字仍然可用。
+      </li>
+      <li>
+        Backbone集合的<tt>comparator</tt>函数现在可以当做<a href="http://underscorejs.org/#sortBy">sortBy</a>使用（传入接收单个参数的函数），或当做<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array/sort">sort</a>函数使用（传入接收两个参数的函数）。comparator函数同时默认绑定到了集合上 &mdash; 因此你可以在它内部引用<tt>this</tt>。
+      </li>
+
+      <li>
+        视图的<tt>events</tt>hash现在可以包含函数，也可以包含视图方法名字的字符串。
+      </li>
+      <li>
+        校验流程进行了一次大修改&mdash;模型<tt>validate</tt>函数现在即使是silent change下也能执行，现在在初始校验失败状态下也不能创建模型对象。
+      </li>
+      <li>
+        在集合上添加<tt>shuffle</tt> 和 <tt>initial</tt>方法，代理了Underscore的同名方法。
+      </li>
+      <li>
+        <tt>Model#urlRoot</tt>现在既可以是函数类型也可以是字符串值。
+      </li>
+      <li>
+        <tt>View#attributes</tt>现在既可以是函数类型也可以是对象值。
+      </li>
+      <li>
+        现在调用集合的<tt>fetch</tt> 会将所有抓取的JSON响应都通过集合里模型对象定义的 <tt>parse</tt>函数。
+      </li>
+      <li>
+        现在你可以告诉路由，调用<tt>navigate(fragment, {replace: true})</tt>方法，使用<tt>history.replaceState</tt>，或<tt>location.hash.replace</tt>，改变URL而不会添加历史记录。
+      </li>
+      <li>
+        在集合的<tt>add</tt> 和 <tt>remove</tt>事件中，添加或删除的模型的索引现在可以在<tt>options.index</tt>上获取。
+      </li>
+      <li>
+        在视图上添加<tt>undelegateEvents</tt>方法，允许你手工移除所有代理的事件。
+      </li>
+      <li>
+        虽然你不应该在route中包含(<tt>/</tt>)，但是现在起始位置的(<tt>/</tt>)会被移除掉。
+      </li>
+      <li>
+        现在调用模型的<tt>clone</tt>会复制attributes，而不会返回model本身的引用。
+      </li>
+      <li>
+        模型上调用<tt>clear</tt> 现在会移除<tt>id</tt>属性。
+      </li>
+    </ul>
+
+    <p>
+      <b class="header">0.5.3</b> &mdash; <small><i>August 9, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.5.2...0.5.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.5.3/index.html">Docs</a><br />
+      View的 <tt>events</tt>属性现在可以定义为一个函数，或是一个对象字面量，这更容易以编程方式定义或继承事件。向集合中添加<tt>groupBy</tt>方法，代理的是Underscore的方法。如果服务器端已经渲染了整个页面就传入<tt>Backbone.history.start({silent: true})</tt>，阻止触发初始化执行的路由。编码后的URLs再传入pushSate的bug修复。
+    </p>
+
+    <p>
+      <b class="header">0.5.2</b> &mdash; <small><i>July 26, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.5.1...0.5.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.5.2/index.html">Docs</a><br />
+      <tt>bind</tt>函数现在可以接收一个可选的第三个参数，指定回调的<tt>this</tt>。多个模型在一个集合中共用同一id的情况是不允许的。修复调用<tt>.fetch(jQueryOptions)</tt>引发不正确的URL序列化问题。在使用<tt>pushState</tt>回调时，阻止一个额外的跳转。
+    </p>
+
+    <p>
+      <b class="header">0.5.1</b> &mdash; <small><i>July 5, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.5.0...0.5.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.5.1/index.html">Docs</a><br />
+      0.5.0版本的清理，即：透明化的将基于hash的URLs升级到pushSate，反之亦然。改善向<tt>Model#initialize</tt>中传入未修改属性引起的不一致行为。恢复<b>0.5.0</b>版本的一个去掉路由中第一个#的改动。添加 <tt>includes</tt>的别名<tt>contains</tt>。
+    </p>
+
+    <p>
+      <b class="header">0.5.0</b> &mdash; <small><i>July 1, 2011</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.3.3...0.5.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.5.0/index.html">Docs</a><br />
+      大量的小调整和修复小的bug，最好查看 <a href="https://github.com/jashkenas/backbone/compare/0.3.3...0.5.0">commit差异</a>来查看变更。支持HTML5的<tt>pushState</tt>，通过设置选项开启此功能：<tt>Backbone.history.start({pushState: true})</tt>。<tt>Controller</tt>重命名为<tt>Router</tt>，为的是表意清晰。<tt>Collection#refresh</tt>重命名为<tt>Collection#reset</tt>，用来强调它既能重置collection，也能在不传参数时清空collection。<tt>saveLocation</tt>被替换为<tt>navigate</tt>。RESTfull持久化方法（save, fetch等）现在返回jQuery deferred对象，为了更进一步处理success/error链式调用，整体来说是为了便捷。改善<tt>Model#escape</tt>方法的XSS转码功能。在模型上添加<tt>urlRoot</tt>选项，在指定RESTfull urls时不必用集合。多次调用<tt>Backbone.history.start</tt>会抛出错误。<tt>Collection#create</tt>在初始化模型前调用。<tt>view.el</tt>现在可以是一个jQuery选择器。Backbone的views现在也接收一个<tt>attributes</tt>参数。<tt>Model#defaults</tt>现在既可以是函数，也可以是属性的对象字面量。
+    </p>
+
+    <p>
+      <b class="header">0.3.3</b> &mdash; <small><i>Dec 1, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.3.2...0.3.3">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.3.3/index.html">Docs</a><br />
+      Backbone现在同时支持<a href="http://zeptojs.com">Zepto</a>和jQuery，作为DOM操作和Ajax的的框架。实现<a href="#Model-escape">Model#escape</a>方法，为了有效的处理要插入到HTML中的属性。在尝试持久化一个模型时，失败的请求现在会触发一个<tt>"error"</tt> 事件。无处不在的<tt>options</tt>对象，现在最终也会作为最后一个参数传入到所有的<tt>”change“</tt>事件中。
+    </p>
+
+    <p>
+      <b class="header">0.3.2</b> &mdash; <small><i>Nov 23, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.3.1...0.3.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.3.2/index.html">Docs</a><br />
+      修复IE7下基于iframe的"hashchange"事件的bug。现在 <tt>sync</tt>可以提前在模型或集合中覆盖。修复在<tt>"change"</tt>事件中，调用<tt>save</tt>时没有变更的属性引起的死循环。
+    </p>
+
+    <p>
+      <b class="header">0.3.1</b> &mdash; <small><i>Nov 15, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.3.0...0.3.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.3.1/index.html">Docs</a><br />
+      所有的<tt>"add"</tt> 和 <tt>"remove"</tt>事件现在通过model发送，为的是便于视图监听这些事件而不必知道集合的存在。添加一个<tt>remove</tt> 方法到<a href="#View">Backbone.View</a>上。 <tt>'read'</tt> 和 <tt>'delete'</tt>请求不在调用<tt>toJSON</tt>方法。Backbone现在可以加载空的URL片段。
+    </p>
+
+    <p>
+      <b class="header">0.3.0</b> &mdash; <small><i>Nov 9, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.2.0...0.3.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.3.0/index.html">Docs</a><br />
+      Backbone现在添加了<a href="#Controller">Controllers</a> 和 <a href="#History">History</a>，用来处理基于URL片段的客户端路由。添加<tt>emulateHTTP</tt>，支持那些不能处理<tt>PUT</tt> 和 <tt>DELETE</tt>请求的老旧服务器。添加<tt>emulateJSON</tt>，支持那些不能接收<tt>application/json</tt>转码请求的老旧服务器。添加<a href="#Model-clear">Model#clear</a>方法，从一个模型上移除所有属性。所有的Backbone的类现在都支持继承CoffeeScript类。
+    </p>
+
+    <p>
+      <b class="header">0.2.0</b> &mdash; <small><i>Oct 25, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.1.2...0.2.0">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.2.0/index.html">Docs</a><br />
+      之前你需要在服务器响应的<tt>model</tt>命名空间下获取数据，现在你可以定义自己的 <a href="#Model-parse">parse</a>方法，将响应转换为模型或集合的属性。原来的<tt>handleEvents</tt> 函数现在命名为<a href="#View-delegateEvents">delegateEvents</a>，并且作为视图的构造函数的一部分调用。添加<a href="#Collection-toJSON">toJSON</a>函数到集合上。为集合添加<a href="#Collection-chain">Underscore's chain</a>语法。
+    </p>
+
+    <p>
+      <b class="header">0.1.2</b> &mdash; <small><i>Oct 19, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.1.1...0.1.2">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.1.2/index.html">Docs</a><br />
+      添加一个<a href="#Model-fetch">Model#fetch</a>方法，从服务器中抓取数据刷新模型的属性。现在可以在<tt>set</tt> 和 <tt>save</tt>方法中传入<tt>error</tt>回调，如果校验失败就会调用它，覆盖了之前的<tt>"error"</tt>事件。设置<tt>Backbone.emulateHTTP = true</tt>，你现在可以告诉backbone使用<tt>_method</tt>技巧，而不是使用HTTP的方法。已存在的模型和集合数据现在不发送不必要的<tt>GET</tt> 和 <tt>DELETE</tt>请求。添加一个<tt>rake lint</tt>任务。Backbone现在发布成为一个<a href="http://npmjs.org">NPM</a>的模块。
+    </p>
+
+    <p>
+      <b class="header">0.1.1</b> &mdash; <small><i>Oct 14, 2010</i></small> &mdash; <a href="https://github.com/jashkenas/backbone/compare/0.1.0...0.1.1">Diff</a> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.1.1/index.html">Docs</a><br />
+      添加一个约定，在构造器函数中调用<tt>initialize</tt>函数。Documentation定义的。
+    </p>
+
+    <p>
+      <b class="header">0.1.0</b> &mdash; <small><i>Oct 13, 2010</i></small> &mdash; <a href="https://cdn.rawgit.com/jashkenas/backbone/0.1.0/index.html">Docs</a><br />
+      Backbone首个版本。
+    </p>
+
+    <p>
+      <br />
+      <a href="http://documentcloud.org/" title="A DocumentCloud Project" style="background:none;">
+        <img src="http://jashkenas.s3.amazonaws.com/images/a_documentcloud_project.png" alt="A DocumentCloud Project" style="position:relative;left:-10px;" />
+      </a>
+    </p>
+
+  </div>
+
+  <script src="test/vendor/underscore.js"></script>
+  <script src="test/vendor/jquery.js"></script>
+  <script src="docs/js/jquery.lazyload.js"></script>
+  <script src="test/vendor/json2.js"></script>
+  <script src="backbone.js"></script>
+
+  <script>
+    // Set up the "play" buttons for each runnable code example.
+    $(function() {
+      $('.runnable').each(function() {
+        var code = this;
+        var button = '<div class="run" title="Run"></div>';
+        $(button).insertBefore(code).bind('click', function(){
+          eval($(code).text());
+        });
+      });
+      $('[data-original]').lazyload();
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,3737 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>underscore.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>underscore.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <pre><code>Underscore.js <span class="hljs-number">1.8</span><span class="hljs-number">.3</span>
+http:<span class="hljs-comment">//underscorejs.org</span>
+(c) <span class="hljs-number">2009</span><span class="hljs-number">-2015</span> Jeremy Ashkenas, DocumentCloud and Investigative Reporters &amp; Editors
+Underscore may be freely distributed under the MIT license.
+</code></pre>
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2 id="-">基本设置</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>建立根对象(root object)，在浏览器下是<code>window</code>对象，在服务器端是<code>exports</code>对象。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> root = <span class="hljs-keyword">this</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>保存上一个<code>_</code>变量的值</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> previousUnderscore = root._;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>在压缩（minified，不是gzipped）版本下节省些字节。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> ArrayProto = <span class="hljs-built_in">Array</span>.prototype, ObjProto = <span class="hljs-built_in">Object</span>.prototype, FuncProto = <span class="hljs-built_in">Function</span>.prototype;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>创建快速引用变量，快速访问主要的原型对象。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span>
+    push             = ArrayProto.push,
+    slice            = ArrayProto.slice,
+    toString         = ObjProto.toString,
+    hasOwnProperty   = ObjProto.hasOwnProperty;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>我们期望使用的所有<strong>ECMAScript 5</strong>原生函数的实现都声明在此。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span>
+    nativeIsArray      = <span class="hljs-built_in">Array</span>.isArray,
+    nativeKeys         = <span class="hljs-built_in">Object</span>.keys,
+    nativeBind         = FuncProto.bind,
+    nativeCreate       = <span class="hljs-built_in">Object</span>.create;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>空函数引用，用来实现surrogate-prototype-swapping。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> Ctor = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>创建一个Underscore对象的安全引用，以便在下面使用。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> _ = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">if</span> (obj <span class="hljs-keyword">instanceof</span> _) <span class="hljs-keyword">return</span> obj;
+    <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">this</span> <span class="hljs-keyword">instanceof</span> _)) <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> _(obj);
+    <span class="hljs-keyword">this</span>._wrapped = obj;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>在<strong>Node.js</strong>中导出Underscore对象，向后兼容老式的<code>require()</code>API。
+如果是在浏览器中，就将<code>_</code>添加为全局对象</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> exports !== <span class="hljs-string">'undefined'</span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">module</span> !== <span class="hljs-string">'undefined'</span> &amp;&amp; <span class="hljs-built_in">module</span>.exports) {
+      exports = <span class="hljs-built_in">module</span>.exports = _;
+    }
+    exports._ = _;
+  } <span class="hljs-keyword">else</span> {
+    root._ = _;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>当前版本号。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.VERSION = <span class="hljs-string">'1.8.3'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>内部函数，返回一个高效版本的passed-in回调函数，供Underscore的函数反复使用。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> optimizeCb = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">func, context, argCount</span>) </span>{
+    <span class="hljs-keyword">if</span> (context === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> func;
+    <span class="hljs-keyword">switch</span> (argCount == <span class="hljs-literal">null</span> ? <span class="hljs-number">3</span> : argCount) {
+      <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
+        <span class="hljs-keyword">return</span> func.call(context, value);
+      };
+      <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, other</span>) </span>{
+        <span class="hljs-keyword">return</span> func.call(context, value, other);
+      };
+      <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, index, collection</span>) </span>{
+        <span class="hljs-keyword">return</span> func.call(context, value, index, collection);
+      };
+      <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>: <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">accumulator, value, index, collection</span>) </span>{
+        <span class="hljs-keyword">return</span> func.call(context, accumulator, value, index, collection);
+      };
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> func.apply(context, <span class="hljs-built_in">arguments</span>);
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>一个内部主要的函数，生成的回调函数用来处理集合中的每个元素，并返回期望的值。
+此值可以是恒等回调（identity），随机回调（arbitrary callback），或属性访问器。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> cb = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, context, argCount</span>) </span>{
+    <span class="hljs-keyword">if</span> (value == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> _.identity;
+    <span class="hljs-keyword">if</span> (_.isFunction(value)) <span class="hljs-keyword">return</span> optimizeCb(value, context, argCount);
+    <span class="hljs-keyword">if</span> (_.isObject(value)) <span class="hljs-keyword">return</span> _.matcher(value);
+    <span class="hljs-keyword">return</span> _.property(value);
+  };
+  _.iteratee = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, context</span>) </span>{
+    <span class="hljs-keyword">return</span> cb(value, context, <span class="hljs-literal">Infinity</span>);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>一个内部函数，用来创建赋值函数（assigner functions）。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> createAssigner = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">keysFunc, undefinedOnly</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+      <span class="hljs-keyword">var</span> length = <span class="hljs-built_in">arguments</span>.length;
+      <span class="hljs-keyword">if</span> (length &lt; <span class="hljs-number">2</span> || obj == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> obj;
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">1</span>; index &lt; length; index++) {
+        <span class="hljs-keyword">var</span> source = <span class="hljs-built_in">arguments</span>[index],
+            keys = keysFunc(source),
+            l = keys.length;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; l; i++) {
+          <span class="hljs-keyword">var</span> key = keys[i];
+          <span class="hljs-keyword">if</span> (!undefinedOnly || obj[key] === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>) obj[key] = source[key];
+        }
+      }
+      <span class="hljs-keyword">return</span> obj;
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>内部函数，用来创建继承自另一个对象的新对象。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> baseCreate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">prototype</span>) </span>{
+    <span class="hljs-keyword">if</span> (!_.isObject(prototype)) <span class="hljs-keyword">return</span> {};
+    <span class="hljs-keyword">if</span> (nativeCreate) <span class="hljs-keyword">return</span> nativeCreate(prototype);
+    Ctor.prototype = prototype;
+    <span class="hljs-keyword">var</span> result = <span class="hljs-keyword">new</span> Ctor;
+    Ctor.prototype = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">return</span> result;
+  };
+
+  <span class="hljs-keyword">var</span> property = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+      <span class="hljs-keyword">return</span> obj == <span class="hljs-literal">null</span> ? <span class="hljs-keyword">void</span> <span class="hljs-number">0</span> : obj[key];
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>集合方法的辅助函数，决定了一个集合是该被当做数组迭代还是被当做对象迭代。
+参考：<a href="http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength">http://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength</a>
+避免了一个讨厌的ARM-64下iOS8 JIT bug。 #2094</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> MAX_ARRAY_INDEX = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">2</span>, <span class="hljs-number">53</span>) - <span class="hljs-number">1</span>;
+  <span class="hljs-keyword">var</span> getLength = property(<span class="hljs-string">'length'</span>);
+  <span class="hljs-keyword">var</span> isArrayLike = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">collection</span>) </span>{
+    <span class="hljs-keyword">var</span> length = getLength(collection);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> length == <span class="hljs-string">'number'</span> &amp;&amp; length &gt;= <span class="hljs-number">0</span> &amp;&amp; length &lt;= MAX_ARRAY_INDEX;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <h2 id="-collection-functions-">集合函数（Collection Functions）</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>基本的<code>each</code>实现，又称<code>forEach</code>。
+处理类数组对象（array-likes）或普通对象（raw objects）。
+类数组的处理操作与处理原生数组的操作一样。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.each = _.forEach = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
+    iteratee = optimizeCb(iteratee, context);
+    <span class="hljs-keyword">var</span> i, length;
+    <span class="hljs-keyword">if</span> (isArrayLike(obj)) {
+      <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>, length = obj.length; i &lt; length; i++) {
+        iteratee(obj[i], i, obj);
+      }
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">var</span> keys = _.keys(obj);
+      <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>, length = keys.length; i &lt; length; i++) {
+        iteratee(obj[keys[i]], keys[i], obj);
+      }
+    }
+    <span class="hljs-keyword">return</span> obj;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>在每个元素上应用迭代器，并返回结果集。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.map = _.collect = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
+    iteratee = cb(iteratee, context);
+    <span class="hljs-keyword">var</span> keys = !isArrayLike(obj) &amp;&amp; _.keys(obj),
+        length = (keys || obj).length,
+        results = <span class="hljs-built_in">Array</span>(length);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>; index &lt; length; index++) {
+      <span class="hljs-keyword">var</span> currentKey = keys ? keys[index] : index;
+      results[index] = iteratee(obj[currentKey], currentKey, obj);
+    }
+    <span class="hljs-keyword">return</span> results;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>创建一个reducing函数，可以向左或向右迭代。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createReduce</span>(<span class="hljs-params">dir</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>优化过的迭代函数，因为在主函数中使用<code>arguments.length</code>，
+所以会破坏优化效果，参见#1991。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">iterator</span>(<span class="hljs-params">obj, iteratee, memo, keys, index, length</span>) </span>{
+      <span class="hljs-keyword">for</span> (; index &gt;= <span class="hljs-number">0</span> &amp;&amp; index &lt; length; index += dir) {
+        <span class="hljs-keyword">var</span> currentKey = keys ? keys[index] : index;
+        memo = iteratee(memo, obj[currentKey], currentKey, obj);
+      }
+      <span class="hljs-keyword">return</span> memo;
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, memo, context</span>) </span>{
+      iteratee = optimizeCb(iteratee, context, <span class="hljs-number">4</span>);
+      <span class="hljs-keyword">var</span> keys = !isArrayLike(obj) &amp;&amp; _.keys(obj),
+          length = (keys || obj).length,
+          index = dir &gt; <span class="hljs-number">0</span> ? <span class="hljs-number">0</span> : length - <span class="hljs-number">1</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>未提供任何值的情况下，决定初始值</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">arguments</span>.length &lt; <span class="hljs-number">3</span>) {
+        memo = obj[keys ? keys[index] : index];
+        index += dir;
+      }
+      <span class="hljs-keyword">return</span> iterator(obj, iteratee, memo, keys, index, length);
+    };
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p><strong>Reduce</strong> 从一个值的列表中构建一个单一的值。
+别名 <code>inject</code>,或<code>foldl</code>。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.reduce = _.foldl = _.inject = createReduce(<span class="hljs-number">1</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>reduce的右结合版本。
+别名<code>foldr</code>。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.reduceRight = _.foldr = createReduce(<span class="hljs-number">-1</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>返回第一个通过truth测试的值。别名<code>detect</code>。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.find = _.detect = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, predicate, context</span>) </span>{
+    <span class="hljs-keyword">var</span> key;
+    <span class="hljs-keyword">if</span> (isArrayLike(obj)) {
+      key = _.findIndex(obj, predicate, context);
+    } <span class="hljs-keyword">else</span> {
+      key = _.findKey(obj, predicate, context);
+    }
+    <span class="hljs-keyword">if</span> (key !== <span class="hljs-keyword">void</span> <span class="hljs-number">0</span> &amp;&amp; key !== <span class="hljs-number">-1</span>) <span class="hljs-keyword">return</span> obj[key];
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>返回所有通过truth测试的元素。
+别名<code>select</code>。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.filter = _.select = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, predicate, context</span>) </span>{
+    <span class="hljs-keyword">var</span> results = [];
+    predicate = cb(predicate, context);
+    _.each(obj, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, index, list</span>) </span>{
+      <span class="hljs-keyword">if</span> (predicate(value, index, list)) results.push(value);
+    });
+    <span class="hljs-keyword">return</span> results;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>返回所有未通过truth测试的元素。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.reject = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, predicate, context</span>) </span>{
+    <span class="hljs-keyword">return</span> _.filter(obj, _.negate(cb(predicate)), context);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>判断所有给定的元素是否都通过了truth测试。
+别名<code>all</code>。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.every = _.all = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, predicate, context</span>) </span>{
+    predicate = cb(predicate, context);
+    <span class="hljs-keyword">var</span> keys = !isArrayLike(obj) &amp;&amp; _.keys(obj),
+        length = (keys || obj).length;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>; index &lt; length; index++) {
+      <span class="hljs-keyword">var</span> currentKey = keys ? keys[index] : index;
+      <span class="hljs-keyword">if</span> (!predicate(obj[currentKey], currentKey, obj)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-31">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-31">&#182;</a>
+              </div>
+              <p>判断给定给定对象中是否至少存在一个通过truth测试的元素。
+别名<code>any</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.some = _.any = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, predicate, context</span>) </span>{
+    predicate = cb(predicate, context);
+    <span class="hljs-keyword">var</span> keys = !isArrayLike(obj) &amp;&amp; _.keys(obj),
+        length = (keys || obj).length;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>; index &lt; length; index++) {
+      <span class="hljs-keyword">var</span> currentKey = keys ? keys[index] : index;
+      <span class="hljs-keyword">if</span> (predicate(obj[currentKey], currentKey, obj)) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-32">&#182;</a>
+              </div>
+              <p>判断数组或对象中是否包含给定的值（使用 <code>===</code>比较）。
+别名<code>includes</code> and <code>include</code>。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.contains = _.includes = _.include = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, item, fromIndex, guard</span>) </span>{
+    <span class="hljs-keyword">if</span> (!isArrayLike(obj)) obj = _.values(obj);
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> fromIndex != <span class="hljs-string">'number'</span> || guard) fromIndex = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> _.indexOf(obj, item, fromIndex) &gt;= <span class="hljs-number">0</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-33">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-33">&#182;</a>
+              </div>
+              <p>在集合的每个元素上调用给定方法（可以指定参数）</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.invoke = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, method</span>) </span>{
+    <span class="hljs-keyword">var</span> args = slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">2</span>);
+    <span class="hljs-keyword">var</span> isFunc = _.isFunction(method);
+    <span class="hljs-keyword">return</span> _.map(obj, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
+      <span class="hljs-keyword">var</span> func = isFunc ? method : value[method];
+      <span class="hljs-keyword">return</span> func == <span class="hljs-literal">null</span> ? func : func.apply(value, args);
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-34">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-34">&#182;</a>
+              </div>
+              <p><code>map</code>的一个常见的用例的便捷版本：获取对象属性。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.pluck = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, key</span>) </span>{
+    <span class="hljs-keyword">return</span> _.map(obj, _.property(key));
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-35">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-35">&#182;</a>
+              </div>
+              <p><code>filter</code>的一个常见的用例的便捷版本：筛选包含指定的一组<code>key:value</code>对的所有对象。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.where = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, attrs</span>) </span>{
+    <span class="hljs-keyword">return</span> _.filter(obj, _.matcher(attrs));
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-36">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-36">&#182;</a>
+              </div>
+              <p><code>find</code>的一个常见的用例的便捷版本：筛选包含指定的一组<code>key:value</code>对的第一个对象。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.findWhere = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, attrs</span>) </span>{
+    <span class="hljs-keyword">return</span> _.find(obj, _.matcher(attrs));
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-37">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-37">&#182;</a>
+              </div>
+              <p>返回最大元素（或是基于元素的计算值）。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.max = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
+    <span class="hljs-keyword">var</span> result = -<span class="hljs-literal">Infinity</span>, lastComputed = -<span class="hljs-literal">Infinity</span>,
+        value, computed;
+    <span class="hljs-keyword">if</span> (iteratee == <span class="hljs-literal">null</span> &amp;&amp; obj != <span class="hljs-literal">null</span>) {
+      obj = isArrayLike(obj) ? obj : _.values(obj);
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = obj.length; i &lt; length; i++) {
+        value = obj[i];
+        <span class="hljs-keyword">if</span> (value &gt; result) {
+          result = value;
+        }
+      }
+    } <span class="hljs-keyword">else</span> {
+      iteratee = cb(iteratee, context);
+      _.each(obj, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, index, list</span>) </span>{
+        computed = iteratee(value, index, list);
+        <span class="hljs-keyword">if</span> (computed &gt; lastComputed || computed === -<span class="hljs-literal">Infinity</span> &amp;&amp; result === -<span class="hljs-literal">Infinity</span>) {
+          result = value;
+          lastComputed = computed;
+        }
+      });
+    }
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-38">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-38">&#182;</a>
+              </div>
+              <p>返回最小元素（或基于元素的计算值）。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.min = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
+    <span class="hljs-keyword">var</span> result = <span class="hljs-literal">Infinity</span>, lastComputed = <span class="hljs-literal">Infinity</span>,
+        value, computed;
+    <span class="hljs-keyword">if</span> (iteratee == <span class="hljs-literal">null</span> &amp;&amp; obj != <span class="hljs-literal">null</span>) {
+      obj = isArrayLike(obj) ? obj : _.values(obj);
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = obj.length; i &lt; length; i++) {
+        value = obj[i];
+        <span class="hljs-keyword">if</span> (value &lt; result) {
+          result = value;
+        }
+      }
+    } <span class="hljs-keyword">else</span> {
+      iteratee = cb(iteratee, context);
+      _.each(obj, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, index, list</span>) </span>{
+        computed = iteratee(value, index, list);
+        <span class="hljs-keyword">if</span> (computed &lt; lastComputed || computed === <span class="hljs-literal">Infinity</span> &amp;&amp; result === <span class="hljs-literal">Infinity</span>) {
+          result = value;
+          lastComputed = computed;
+        }
+      });
+    }
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-39">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-39">&#182;</a>
+              </div>
+              <p>使用现代版本的
+<a href="http://en.wikipedia.org/wiki/Fisher–Yates_shuffle">Fisher-Yates shuffle</a>，返回一个混淆后的collection。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.shuffle = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">var</span> set = isArrayLike(obj) ? obj : _.values(obj);
+    <span class="hljs-keyword">var</span> length = set.length;
+    <span class="hljs-keyword">var</span> shuffled = <span class="hljs-built_in">Array</span>(length);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>, rand; index &lt; length; index++) {
+      rand = _.random(<span class="hljs-number">0</span>, index);
+      <span class="hljs-keyword">if</span> (rand !== index) shuffled[index] = shuffled[rand];
+      shuffled[rand] = set[index];
+    }
+    <span class="hljs-keyword">return</span> shuffled;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-40">&#182;</a>
+              </div>
+              <p>从一个集合中取样<strong>n</strong>个随机数。
+如果没有指定<strong>n</strong>，就返回单个随机数。
+内部的<code>guard</code>参数是用来与<code>map</code>一起工作的。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.sample = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, n, guard</span>) </span>{
+    <span class="hljs-keyword">if</span> (n == <span class="hljs-literal">null</span> || guard) {
+      <span class="hljs-keyword">if</span> (!isArrayLike(obj)) obj = _.values(obj);
+      <span class="hljs-keyword">return</span> obj[_.random(obj.length - <span class="hljs-number">1</span>)];
+    }
+    <span class="hljs-keyword">return</span> _.shuffle(obj).slice(<span class="hljs-number">0</span>, <span class="hljs-built_in">Math</span>.max(<span class="hljs-number">0</span>, n));
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-41">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-41">&#182;</a>
+              </div>
+              <p>按照迭代器生成的规则，对对象值进行排序。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.sortBy = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
+    iteratee = cb(iteratee, context);
+    <span class="hljs-keyword">return</span> _.pluck(_.map(obj, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, index, list</span>) </span>{
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">value</span>: value,
+        <span class="hljs-attr">index</span>: index,
+        <span class="hljs-attr">criteria</span>: iteratee(value, index, list)
+      };
+    }).sort(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">left, right</span>) </span>{
+      <span class="hljs-keyword">var</span> a = left.criteria;
+      <span class="hljs-keyword">var</span> b = right.criteria;
+      <span class="hljs-keyword">if</span> (a !== b) {
+        <span class="hljs-keyword">if</span> (a &gt; b || a === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">if</span> (a &lt; b || b === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+      }
+      <span class="hljs-keyword">return</span> left.index - right.index;
+    }), <span class="hljs-string">'value'</span>);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-42">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-42">&#182;</a>
+              </div>
+              <p>一个内部函数，用来聚合<code>分组</code>操作</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> group = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">behavior</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
+      <span class="hljs-keyword">var</span> result = {};
+      iteratee = cb(iteratee, context);
+      _.each(obj, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, index</span>) </span>{
+        <span class="hljs-keyword">var</span> key = iteratee(value, index, obj);
+        behavior(result, value, key);
+      });
+      <span class="hljs-keyword">return</span> result;
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-43">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-43">&#182;</a>
+              </div>
+              <p>根据给定标准，分组一个集合的值。
+可以传入一个字符串属性当做分组依据，或者传入是一个返回条件的函数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.groupBy = group(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, key</span>) </span>{
+    <span class="hljs-keyword">if</span> (_.has(result, key)) result[key].push(value); <span class="hljs-keyword">else</span> result[key] = [value];
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-44">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-44">&#182;</a>
+              </div>
+              <p>根据给定标准为集合建立索引，与<code>groupBy</code>类似，但前提是你确定建立索引的值是唯一的。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.indexBy = group(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, key</span>) </span>{
+    result[key] = value;
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-45">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-45">&#182;</a>
+              </div>
+              <p>根据给定标准对集合进行计数。
+传入一个字符串属性，或者一个返回标准的函数来进行计数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.countBy = group(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result, value, key</span>) </span>{
+    <span class="hljs-keyword">if</span> (_.has(result, key)) result[key]++; <span class="hljs-keyword">else</span> result[key] = <span class="hljs-number">1</span>;
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-46">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-46">&#182;</a>
+              </div>
+              <p>从任何可迭代对象中，生成一个数组</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.toArray = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">if</span> (!obj) <span class="hljs-keyword">return</span> [];
+    <span class="hljs-keyword">if</span> (_.isArray(obj)) <span class="hljs-keyword">return</span> slice.call(obj);
+    <span class="hljs-keyword">if</span> (isArrayLike(obj)) <span class="hljs-keyword">return</span> _.map(obj, _.identity);
+    <span class="hljs-keyword">return</span> _.values(obj);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-47">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-47">&#182;</a>
+              </div>
+              <p>返回一个对象中元素的个数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.size = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">if</span> (obj == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> isArrayLike(obj) ? obj.length : _.keys(obj).length;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-48">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-48">&#182;</a>
+              </div>
+              <p>将一个集合分割成两个数组：其中一个数组的所有元素都满足给定判断，
+另一个数组的所有元素都不满足给定判断</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.partition = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, predicate, context</span>) </span>{
+    predicate = cb(predicate, context);
+    <span class="hljs-keyword">var</span> pass = [], fail = [];
+    _.each(obj, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, key, obj</span>) </span>{
+      (predicate(value, key, obj) ? pass : fail).push(value);
+    });
+    <span class="hljs-keyword">return</span> [pass, fail];
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-49">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-49">&#182;</a>
+              </div>
+              <h2 id="-">数组函数</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-50">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
+              </div>
+              <p>获得数组的第一个元素。
+传入<strong>n</strong> 将返回数组的前N个值。
+别名<code>head</code>或<code>take</code>。
+<strong>guard</strong>检测用来与<code>_.map</code>一起工作。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.first = _.head = _.take = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, n, guard</span>) </span>{
+    <span class="hljs-keyword">if</span> (array == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (n == <span class="hljs-literal">null</span> || guard) <span class="hljs-keyword">return</span> array[<span class="hljs-number">0</span>];
+    <span class="hljs-keyword">return</span> _.initial(array, array.length - n);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-52">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-52">&#182;</a>
+              </div>
+              <p>返回数组中除了最后一个元素的其它所有值。
+对于arguments对象的操作很有用。
+传入<strong>n</strong>会返回数组中除了后n的元素之外的其它所有元素。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.initial = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, n, guard</span>) </span>{
+    <span class="hljs-keyword">return</span> slice.call(array, <span class="hljs-number">0</span>, <span class="hljs-built_in">Math</span>.max(<span class="hljs-number">0</span>, array.length - (n == <span class="hljs-literal">null</span> || guard ? <span class="hljs-number">1</span> : n)));
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-53">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-53">&#182;</a>
+              </div>
+              <p>返回数组中的最后一个值。传入<strong>n</strong>会返回数组的最后N个元素。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.last = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, n, guard</span>) </span>{
+    <span class="hljs-keyword">if</span> (array == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (n == <span class="hljs-literal">null</span> || guard) <span class="hljs-keyword">return</span> array[array.length - <span class="hljs-number">1</span>];
+    <span class="hljs-keyword">return</span> _.rest(array, <span class="hljs-built_in">Math</span>.max(<span class="hljs-number">0</span>, array.length - n));
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-54">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-54">&#182;</a>
+              </div>
+              <p>返回除了第一个元素之外的所有其它元素。
+别名<code>tail</code> 和 <code>drop</code>。
+对于arguments的操作尤其有用。
+传入<strong>n</strong> 会返回从n开始剩余的其它值。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.rest = _.tail = _.drop = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, n, guard</span>) </span>{
+    <span class="hljs-keyword">return</span> slice.call(array, n == <span class="hljs-literal">null</span> || guard ? <span class="hljs-number">1</span> : n);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-55">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-55">&#182;</a>
+              </div>
+              <p>从数组中去掉所有false值。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.compact = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array</span>) </span>{
+    <span class="hljs-keyword">return</span> _.filter(array, _.identity);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-56">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-56">&#182;</a>
+              </div>
+              <p>内部实现的一个递归的<code>flatten</code>函数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> flatten = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">input, shallow, strict, startIndex</span>) </span>{
+    <span class="hljs-keyword">var</span> output = [], idx = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = startIndex || <span class="hljs-number">0</span>, length = getLength(input); i &lt; length; i++) {
+      <span class="hljs-keyword">var</span> value = input[i];
+      <span class="hljs-keyword">if</span> (isArrayLike(value) &amp;&amp; (_.isArray(value) || _.isArguments(value))) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-57">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-57">&#182;</a>
+              </div>
+              <p>扁平化当前的数组或arguments对象</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (!shallow) value = flatten(value, shallow, strict);
+        <span class="hljs-keyword">var</span> j = <span class="hljs-number">0</span>, len = value.length;
+        output.length += len;
+        <span class="hljs-keyword">while</span> (j &lt; len) {
+          output[idx++] = value[j++];
+        }
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!strict) {
+        output[idx++] = value;
+      }
+    }
+    <span class="hljs-keyword">return</span> output;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-58">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-58">&#182;</a>
+              </div>
+              <p>扁平化一个数组，或递归操作（默认），或只操作一级。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.flatten = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, shallow</span>) </span>{
+    <span class="hljs-keyword">return</span> flatten(array, shallow, <span class="hljs-literal">false</span>);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-59">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-59">&#182;</a>
+              </div>
+              <p>返回不包含给定数值的数组。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.without = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array</span>) </span>{
+    <span class="hljs-keyword">return</span> _.difference(array, slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">1</span>));
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-60">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-60">&#182;</a>
+              </div>
+              <p>生成一个没有重复元素的数组。如果数组已经排序过，生成过程会更快。
+别名<code>unique</code>。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.uniq = _.unique = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, isSorted, iteratee, context</span>) </span>{
+    <span class="hljs-keyword">if</span> (!_.isBoolean(isSorted)) {
+      context = iteratee;
+      iteratee = isSorted;
+      isSorted = <span class="hljs-literal">false</span>;
+    }
+    <span class="hljs-keyword">if</span> (iteratee != <span class="hljs-literal">null</span>) iteratee = cb(iteratee, context);
+    <span class="hljs-keyword">var</span> result = [];
+    <span class="hljs-keyword">var</span> seen = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = getLength(array); i &lt; length; i++) {
+      <span class="hljs-keyword">var</span> value = array[i],
+          computed = iteratee ? iteratee(value, i, array) : value;
+      <span class="hljs-keyword">if</span> (isSorted) {
+        <span class="hljs-keyword">if</span> (!i || seen !== computed) result.push(value);
+        seen = computed;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (iteratee) {
+        <span class="hljs-keyword">if</span> (!_.contains(seen, computed)) {
+          seen.push(computed);
+          result.push(value);
+        }
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!_.contains(result, value)) {
+        result.push(value);
+      }
+    }
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-61">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-61">&#182;</a>
+              </div>
+              <p>生成一个数组：包含了来自传入数组中元素的并集。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.union = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> _.uniq(flatten(<span class="hljs-built_in">arguments</span>, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>));
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-62">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-62">&#182;</a>
+              </div>
+              <p>生成一个数组，包含了来自传入数组中元素的交集。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.intersection = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array</span>) </span>{
+    <span class="hljs-keyword">var</span> result = [];
+    <span class="hljs-keyword">var</span> argsLength = <span class="hljs-built_in">arguments</span>.length;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = getLength(array); i &lt; length; i++) {
+      <span class="hljs-keyword">var</span> item = array[i];
+      <span class="hljs-keyword">if</span> (_.contains(result, item)) <span class="hljs-keyword">continue</span>;
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">1</span>; j &lt; argsLength; j++) {
+        <span class="hljs-keyword">if</span> (!_.contains(<span class="hljs-built_in">arguments</span>[j], item)) <span class="hljs-keyword">break</span>;
+      }
+      <span class="hljs-keyword">if</span> (j === argsLength) result.push(item);
+    }
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-63">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-63">&#182;</a>
+              </div>
+              <p>获取一个数组与其他数组的差异。
+只有出现在第一个数组中的元素才会保留。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.difference = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array</span>) </span>{
+    <span class="hljs-keyword">var</span> rest = flatten(<span class="hljs-built_in">arguments</span>, <span class="hljs-literal">true</span>, <span class="hljs-literal">true</span>, <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">return</span> _.filter(array, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>)</span>{
+      <span class="hljs-keyword">return</span> !_.contains(rest, value);
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-64">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-64">&#182;</a>
+              </div>
+              <p>将多个列表合并到一个数组中 - 共享索引的元素会在一起</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.zip = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> _.unzip(<span class="hljs-built_in">arguments</span>);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-65">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-65">&#182;</a>
+              </div>
+              <p>_.zip的补充。 Unzip接受一组数组，并将数组元素分组到共享索引中。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.unzip = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array</span>) </span>{
+    <span class="hljs-keyword">var</span> length = array &amp;&amp; _.max(array, getLength).length || <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> result = <span class="hljs-built_in">Array</span>(length);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>; index &lt; length; index++) {
+      result[index] = _.pluck(array, index);
+    }
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-66">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-66">&#182;</a>
+              </div>
+              <p>将列表转化为对象。传入单个元素为<code>[key, value]</code>对的数组，
+或者两个长度相等的数组 - 一个包含key，一个包含value。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.object = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">list, values</span>) </span>{
+    <span class="hljs-keyword">var</span> result = {};
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = getLength(list); i &lt; length; i++) {
+      <span class="hljs-keyword">if</span> (values) {
+        result[list[i]] = values[i];
+      } <span class="hljs-keyword">else</span> {
+        result[list[i][<span class="hljs-number">0</span>]] = list[i][<span class="hljs-number">1</span>];
+      }
+    }
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-67">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-67">&#182;</a>
+              </div>
+              <p>生成器函数，用来创建findIndex 和 findLastIndex函数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createPredicateIndexFinder</span>(<span class="hljs-params">dir</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, predicate, context</span>) </span>{
+      predicate = cb(predicate, context);
+      <span class="hljs-keyword">var</span> length = getLength(array);
+      <span class="hljs-keyword">var</span> index = dir &gt; <span class="hljs-number">0</span> ? <span class="hljs-number">0</span> : length - <span class="hljs-number">1</span>;
+      <span class="hljs-keyword">for</span> (; index &gt;= <span class="hljs-number">0</span> &amp;&amp; index &lt; length; index += dir) {
+        <span class="hljs-keyword">if</span> (predicate(array[index], index, array)) <span class="hljs-keyword">return</span> index;
+      }
+      <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    };
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-68">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-68">&#182;</a>
+              </div>
+              <p>返回类数组对象中，第一个通过test测试元素的索引。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.findIndex = createPredicateIndexFinder(<span class="hljs-number">1</span>);
+  _.findLastIndex = createPredicateIndexFinder(<span class="hljs-number">-1</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-69">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-69">&#182;</a>
+              </div>
+              <p>为了维护顺序，使用比较器函数，找出插入对象的最小索引值。
+使用二分搜索法。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.sortedIndex = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, obj, iteratee, context</span>) </span>{
+    iteratee = cb(iteratee, context, <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">var</span> value = iteratee(obj);
+    <span class="hljs-keyword">var</span> low = <span class="hljs-number">0</span>, high = getLength(array);
+    <span class="hljs-keyword">while</span> (low &lt; high) {
+      <span class="hljs-keyword">var</span> mid = <span class="hljs-built_in">Math</span>.floor((low + high) / <span class="hljs-number">2</span>);
+      <span class="hljs-keyword">if</span> (iteratee(array[mid]) &lt; value) low = mid + <span class="hljs-number">1</span>; <span class="hljs-keyword">else</span> high = mid;
+    }
+    <span class="hljs-keyword">return</span> low;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-70">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-70">&#182;</a>
+              </div>
+              <p>生成器函数，用来创建 indexOf 和 lastIndexOf函数</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createIndexFinder</span>(<span class="hljs-params">dir, predicateFind, sortedIndex</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">array, item, idx</span>) </span>{
+      <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = getLength(array);
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> idx == <span class="hljs-string">'number'</span>) {
+        <span class="hljs-keyword">if</span> (dir &gt; <span class="hljs-number">0</span>) {
+            i = idx &gt;= <span class="hljs-number">0</span> ? idx : <span class="hljs-built_in">Math</span>.max(idx + length, i);
+        } <span class="hljs-keyword">else</span> {
+            length = idx &gt;= <span class="hljs-number">0</span> ? <span class="hljs-built_in">Math</span>.min(idx + <span class="hljs-number">1</span>, length) : idx + length + <span class="hljs-number">1</span>;
+        }
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (sortedIndex &amp;&amp; idx &amp;&amp; length) {
+        idx = sortedIndex(array, item);
+        <span class="hljs-keyword">return</span> array[idx] === item ? idx : <span class="hljs-number">-1</span>;
+      }
+      <span class="hljs-keyword">if</span> (item !== item) {
+        idx = predicateFind(slice.call(array, i, length), _.isNaN);
+        <span class="hljs-keyword">return</span> idx &gt;= <span class="hljs-number">0</span> ? idx + i : <span class="hljs-number">-1</span>;
+      }
+      <span class="hljs-keyword">for</span> (idx = dir &gt; <span class="hljs-number">0</span> ? i : length - <span class="hljs-number">1</span>; idx &gt;= <span class="hljs-number">0</span> &amp;&amp; idx &lt; length; idx += dir) {
+        <span class="hljs-keyword">if</span> (array[idx] === item) <span class="hljs-keyword">return</span> idx;
+      }
+      <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    };
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-71">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-71">&#182;</a>
+              </div>
+              <p>返回元素第一次出现在数组中的位置，如果元素不在数组中则返回-1。
+如果是排好序的大数组，为<strong>isSorted</strong>传入true会使用二分法查找索引。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.indexOf = createIndexFinder(<span class="hljs-number">1</span>, _.findIndex, _.sortedIndex);
+  _.lastIndexOf = createIndexFinder(<span class="hljs-number">-1</span>, _.findLastIndex);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-72">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-72">&#182;</a>
+              </div>
+              <p>生成一个整数型等差数列数组。
+Python原生<code>range()</code>函数的等价实现，参考<a href="http://docs.python.org/library/functions.html#range">the Python documentation</a></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.range = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">start, stop, step</span>) </span>{
+    <span class="hljs-keyword">if</span> (stop == <span class="hljs-literal">null</span>) {
+      stop = start || <span class="hljs-number">0</span>;
+      start = <span class="hljs-number">0</span>;
+    }
+    step = step || <span class="hljs-number">1</span>;
+
+    <span class="hljs-keyword">var</span> length = <span class="hljs-built_in">Math</span>.max(<span class="hljs-built_in">Math</span>.ceil((stop - start) / step), <span class="hljs-number">0</span>);
+    <span class="hljs-keyword">var</span> range = <span class="hljs-built_in">Array</span>(length);
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> idx = <span class="hljs-number">0</span>; idx &lt; length; idx++, start += step) {
+      range[idx] = start;
+    }
+
+    <span class="hljs-keyword">return</span> range;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-73">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-73">&#182;</a>
+              </div>
+              <h2 id="function-">Function函数</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-74">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-74">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-75">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-75">&#182;</a>
+              </div>
+              <p>确定是否以构造器还是普通函数的方式执行函数，并传入给定参数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> executeBound = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">sourceFunc, boundFunc, context, callingContext, args</span>) </span>{
+    <span class="hljs-keyword">if</span> (!(callingContext <span class="hljs-keyword">instanceof</span> boundFunc)) <span class="hljs-keyword">return</span> sourceFunc.apply(context, args);
+    <span class="hljs-keyword">var</span> self = baseCreate(sourceFunc.prototype);
+    <span class="hljs-keyword">var</span> result = sourceFunc.apply(self, args);
+    <span class="hljs-keyword">if</span> (_.isObject(result)) <span class="hljs-keyword">return</span> result;
+    <span class="hljs-keyword">return</span> self;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-76">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-76">&#182;</a>
+              </div>
+              <p>创建一个绑定到给定对象的函数（指定<code>this</code>，可选参数）。
+如果可以，会代理给<strong>ECMAScript 5</strong>原生的<code>Function.bind</code>方法。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.bind = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">func, context</span>) </span>{
+    <span class="hljs-keyword">if</span> (nativeBind &amp;&amp; func.bind === nativeBind) <span class="hljs-keyword">return</span> nativeBind.apply(func, slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">1</span>));
+    <span class="hljs-keyword">if</span> (!_.isFunction(func)) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(<span class="hljs-string">'Bind must be called on a function'</span>);
+    <span class="hljs-keyword">var</span> args = slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">2</span>);
+    <span class="hljs-keyword">var</span> bound = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> executeBound(func, bound, context, <span class="hljs-keyword">this</span>, args.concat(slice.call(<span class="hljs-built_in">arguments</span>)));
+    };
+    <span class="hljs-keyword">return</span> bound;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-77">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-77">&#182;</a>
+              </div>
+              <p>应用偏函数，这是通过创建一个预填参数的版本，在不动态改变<code>this</code>的情况下实现的。_ 作为一个占位符，允许预填任意组合的参数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.partial = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">func</span>) </span>{
+    <span class="hljs-keyword">var</span> boundArgs = slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">var</span> bound = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> position = <span class="hljs-number">0</span>, length = boundArgs.length;
+      <span class="hljs-keyword">var</span> args = <span class="hljs-built_in">Array</span>(length);
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) {
+        args[i] = boundArgs[i] === _ ? <span class="hljs-built_in">arguments</span>[position++] : boundArgs[i];
+      }
+      <span class="hljs-keyword">while</span> (position &lt; <span class="hljs-built_in">arguments</span>.length) args.push(<span class="hljs-built_in">arguments</span>[position++]);
+      <span class="hljs-keyword">return</span> executeBound(func, bound, <span class="hljs-keyword">this</span>, <span class="hljs-keyword">this</span>, args);
+    };
+    <span class="hljs-keyword">return</span> bound;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-78">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-78">&#182;</a>
+              </div>
+              <p>将对象的方法绑定到自身上。剩下的参数是要绑定的方法名称。
+保证所有定义在对象上的回调，都属于对象自己。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.bindAll = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">var</span> i, length = <span class="hljs-built_in">arguments</span>.length, key;
+    <span class="hljs-keyword">if</span> (length &lt;= <span class="hljs-number">1</span>) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'bindAll must be passed function names'</span>);
+    <span class="hljs-keyword">for</span> (i = <span class="hljs-number">1</span>; i &lt; length; i++) {
+      key = <span class="hljs-built_in">arguments</span>[i];
+      obj[key] = _.bind(obj[key], obj);
+    }
+    <span class="hljs-keyword">return</span> obj;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-79">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-79">&#182;</a>
+              </div>
+              <p>通过保存返回值的方式，记录一些消耗昂贵的函数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.memoize = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">func, hasher</span>) </span>{
+    <span class="hljs-keyword">var</span> memoize = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>) </span>{
+      <span class="hljs-keyword">var</span> cache = memoize.cache;
+      <span class="hljs-keyword">var</span> address = <span class="hljs-string">''</span> + (hasher ? hasher.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>) : key);
+      <span class="hljs-keyword">if</span> (!_.has(cache, address)) cache[address] = func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+      <span class="hljs-keyword">return</span> cache[address];
+    };
+    memoize.cache = {};
+    <span class="hljs-keyword">return</span> memoize;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-80">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-80">&#182;</a>
+              </div>
+              <p>给定毫秒数，延迟执行函数，然后用给定的参数调用它。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.delay = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">func, wait</span>) </span>{
+    <span class="hljs-keyword">var</span> args = slice.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-number">2</span>);
+    <span class="hljs-keyword">return</span> setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+      <span class="hljs-keyword">return</span> func.apply(<span class="hljs-literal">null</span>, args);
+    }, wait);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-81">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-81">&#182;</a>
+              </div>
+              <p>延期一个函数，调度它在当前调用栈清空后再执行。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.defer = _.partial(_.delay, _, <span class="hljs-number">1</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-82">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-82">&#182;</a>
+              </div>
+              <p>返回一个函数，在调用时，在固定的窗口时间内最多执行一次。
+通常情况下，在每个<code>等待</code>周期内，节流函数会尽快执行。
+如果你打算禁用开始的调用，请传入<code>{leading: false}</code>。
+类似的传入<code>{trailing: false}</code>，会禁用最后一次调用。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.throttle = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">func, wait, options</span>) </span>{
+    <span class="hljs-keyword">var</span> context, args, result;
+    <span class="hljs-keyword">var</span> timeout = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">var</span> previous = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">if</span> (!options) options = {};
+    <span class="hljs-keyword">var</span> later = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      previous = options.leading === <span class="hljs-literal">false</span> ? <span class="hljs-number">0</span> : _.now();
+      timeout = <span class="hljs-literal">null</span>;
+      result = func.apply(context, args);
+      <span class="hljs-keyword">if</span> (!timeout) context = args = <span class="hljs-literal">null</span>;
+    };
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> now = _.now();
+      <span class="hljs-keyword">if</span> (!previous &amp;&amp; options.leading === <span class="hljs-literal">false</span>) previous = now;
+      <span class="hljs-keyword">var</span> remaining = wait - (now - previous);
+      context = <span class="hljs-keyword">this</span>;
+      args = <span class="hljs-built_in">arguments</span>;
+      <span class="hljs-keyword">if</span> (remaining &lt;= <span class="hljs-number">0</span> || remaining &gt; wait) {
+        <span class="hljs-keyword">if</span> (timeout) {
+          clearTimeout(timeout);
+          timeout = <span class="hljs-literal">null</span>;
+        }
+        previous = now;
+        result = func.apply(context, args);
+        <span class="hljs-keyword">if</span> (!timeout) context = args = <span class="hljs-literal">null</span>;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!timeout &amp;&amp; options.trailing !== <span class="hljs-literal">false</span>) {
+        timeout = setTimeout(later, remaining);
+      }
+      <span class="hljs-keyword">return</span> result;
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-83">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-83">&#182;</a>
+              </div>
+              <p>返回一个函数，只要它连续不断的调用，就不会触发。
+这个函数在停止调用后N毫秒后才会执行。
+传入<code>immediate</code>，会在开始而不是最后执行该函数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.debounce = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">func, wait, immediate</span>) </span>{
+    <span class="hljs-keyword">var</span> timeout, args, context, timestamp, result;
+
+    <span class="hljs-keyword">var</span> later = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> last = _.now() - timestamp;
+
+      <span class="hljs-keyword">if</span> (last &lt; wait &amp;&amp; last &gt;= <span class="hljs-number">0</span>) {
+        timeout = setTimeout(later, wait - last);
+      } <span class="hljs-keyword">else</span> {
+        timeout = <span class="hljs-literal">null</span>;
+        <span class="hljs-keyword">if</span> (!immediate) {
+          result = func.apply(context, args);
+          <span class="hljs-keyword">if</span> (!timeout) context = args = <span class="hljs-literal">null</span>;
+        }
+      }
+    };
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      context = <span class="hljs-keyword">this</span>;
+      args = <span class="hljs-built_in">arguments</span>;
+      timestamp = _.now();
+      <span class="hljs-keyword">var</span> callNow = immediate &amp;&amp; !timeout;
+      <span class="hljs-keyword">if</span> (!timeout) timeout = setTimeout(later, wait);
+      <span class="hljs-keyword">if</span> (callNow) {
+        result = func.apply(context, args);
+        context = args = <span class="hljs-literal">null</span>;
+      }
+
+      <span class="hljs-keyword">return</span> result;
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-84">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-84">&#182;</a>
+              </div>
+              <p>返回作为参数传递给第二个函数的第一个函数，允许你调整参数，在调用前后执行代码，并有条件的执行原始函数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.wrap = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">func, wrapper</span>) </span>{
+    <span class="hljs-keyword">return</span> _.partial(wrapper, func);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-85">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-85">&#182;</a>
+              </div>
+              <p>返回传入断言的否定版本</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.negate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">predicate</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> !predicate.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-86">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-86">&#182;</a>
+              </div>
+              <p>返回一个函数，它是由一个函数列表组成，每个函数都会处理它后面的函数的返回值。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.compose = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> args = <span class="hljs-built_in">arguments</span>;
+    <span class="hljs-keyword">var</span> start = args.length - <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> i = start;
+      <span class="hljs-keyword">var</span> result = args[start].apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+      <span class="hljs-keyword">while</span> (i--) result = args[i].call(<span class="hljs-keyword">this</span>, result);
+      <span class="hljs-keyword">return</span> result;
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-87">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-87">&#182;</a>
+              </div>
+              <p>返回一个函数，只有在被调用N次（包括N次）之后才会执行。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.after = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">times, func</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">if</span> (--times &lt; <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">return</span> func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+      }
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-88">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-88">&#182;</a>
+              </div>
+              <p>返回一个函数，最多只会执行第前n-1次调用。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.before = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">times, func</span>) </span>{
+    <span class="hljs-keyword">var</span> memo;
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">if</span> (--times &gt; <span class="hljs-number">0</span>) {
+        memo = func.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+      }
+      <span class="hljs-keyword">if</span> (times &lt;= <span class="hljs-number">1</span>) func = <span class="hljs-literal">null</span>;
+      <span class="hljs-keyword">return</span> memo;
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-89">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-89">&#182;</a>
+              </div>
+              <p>返回一个函数，不管调用多少次，都只会执行一次。
+用来惰性初始化很有用。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.once = _.partial(_.before, <span class="hljs-number">2</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-90">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-90">&#182;</a>
+              </div>
+              <h2 id="-">对象函数</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-91">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-91">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-92">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-92">&#182;</a>
+              </div>
+              <p>IE9之前的浏览器，<code>for key in ...</code>不会迭代一些key，所以丢掉了。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> hasEnumBug = !{<span class="hljs-attr">toString</span>: <span class="hljs-literal">null</span>}.propertyIsEnumerable(<span class="hljs-string">'toString'</span>);
+  <span class="hljs-keyword">var</span> nonEnumerableProps = [<span class="hljs-string">'valueOf'</span>, <span class="hljs-string">'isPrototypeOf'</span>, <span class="hljs-string">'toString'</span>,
+                      <span class="hljs-string">'propertyIsEnumerable'</span>, <span class="hljs-string">'hasOwnProperty'</span>, <span class="hljs-string">'toLocaleString'</span>];
+
+  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">collectNonEnumProps</span>(<span class="hljs-params">obj, keys</span>) </span>{
+    <span class="hljs-keyword">var</span> nonEnumIdx = nonEnumerableProps.length;
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">constructor</span> = obj.<span class="hljs-keyword">constructor</span>;
+    var proto = (_.isFunction(<span class="hljs-keyword">constructor</span>) &amp;&amp; <span class="hljs-keyword">constructor</span>.prototype) || ObjProto;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-93">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-93">&#182;</a>
+              </div>
+              <p>Constructor是特例。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> prop = <span class="hljs-string">'constructor'</span>;
+    <span class="hljs-keyword">if</span> (_.has(obj, prop) &amp;&amp; !_.contains(keys, prop)) keys.push(prop);
+
+    <span class="hljs-keyword">while</span> (nonEnumIdx--) {
+      prop = nonEnumerableProps[nonEnumIdx];
+      <span class="hljs-keyword">if</span> (prop <span class="hljs-keyword">in</span> obj &amp;&amp; obj[prop] !== proto[prop] &amp;&amp; !_.contains(keys, prop)) {
+        keys.push(prop);
+      }
+    }
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-94">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-94">&#182;</a>
+              </div>
+              <p>获取一个对象的自有属性名称。
+可代理给<strong>ECMAScript 5</strong>‘s原生的<code>Object.keys</code>方法。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.keys = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">if</span> (!_.isObject(obj)) <span class="hljs-keyword">return</span> [];
+    <span class="hljs-keyword">if</span> (nativeKeys) <span class="hljs-keyword">return</span> nativeKeys(obj);
+    <span class="hljs-keyword">var</span> keys = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj) <span class="hljs-keyword">if</span> (_.has(obj, key)) keys.push(key);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-95">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-95">&#182;</a>
+              </div>
+              <p>IE &lt; 9.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (hasEnumBug) collectNonEnumProps(obj, keys);
+    <span class="hljs-keyword">return</span> keys;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-96">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-96">&#182;</a>
+              </div>
+              <p>获取一个对象的所有属性名</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.allKeys = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">if</span> (!_.isObject(obj)) <span class="hljs-keyword">return</span> [];
+    <span class="hljs-keyword">var</span> keys = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj) keys.push(key);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-97">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-97">&#182;</a>
+              </div>
+              <p>IE &lt; 9.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (hasEnumBug) collectNonEnumProps(obj, keys);
+    <span class="hljs-keyword">return</span> keys;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-98">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-98">&#182;</a>
+              </div>
+              <p>获取一个对象的所有属性值。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.values = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">var</span> keys = _.keys(obj);
+    <span class="hljs-keyword">var</span> length = keys.length;
+    <span class="hljs-keyword">var</span> values = <span class="hljs-built_in">Array</span>(length);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) {
+      values[i] = obj[keys[i]];
+    }
+    <span class="hljs-keyword">return</span> values;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-99">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-99">&#182;</a>
+              </div>
+              <p>返回将迭代器应用到对象的每个元素的结果。
+与_.map相反，它返回的是对象。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.mapObject = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
+    iteratee = cb(iteratee, context);
+    <span class="hljs-keyword">var</span> keys =  _.keys(obj),
+          length = keys.length,
+          results = {},
+          currentKey;
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>; index &lt; length; index++) {
+        currentKey = keys[index];
+        results[currentKey] = iteratee(obj[currentKey], currentKey, obj);
+      }
+      <span class="hljs-keyword">return</span> results;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-100">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-100">&#182;</a>
+              </div>
+              <p>将一个对象转换为<code>[key, value]</code>对的列表。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.pairs = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">var</span> keys = _.keys(obj);
+    <span class="hljs-keyword">var</span> length = keys.length;
+    <span class="hljs-keyword">var</span> pairs = <span class="hljs-built_in">Array</span>(length);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) {
+      pairs[i] = [keys[i], obj[keys[i]]];
+    }
+    <span class="hljs-keyword">return</span> pairs;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-101">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-101">&#182;</a>
+              </div>
+              <p>翻转对象的key和value。
+value必须是可序列化的。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.invert = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">var</span> result = {};
+    <span class="hljs-keyword">var</span> keys = _.keys(obj);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = keys.length; i &lt; length; i++) {
+      result[obj[keys[i]]] = keys[i];
+    }
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-102">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-102">&#182;</a>
+              </div>
+              <p>返回对象上可用函数名称的排序列表。
+别名<code>methods</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.functions = _.methods = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">var</span> names = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> obj) {
+      <span class="hljs-keyword">if</span> (_.isFunction(obj[key])) names.push(key);
+    }
+    <span class="hljs-keyword">return</span> names.sort();
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-103">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-103">&#182;</a>
+              </div>
+              <p>使用传入对象的所有属性，扩展给定对象。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.extend = createAssigner(_.allKeys);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-104">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-104">&#182;</a>
+              </div>
+              <p>使用传入对象的所有自有属性，扩展给定对象。
+(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign">https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/assign</a>)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.extendOwn = _.assign = createAssigner(_.keys);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-105">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-105">&#182;</a>
+              </div>
+              <p>返回对象上第一个通过条件测试的属性名称。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.findKey = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, predicate, context</span>) </span>{
+    predicate = cb(predicate, context);
+    <span class="hljs-keyword">var</span> keys = _.keys(obj), key;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = keys.length; i &lt; length; i++) {
+      key = keys[i];
+      <span class="hljs-keyword">if</span> (predicate(obj[key], key, obj)) <span class="hljs-keyword">return</span> key;
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-106">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-106">&#182;</a>
+              </div>
+              <p>返回一个对象的拷贝，只包含了白名单上给出的属性。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.pick = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">object, oiteratee, context</span>) </span>{
+    <span class="hljs-keyword">var</span> result = {}, obj = object, iteratee, keys;
+    <span class="hljs-keyword">if</span> (obj == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> result;
+    <span class="hljs-keyword">if</span> (_.isFunction(oiteratee)) {
+      keys = _.allKeys(obj);
+      iteratee = optimizeCb(oiteratee, context);
+    } <span class="hljs-keyword">else</span> {
+      keys = flatten(<span class="hljs-built_in">arguments</span>, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>, <span class="hljs-number">1</span>);
+      iteratee = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, key, obj</span>) </span>{ <span class="hljs-keyword">return</span> key <span class="hljs-keyword">in</span> obj; };
+      obj = <span class="hljs-built_in">Object</span>(obj);
+    }
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, length = keys.length; i &lt; length; i++) {
+      <span class="hljs-keyword">var</span> key = keys[i];
+      <span class="hljs-keyword">var</span> value = obj[key];
+      <span class="hljs-keyword">if</span> (iteratee(value, key, obj)) result[key] = value;
+    }
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-107">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-107">&#182;</a>
+              </div>
+              <p>返回一个对象的拷贝，移除了黑名单上的属性。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.omit = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, iteratee, context</span>) </span>{
+    <span class="hljs-keyword">if</span> (_.isFunction(iteratee)) {
+      iteratee = _.negate(iteratee);
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">var</span> keys = _.map(flatten(<span class="hljs-built_in">arguments</span>, <span class="hljs-literal">false</span>, <span class="hljs-literal">false</span>, <span class="hljs-number">1</span>), <span class="hljs-built_in">String</span>);
+      iteratee = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value, key</span>) </span>{
+        <span class="hljs-keyword">return</span> !_.contains(keys, key);
+      };
+    }
+    <span class="hljs-keyword">return</span> _.pick(obj, iteratee, context);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-108">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-108">&#182;</a>
+              </div>
+              <p>使用默认属性填充给定对象。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.defaults = createAssigner(_.allKeys, <span class="hljs-literal">true</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-109">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-109">&#182;</a>
+              </div>
+              <p>创建一个对象，它继承自给定原型对象。
+如果提供了额外的属性，它们也会添加到此新创建的对象上。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.create = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">prototype, props</span>) </span>{
+    <span class="hljs-keyword">var</span> result = baseCreate(prototype);
+    <span class="hljs-keyword">if</span> (props) _.extendOwn(result, props);
+    <span class="hljs-keyword">return</span> result;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-110">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-110">&#182;</a>
+              </div>
+              <p>复制对象（浅拷贝）</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.clone = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">if</span> (!_.isObject(obj)) <span class="hljs-keyword">return</span> obj;
+    <span class="hljs-keyword">return</span> _.isArray(obj) ? obj.slice() : _.extend({}, obj);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-111">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-111">&#182;</a>
+              </div>
+              <p>在对象上调用拦截器，之后返回对象。
+此方法的主要作用是用来介入方法链，以便对链式操作的中间值进行某些操作。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.tap = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, interceptor</span>) </span>{
+    interceptor(obj);
+    <span class="hljs-keyword">return</span> obj;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-112">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-112">&#182;</a>
+              </div>
+              <p>判断对象是否包含给定的一组<code>key:value</code>对。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.isMatch = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">object, attrs</span>) </span>{
+    <span class="hljs-keyword">var</span> keys = _.keys(attrs), length = keys.length;
+    <span class="hljs-keyword">if</span> (object == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> !length;
+    <span class="hljs-keyword">var</span> obj = <span class="hljs-built_in">Object</span>(object);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) {
+      <span class="hljs-keyword">var</span> key = keys[i];
+      <span class="hljs-keyword">if</span> (attrs[key] !== obj[key] || !(key <span class="hljs-keyword">in</span> obj)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-113">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-113">&#182;</a>
+              </div>
+              <p><code>isEqual</code>的内部递归比较函数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> eq = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b, aStack, bStack</span>) </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-114">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-114">&#182;</a>
+              </div>
+              <p>相同的对象是相等的。<code>0 === -0</code>，但它们不是相同的。
+参考<a href="http://wiki.ecmascript.org/doku.php?id=harmony:egal">Harmony <code>egal</code> proposal</a>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (a === b) <span class="hljs-keyword">return</span> a !== <span class="hljs-number">0</span> || <span class="hljs-number">1</span> / a === <span class="hljs-number">1</span> / b;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-115">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-115">&#182;</a>
+              </div>
+              <p>需要严格比较，因为<code>null == undefined</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (a == <span class="hljs-literal">null</span> || b == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> a === b;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-116">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-116">&#182;</a>
+              </div>
+              <p>打开包装对象</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (a <span class="hljs-keyword">instanceof</span> _) a = a._wrapped;
+    <span class="hljs-keyword">if</span> (b <span class="hljs-keyword">instanceof</span> _) b = b._wrapped;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-117">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-117">&#182;</a>
+              </div>
+              <p>比较<code>[[Class]]</code>名字。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> className = toString.call(a);
+    <span class="hljs-keyword">if</span> (className !== toString.call(b)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+    <span class="hljs-keyword">switch</span> (className) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-118">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-118">&#182;</a>
+              </div>
+              <p>字符串，数值，正则表达式，日期，以及布尔值进行值比较。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">case</span> <span class="hljs-string">'[object RegExp]'</span>:</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-119">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-119">&#182;</a>
+              </div>
+              <p>为了比较，正则表达式强制转换为字符串（注：’’ + /a/i === ‘/a/i’）。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">case</span> <span class="hljs-string">'[object String]'</span>:</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-120">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-120">&#182;</a>
+              </div>
+              <p>基本数据类型和它们对应的对象包装器是相等的；因此 <code>&quot;5&quot;</code>等于<code>new String(&quot;5&quot;)</code>。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> <span class="hljs-string">''</span> + a === <span class="hljs-string">''</span> + b;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'[object Number]'</span>:</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-121">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-121">&#182;</a>
+              </div>
+              <p><code>NaN</code>s are equivalent, but non-reflexive.
+Object(NaN) is equivalent to NaN</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (+a !== +a) <span class="hljs-keyword">return</span> +b !== +b;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-122">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-122">&#182;</a>
+              </div>
+              <p>An <code>egal</code> comparison is performed for other numeric values.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> +a === <span class="hljs-number">0</span> ? <span class="hljs-number">1</span> / +a === <span class="hljs-number">1</span> / b : +a === +b;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'[object Date]'</span>:
+      <span class="hljs-keyword">case</span> <span class="hljs-string">'[object Boolean]'</span>:</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-123">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-123">&#182;</a>
+              </div>
+              <p>强制转换日期和布尔值为基本数值类型。
+日期以毫秒进行比较。注意无效的日期的毫秒数为<code>NaN</code>，且不相等。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">return</span> +a === +b;
+    }
+
+    <span class="hljs-keyword">var</span> areArrays = className === <span class="hljs-string">'[object Array]'</span>;
+    <span class="hljs-keyword">if</span> (!areArrays) {
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> a != <span class="hljs-string">'object'</span> || <span class="hljs-keyword">typeof</span> b != <span class="hljs-string">'object'</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-124">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-124">&#182;</a>
+              </div>
+              <p>构造器不相同的对象不相等，但是<code>Object</code>或<code>Array</code>类型的除外。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> aCtor = a.constructor, bCtor = b.constructor;
+      <span class="hljs-keyword">if</span> (aCtor !== bCtor &amp;&amp; !(_.isFunction(aCtor) &amp;&amp; aCtor <span class="hljs-keyword">instanceof</span> aCtor &amp;&amp;
+                               _.isFunction(bCtor) &amp;&amp; bCtor <span class="hljs-keyword">instanceof</span> bCtor)
+                          &amp;&amp; (<span class="hljs-string">'constructor'</span> <span class="hljs-keyword">in</span> a &amp;&amp; <span class="hljs-string">'constructor'</span> <span class="hljs-keyword">in</span> b)) {
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+      }
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-125">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-125">&#182;</a>
+              </div>
+              <p>循环结构的相等性假设。检测循环结构的算法是改编自ES 5.1标准的15.12.3一节abstract operation <code>JO</code></p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-126">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-126">&#182;</a>
+              </div>
+              <p>初始化遍历对象的栈。
+之所以在此完成，仅因为对象和数组的比较需要。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    aStack = aStack || [];
+    bStack = bStack || [];
+    <span class="hljs-keyword">var</span> length = aStack.length;
+    <span class="hljs-keyword">while</span> (length--) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-127">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-127">&#182;</a>
+              </div>
+              <p>线性搜索。性能与嵌套结构的数量成反比。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (aStack[length] === a) <span class="hljs-keyword">return</span> bStack[length] === b;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-128">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-128">&#182;</a>
+              </div>
+              <p>将第一个对象添加到遍历对象的栈中。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    aStack.push(a);
+    bStack.push(b);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-129">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-129">&#182;</a>
+              </div>
+              <p>递归比较对象和数组。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (areArrays) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-130">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-130">&#182;</a>
+              </div>
+              <p>比较数组长度，决定是否需要一个深度比较。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      length = a.length;
+      <span class="hljs-keyword">if</span> (length !== b.length) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-131">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-131">&#182;</a>
+              </div>
+              <p>深度比较数组内容，忽略非数值属性。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">while</span> (length--) {
+        <span class="hljs-keyword">if</span> (!eq(a[length], b[length], aStack, bStack)) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+      }
+    } <span class="hljs-keyword">else</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-132">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-132">&#182;</a>
+              </div>
+              <p>深度比较对象。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">var</span> keys = _.keys(a), key;
+      length = keys.length;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-133">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-133">&#182;</a>
+              </div>
+              <p>在进行深度比较前，保证两个对象包含同等数量的属性。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span> (_.keys(b).length !== length) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+      <span class="hljs-keyword">while</span> (length--) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-134">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-134">&#182;</a>
+              </div>
+              <p>深度比较每个成员。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        key = keys[length];
+        <span class="hljs-keyword">if</span> (!(_.has(b, key) &amp;&amp; eq(a[key], b[key], aStack, bStack))) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+      }
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-135">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-135">&#182;</a>
+              </div>
+              <p>从遍历对象的栈中，删除首个对象。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    aStack.pop();
+    bStack.pop();
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-136">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-136">&#182;</a>
+              </div>
+              <p>执行深度比较，判断两个对象是否相等</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.isEqual = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a, b</span>) </span>{
+    <span class="hljs-keyword">return</span> eq(a, b);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-137">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-137">&#182;</a>
+              </div>
+              <p>判断给定的数组，字符串或对象是否是空的。
+空对象没有可枚举的自身属性（own-properties）</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.isEmpty = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">if</span> (obj == <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">if</span> (isArrayLike(obj) &amp;&amp; (_.isArray(obj) || _.isString(obj) || _.isArguments(obj))) <span class="hljs-keyword">return</span> obj.length === <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> _.keys(obj).length === <span class="hljs-number">0</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-138">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-138">&#182;</a>
+              </div>
+              <p>判断给定值是否是DOM元素？</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.isElement = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">return</span> !!(obj &amp;&amp; obj.nodeType === <span class="hljs-number">1</span>);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-139">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-139">&#182;</a>
+              </div>
+              <p>判断给定元素是否是数组？
+ECMA5原生<code>Array.isArray</code>方法的代理实现</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.isArray = nativeIsArray || <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">return</span> toString.call(obj) === <span class="hljs-string">'[object Array]'</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-140">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-140">&#182;</a>
+              </div>
+              <p>判断给定值是否是对象？</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.isObject = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">var</span> type = <span class="hljs-keyword">typeof</span> obj;
+    <span class="hljs-keyword">return</span> type === <span class="hljs-string">'function'</span> || type === <span class="hljs-string">'object'</span> &amp;&amp; !!obj;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-141">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-141">&#182;</a>
+              </div>
+              <p>添加isType方法，包括：isArguments, isFunction, isString, isNumber, isDate, isRegExp, isError。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.each([<span class="hljs-string">'Arguments'</span>, <span class="hljs-string">'Function'</span>, <span class="hljs-string">'String'</span>, <span class="hljs-string">'Number'</span>, <span class="hljs-string">'Date'</span>, <span class="hljs-string">'RegExp'</span>, <span class="hljs-string">'Error'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
+    _[<span class="hljs-string">'is'</span> + name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+      <span class="hljs-keyword">return</span> toString.call(obj) === <span class="hljs-string">'[object '</span> + name + <span class="hljs-string">']'</span>;
+    };
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-142">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-142">&#182;</a>
+              </div>
+              <p>在那些检测不到”Arguments”类型的浏览器中（IE &lt; 9），定义一个回退版本的方法。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (!_.isArguments(<span class="hljs-built_in">arguments</span>)) {
+    _.isArguments = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+      <span class="hljs-keyword">return</span> _.has(obj, <span class="hljs-string">'callee'</span>);
+    };
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-143">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-143">&#182;</a>
+              </div>
+              <p>按需优化的<code>isFunction</code>。绕开一些在旧的v8，IE 11（#1621），和Safari 8（#1929）下，typeof的bug</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> /./ != <span class="hljs-string">'function'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">Int8Array</span> != <span class="hljs-string">'object'</span>) {
+    _.isFunction = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> obj == <span class="hljs-string">'function'</span> || <span class="hljs-literal">false</span>;
+    };
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-144">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-144">&#182;</a>
+              </div>
+              <p>判断给定值是否是有限数值？</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.isFinite = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">isFinite</span>(obj) &amp;&amp; !<span class="hljs-built_in">isNaN</span>(<span class="hljs-built_in">parseFloat</span>(obj));
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-145">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-145">&#182;</a>
+              </div>
+              <p>判断给定的值是否是<code>NaN</code>?（NaN是唯一不等于自己本身的数字）。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.isNaN = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">return</span> _.isNumber(obj) &amp;&amp; obj !== +obj;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-146">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-146">&#182;</a>
+              </div>
+              <p>判断给定的值是否是boolean值?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.isBoolean = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">return</span> obj === <span class="hljs-literal">true</span> || obj === <span class="hljs-literal">false</span> || toString.call(obj) === <span class="hljs-string">'[object Boolean]'</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-147">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-147">&#182;</a>
+              </div>
+              <p>判断给定的值是否是null?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.isNull = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">return</span> obj === <span class="hljs-literal">null</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-148">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-148">&#182;</a>
+              </div>
+              <p>判断给定的值是否是undefined?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.isUndefined = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">return</span> obj === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-149">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-149">&#182;</a>
+              </div>
+              <p>便捷函数，检测对象本身是否含有给定的属性（换言之，非原型上的属性）。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.has = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj, key</span>) </span>{
+    <span class="hljs-keyword">return</span> obj != <span class="hljs-literal">null</span> &amp;&amp; hasOwnProperty.call(obj, key);
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-150">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-150">&#182;</a>
+              </div>
+              <h2 id="-">工具函数</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-151">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-151">&#182;</a>
+              </div>
+              <p>在<em>noConflict</em>模式下运行Underscore.js，将<code>_</code>变量返回给它之前的所有者。
+返回一个Underscore对象的引用。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.noConflict = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    root._ = previousUnderscore;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-152">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-152">&#182;</a>
+              </div>
+              <p>恒等函数，用来当做默认的迭代器。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.identity = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
+    <span class="hljs-keyword">return</span> value;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-153">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-153">&#182;</a>
+              </div>
+              <p>生成器函数，生成一个返回传进的参数值的函数。通常在Underscore的外面有用。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.constant = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">value</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> value;
+    };
+  };
+
+  _.noop = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{};
+
+  _.property = property;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-154">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-154">&#182;</a>
+              </div>
+              <p>为一个对象生成一个函数，可以返回给定属性的值。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.propertyOf = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">return</span> obj == <span class="hljs-literal">null</span> ? <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{} : <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">key</span>) </span>{
+      <span class="hljs-keyword">return</span> obj[key];
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-155">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-155">&#182;</a>
+              </div>
+              <p>返回一个断言，检测一个对象是否包含给定的一组<code>key:value</code>对。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.matcher = _.matches = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">attrs</span>) </span>{
+    attrs = _.extendOwn({}, attrs);
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+      <span class="hljs-keyword">return</span> _.isMatch(obj, attrs);
+    };
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-156">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-156">&#182;</a>
+              </div>
+              <p>运行一个函数<strong>n</strong>次</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.times = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">n, iteratee, context</span>) </span>{
+    <span class="hljs-keyword">var</span> accum = <span class="hljs-built_in">Array</span>(<span class="hljs-built_in">Math</span>.max(<span class="hljs-number">0</span>, n));
+    iteratee = optimizeCb(iteratee, context, <span class="hljs-number">1</span>);
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) accum[i] = iteratee(i);
+    <span class="hljs-keyword">return</span> accum;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-157">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-157">&#182;</a>
+              </div>
+              <p>返回一个在mix和max之间的随机整数。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.random = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">min, max</span>) </span>{
+    <span class="hljs-keyword">if</span> (max == <span class="hljs-literal">null</span>) {
+      max = min;
+      min = <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-keyword">return</span> min + <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * (max - min + <span class="hljs-number">1</span>));
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-158">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-158">&#182;</a>
+              </div>
+              <p>以整数形式获取当前时间戳的一种方法（可能更快）。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.now = <span class="hljs-built_in">Date</span>.now || <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime();
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-159">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-159">&#182;</a>
+              </div>
+              <p>用于转义的HTML实体的列表。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> escapeMap = {
+    <span class="hljs-string">'&amp;'</span>: <span class="hljs-string">'&amp;amp;'</span>,
+    <span class="hljs-string">'&lt;'</span>: <span class="hljs-string">'&amp;lt;'</span>,
+    <span class="hljs-string">'&gt;'</span>: <span class="hljs-string">'&amp;gt;'</span>,
+    <span class="hljs-string">'"'</span>: <span class="hljs-string">'&amp;quot;'</span>,
+    <span class="hljs-string">"'"</span>: <span class="hljs-string">'&amp;#x27;'</span>,
+    <span class="hljs-string">'`'</span>: <span class="hljs-string">'&amp;#x60;'</span>
+  };
+  <span class="hljs-keyword">var</span> unescapeMap = _.invert(escapeMap);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-160">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-160">&#182;</a>
+              </div>
+              <p>用来实现HTML插入时的字符串的转义与反转义。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> createEscaper = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">map</span>) </span>{
+    <span class="hljs-keyword">var</span> escaper = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">match</span>) </span>{
+      <span class="hljs-keyword">return</span> map[match];
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-161">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-161">&#182;</a>
+              </div>
+              <p>正则表达式，用来标识一个需要转义的关键字。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> source = <span class="hljs-string">'(?:'</span> + _.keys(map).join(<span class="hljs-string">'|'</span>) + <span class="hljs-string">')'</span>;
+    <span class="hljs-keyword">var</span> testRegexp = <span class="hljs-built_in">RegExp</span>(source);
+    <span class="hljs-keyword">var</span> replaceRegexp = <span class="hljs-built_in">RegExp</span>(source, <span class="hljs-string">'g'</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">string</span>) </span>{
+      string = string == <span class="hljs-literal">null</span> ? <span class="hljs-string">''</span> : <span class="hljs-string">''</span> + string;
+      <span class="hljs-keyword">return</span> testRegexp.test(string) ? string.replace(replaceRegexp, escaper) : string;
+    };
+  };
+  _.escape = createEscaper(escapeMap);
+  _.unescape = createEscaper(unescapeMap);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-162">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-162">&#182;</a>
+              </div>
+              <p>如果<code>property</code>的值是函数类型，那么在<code>object</code>上调用它，并返回值；
+否则直接返回<code>property</code>的值。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.result = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">object, property, fallback</span>) </span>{
+    <span class="hljs-keyword">var</span> value = object == <span class="hljs-literal">null</span> ? <span class="hljs-keyword">void</span> <span class="hljs-number">0</span> : object[property];
+    <span class="hljs-keyword">if</span> (value === <span class="hljs-keyword">void</span> <span class="hljs-number">0</span>) {
+      value = fallback;
+    }
+    <span class="hljs-keyword">return</span> _.isFunction(value) ? value.call(object) : value;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-163">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-163">&#182;</a>
+              </div>
+              <p>生成一个唯一的整数id(在整个客户端会话中唯一)。
+用来作临时DOM的id很有用。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> idCounter = <span class="hljs-number">0</span>;
+  _.uniqueId = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">prefix</span>) </span>{
+    <span class="hljs-keyword">var</span> id = ++idCounter + <span class="hljs-string">''</span>;
+    <span class="hljs-keyword">return</span> prefix ? prefix + id : id;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-164">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-164">&#182;</a>
+              </div>
+              <p>默认情况下，Underscore使用ERB风格的模板分隔符，
+改变下面模板的设置来使用别的分隔符。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.templateSettings = {
+    <span class="hljs-attr">evaluate</span>    : <span class="hljs-regexp">/&lt;%([\s\S]+?)%&gt;/g</span>,
+    <span class="hljs-attr">interpolate</span> : <span class="hljs-regexp">/&lt;%=([\s\S]+?)%&gt;/g</span>,
+    <span class="hljs-attr">escape</span>      : <span class="hljs-regexp">/&lt;%-([\s\S]+?)%&gt;/g</span>
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-165">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-165">&#182;</a>
+              </div>
+              <p>当定制<code>templateSettings</code>时，如果你不想定义插值，求值，转义的正则，
+那么需要一个保证不会匹配的正则。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> noMatch = <span class="hljs-regexp">/(.)^/</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-166">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-166">&#182;</a>
+              </div>
+              <p>某些字符需要转义，保证他们可以被放到字符串字面量中。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> escapes = {
+    <span class="hljs-string">"'"</span>:      <span class="hljs-string">"'"</span>,
+    <span class="hljs-string">'\\'</span>:     <span class="hljs-string">'\\'</span>,
+    <span class="hljs-string">'\r'</span>:     <span class="hljs-string">'r'</span>,
+    <span class="hljs-string">'\n'</span>:     <span class="hljs-string">'n'</span>,
+    <span class="hljs-string">'\u2028'</span>: <span class="hljs-string">'u2028'</span>,
+    <span class="hljs-string">'\u2029'</span>: <span class="hljs-string">'u2029'</span>
+  };
+
+  <span class="hljs-keyword">var</span> escaper = <span class="hljs-regexp">/\\|'|\r|\n|\u2028|\u2029/g</span>;
+
+  <span class="hljs-keyword">var</span> escapeChar = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">match</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'\\'</span> + escapes[match];
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-167">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-167">&#182;</a>
+              </div>
+              <p>JavaScript微型模板（micro-templating），与John Resig的实现类似。
+Underscore的模板可处理任意类型的分隔符，保留空白符，并且能正确转义
+插入代码中的引号。
+注：<code>oldSettings</code>的存在只为向后兼容。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.template = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">text, settings, oldSettings</span>) </span>{
+    <span class="hljs-keyword">if</span> (!settings &amp;&amp; oldSettings) settings = oldSettings;
+    settings = _.defaults({}, settings, _.templateSettings);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-168">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-168">&#182;</a>
+              </div>
+              <p>通过间隔符将分隔符组合成一个正则表达式。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> matcher = <span class="hljs-built_in">RegExp</span>([
+      (settings.escape || noMatch).source,
+      (settings.interpolate || noMatch).source,
+      (settings.evaluate || noMatch).source
+    ].join(<span class="hljs-string">'|'</span>) + <span class="hljs-string">'|$'</span>, <span class="hljs-string">'g'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-169">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-169">&#182;</a>
+              </div>
+              <p>编译模板源代码，适时转义字符串常量。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> source = <span class="hljs-string">"__p+='"</span>;
+    text.replace(matcher, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">match, escape, interpolate, evaluate, offset</span>) </span>{
+      source += text.slice(index, offset).replace(escaper, escapeChar);
+      index = offset + match.length;
+
+      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">escape</span>) {
+        source += <span class="hljs-string">"'+\n((__t=("</span> + <span class="hljs-built_in">escape</span> + <span class="hljs-string">"))==null?'':_.escape(__t))+\n'"</span>;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (interpolate) {
+        source += <span class="hljs-string">"'+\n((__t=("</span> + interpolate + <span class="hljs-string">"))==null?'':__t)+\n'"</span>;
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (evaluate) {
+        source += <span class="hljs-string">"';\n"</span> + evaluate + <span class="hljs-string">"\n__p+='"</span>;
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-170">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-170">&#182;</a>
+              </div>
+              <p>Adobe VMs需要这个返回的匹配值，以便生成正确的偏移。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">return</span> match;
+    });
+    source += <span class="hljs-string">"';\n"</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-171">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-171">&#182;</a>
+              </div>
+              <p>如果未指定变量，就将数据值放在局部范围内。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (!settings.variable) source = <span class="hljs-string">'with(obj||{}){\n'</span> + source + <span class="hljs-string">'}\n'</span>;
+
+    source = <span class="hljs-string">"var __t,__p='',__j=Array.prototype.join,"</span> +
+      <span class="hljs-string">"print=function(){__p+=__j.call(arguments,'');};\n"</span> +
+      source + <span class="hljs-string">'return __p;\n'</span>;
+
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">var</span> render = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(settings.variable || <span class="hljs-string">'obj'</span>, <span class="hljs-string">'_'</span>, source);
+    } <span class="hljs-keyword">catch</span> (e) {
+      e.source = source;
+      <span class="hljs-keyword">throw</span> e;
+    }
+
+    <span class="hljs-keyword">var</span> template = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
+      <span class="hljs-keyword">return</span> render.call(<span class="hljs-keyword">this</span>, data, _);
+    };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-172">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-172">&#182;</a>
+              </div>
+              <p>为预编译提供编译后的源代码。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> argument = settings.variable || <span class="hljs-string">'obj'</span>;
+    template.source = <span class="hljs-string">'function('</span> + argument + <span class="hljs-string">'){\n'</span> + source + <span class="hljs-string">'}'</span>;
+
+    <span class="hljs-keyword">return</span> template;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-173">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-173">&#182;</a>
+              </div>
+              <p>添加一个”chain”函数。开始链接一个包装后的Underscore对象。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.chain = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    <span class="hljs-keyword">var</span> instance = _(obj);
+    instance._chain = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">return</span> instance;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-174">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-174">&#182;</a>
+              </div>
+              <h2 id="-oop-">面向对象（OOP）</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-175">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-175">&#182;</a>
+              </div>
+              <p>如果Underscore是以函数的形式调用，它会返回一个包装对象，可以实现OOP样式。
+这个包装器持有所有Underscore函数的修订版本。包装对象可以链式调用。</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-176">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-176">&#182;</a>
+              </div>
+              <p>辅助函数，用来继续链接中间值。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">var</span> result = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">instance, obj</span>) </span>{
+    <span class="hljs-keyword">return</span> instance._chain ? _(obj).chain() : obj;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-177">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-177">&#182;</a>
+              </div>
+              <p>将你自己定制的函数添加到Underscore对象上。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.mixin = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">obj</span>) </span>{
+    _.each(_.functions(obj), <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
+      <span class="hljs-keyword">var</span> func = _[name] = obj[name];
+      _.prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> args = [<span class="hljs-keyword">this</span>._wrapped];
+        push.apply(args, <span class="hljs-built_in">arguments</span>);
+        <span class="hljs-keyword">return</span> result(<span class="hljs-keyword">this</span>, func.apply(_, args));
+      };
+    });
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-178">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-178">&#182;</a>
+              </div>
+              <p>将所有Underscore的函数添加到包装对象上。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.mixin(_);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-179">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-179">&#182;</a>
+              </div>
+              <p>将所有变种的数组函数添加到包装对象上。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.each([<span class="hljs-string">'pop'</span>, <span class="hljs-string">'push'</span>, <span class="hljs-string">'reverse'</span>, <span class="hljs-string">'shift'</span>, <span class="hljs-string">'sort'</span>, <span class="hljs-string">'splice'</span>, <span class="hljs-string">'unshift'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
+    <span class="hljs-keyword">var</span> method = ArrayProto[name];
+    _.prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">var</span> obj = <span class="hljs-keyword">this</span>._wrapped;
+      method.apply(obj, <span class="hljs-built_in">arguments</span>);
+      <span class="hljs-keyword">if</span> ((name === <span class="hljs-string">'shift'</span> || name === <span class="hljs-string">'splice'</span>) &amp;&amp; obj.length === <span class="hljs-number">0</span>) <span class="hljs-keyword">delete</span> obj[<span class="hljs-number">0</span>];
+      <span class="hljs-keyword">return</span> result(<span class="hljs-keyword">this</span>, obj);
+    };
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-180">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-180">&#182;</a>
+              </div>
+              <p>将所有数组访问函数添加到包装对象上。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.each([<span class="hljs-string">'concat'</span>, <span class="hljs-string">'join'</span>, <span class="hljs-string">'slice'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">name</span>) </span>{
+    <span class="hljs-keyword">var</span> method = ArrayProto[name];
+    _.prototype[name] = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> result(<span class="hljs-keyword">this</span>, method.apply(<span class="hljs-keyword">this</span>._wrapped, <span class="hljs-built_in">arguments</span>));
+    };
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-181">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-181">&#182;</a>
+              </div>
+              <p>从包装的和链接的对象上提取结果。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.prototype.value = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._wrapped;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-182">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-182">&#182;</a>
+              </div>
+              <p>为引擎操作中使用的一些方法提供解包代理，
+比如算法或JSON字符串化。</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  _.prototype.valueOf = _.prototype.toJSON = _.prototype.value;
+
+  _.prototype.toString = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">''</span> + <span class="hljs-keyword">this</span>._wrapped;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-183">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-183">&#182;</a>
+              </div>
+              <p>AMD registration happens at the end for compatibility with AMD loaders
+that may not enforce next-turn semantics on modules. Even though general
+practice for AMD registration is to be anonymous, underscore registers
+as a named module because, like jQuery, it is a base library that is
+popular enough to be bundled in a third party lib, but not be part of
+an AMD load request. Those cases could generate an error when an
+anonymous define() is called outside of a loader request.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> define === <span class="hljs-string">'function'</span> &amp;&amp; define.amd) {
+    define(<span class="hljs-string">'underscore'</span>, [], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> _;
+    });
+  }
+}.call(<span class="hljs-keyword">this</span>));</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

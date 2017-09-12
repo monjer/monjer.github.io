@@ -1,0 +1,36 @@
+---
+layout: default
+---
+
+<div class="home">
+
+  {{ content }}
+  <ul class="post-list">
+    {% for post in paginator.posts %}
+    <li>
+      {% assign date_format = site.date_format | default: "%Y-%m-%d" %}
+      <span class="post-meta">{{ post.date | date: date_format }}</span>
+      <h2>
+          <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+        </h2>
+    </li>
+    {% endfor %}
+  </ul>
+  {% if paginator.total_pages > 1 %}
+    <div class="pagination text-center">
+    {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path }}" class="previous">{{site.paginate_label.previous_page}}</a>
+    {% else %}
+      <span class="previous">{{site.paginate_label.previous_page}}</span>
+    {% endif %}
+    <span class="page_number ">{{ paginator.page }} / {{ paginator.total_pages }}</span>
+    {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path }}" class="next">{{site.paginate_label.next_page}}</a>
+    {% else %}
+      <span class="next ">{{site.paginate_label.next_page}}</span>
+    {% endif %}
+    <span>共{{paginator.total_posts}}篇</span>
+  </div>
+  {% endif %}
+  <!-- <p class="rss-subscribe">subscribe <a href="{{ " /feed.xml " | relative_url }}">via RSS</a></p> -->
+</div>
