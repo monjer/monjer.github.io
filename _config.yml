@@ -31,12 +31,22 @@ plugins:
   - jekyll-feed
   - jekyll-paginate
   - jekyll-sitemap
+
+#
+# 默认的设置
+#
 defaults:
   -
     scope:
       path: "" # an empty string here means all files in the project
     values:
       layout: "page"
+  -
+    scope:
+      path: ""
+    values:
+      comments: true
+
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.
@@ -48,6 +58,7 @@ defaults:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+#    and jekyll.environment == "production"
 paginate: 10
 paginator:
   page: 0
@@ -69,8 +80,12 @@ nav:
   -
     title: 关于
     url: "/about"
+
 date_format: "%Y-%m-%d"
 
 google_analytics: "UA-106542210-1"
 
 google_adsense: "ca-pub-5347284824666460"
+
+disqus:
+  shortname: "monjer"
