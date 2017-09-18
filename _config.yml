@@ -65,7 +65,7 @@ nav:
     url: "/backbone"
   -
     title: underscore
-    url: "/underscore"
+    url: "/underscorejs"
   -
     title: 关于
     url: "/about"
