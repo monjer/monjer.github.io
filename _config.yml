@@ -65,10 +65,12 @@ nav:
     url: "/backbone"
   -
     title: underscore
-    url: "/underscorejs"
+    url: "/underscore"
   -
     title: 关于
     url: "/about"
 date_format: "%Y-%m-%d"
 
-with_comments: true
+google_analytics: "UA-106542210-1"
+
+google_adsense: "ca-pub-5347284824666460"
