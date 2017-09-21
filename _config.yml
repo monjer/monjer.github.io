@@ -89,3 +89,5 @@ google_adsense: "ca-pub-5347284824666460"
 
 disqus:
   shortname: "monjer"
+
+highlighter: pygments  
