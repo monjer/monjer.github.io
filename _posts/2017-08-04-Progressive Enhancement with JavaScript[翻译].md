@@ -76,9 +76,10 @@ JavaScript不是单独存在的，因此就像脚本与标签分离一样（如�
 
 ```js
 var el = document.getElementById( 'message' );
-<del>el.style.color = '#f00';
-el.style.backgroundColor = '#ffcfcf';</del>
-<ins>el.className = 'highlighted';</ins>
+el.style.color = '#f00';
+el.style.backgroundColor = '#ffcfcf';
+//替换为
+el.className = 'highlighted';
 
 ```
 

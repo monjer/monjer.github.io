@@ -5,7 +5,7 @@ date: 2017-08-03
 
 在上篇文章中，我们了解到每个函数都有一个与之关联的执行环境（`execution context`），它包含了一个变量对象（`variable object [VO]`）,这个变量对象包含了给定本地函数内部的所有定义的变量，函数和参数。
 
-每个执行环境（`execution context`）的作用域链（`scope chain`）属性都是一个有当前执行环境的变量对象（`[VO]`）和所有上层环境变量对象（`[VO]`）组成的集合。
+每个执行环境（`execution context`）的作用域链（`scope chain`）属性都是一个由当前执行环境的变量对象（`[VO]`）和所有上层环境变量对象（`[VO]`）组成的集合。
 
 ```
 Scope = VO + All Parent VOs
@@ -119,7 +119,7 @@ one()​;​
 在JavaScript中，闭包通常被认为是某种神奇的独角兽，只有高级开发人员才能真正理解它，但说实话只要搞清了作用域链就搞清了闭包了。闭包，如[Crockford](http://javascript.crockford.com/private.html)所说，可以简单的描述为：
 
 >
->一个内部函数，总能访问它外部函数的变量和参数，即使是外部返回已经返回...（
+>一个内部函数，总能访问它外部函数的变量和参数，即使是外部函数已经返回...（
 >An inner function always has access to the vars and parameters of its outer function, even after the outer function has returned…）
 >
 >

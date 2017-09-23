@@ -61,7 +61,7 @@ for(let item of arr){
  str += item;
 }
 console.log(str += item); // 123
-````
+```
 ### 访问默认的Iterator
 
 使用`Symbol.iteraor`可以访问对象的iterator遍历器，比如
@@ -127,6 +127,7 @@ for(let value of myCollection){
 由于遍历操作的常见性，JavaScript内建对象类型已经实现了iterable协议，主要有集合类型Map,Array,Set,字符串类型String，以及DOM的NodeList类型。
 
 1. **集合类型**
+
 ```js
 let arr = [1,2,3];
 let set = new Set(['red','black','blue']);
@@ -165,6 +166,7 @@ for (let c of str) {
 
 ```
 输出
+
 ```js
 h
 e
