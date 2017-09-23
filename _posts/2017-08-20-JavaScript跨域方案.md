@@ -72,7 +72,7 @@ iframe页面代码，`http://dev.site.com/content.html`
 <button id="btn">调用</button>
 <script type="text/javascript">
   // 需要在子界面设置document.domain
-  document.domain = 'server.com';
+  document.domain = 'site.com';
   function invoke() {
     alert('子域名函数');
   }
@@ -149,17 +149,18 @@ jsonpCb({"success": true , "message": "This is the response data"})
         delete window[name];
       }
       var script = document.createElement('script');
-      if (src.indexOf('?') > 1) {
+      if (src.indexOf('?') > -1) {
         src += '&callback=' + name
       } else {
         src += '?callback=' + name
       }
       script.src = src;
       script.onload = function() {
-        document.body.removeChild(script);
+        script.parentNode && script.parentNode.removeChild(script);
         script = null;
+        delete window[name];
       }
-      document.body.appendChild(script)
+      document.getElementsByTagName('head')[0].appendChild(script)
     }
     
     
@@ -332,7 +333,7 @@ CORS请求包含两种类型的请求：简单请求和非简单请求。
 
 只要满足一下条件的请求都是简单请求
 
-```
+```http
 1.使用下列方法之一：
 GET
 HEAD
@@ -620,12 +621,11 @@ Access-Control-Allow-Credentials: true
 + 不能访问响应头
 + 只能发送异步请求，不能发送同步请求
 
-
-
-
 #### WebSocket
 
+WebSocket的通信本身不受跨域限制。
 
+[示例](https://github.com/monjer/cros-demos)
 
 ### 参考
 
