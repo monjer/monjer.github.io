@@ -194,7 +194,7 @@ describe('client-app' , function(){
 和用来显示测试结果的主页，`app/client/test/index.html`
 
 ```html
-<!doctype html5>
+<!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
