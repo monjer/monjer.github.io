@@ -22,10 +22,16 @@ email: hmj030986@gmail.com
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 # twitter_username: jekyllrb
-github_username:  monjer
+github_username: monjer
 
 # Build settings
 markdown: kramdown
+
+kramdown:
+  input:         GFM
+  auto_ids:      true
+  auto_id_prefix: 'id-'
+
 # theme: minima
 plugins:
   - jekyll-feed
@@ -58,7 +64,7 @@ defaults:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-#    and jekyll.environment == "production"
+#    and jekyll.environment == "production"x
 paginate: 10
 paginator:
   page: 0
@@ -90,4 +96,4 @@ google_adsense: "ca-pub-5347284824666460"
 disqus:
   shortname: "monjer"
 
-highlighter: pygments  
+highlighter: pygments
