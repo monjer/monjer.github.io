@@ -178,12 +178,12 @@ fooExecutionContext = {
 
 我们可能会问到：
 
-+ **为什么我们可以在声明foof之前就能访问它？**
++ **为什么我们可以在声明foo之前就能访问它？**
     + 如果我们顺着`creation stage`往下看，我们就知道在活动阶段(`activation / code execution stage`)之前，变量就已经创建了。所以当函数流程开始执行时，`foo`已经定义在了活动对象(`activation object`)上了。
 
 + **foo声明了两次，为什么foo显示是`function`而不是`undefined`或`string`呢？**
     + 虽然`foo`声明了两次，我们从创建阶段（`creation stage`）知道函数是在变量之前就在活动对象(`activation object`)上创建了，如果活动对象(`activation object`)上的一个属性名已存在，我们只是简单的跳过了声明
-    + 因此，首先创建了在活动对象(`activation object`)上创建了`function foo()`的引用，当解析器获取`var foo`时，发现`foo`属性已存在，代码会什么也不做继续往下处理。
+    + 因此，首先在活动对象(`activation object`)上创建了`function foo()`的引用，当解析器获取`var foo`时，发现`foo`属性已存在，代码会什么也不做继续往下处理。
 + **bar为什么是undefined?**
     + `bar`实际上就是一个变量，只不过赋值的是一个函数，我们都知道变量是在创建阶段（`creation stage`）创建的，但它们的初始化值都是`undefined`。
 

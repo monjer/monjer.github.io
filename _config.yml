@@ -65,7 +65,7 @@ defaults:
 #   - vendor/gems/
 #   - vendor/ruby/
 #    and jekyll.environment == "production"x
-paginate: 10
+paginate: 10000
 paginator:
   page: 0
   per_page: 10

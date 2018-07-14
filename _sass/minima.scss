@@ -42,6 +42,10 @@ $on-laptop:        800px !default;
   font-size: $base-font-size * $ratio;
 }
 
+.bfc{
+  overflow:auto;
+}
+
 // Import partials.
 @import
   "minima/base",
